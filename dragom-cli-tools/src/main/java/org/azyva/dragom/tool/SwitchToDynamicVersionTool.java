@@ -28,11 +28,11 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.Parser;
 import org.apache.commons.io.IOUtils;
+import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.job.RootManager;
 import org.azyva.dragom.job.SwitchToDynamicVersion;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
-import org.azyva.dragom.util.Util;
 
 /**
  * Main class for the tool switch-to-dynamic-version tool.
@@ -95,10 +95,10 @@ public class SwitchToDynamicVersionTool {
 				throw new RuntimeExceptionUserError("An invalid number of arguments was specified. Use the --help option to display help information.");
 			}
 
-			Util.setupExecContext(commandLine, true);
+			CliUtil.setupExecContext(commandLine, true);
 
-			switchToDynamicVersion = new SwitchToDynamicVersion(Util.getListModuleVersionRoot(commandLine));
-			switchToDynamicVersion.setReferencePathMatcher(Util.getReferencePathMatcher(commandLine));
+			switchToDynamicVersion = new SwitchToDynamicVersion(CliUtil.getListModuleVersionRoot(commandLine));
+			switchToDynamicVersion.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
 
 			// It can be the case that RootManager does not specify any root ModuleVersion. In
 			// that case calling RootManager.saveListModuleVersion simply saves an empty list,
@@ -141,7 +141,7 @@ public class SwitchToDynamicVersionTool {
 			option.setLongOpt("help");
 			SwitchToDynamicVersionTool.options.addOption(option);
 
-			Util.addStandardOptions(SwitchToDynamicVersionTool.options);
+			CliUtil.addStandardOptions(SwitchToDynamicVersionTool.options);
 
 			SwitchToDynamicVersionTool.indInit = true;
 		}

@@ -1,0 +1,115 @@
+TODO: To be redone completely. Options have changed.
+Name
+====
+
+dragom-switch-to-dynamic-version
+
+Synopsis
+========
+
+<switch-to-dynamic-version> [<option> ...]
+                            <module-classification-path>[:<version>]
+  Main form.
+
+<switch-to-dynamic-version> --help
+  Displays this help information.
+
+Description
+===========
+
+Within a module reference graph, switch to a dynamic version of a module so that
+modifications can be made to it.
+
+Options
+=======
+TODO: Redocument workspace-path
+
+--module-reference-path=<module-reference-path>: Path of the module to switch
+  to a dynamic version within the module reference graph rooted at the root
+  module. Multiple module reference paths can be specified. See \"Module
+  reference path\" below for more information.
+
+Arguments
+=========
+
+<module-classification-path>: Classification path of the root module.
+
+<version>: Version of the root module. If not specified the main version (e.g.:
+  trunk, master) is assumed
+
+
+Module reference path
+=====================
+
+The modules a root module refers to as well as the modules those references
+refer to and so on form a directed acyclic graph of modules called a module
+reference graph. Within such a graph any sequence of 1 or more modules that
+follows the orientation of the graph is a module reference path.
+
+For example consider the following module reference graph:
+
+    A
+   / \
+  B   C
+ / \ /
+D   E
+
+In that (directed acyclic) graph, the links are directed from top to bottom.
+ASCII art does not easily allow drawing arrows. Letters represent versioned
+modules. Each module lives in a classification tree and has a module
+classification path which must not be confused with a module reference graph
+or module reference path.
+
+In that graph, A, C, A->B, A->B->D and C->E are all examples of module
+reference graph paths (that list is not exhaustive as the graph contains a
+total of 13 paths of varying lengths).
+
+In the context of the <switch-to-dynamic-version> tool the identification of a
+module to switch to a dynamic version is within the module reference graph
+under a given root module. A single such module can be identified. For exemple
+in the graph above, asking to switch module E to a dynamic version within the
+module reference graph rooted at module A involves actually switching the
+version of E to a dynamic version and making sure that the paths A->B->E and
+A->C->E are adjusted so that B and C refer to the new version of E and A refers
+to the new versions of B and C, potentially switching all of them to dynamic
+versions if they are not already on dynamic versions within the graph.
+
+Alternatively a module reference path can be specified to identify a module,
+such as B->E, meaning to switch E to a dynamic version, but only in the
+context where it is referenced by B. The resulting module reference graph would
+be:
+
+    A'
+   /  \
+  B'   C
+ / \   |
+D   E' E
+
+Where E and E' are two different versions of E, E' being the switched to version
+and E being the original version. Such a situation is not necessarily desirable
+since version coherence for a given module is generally preferable within a
+module reference graph. Nevertheless the theory applies.
+
+The format of a module reference path as an argument to the
+<switch-to-dynamic-version> tool is as follows:
+
+<module>[-><module>[...]]
+
+where each <module> can be of any of the following forms:
+
+src#<module-classification-path-regex>[:<version-regex]
+[artifact#]<group-id-regex>[:<artifact-id-regex>[:<version-regex>]]
+
+The regexes are as for the source reference filter and artifact
+reference filter defined for the <checkout> tool. This offers lots of
+flexibility which in many cases is not required. For example the
+following module reference path:
+
+:my-module
+
+identifies any occurrences of a module having 'my-module' in its artifactId
+within the module reference graph.
+
+Examples
+========
+

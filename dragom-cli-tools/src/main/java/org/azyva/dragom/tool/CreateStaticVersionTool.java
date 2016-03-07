@@ -28,11 +28,11 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.Parser;
 import org.apache.commons.io.IOUtils;
+import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.job.CreateStaticVersion;
 import org.azyva.dragom.job.RootManager;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
-import org.azyva.dragom.util.Util;
 
 /**
  * Main class for the create-static-version tool.
@@ -94,10 +94,10 @@ public class CreateStaticVersionTool {
 				throw new RuntimeExceptionUserError("An invalid number of arguments was specified. Use the --help option to display help information.");
 			}
 
-			Util.setupExecContext(commandLine, true);
+			CliUtil.setupExecContext(commandLine, true);
 
-			createStaticVersion = new CreateStaticVersion(Util.getListModuleVersionRoot(commandLine));
-			createStaticVersion.setReferencePathMatcher(Util.getReferencePathMatcher(commandLine));
+			createStaticVersion = new CreateStaticVersion(CliUtil.getListModuleVersionRoot(commandLine));
+			createStaticVersion.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
 
 			// It can be the case that RootManager does not specify any root ModuleVersion. In
 			// that case calling RootManager.saveListModuleVersion simply saves an empty list,
@@ -140,7 +140,7 @@ public class CreateStaticVersionTool {
 			option.setLongOpt("help");
 			CreateStaticVersionTool.options.addOption(option);
 
-			Util.addStandardOptions(CreateStaticVersionTool.options);
+			CliUtil.addStandardOptions(CreateStaticVersionTool.options);
 
 			CreateStaticVersionTool.indInit = true;
 		}

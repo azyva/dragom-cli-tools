@@ -22,7 +22,9 @@ package org.azyva.dragom.tool;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.text.ParseException;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -34,6 +36,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.Parser;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.ExecContext;
 import org.azyva.dragom.execcontext.WorkspaceExecContext;
 import org.azyva.dragom.execcontext.plugin.UserInteractionCallbackPlugin;
@@ -54,7 +57,6 @@ import org.azyva.dragom.model.plugin.ScmPlugin;
 import org.azyva.dragom.model.plugin.ScmPlugin.BaseVersion;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 import org.azyva.dragom.util.Util;
-import org.azyva.dragom.util.YesAlwaysNoUserResponse;
 
 /**
  * Tool for managing the workspace.
@@ -70,6 +72,11 @@ public class WorkspaceManagerTool {
 	//private static final Logger logger = LoggerFactory.getLogger(WorkspaceManagerTool.class);
 
 	/**
+	 * Name of the ResourceBundle of the class.
+	 */
+	public static final String RESOURCE_BUNDLE = "org/azyva/tool/WorkspaceManagerToolResourceBundle";
+
+	/**
 	 * Indicates that the class has been initialized.
 	 */
 	private static boolean indInit;
@@ -78,6 +85,11 @@ public class WorkspaceManagerTool {
 	 * Options for parsing the command line.
 	 */
 	private static Options options;
+
+	/**
+	 * ResourceBundle specific to this class.
+	 */
+	private static ResourceBundle resourceBundle;
 
 	CommandLine commandLine;
 
@@ -88,8 +100,6 @@ public class WorkspaceManagerTool {
 	UserInteractionCallbackPlugin userInteractionCallbackPlugin;
 
 	Model model;
-
-	boolean indNoConfirm;
 
 	/**
 	 * Stores data about a ModuleVersion and its corresponding directory within the
@@ -132,10 +142,10 @@ public class WorkspaceManagerTool {
 			try {
 				commandLine = parser.parse(WorkspaceManagerTool.options, args);
 			} catch (org.apache.commons.cli.ParseException pe) {
-				throw new RuntimeExceptionUserError("Error parsing the command line: " + pe.getMessage() + ". Use the --help option to display help information.");
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage()));
 			}
 
-			if (commandLine.hasOption("help")) {
+			if (CliUtil.isHelpOption(commandLine)) {
 				WorkspaceManagerTool.help();
 				System.exit(0);
 			}
@@ -143,24 +153,23 @@ public class WorkspaceManagerTool {
 			args = commandLine.getArgs();
 
 			if (args.length < 1) {
-				throw new RuntimeExceptionUserError("An invalid number of arguments was specified. Use the --help option to display help information.");
+				throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
 			}
 
 			command = args[0];
 
 			if (command.equals("force-unlock")) {
-				ExecContextHolder.forceUnset(Util.setupExecContext(commandLine, false));
+				ExecContextHolder.forceUnset(CliUtil.setupExecContext(commandLine, false));
 			} else {
 				WorkspaceManagerTool workspaceManagerTool;
 
 				workspaceManagerTool = new WorkspaceManagerTool();
 
 				workspaceManagerTool.commandLine = commandLine;
-				workspaceManagerTool.execContext = Util.setupExecContext(commandLine, true);
+				workspaceManagerTool.execContext = CliUtil.setupExecContext(commandLine, true);
 				workspaceManagerTool.workspacePlugin = workspaceManagerTool.execContext.getExecContextPlugin(WorkspacePlugin.class);
 				workspaceManagerTool.userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 				workspaceManagerTool.model = ExecContextHolder.get().getModel();
-				workspaceManagerTool.indNoConfirm = commandLine.hasOption("no-confirm");
 
 				if (command.equals("status")) {
 					workspaceManagerTool.statusCommand();
@@ -183,7 +192,7 @@ public class WorkspaceManagerTool {
 				} else if (command.equals("fix")) {
 					workspaceManagerTool.fixCommand();
 				} else {
-					throw new RuntimeExceptionUserError("Invalid command " + command + ". Use the --help option to display help information.");
+					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command));
 				}
 			}
 		} catch (RuntimeExceptionUserError reue) {
@@ -213,15 +222,9 @@ public class WorkspaceManagerTool {
 			option.setArgs(1);
 			WorkspaceManagerTool.options.addOption(option);
 
-			option = new Option(null, null);
-			option.setLongOpt("no-confirm");
-			WorkspaceManagerTool.options.addOption(option);
+			CliUtil.addStandardOptions(WorkspaceManagerTool.options);
 
-			option = new Option(null, null);
-			option.setLongOpt("help");
-			WorkspaceManagerTool.options.addOption(option);
-
-			Util.addStandardOptions(WorkspaceManagerTool.options);
+			WorkspaceManagerTool.resourceBundle = ResourceBundle.getBundle(WorkspaceManagerTool.RESOURCE_BUNDLE);
 
 			WorkspaceManagerTool.indInit = true;
 		}
@@ -231,7 +234,7 @@ public class WorkspaceManagerTool {
 		SortedSet<WorkspaceDirPath> sortedSetWorkspaceDirPath;
 
 		if (this.commandLine.getArgs().length != 1) {
-			throw new RuntimeExceptionUserError("An invalid number of arguments was specified. Use the --help option to display help information.");
+			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
 		}
 
 		sortedSetWorkspaceDirPath = WorkspaceManagerTool.getSortedSetWorkspaceDirPath();
@@ -276,7 +279,7 @@ public class WorkspaceManagerTool {
 		SortedSet<WorkspaceDirPath> sortedSetWorkspaceDirPath;
 
 		if (this.commandLine.getArgs().length != 1) {
-			throw new RuntimeExceptionUserError("An invalid number of arguments was specified. Use the --help option to display help information.");
+			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
 		}
 
 		sortedSetWorkspaceDirPath = WorkspaceManagerTool.getSortedSetWorkspaceDirPath();
@@ -313,7 +316,7 @@ public class WorkspaceManagerTool {
 		String message;
 
 		if (this.commandLine.getArgs().length != 1) {
-			throw new RuntimeExceptionUserError("An invalid number of arguments was specified. Use the --help option to display help information.");
+			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
 		}
 
 		message = this.commandLine.getOptionValue("commit-message");
@@ -355,7 +358,7 @@ public class WorkspaceManagerTool {
 		Set<WorkspaceDirPath> setWorkspaceDirPath;
 
 		if (this.commandLine.getArgs().length != 1) {
-			throw new RuntimeExceptionUserError("An invalid number of arguments was specified. Use the --help option to display help information.");
+			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
 		}
 
 		// First take care of the system workspace directories.
@@ -387,14 +390,12 @@ public class WorkspaceManagerTool {
 			module = this.model.getModule(workspaceDirPath.moduleVersion.getNodePath());
 			scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
 
-			if (!this.indNoConfirm && !scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlagEnum.LOCAL_CHANGES_ONLY)) {
-				switch (Util.getInfoYesAlwaysNoUserResponse(this.userInteractionCallbackPlugin, "Module version " + workspaceDirPath.moduleVersion + " in workspace directory " + workspaceDirPath.pathWorkspaceDir + " contains unsynchronized local changes. Do you really want to delete this workspace directory*", YesAlwaysNoUserResponse.YES)) {
-				case NO:
-					continue;
-				case YES_ALWAYS:
-					this.indNoConfirm = true;
-				case YES:
-				}
+			if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlagEnum.LOCAL_CHANGES_ONLY)) {
+				this.userInteractionCallbackPlugin.provideInfo("Module version " + workspaceDirPath.moduleVersion + " in workspace directory " + workspaceDirPath.pathWorkspaceDir + " contains unsynchronized local changes and will be deleted.");
+			}
+
+			if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
+				continue;
 			}
 
 			try {
@@ -410,6 +411,10 @@ public class WorkspaceManagerTool {
 
 	private void cleanSystemCommand() {
 		Set<WorkspaceDir> setWorkspaceDir;
+
+		if (this.commandLine.getArgs().length != 1) {
+			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+		}
 
 		setWorkspaceDir = this.workspacePlugin.getSetWorkspaceDir(WorkspaceDirSystemModule.class);
 
@@ -434,7 +439,7 @@ public class WorkspaceManagerTool {
 		Set<WorkspaceDir> setWorkspaceDir;
 
 		if (this.commandLine.getArgs().length != 2) {
-			throw new RuntimeExceptionUserError("An invalid number of arguments was specified. Use the --help option to display help information.");
+			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
 		}
 
 		// Here moduleVersion may not be complete: it may not contain the Version. If that
@@ -465,14 +470,12 @@ public class WorkspaceManagerTool {
 			scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
 			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirModeEnum.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
 
-			if (!this.indNoConfirm && !scmPlugin.isSync(pathWorkspaceDir, ScmPlugin.IsSyncFlagEnum.LOCAL_CHANGES_ONLY)) {
-				switch (Util.getInfoYesAlwaysNoUserResponse(this.userInteractionCallbackPlugin, "Module version " + ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion() + " in workspace directory " + pathWorkspaceDir + " contains unsynchronized local changes. Do you really want to delete this workspace directory*", YesAlwaysNoUserResponse.YES)) {
-				case NO:
-					continue;
-				case YES_ALWAYS:
-					this.indNoConfirm = true;
-				case YES:
-				}
+			if (!scmPlugin.isSync(pathWorkspaceDir, ScmPlugin.IsSyncFlagEnum.LOCAL_CHANGES_ONLY)) {
+				this.userInteractionCallbackPlugin.provideInfo("Module version " + ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion() + " in workspace directory " + pathWorkspaceDir + " contains unsynchronized local changes and will be deleted.");
+			}
+
+			if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
+				continue;
 			}
 
 			try {
@@ -488,6 +491,10 @@ public class WorkspaceManagerTool {
 
 	private void buildCleanAllCommand() {
 		Set<WorkspaceDirPath> setWorkspaceDirPath;
+
+		if (this.commandLine.getArgs().length != 1) {
+			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+		}
 
 		setWorkspaceDirPath = WorkspaceManagerTool.getSortedSetWorkspaceDirPath();
 
@@ -516,7 +523,7 @@ public class WorkspaceManagerTool {
 		Set<WorkspaceDir> setWorkspaceDir;
 
 		if (this.commandLine.getArgs().length != 2) {
-			throw new RuntimeExceptionUserError("An invalid number of arguments was specified. Use the --help option to display help information.");
+			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
 		}
 
 		// Here moduleVersion may not be complete: it may not contain the Version. If that
@@ -566,7 +573,7 @@ public class WorkspaceManagerTool {
 		BuilderPlugin builderPlugin;
 
 		if (this.commandLine.getArgs().length != 2) {
-			throw new RuntimeExceptionUserError("An invalid number of arguments was specified. Use the --help option to display help information.");
+			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
 		}
 
 		pathWorkspaceDir = ((WorkspaceExecContext)this.execContext).getPathWorkspaceDir().resolve(this.commandLine.getArgs()[1]);

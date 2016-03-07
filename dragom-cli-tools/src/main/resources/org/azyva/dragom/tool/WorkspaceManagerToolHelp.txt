@@ -1,0 +1,78 @@
+Name
+====
+
+dragom-workspace-manager
+
+Description
+===========
+
+Manages the workspace.
+
+Synopsis
+========
+
+dragom-workspace-manager [<general options> ...] status
+  Displays the status of each workspace directory.
+  
+dragom-workspace-manager [<general options> ...] force-unlock
+  Forces the release of the workspace, if the abnormal termination of a tool
+  left it in the locked state.
+
+dragom-workspace-manager [<general options> ...] update
+  Performs an SCM update on each workspace directory.
+  
+dragom-workspace-manager [<general options> ...] [--commit-message=<message>]
+  commit
+  Performs an SCM commit on each workspace directory.
+
+dragom-workspace-manager [<general options> ...] clean-all
+  Removes all workspace directories, user and system.
+
+dragom-workspace-manager [<general options> ...] clean-system
+  Removes all system workspace directories.
+
+dragom-workspace-manager [<general options> ...]
+  remove-module-version <module-version>
+  Removes the user workspace directory for a specific module version.
+
+dragom-workspace-manager [<general options> ...] build-clean-all
+  Invokes the clean build process for all user workspace directories. System
+  workspace directories are not affected. If cleaning them is required, the
+  clean-system command should be used to completely clean them.
+  
+dragom-workspace-manager [<general options> ...]
+  build-clean-module-version <module-version>
+  Invokes the clean build process for a specific module version in a workspace
+  directory.
+
+dragom-workspace-manager [<general options> ...]
+  build-clean-dir <workspace-dir>
+  Invokes the clean build process for a specific workspace directory.
+
+dragom-workspace-manager [<general options> ...] fix
+  Fixes the workspace directory definitions known to the workspace. Useful
+  after the user has made changes to the workspace directories outside of
+  Dragom such as checking out another version of a module.
+
+dragom-workspace-manager --help
+  Displays this help information.
+
+Options
+=======
+
+--workspace-path=<workspace-path>: Path to the workspace. If not specified,
+  the current directory is assumed to be the root of the workspace.
+
+--commit-message=<message>: Commit message. If not specified the user will be
+  prompted for the commit message.
+
+--no-confirm: Indicates to not ask for confirmation before performing actions
+  such as deleting a user workspace directory that contains un synchronized
+  local changes.
+
+Arguments
+=========
+
+<module-version>: Module version in literal form.
+
+<workspace-dir>: User workspace directory.

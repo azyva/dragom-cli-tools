@@ -1,0 +1,147 @@
+		//TODO: Adjust help for roots
+
+		//TODO: Mention that multiple --source-refs and/or --artifact-refs options can be specified (implied or).
+		//TODO: Probably have to distinguish between simple references and dependencies.
+		//For building a module, its dependencies may be required but not all its references.
+		//A parent POM may refer to another artifact that may not be required by the module that refers to the parent.
+		//Unfortunately knowing that a reference is a dependency is in the scope of some module in the hierarchy, not
+		//necessarily the module that includes the reference. It it contextual to the module being checked out.
+		//Need to think.
+		//TODO: This man page is not representative. The value is not optional and "all" must be used to denote all referencey
+
+		//TODO: WorkspacePlugin options
+
+		// TODO: Maybe should allow specifying a module in different ways: SCM URL? Artifact coordinates?
+
+		//TODO: Is there a difference between source and artifact version?
+
+		//TODO: Maybe if no D or S prefix, assume D? (for version)
+
+		//TODO: Should this be applied to source corresponding to artifact (after mapping)? (for source refs filter, if ever this is implemented).
+
+
+
+
+		//TODO: COpmlete review. artifact and source filters not supported anymore. Replace by reference path matcher.
+
+		//TODO: Mention that multiple --source-refs and/or --artifact-refs options can be specified (implied or).
+		//TODO: Probably have to distinguish between simple references and dependencies.
+		//For building a module, its dependencies may be required but not all its references.
+		//A parent POM may refer to another artifact that may not be required by the module that refers to the parent.
+		//Unfortunately knowing that a reference is a dependency is in the scope of some module in the hierarchy, not
+		//necessarily the module that includes the reference. It it contextual to the module being checked out.
+		//Need to think.
+		//TODO: This man page is not representative. The value is not optional and "all" must be used to denote all referencey
+
+		//TODO: WorkspacePlugin options
+
+		// TODO: Maybe should allow specifying a module in different ways: SCM URL? Artifact coordinates?
+
+		//TODO: Is there a difference between source and artifact version?
+
+		//TODO: Maybe if no D or S prefix, assume D? (for version)
+
+		//TODO: Should this be applied to source corresponding to artifact (after mapping)? (for source refs filter, if ever this is implemented).
+		
+		//--root-module-version or defined in workspace
+		// At least one --reference-path-matcher which is anded with those in the workspace
+Name
+====
+
+dragom-checkout
+
+Synopsis
+========
+
+<checkout> [<option> ...] <module-classification-path>[:<version>]
+  Main form.
+
+<checkout> --help
+  Displays this help information.
+
+Description
+===========
+
+Gets the source code for a module as well as for the modules it recursively
+refers to.
+
+Options
+=======
+TODO: Redocument workspace-path
+--source-refs=<source-refs-filter>: Include source references. If a module
+  refers to another module's source code, also checkout the source code of that
+  other module if the source reference matches the specified
+  <source-refs-filter>. This is applied recursively to the referred modules,
+  whether they are checked out because of this option or another reference
+  control option. See \"Source Reference Filter\" below for more information.
+  If <source-refs-filter> is the empty string, all source references are
+  considered.
+  Multiple --source-refs options can be specified. A reference is matched by
+  any <source-refs-filter> matches. If you specify --source-refs once with a
+  a value and once without a value, the occurrence without a value is ignored
+  and a reference has to match a <source-refs-filter>.
+  This option is not applied to the initial module specified.
+  This option should generally be specified if the intent is to build the
+  module."
+
+--artifact-refs[=<artifact-refs-filter>]: Include artifact references. If a
+  module refers to another module's artifact, also checkout the source code of
+  that other module if the artifact reference matches the specified
+  <artifact-refs-filter>. This is applied recursively to the referred modules,
+  whether they are checkout out because of this option or another reference
+  control option. See \"Artifact Reference Filter\" below for more information.
+  If <artifact-refs-filter> is the empty string', all artifact references are
+  considered.
+  Multiple --artifact-refs options can be specified. A reference is matched by
+  any <artifact-refs-filter> matches. If you specify --artifact-refs once with
+  a value and once without a value, the occurrence without a value is ignored
+  and a reference has to match a <artifact-refs-filter>.
+  This option is not applied to the initial module specified.
+  This option is useful for checking out the source code of many modules in a
+  module reference graph whose versions are dynamic and thus are being worked
+  on, or whose versions match a given dynamic version specific to a development
+  project shared by all modules being worked on in the context of this project
+  in the module reference graph.
+
+--exclude-artifact-refs=<artifact-refs-filter>: Exclude artifact references
+  matching the specified <artifact-refs-filter>. See \"Artifact Reference
+  Filter\" below for more information.
+  Multiple --exclude-artifact-refs options can be specified and are cumulative.
+  Exclusions are applied after inclusions specified with the --artifact-refs.
+  If --exclude-artifact-refs is specified and --artifact-refs is not,
+  --artifact-refs is assumed to be specified, otherwise there would be nothing
+  to exclude.
+
+Arguments
+=========
+
+<module-classification-path>: Classification path of the module.
+
+<version>: Version to checkout. If not specified the main version (e.g.: trunk,
+  master) is assumed
+
+Source Reference Filter
+========================
+
+Artifact Reference Filter
+==========================
+
+The format of a <artifact-refs-filter> is:"
+
+<group-id-regex>[:<artifact-id-regex>[:<version-regex>]]
+
+Each regex is matched within the corresponding field. For instance, 'acme'
+matches 'com.acme.app'. This also implies that an empty regex matches
+everything.
+
+The character ':' must not be used within the regexes as it would be
+interpreted as a field separator for a reference.
+
+Characters which may have a special meaning for the shell may need to be
+escaped. For example, to match 'com.acme.app' exactly, '^com\\\\.acme\\\\.app\\$'
+should be specified, although the more naive 'com.acme.app' will also generally
+yield the desired results. Double-escaping '.' may be required on Linux in
+order to yield a regex '\\.' to escape '.'.
+
+Examples
+========

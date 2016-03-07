@@ -20,6 +20,7 @@
 package org.azyva.dragom.tool;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
@@ -30,10 +31,10 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.Parser;
 import org.apache.commons.io.IOUtils;
+import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.job.TaskInvoker;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
-import org.azyva.dragom.util.Util;
 
 /**
  * Tool wrapper for the TaskInvoker class.
@@ -115,7 +116,7 @@ public class TaskInvokerTool {
 			try {
 				commandLine = parser.parse(TaskInvokerTool.options, args);
 			} catch (ParseException pe) {
-				throw new RuntimeExceptionUserError(Util.getResourceBundle(), Util.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE, pe.getMessage());
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage()));
 			}
 
 			if (commandLine.hasOption("help")) {
@@ -126,13 +127,13 @@ public class TaskInvokerTool {
 			args = commandLine.getArgs();
 
 			if (args.length != 0) {
-				throw new RuntimeExceptionUserError(Util.getResourceBundle(), Util.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT);
+				throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
 			}
 
-			Util.setupExecContext(commandLine, true);
+			CliUtil.setupExecContext(commandLine, true);
 
-			taskInvoker = new TaskInvoker(taskPluginId, taskId, Util.getListModuleVersionRoot(commandLine));
-			taskInvoker.setReferencePathMatcher(Util.getReferencePathMatcher(commandLine));
+			taskInvoker = new TaskInvoker(taskPluginId, taskId, CliUtil.getListModuleVersionRoot(commandLine));
+			taskInvoker.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
 
 			taskInvoker.performTask();
 		} catch (RuntimeExceptionUserError reue) {
@@ -166,7 +167,7 @@ public class TaskInvokerTool {
 			option.setLongOpt("help");
 			TaskInvokerTool.options.addOption(option);
 
-			Util.addStandardOptions(TaskInvokerTool.options);
+			CliUtil.addStandardOptions(TaskInvokerTool.options);
 
 			TaskInvokerTool.resourceBundle = ResourceBundle.getBundle(TaskInvokerTool.RESOURCE_BUNDLE);
 
