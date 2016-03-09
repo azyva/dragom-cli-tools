@@ -63,11 +63,6 @@ public final class CliUtil {
 	private static Logger logger = LoggerFactory.getLogger(CliUtil.class);
 
 	/**
-	 * Name of the ResourceBundle of the class.
-	 */
-	public static final String RESOURCE_BUNDLE = "org/azyva/cliutil/CliUtilResourceBundle";
-
-	/**
 	 * See description in ResourceBundle.
 	 */
 	public static final String MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE = "ERROR_PARSING_COMMAND_LINE";
@@ -189,22 +184,24 @@ public final class CliUtil {
 	public static final String DEFAULT_HELP_COMMAND_LINE_OPTION = "help";
 
 	/**
-	 * System property that specifies the root module version command line option.
+	 * System property that specifies the root {@link ModuleVersion} command line
+	 * option.
 	 */
 	public static final String SYS_PROP_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION = "org.azyva.dragom.RootModuleVersionCommandLineOption";
 
 	/**
-	 * Default root module version command line option.
+	 * Default root {@link ModuleVersion} command line option.
 	 */
 	public static final String DEFAULT_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION = "root-module-version";
 
 	/**
-	 * System property that specifies the reference path matcher command line option.
+	 * System property that specifies the {@link ReferencePathMatcherByElement}
+	 * command line option.
 	 */
 	public static final String SYS_PROP_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION = "org.azyva.dragom.ReferencePathMatcherCommandLineOption";
 
 	/**
-	 * Default reference path matcher command line option.
+	 * Default {@link ReferencePathMatcherByElement} command line option.
 	 */
 	public static final String DEFAULT_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION = "reference-path-matcher";
 
@@ -214,7 +211,7 @@ public final class CliUtil {
 	 * Being a utility class, this ResourceBundle also contains global locale-specific
 	 * resources which can be used by other classes.
 	 */
-	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(CliUtil.RESOURCE_BUNDLE);
+	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(CliUtil.class.getName());
 
 	/**
 	 * @return User properties file command line option.
@@ -260,14 +257,14 @@ public final class CliUtil {
 	}
 
 	/**
-	 * @return Root module version command line option.
+	 * @return Root {@link ModuleVersion} command line option.
 	 */
 	public static String getRootModuleVersionCommandLineOption() {
 		return System.getProperty(CliUtil.SYS_PROP_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION, CliUtil.DEFAULT_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION);
 	}
 
 	/**
-	 * @return Reference path matcher command line option.
+	 * @return ReferencePathMatcher command line option.
 	 */
 	public static String getReferencePathMatcherCommandLineOption() {
 		return System.getProperty(CliUtil.SYS_PROP_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION, CliUtil.DEFAULT_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION);
@@ -329,12 +326,12 @@ public final class CliUtil {
 	}
 
 	/**
-	 * Utility method to add Option's related to the root module version.
+	 * Utility method to add Option's related to the root {@link ModuleVersion}.
 	 * <p>
 	 * The following Option's are added:
 	 * <p>
-	 * <li>Root module version</li>
-	 * <li>Reference path matcher</li>
+	 * <li>Root {@link ModuleVersion}</li>
+	 * <li>{@link ReferencePathMatcherByElement}</li>
 	 * <p>
 	 * Used by tools that use root {@link ModuleVersion}'s when initializing Options.
 	 *

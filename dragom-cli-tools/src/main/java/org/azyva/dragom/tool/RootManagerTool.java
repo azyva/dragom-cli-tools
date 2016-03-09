@@ -54,11 +54,6 @@ public class RootManagerTool {
 	//private static final Logger logger = LoggerFactory.getLogger(RootManagerTool.class);
 
 	/**
-	 * Name of the ResourceBundle of the class.
-	 */
-	public static final String RESOURCE_BUNDLE = "org/azyva/tool/RootManagerToolResourceBundle";
-
-	/**
 	 * See description in ResourceBundle.
 	 */
 	public static final String MSG_PATTERN_KEY_LIST_OF_ROOT_MODULE_VERSIONS_EMPTY = "LIST_OF_ROOT_MODULE_VERSIONS_EMPTY";
@@ -126,7 +121,7 @@ public class RootManagerTool {
 	/**
 	 * ResourceBundle specific to this class.
 	 */
-	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(RootManagerTool.RESOURCE_BUNDLE);
+	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(RootManagerTool.class.getName());
 
 	/**
 	 * Indicates that the class has been initialized.

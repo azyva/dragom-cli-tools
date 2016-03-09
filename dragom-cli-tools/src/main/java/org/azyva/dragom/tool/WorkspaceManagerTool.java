@@ -73,11 +73,6 @@ public class WorkspaceManagerTool {
 	//private static final Logger logger = LoggerFactory.getLogger(WorkspaceManagerTool.class);
 
 	/**
-	 * Name of the ResourceBundle of the class.
-	 */
-	public static final String RESOURCE_BUNDLE = "org/azyva/tool/WorkspaceManagerToolResourceBundle";
-
-	/**
 	 * See description in ResourceBundle.
 	 */
 	public static final String MSG_PATTERN_KEY_STATUS_WORKSPACE_DIRECTORY = "STATUS_WORKSPACE_DIRECTORY";
@@ -200,7 +195,7 @@ public class WorkspaceManagerTool {
 	/**
 	 * ResourceBundle specific to this class.
 	 */
-	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(WorkspaceManagerTool.RESOURCE_BUNDLE);
+	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(WorkspaceManagerTool.class.getName());
 
 	/**
 	 * Indicates that the class has been initialized.
