@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,12 +75,32 @@ public final class CliUtil {
 	/**
 	 * See description in ResourceBundle.
 	 */
+	public static final String MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION = "ERROR_PARSING_COMMAND_LINE_OPTION";
+
+	/**
+	 * See description in ResourceBundle.
+	 */
 	public static final String MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT = "INVALID_ARGUMENT_COUNT";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
 	public static final String MSG_PATTERN_KEY_INVALID_COMMAND = "INVALID_COMMAND";
+
+	/**
+	 * See description in ResourceBundle.
+	 */
+	public static final String MSG_PATTERN_KEY_ROOT_MODULE_VERSION_NOT_ALLOWED_WHEN_SPECIFIED_WORKSPACE = "ROOT_MODULE_VERSION_NOT_ALLOWED_WHEN_SPECIFIED_WORKSPACE";
+
+	/**
+	 * See description in ResourceBundle.
+	 */
+	public static final String MSG_PATTERN_KEY_ROOT_MODULE_VERSION_REQUIRED_WHEN_NOT_SPECIFIED_WORKSPACE = "ROOT_MODULE_VERSION_REQUIRED_WHEN_NOT_SPECIFIED_WORKSPACE";
+
+	/**
+	 * See description in ResourceBundle.
+	 */
+	public static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIED = "REFERENCE_PATH_MATCHER_REQUIED";
 
 	/**
 	 * System property that specifies if a user properties file is supported.
@@ -135,8 +156,8 @@ public final class CliUtil {
 	public static final String DEFAULT_TOOL_PROPERTIES_COMMAND_LINE_OPTION = "tool-properties";
 
 	/**
-	 * System property that specifies the command line option used to specify whether
-	 * confirmation is required for a particular context.
+	 * System property that specifies the command line option specifying whether
+	 * confirmation is required.
 	 */
 	public static final String SYS_PROP_NO_CONFIRM_COMMAND_LINE_OPTION = "org.azyva.dragom.NoConfirmCommandLineOption";
 
@@ -146,8 +167,8 @@ public final class CliUtil {
 	public static final String DEFAULT_NO_CONFIRM_COMMAND_LINE_OPTION = "no-confirm";
 
 	/**
-	 * System property that specifies the command line option used to specify whether
-	 * confirmation is required.
+	 * System property that specifies the command line option specifying whether
+	 * confirmation is required for a particular context.
 	 */
 	public static final String SYS_PROP_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION = "org.azyva.dragom.NoConfirmContextCommandLineOption";
 
@@ -168,17 +189,102 @@ public final class CliUtil {
 	public static final String DEFAULT_HELP_COMMAND_LINE_OPTION = "help";
 
 	/**
+	 * System property that specifies the root module version command line option.
+	 */
+	public static final String SYS_PROP_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION = "org.azyva.dragom.RootModuleVersionCommandLineOption";
+
+	/**
+	 * Default root module version command line option.
+	 */
+	public static final String DEFAULT_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION = "root-module-version";
+
+	/**
+	 * System property that specifies the reference path matcher command line option.
+	 */
+	public static final String SYS_PROP_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION = "org.azyva.dragom.ReferencePathMatcherCommandLineOption";
+
+	/**
+	 * Default reference path matcher command line option.
+	 */
+	public static final String DEFAULT_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION = "reference-path-matcher";
+
+	/**
 	 * ResourceBundle specific to this class.
 	 * <p>
 	 * Being a utility class, this ResourceBundle also contains global locale-specific
 	 * resources which can be used by other classes.
 	 */
-	private static ResourceBundle resourceBundle;
+	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(CliUtil.RESOURCE_BUNDLE);
 
 	/**
-	 * Utility method to add Option's corresponding to the user-properties,
-	 * tool-properties and workspace options depending on whether user properties and
-	 * tool properties are supported.
+	 * @return User properties file command line option.
+	 */
+	public static String getUserPropertiesFileCommandLineOption() {
+		return System.getProperty(CliUtil.SYS_PROP_USER_PROPERTIES_FILE_COMMAND_LINE_OPTION, CliUtil.DEFAULT_USER_PROPERTIES_COMMAND_LINE_OPTION);
+	}
+
+	/**
+	 * @return Tool properties file command line option.
+	 */
+	public static String getToolPropertiesFileCommandLineOption() {
+		return System.getProperty(CliUtil.SYS_PROP_TOOL_PROPERTIES_FILE_COMMAND_LINE_OPTION, CliUtil.DEFAULT_TOOL_PROPERTIES_COMMAND_LINE_OPTION);
+	}
+
+	/**
+	 * @return Workspace path command line option.
+	 */
+	public static String getWorkspacePathCommandLineOption() {
+		return System.getProperty(CliUtil.SYS_PROP_WORKSPACE_PATH_COMMAND_LINE_OPTION, CliUtil.DEFAULT_WORKSPACE_PATH_COMMAND_LINE_OPTION);
+	}
+
+	/**
+	 * @return Command line option specifying whether confirmation is required.
+	 */
+	public static String getNoConfirmCommandLineOption() {
+		return System.getProperty(CliUtil.SYS_PROP_NO_CONFIRM_COMMAND_LINE_OPTION, CliUtil.DEFAULT_NO_CONFIRM_COMMAND_LINE_OPTION);
+	}
+
+	/**
+	 * @return Command line option specifying whether confirmation is required for a
+	 *   particular context.
+	 */
+	public static String getNoConfirmContextCommandLineOption() {
+		return System.getProperty(CliUtil.SYS_PROP_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION, CliUtil.DEFAULT_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION);
+	}
+
+	/**
+	 * @return Help command line option.
+	 */
+	public static String getHelpCommandLineOption() {
+		return System.getProperty(CliUtil.SYS_PROP_HELP_COMMAND_LINE_OPTION, CliUtil.DEFAULT_HELP_COMMAND_LINE_OPTION);
+	}
+
+	/**
+	 * @return Root module version command line option.
+	 */
+	public static String getRootModuleVersionCommandLineOption() {
+		return System.getProperty(CliUtil.SYS_PROP_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION, CliUtil.DEFAULT_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION);
+	}
+
+	/**
+	 * @return Reference path matcher command line option.
+	 */
+	public static String getReferencePathMatcherCommandLineOption() {
+		return System.getProperty(CliUtil.SYS_PROP_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION, CliUtil.DEFAULT_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION);
+	}
+
+	/**
+	 * Utility method to add standard Option's.
+	 * <p>
+	 * The user properties and tools properties Option's are added depending on
+	 * whether user properties and tool properties are supported.
+	 * <p>
+	 * The following Option's are also added:
+	 * <p>
+	 * <li>Workspace</li>
+	 * <li>Specifying whether confirmation is required</li>
+	 * <li>Specifying whether confirmation is required for a particular context.</li>
+	 * <li>Help</li>
 	 * <p>
 	 * Used by tools when initializing Options.
 	 *
@@ -191,36 +297,64 @@ public final class CliUtil {
 
 		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_USER_PROPERTIES))) {
 			option = new Option(null, null);
-			option.setLongOpt(System.getProperty(CliUtil.SYS_PROP_USER_PROPERTIES_FILE_COMMAND_LINE_OPTION, CliUtil.DEFAULT_USER_PROPERTIES_COMMAND_LINE_OPTION));
+			option.setLongOpt(CliUtil.getUserPropertiesFileCommandLineOption());
 			option.setArgs(1);
 			options.addOption(option);
 		}
 
 		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_TOOL_PROPERTIES))) {
 			option = new Option(null, null);
-			option.setLongOpt(System.getProperty(CliUtil.SYS_PROP_TOOL_PROPERTIES_FILE_COMMAND_LINE_OPTION, CliUtil.DEFAULT_TOOL_PROPERTIES_COMMAND_LINE_OPTION));
+			option.setLongOpt(CliUtil.getToolPropertiesFileCommandLineOption());
 			option.setArgs(1);
 			options.addOption(option);
 		}
 
 		option = new Option(null, null);
-		option.setLongOpt(System.getProperty(CliUtil.SYS_PROP_WORKSPACE_PATH_COMMAND_LINE_OPTION, CliUtil.DEFAULT_WORKSPACE_PATH_COMMAND_LINE_OPTION));
+		option.setLongOpt(CliUtil.getWorkspacePathCommandLineOption());
 		option.setArgs(1);
 		options.addOption(option);
 
 		option = new Option(null, null);
-		option.setLongOpt(System.getProperty(CliUtil.SYS_PROP_NO_CONFIRM_COMMAND_LINE_OPTION, CliUtil.DEFAULT_NO_CONFIRM_COMMAND_LINE_OPTION));
+		option.setLongOpt(CliUtil.getNoConfirmCommandLineOption());
 		options.addOption(option);
 
 		option = new Option(null, null);
-		option.setLongOpt(System.getProperty(CliUtil.SYS_PROP_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION, CliUtil.DEFAULT_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION));
+		option.setLongOpt(CliUtil.getNoConfirmContextCommandLineOption());
 		option.setArgs(1);
 		options.addOption(option);
 
 		option = new Option(null, null);
-		option.setLongOpt(System.getProperty(CliUtil.SYS_PROP_HELP_COMMAND_LINE_OPTION, CliUtil.DEFAULT_HELP_COMMAND_LINE_OPTION));
+		option.setLongOpt(CliUtil.getHelpCommandLineOption());
 		options.addOption(option);
-}
+	}
+
+	/**
+	 * Utility method to add Option's related to the root module version.
+	 * <p>
+	 * The following Option's are added:
+	 * <p>
+	 * <li>Root module version</li>
+	 * <li>Reference path matcher</li>
+	 * <p>
+	 * Used by tools that use root {@link ModuleVersion}'s when initializing Options.
+	 *
+	 * @param options Options.
+	 */
+	public static void addRootModuleVersionOptions(Options options) {
+		Option option;
+
+		Util.setDragomSystemProperties();
+
+		option = new Option(null, null);
+		option.setLongOpt(CliUtil.getRootModuleVersionCommandLineOption());
+		option.setArgs(1);
+		options.addOption(option);
+
+		option = new Option(null, null);
+		option.setLongOpt(CliUtil.getReferencePathMatcherCommandLineOption());
+		option.setArgs(1);
+		options.addOption(option);
+	}
 
 	/**
 	 * Sets up an {@link ExecContext} assuming an {@link ExecContextFactory} that
@@ -433,17 +567,19 @@ public final class CliUtil {
 	 * @param commandLine CommandLine.
 	 * @return Indicates if the help command line option is specified.
 	 */
-	public static boolean isHelpOption(CommandLine commandLine) {
+	public static boolean hasHelpOption(CommandLine commandLine) {
 		return commandLine.hasOption(System.getProperty(CliUtil.SYS_PROP_HELP_COMMAND_LINE_OPTION, CliUtil.DEFAULT_HELP_COMMAND_LINE_OPTION));
 	}
 
 	/**
-	 * Helper method to return the List of root ModuleVersion's used by many tools.
-	 *
+	 * Helper method to return the List of root {@list ModuleVersion}'s used by many
+	 * tools.
+	 * <p>
 	 * If the command line specifies the --root-module-version option, no root
 	 * ModuleVersions's must be specified by RootManager, and the List of root
-	 * ModuleVerion's contains the single ModuleVersion specified by this option.
-	 *
+	 * ModuleVerion's contains the ModuleVersion's specified by these options that
+	 * specify ModuleVersion literals.
+	 * <p>
 	 * Otherwise, RootManager must specify at least one root ModuleVersion and this
 	 * List of root ModuleVersion's specified by RootManager is returned.
 	 *
@@ -451,23 +587,28 @@ public final class CliUtil {
 	 * @return List of root ModuleVersion's.
 	 */
 	public static List<ModuleVersion> getListModuleVersionRoot(CommandLine commandLine) {
+		String[] arrayStringRootModuleVersion;
 		List<ModuleVersion> listModuleVersionRoot;
 
-		if (commandLine.hasOption("root-module-version")) {
+		arrayStringRootModuleVersion = commandLine.getOptionValues(CliUtil.getRootModuleVersionCommandLineOption());
+
+		if (arrayStringRootModuleVersion != null) {
 			if (!RootManager.getListModuleVersion().isEmpty()) {
-				throw new RuntimeExceptionUserError("No root module version can be specified on the command line with the --root-module-version option when one is specified in the workspace. Use the --help option to display help information.");
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_ROOT_MODULE_VERSION_NOT_ALLOWED_WHEN_SPECIFIED_WORKSPACE), CliUtil.getRootModuleVersionCommandLineOption(), CliUtil.getHelpCommandLineOption()));
 			}
 
 			 listModuleVersionRoot = new ArrayList<ModuleVersion>();
 
-			 try {
-				 listModuleVersionRoot.add(ModuleVersion.parse(commandLine.getOptionValue("root-module-version")));
-			 } catch (ParseException pe) {
-				 throw new RuntimeExceptionUserError(pe.getMessage());
-			 }
+			for (int i = 0; i < arrayStringRootModuleVersion.length; i++) {
+				try {
+					listModuleVersionRoot.add(ModuleVersion.parse(arrayStringRootModuleVersion[i]));
+				} catch (ParseException pe) {
+					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), CliUtil.getRootModuleVersionCommandLineOption(), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
+				}
+			}
 		} else {
 			if (RootManager.getListModuleVersion().isEmpty()) {
-				throw new RuntimeExceptionUserError("A root module version must be specified on the command line with the --root-module-version option when none is specified in the workspace. Use the --help option to display help information.");
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_ROOT_MODULE_VERSION_REQUIRED_WHEN_NOT_SPECIFIED_WORKSPACE), CliUtil.getRootModuleVersionCommandLineOption(), CliUtil.getHelpCommandLineOption()));
 			}
 
 			listModuleVersionRoot = RootManager.getListModuleVersion();
@@ -479,7 +620,7 @@ public final class CliUtil {
 	/**
 	 * Helper method to return a ReferencePathMatcherAnd that is built from the
 	 * ReferencePathMatcherOr specified by RootManager and a ReferencePathMatcherOr
-	 * built from the command line options --reference-path-matcher that specify
+	 * built from the --reference-path-matcher options that specify
 	 * ReferencePathMatcherByElement literals.
 	 *
 	 * @param commandLine CommandLine.
@@ -493,10 +634,10 @@ public final class CliUtil {
 
 		model = ExecContextHolder.get().getModel();
 
-		arrayStringReferencePathMatcher = commandLine.getOptionValues("reference-path-matcher");
+		arrayStringReferencePathMatcher = commandLine.getOptionValues(CliUtil.getReferencePathMatcherCommandLineOption());
 
 		if (arrayStringReferencePathMatcher == null) {
-			throw new RuntimeExceptionUserError("At least one --reference-path-matcher option must be specified on the command line. Use the --help option to display help information.");
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIED), CliUtil.getReferencePathMatcherCommandLineOption(), CliUtil.getHelpCommandLineOption()));
 		}
 
 		referencePathMatcherOrCommandLine = new ReferencePathMatcherOr();
@@ -505,7 +646,7 @@ public final class CliUtil {
 			try {
 				referencePathMatcherOrCommandLine.addReferencePathMatcher(ReferencePathMatcherByElement.parse(arrayStringReferencePathMatcher[i], model));
 			} catch (ParseException pe) {
-				throw new RuntimeExceptionUserError(pe.getMessage());
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), CliUtil.getReferencePathMatcherCommandLineOption(), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
 			}
 		}
 
@@ -523,10 +664,6 @@ public final class CliUtil {
 	 *   {@link #getLocalizedMsgPattern}.
 	 */
 	private static ResourceBundle getResourceBundle() {
-		if (CliUtil.resourceBundle == null) {
-			CliUtil.resourceBundle = ResourceBundle.getBundle(CliUtil.RESOURCE_BUNDLE);
-		}
-
 		return CliUtil.resourceBundle;
 	}
 

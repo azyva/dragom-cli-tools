@@ -124,6 +124,11 @@ public class RootManagerTool {
 	public static final String MSG_PATTERN_KEY_ALL_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST = "ALL_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST";
 
 	/**
+	 * ResourceBundle specific to this class.
+	 */
+	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(RootManagerTool.RESOURCE_BUNDLE);
+
+	/**
 	 * Indicates that the class has been initialized.
 	 */
 	private static boolean indInit;
@@ -132,11 +137,6 @@ public class RootManagerTool {
 	 * Options for parsing the command line.
 	 */
 	private static Options options;
-
-	/**
-	 * ResourceBundle specific to this class.
-	 */
-	private static ResourceBundle resourceBundle;
 
 	/**
 	 * Method main.
@@ -159,10 +159,10 @@ public class RootManagerTool {
 			try {
 				commandLine = parser.parse(RootManagerTool.options, args);
 			} catch (org.apache.commons.cli.ParseException pe) {
-				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage()));
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
 			}
 
-			if (commandLine.hasOption("help")) {
+			if (CliUtil.hasHelpOption(commandLine)) {
 				RootManagerTool.help();
 				System.exit(0);
 			}
@@ -170,7 +170,7 @@ public class RootManagerTool {
 			args = commandLine.getArgs();
 
 			if (args.length < 1) {
-				throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 			}
 
 			CliUtil.setupExecContext(commandLine, true);
@@ -194,7 +194,7 @@ public class RootManagerTool {
 			} else if (command.equals("remove-all-reference-path-matchers")) {
 				RootManagerTool.removeAllReferencePathMatchers(commandLine);
 			} else {
-				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command));
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command, CliUtil.getHelpCommandLineOption()));
 			}
 		} catch (RuntimeExceptionUserError reue) {
 			System.err.println(reue.getMessage());
@@ -217,13 +217,7 @@ public class RootManagerTool {
 			option.setLongOpt("allow-duplicate-modules");
 			RootManagerTool.options.addOption(option);
 
-			option = new Option(null, null);
-			option.setLongOpt("help");
-			RootManagerTool.options.addOption(option);
-
 			CliUtil.addStandardOptions(RootManagerTool.options);
-
-			RootManagerTool.resourceBundle = ResourceBundle.getBundle(RootManagerTool.RESOURCE_BUNDLE);
 
 			RootManagerTool.indInit = true;
 		}
@@ -252,7 +246,7 @@ public class RootManagerTool {
 		args = commandLine.getArgs();
 
 		if (args.length != 1) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		listModuleVersion = RootManager.getListModuleVersion();
@@ -278,7 +272,7 @@ public class RootManagerTool {
 		args = commandLine.getArgs();
 
 		if (args.length != 2) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		try {
@@ -325,7 +319,7 @@ public class RootManagerTool {
 		args = commandLine.getArgs();
 
 		if (args.length != 2) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		try {
@@ -353,7 +347,7 @@ public class RootManagerTool {
 		args = commandLine.getArgs();
 
 		if (args.length != 1) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		RootManager.removeAllModuleVersion();
@@ -373,7 +367,7 @@ public class RootManagerTool {
 		args = commandLine.getArgs();
 
 		if (args.length != 1) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		referencePathMatcherOr = RootManager.getReferencePathMatcherOr();
@@ -401,7 +395,7 @@ public class RootManagerTool {
 		args = commandLine.getArgs();
 
 		if (args.length != 2) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		referencePathMatcherOr = RootManager.getReferencePathMatcherOr();
@@ -433,7 +427,7 @@ public class RootManagerTool {
 		args = commandLine.getArgs();
 
 		if (args.length != 2) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		referencePathMatcherOr = RootManager.getReferencePathMatcherOr();
@@ -465,7 +459,7 @@ public class RootManagerTool {
 		args = commandLine.getArgs();
 
 		if (args.length != 1) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		referencePathMatcherOr = RootManager.getReferencePathMatcherOr();

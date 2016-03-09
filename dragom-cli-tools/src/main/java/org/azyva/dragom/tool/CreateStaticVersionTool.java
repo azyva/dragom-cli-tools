@@ -20,10 +20,10 @@
 package org.azyva.dragom.tool;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.Parser;
@@ -80,10 +80,10 @@ public class CreateStaticVersionTool {
 			try {
 				commandLine = parser.parse(CreateStaticVersionTool.options, args);
 			} catch (ParseException pe) {
-				throw new RuntimeExceptionUserError("Error parsing the command line: " + pe.getMessage() + ". Use the --help option to display help information.");
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
 			}
 
-			if (commandLine.hasOption("help")) {
+			if (CliUtil.hasHelpOption(commandLine)) {
 				CreateStaticVersionTool.help();
 				System.exit(0);
 			}
@@ -91,7 +91,7 @@ public class CreateStaticVersionTool {
 			args = commandLine.getArgs();
 
 			if (args.length != 0) {
-				throw new RuntimeExceptionUserError("An invalid number of arguments was specified. Use the --help option to display help information.");
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 			}
 
 			CliUtil.setupExecContext(commandLine, true);
@@ -118,29 +118,10 @@ public class CreateStaticVersionTool {
 	 */
 	private synchronized static void init() {
 		if (!CreateStaticVersionTool.indInit) {
-			Option option;
-
 			CreateStaticVersionTool.options = new Options();
 
-			option = new Option(null, null);
-			option.setLongOpt("root-module-version");
-			option.setArgs(1);
-			CreateStaticVersionTool.options.addOption(option);
-
-			option = new Option(null, null);
-			option.setLongOpt("reference-path-matcher");
-			option.setArgs(1);
-			CreateStaticVersionTool.options.addOption(option);
-
-			option = new Option(null, null);
-			option.setLongOpt("no-confirm");
-			CreateStaticVersionTool.options.addOption(option);
-
-			option = new Option(null, null);
-			option.setLongOpt("help");
-			CreateStaticVersionTool.options.addOption(option);
-
 			CliUtil.addStandardOptions(CreateStaticVersionTool.options);
+			CliUtil.addRootModuleVersionOptions(CreateStaticVersionTool.options);
 
 			CreateStaticVersionTool.indInit = true;
 		}

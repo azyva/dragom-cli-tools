@@ -22,11 +22,9 @@ package org.azyva.dragom.tool;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.ResourceBundle;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.Parser;
@@ -66,20 +64,9 @@ public class TaskInvokerTool {
 	//private static final Logger logger = LoggerFactory.getLogger(TaskInvokerTool.class);
 
 	/**
-	 * Name of the ResourceBundle of the class.
-	 */
-	public static final String RESOURCE_BUNDLE = "org/azyva/tool/TaskInvokerToolResourceBundle";
-
-	/**
 	 * Indicates that the class has been initialized.
 	 */
 	private static boolean indInit;
-
-	@SuppressWarnings("unused")
-	/**
-	 * ResourceBundle specific to this class.
-	 */
-	private static ResourceBundle resourceBundle;
 
 	/**
 	 * Options for parsing the command line.
@@ -116,10 +103,10 @@ public class TaskInvokerTool {
 			try {
 				commandLine = parser.parse(TaskInvokerTool.options, args);
 			} catch (ParseException pe) {
-				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage()));
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
 			}
 
-			if (commandLine.hasOption("help")) {
+			if (CliUtil.hasHelpOption(commandLine)) {
 				TaskInvokerTool.help(helpRessource);
 				System.exit(0);
 			}
@@ -127,7 +114,7 @@ public class TaskInvokerTool {
 			args = commandLine.getArgs();
 
 			if (args.length != 0) {
-				throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 			}
 
 			CliUtil.setupExecContext(commandLine, true);
@@ -149,27 +136,10 @@ public class TaskInvokerTool {
 	 */
 	private synchronized static void init() {
 		if (!TaskInvokerTool.indInit) {
-			Option option;
-
 			TaskInvokerTool.options = new Options();
 
-			option = new Option(null, null);
-			option.setLongOpt("root-module-version");
-			option.setArgs(1);
-			TaskInvokerTool.options.addOption(option);
-
-			option = new Option(null, null);
-			option.setLongOpt("reference-path-matcher");
-			option.setArgs(1);
-			TaskInvokerTool.options.addOption(option);
-
-			option = new Option(null, null);
-			option.setLongOpt("help");
-			TaskInvokerTool.options.addOption(option);
-
 			CliUtil.addStandardOptions(TaskInvokerTool.options);
-
-			TaskInvokerTool.resourceBundle = ResourceBundle.getBundle(TaskInvokerTool.RESOURCE_BUNDLE);
+			CliUtil.addRootModuleVersionOptions(TaskInvokerTool.options);
 
 			TaskInvokerTool.indInit = true;
 		}

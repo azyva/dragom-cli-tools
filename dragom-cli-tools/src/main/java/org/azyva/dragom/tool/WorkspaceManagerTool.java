@@ -80,122 +80,127 @@ public class WorkspaceManagerTool {
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_STATUS_WORKSPACE_DIRECTORY = "STATUS_WORKSPACE_DIRECTORY";
+	public static final String MSG_PATTERN_KEY_STATUS_WORKSPACE_DIRECTORY = "STATUS_WORKSPACE_DIRECTORY";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_STATUS_MODULE_VERSION = "STATUS_MODULE_VERSION";
+	public static final String MSG_PATTERN_KEY_STATUS_MODULE_VERSION = "STATUS_MODULE_VERSION";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_STATUS_SCM_TYPE = "STATUS_SCM_TYPE";
+	public static final String MSG_PATTERN_KEY_STATUS_SCM_TYPE = "STATUS_SCM_TYPE";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_STATUS_SCM_URL = "STATUS_SCM_URL";
+	public static final String MSG_PATTERN_KEY_STATUS_SCM_URL = "STATUS_SCM_URL";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_STATUS_VERSION = "STATUS_VERSION";
+	public static final String MSG_PATTERN_KEY_STATUS_VERSION = "STATUS_VERSION";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_STATUS_BASE_VERSION = "STATUS_BASE_VERSION";
+	public static final String MSG_PATTERN_KEY_STATUS_BASE_VERSION = "STATUS_BASE_VERSION";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_STATUS_HAS_UNSYNC_LOCAL_CHANGES = "STATUS_HAS_UNSYNC_LOCAL_CHANGES";
+	public static final String MSG_PATTERN_KEY_STATUS_HAS_UNSYNC_LOCAL_CHANGES = "STATUS_HAS_UNSYNC_LOCAL_CHANGES";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_STATUS_HAS_UNSYNC_REMOTE_CHANGES = "STATUS_HAS_UNSYNC_REMOTE_CHANGES";
+	public static final String MSG_PATTERN_KEY_STATUS_HAS_UNSYNC_REMOTE_CHANGES = "STATUS_HAS_UNSYNC_REMOTE_CHANGES";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_UPDATE_UPDATING = "UPDATE_UPDATING";
+	public static final String MSG_PATTERN_KEY_UPDATE_UPDATING = "UPDATE_UPDATING";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_UPDATE_CONFLICTS_WHILE_UPDATING = "UPDATE_CONFLICTS_WHILE_UPDATING";
+	public static final String MSG_PATTERN_KEY_UPDATE_CONFLICTS_WHILE_UPDATING = "UPDATE_CONFLICTS_WHILE_UPDATING";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_UPDATE_NO_UNSYNC_REMOTE_CHANGES = "UPDATE_NO_UNSYNC_REMOTE_CHANGES";
+	public static final String MSG_PATTERN_KEY_UPDATE_NO_UNSYNC_REMOTE_CHANGES = "UPDATE_NO_UNSYNC_REMOTE_CHANGES";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_UPDATE_NO_UPDATE_STATIC_VERSION = "UPDATE_NO_UPDATE_STATIC_VERSION";
+	public static final String MSG_PATTERN_KEY_UPDATE_NO_UPDATE_STATIC_VERSION = "UPDATE_NO_UPDATE_STATIC_VERSION";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_COMMIT_HAS_LOCAL_UNSYNC_CHANGES = "COMMIT_HAS_LOCAL_UNSYNC_CHANGES";
+	public static final String MSG_PATTERN_KEY_COMMIT_HAS_LOCAL_UNSYNC_CHANGES = "COMMIT_HAS_LOCAL_UNSYNC_CHANGES";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_COMMIT_SPECIFY_MESSAGE = "COMMIT_SPECIFY_MESSAGE";
+	public static final String MSG_PATTERN_KEY_COMMIT_SPECIFY_MESSAGE = "COMMIT_SPECIFY_MESSAGE";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_COMMIT_REUSE_COMMIT_MESSAGE = "COMMIT_REUSE_COMMIT_MESSAGE";
+	public static final String MSG_PATTERN_KEY_COMMIT_REUSE_COMMIT_MESSAGE = "COMMIT_REUSE_COMMIT_MESSAGE";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_COMMIT_COMMITTING = "COMMIT_COMMITTING";
+	public static final String MSG_PATTERN_KEY_COMMIT_COMMITTING = "COMMIT_COMMITTING";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_COMMIT_NO_UNSYNC_LOCAL_CHANGES = "COMMIT_NO_UNSYNC_LOCAL_CHANGES";
+	public static final String MSG_PATTERN_KEY_COMMIT_NO_UNSYNC_LOCAL_CHANGES = "COMMIT_NO_UNSYNC_LOCAL_CHANGES";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_COMMIT_NO_COMMIT_STATIC_VERSION = "COMMIT_NO_COMMIT_STATIC_VERSION";
+	public static final String MSG_PATTERN_KEY_COMMIT_NO_COMMIT_STATIC_VERSION = "COMMIT_NO_COMMIT_STATIC_VERSION";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES = "DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES";
+	public static final String MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES = "DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_DELETE_WORKSPACE_DIRECTORY = "DELETE_WORKSPACE_DIRECTORY";
+	public static final String MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY = "DELETE_WORKSPACE_DIRECTORY";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_NO_WORKSPACE_DIRECTORY_FOR_MODULE_VERSION = "NO_WORKSPACE_DIRECTORY_FOR_MODULE_VERSION";
+	public static final String MSG_PATTERN_KEY_NO_WORKSPACE_DIRECTORY_FOR_MODULE_VERSION = "NO_WORKSPACE_DIRECTORY_FOR_MODULE_VERSION";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_WORKSPACE_DIRECTORY_UNKNOWN = "WORKSPACE_DIRECTORY_UNKNOWN";
+	public static final String MSG_PATTERN_KEY_WORKSPACE_DIRECTORY_UNKNOWN = "WORKSPACE_DIRECTORY_UNKNOWN";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_WORKSPACE_DIRECTORY_NOT_USER = "WORKSPACE_DIRECTORY_NOT_USER";
+	public static final String MSG_PATTERN_KEY_WORKSPACE_DIRECTORY_NOT_USER = "WORKSPACE_DIRECTORY_NOT_USER";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_CLEAN = "CLEAN";
+	public static final String MSG_PATTERN_KEY_CLEAN = "CLEAN";
+
+	/**
+	 * ResourceBundle specific to this class.
+	 */
+	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(WorkspaceManagerTool.RESOURCE_BUNDLE);
 
 	/**
 	 * Indicates that the class has been initialized.
@@ -206,11 +211,6 @@ public class WorkspaceManagerTool {
 	 * Options for parsing the command line.
 	 */
 	private static Options options;
-
-	/**
-	 * ResourceBundle specific to this class.
-	 */
-	private static ResourceBundle resourceBundle;
 
 	CommandLine commandLine;
 
@@ -263,10 +263,10 @@ public class WorkspaceManagerTool {
 			try {
 				commandLine = parser.parse(WorkspaceManagerTool.options, args);
 			} catch (org.apache.commons.cli.ParseException pe) {
-				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage()));
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
 			}
 
-			if (CliUtil.isHelpOption(commandLine)) {
+			if (CliUtil.hasHelpOption(commandLine)) {
 				WorkspaceManagerTool.help();
 				System.exit(0);
 			}
@@ -274,7 +274,7 @@ public class WorkspaceManagerTool {
 			args = commandLine.getArgs();
 
 			if (args.length < 1) {
-				throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 			}
 
 			command = args[0];
@@ -315,7 +315,7 @@ public class WorkspaceManagerTool {
 				} else if (command.equals("fix")) {
 					workspaceManagerTool.fixCommand();
 				} else {
-					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command));
+					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command, CliUtil.getHelpCommandLineOption()));
 				}
 			}
 		} catch (RuntimeExceptionUserError reue) {
@@ -347,8 +347,6 @@ public class WorkspaceManagerTool {
 
 			CliUtil.addStandardOptions(WorkspaceManagerTool.options);
 
-			WorkspaceManagerTool.resourceBundle = ResourceBundle.getBundle(WorkspaceManagerTool.RESOURCE_BUNDLE);
-
 			WorkspaceManagerTool.indInit = true;
 		}
 	}
@@ -360,7 +358,7 @@ public class WorkspaceManagerTool {
 		SortedSet<WorkspaceDirPath> sortedSetWorkspaceDirPath;
 
 		if (this.commandLine.getArgs().length != 1) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		sortedSetWorkspaceDirPath = WorkspaceManagerTool.getSortedSetWorkspaceDirPath();
@@ -376,25 +374,25 @@ public class WorkspaceManagerTool {
 			// block (UserInteractionCallbackPlugin.provideInfo can introduce empty lines)
 			stringBuilder = new StringBuilder();
 
-			stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_STATUS_WORKSPACE_DIRECTORY), workspaceDirPath.pathWorkspaceDir)).append('\n');
-			stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_STATUS_MODULE_VERSION), workspaceDirPath.moduleVersion)).append('\n');
+			stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_STATUS_WORKSPACE_DIRECTORY), workspaceDirPath.pathWorkspaceDir)).append('\n');
+			stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_STATUS_MODULE_VERSION), workspaceDirPath.moduleVersion)).append('\n');
 
 			module = this.model.getModule(workspaceDirPath.moduleVersion.getNodePath());
 			scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
 
-			stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_STATUS_SCM_TYPE), scmPlugin.getScmType())).append('\n');
-			stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_STATUS_SCM_URL), scmPlugin.getScmUrl(workspaceDirPath.pathWorkspaceDir))).append('\n');
+			stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_STATUS_SCM_TYPE), scmPlugin.getScmType())).append('\n');
+			stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_STATUS_SCM_URL), scmPlugin.getScmUrl(workspaceDirPath.pathWorkspaceDir))).append('\n');
 
 			version = scmPlugin.getVersion(workspaceDirPath.pathWorkspaceDir);
 
-			stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_STATUS_VERSION), version)).append('\n');
+			stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_STATUS_VERSION), version)).append('\n');
 
 			baseVersion = scmPlugin.getBaseVersion(version);
-			stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_STATUS_BASE_VERSION), baseVersion == null ? null : baseVersion.versionBase)).append('\n');
+			stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_STATUS_BASE_VERSION), baseVersion == null ? null : baseVersion.versionBase)).append('\n');
 
 			if (workspaceDirPath.moduleVersion.getVersion().getVersionType() == VersionType.DYNAMIC) {
-				stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_STATUS_HAS_UNSYNC_LOCAL_CHANGES), !scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlagEnum.LOCAL_CHANGES_ONLY))).append('\n');
-				stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_STATUS_HAS_UNSYNC_REMOTE_CHANGES), !scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlagEnum.REMOTE_CHANGES_ONLY))).append('\n');
+				stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_STATUS_HAS_UNSYNC_LOCAL_CHANGES), !scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlagEnum.LOCAL_CHANGES_ONLY))).append('\n');
+				stringBuilder.append(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_STATUS_HAS_UNSYNC_REMOTE_CHANGES), !scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlagEnum.REMOTE_CHANGES_ONLY))).append('\n');
 			}
 
 			this.userInteractionCallbackPlugin.provideInfo(stringBuilder.toString());
@@ -408,7 +406,7 @@ public class WorkspaceManagerTool {
 		SortedSet<WorkspaceDirPath> sortedSetWorkspaceDirPath;
 
 		if (this.commandLine.getArgs().length != 1) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		sortedSetWorkspaceDirPath = WorkspaceManagerTool.getSortedSetWorkspaceDirPath();
@@ -426,16 +424,16 @@ public class WorkspaceManagerTool {
 				// get into a conflicting situation.
 
 				if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlagEnum.REMOTE_CHANGES_ONLY)) {
-					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_UPDATE_UPDATING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_UPDATE_UPDATING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
 					if (scmPlugin.update(workspaceDirPath.pathWorkspaceDir)) {
-						this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_UPDATE_CONFLICTS_WHILE_UPDATING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+						this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_UPDATE_CONFLICTS_WHILE_UPDATING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 					}
 				} else {
-					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_UPDATE_NO_UNSYNC_REMOTE_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_UPDATE_NO_UNSYNC_REMOTE_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 				}
 			} else {
-				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_UPDATE_NO_UPDATE_STATIC_VERSION), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_UPDATE_NO_UPDATE_STATIC_VERSION), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 			}
 		}
 	}
@@ -449,7 +447,7 @@ public class WorkspaceManagerTool {
 		boolean indReuseCommitMessage;
 
 		if (this.commandLine.getArgs().length != 1) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		message = this.commandLine.getOptionValue("commit-message");
@@ -472,15 +470,15 @@ public class WorkspaceManagerTool {
 				// get into a conflicting situation.
 
 				if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlagEnum.LOCAL_CHANGES_ONLY)) {
-					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_COMMIT_HAS_LOCAL_UNSYNC_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_HAS_LOCAL_UNSYNC_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
 					if (!indReuseCommitMessage) {
-						message = this.userInteractionCallbackPlugin.getInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_COMMIT_SPECIFY_MESSAGE), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+						message = this.userInteractionCallbackPlugin.getInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_SPECIFY_MESSAGE), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
-						Util.getInfoYesNoUserResponse(this.userInteractionCallbackPlugin, WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_COMMIT_REUSE_COMMIT_MESSAGE), YesAlwaysNoUserResponse.YES);
+						Util.getInfoYesNoUserResponse(this.userInteractionCallbackPlugin, WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_REUSE_COMMIT_MESSAGE), YesAlwaysNoUserResponse.YES);
 					}
 
-					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_COMMIT_COMMITTING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_COMMITTING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
 					if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_COMMIT)) {
 						continue;
@@ -488,10 +486,10 @@ public class WorkspaceManagerTool {
 
 					scmPlugin.commit(workspaceDirPath.pathWorkspaceDir, message, null);
 				} else {
-					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_COMMIT_NO_UNSYNC_LOCAL_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_NO_UNSYNC_LOCAL_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 				}
 			} else {
-				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_COMMIT_NO_COMMIT_STATIC_VERSION), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_NO_COMMIT_STATIC_VERSION), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 			}
 		}
 	}
@@ -504,7 +502,7 @@ public class WorkspaceManagerTool {
 		Set<WorkspaceDirPath> setWorkspaceDirPath;
 
 		if (this.commandLine.getArgs().length != 1) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		// First take care of the system workspace directories.
@@ -537,13 +535,13 @@ public class WorkspaceManagerTool {
 			scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
 
 			if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlagEnum.LOCAL_CHANGES_ONLY)) {
-				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
 				if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
 					continue;
 				}
 			} else {
-				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_DELETE_WORKSPACE_DIRECTORY), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
 				if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY)) {
 					continue;
@@ -568,7 +566,7 @@ public class WorkspaceManagerTool {
 		Set<WorkspaceDir> setWorkspaceDir;
 
 		if (this.commandLine.getArgs().length != 1) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		setWorkspaceDir = this.workspacePlugin.getSetWorkspaceDir(WorkspaceDirSystemModule.class);
@@ -597,7 +595,7 @@ public class WorkspaceManagerTool {
 		Set<WorkspaceDir> setWorkspaceDir;
 
 		if (this.commandLine.getArgs().length != 2) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		// Here moduleVersion may not be complete: it may not contain the Version. If that
@@ -616,7 +614,7 @@ public class WorkspaceManagerTool {
 		setWorkspaceDir = this.workspacePlugin.getSetWorkspaceDir(workspaceDirUserModuleVersion);
 
 		if (setWorkspaceDir.isEmpty()) {
-			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_NO_WORKSPACE_DIRECTORY_FOR_MODULE_VERSION), moduleVersion));
+			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_NO_WORKSPACE_DIRECTORY_FOR_MODULE_VERSION), moduleVersion));
 		}
 
 		for (WorkspaceDir workspaceDir: setWorkspaceDir) {
@@ -629,13 +627,13 @@ public class WorkspaceManagerTool {
 			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirModeEnum.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
 
 			if (!scmPlugin.isSync(pathWorkspaceDir, ScmPlugin.IsSyncFlagEnum.LOCAL_CHANGES_ONLY)) {
-				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()));
+				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()));
 
 				if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
 					continue;
 				}
 			} else {
-				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_DELETE_WORKSPACE_DIRECTORY), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()));
+				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()));
 
 				if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY)) {
 					continue;
@@ -663,20 +661,20 @@ public class WorkspaceManagerTool {
 		ScmPlugin scmPlugin;
 
 		if (this.commandLine.getArgs().length != 2) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		pathWorkspaceDir = ((WorkspaceExecContext)this.execContext).getPathWorkspaceDir().resolve(this.commandLine.getArgs()[1]);
 
 		if (!this.workspacePlugin.isPathWorkspaceDirExists(pathWorkspaceDir)) {
-			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_WORKSPACE_DIRECTORY_UNKNOWN), pathWorkspaceDir));
+			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_WORKSPACE_DIRECTORY_UNKNOWN), pathWorkspaceDir));
 			return;
 		}
 
 		workspaceDir = this.workspacePlugin.getWorkspaceDirFromPath(pathWorkspaceDir);
 
 		if (!(workspaceDir instanceof WorkspaceDirUserModuleVersion)) {
-			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_WORKSPACE_DIRECTORY_NOT_USER), pathWorkspaceDir));
+			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_WORKSPACE_DIRECTORY_NOT_USER), pathWorkspaceDir));
 			return;
 		}
 
@@ -686,13 +684,13 @@ public class WorkspaceManagerTool {
 
 
 		if (!scmPlugin.isSync(pathWorkspaceDir, ScmPlugin.IsSyncFlagEnum.LOCAL_CHANGES_ONLY)) {
-			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()));
+			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()));
 
 			if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
 				return;
 			}
 		} else {
-			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_DELETE_WORKSPACE_DIRECTORY), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()));
+			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()));
 
 			if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY)) {
 				return;
@@ -716,7 +714,7 @@ public class WorkspaceManagerTool {
 		Set<WorkspaceDirPath> setWorkspaceDirPath;
 
 		if (this.commandLine.getArgs().length != 1) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		setWorkspaceDirPath = WorkspaceManagerTool.getSortedSetWorkspaceDirPath();
@@ -730,7 +728,7 @@ public class WorkspaceManagerTool {
 
 			this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirModeEnum.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
-			try (Writer writerLog = this.userInteractionCallbackPlugin.provideInfoWithWriter(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_DELETE_WORKSPACE_DIRECTORY), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion))) {
+			try (Writer writerLog = this.userInteractionCallbackPlugin.provideInfoWithWriter(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion))) {
 				builderPlugin.clean(workspaceDirPath.pathWorkspaceDir, writerLog);
 			} catch (IOException ioe) {
 				throw new RuntimeException(ioe);
@@ -749,7 +747,7 @@ public class WorkspaceManagerTool {
 		Set<WorkspaceDir> setWorkspaceDir;
 
 		if (this.commandLine.getArgs().length != 2) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		// Here moduleVersion may not be complete: it may not contain the Version. If that
@@ -768,7 +766,7 @@ public class WorkspaceManagerTool {
 		setWorkspaceDir = this.workspacePlugin.getSetWorkspaceDir(workspaceDirUserModuleVersion);
 
 		if (setWorkspaceDir.isEmpty()) {
-			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_NO_WORKSPACE_DIRECTORY_FOR_MODULE_VERSION), moduleVersion));
+			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_NO_WORKSPACE_DIRECTORY_FOR_MODULE_VERSION), moduleVersion));
 		}
 
 		for (WorkspaceDir workspaceDir: setWorkspaceDir) {
@@ -781,7 +779,7 @@ public class WorkspaceManagerTool {
 
 			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirModeEnum.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
-			try (Writer writerLog = this.userInteractionCallbackPlugin.provideInfoWithWriter(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_DELETE_WORKSPACE_DIRECTORY), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()))) {
+			try (Writer writerLog = this.userInteractionCallbackPlugin.provideInfoWithWriter(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()))) {
 				builderPlugin.clean(pathWorkspaceDir, writerLog);
 			} catch (IOException ioe) {
 				throw new RuntimeException(ioe);
@@ -802,27 +800,27 @@ public class WorkspaceManagerTool {
 		BuilderPlugin builderPlugin;
 
 		if (this.commandLine.getArgs().length != 2) {
-			throw new RuntimeExceptionUserError(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		pathWorkspaceDir = ((WorkspaceExecContext)this.execContext).getPathWorkspaceDir().resolve(this.commandLine.getArgs()[1]);
 
 		if (!this.workspacePlugin.isPathWorkspaceDirExists(pathWorkspaceDir)) {
-			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_WORKSPACE_DIRECTORY_UNKNOWN), pathWorkspaceDir));
+			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_WORKSPACE_DIRECTORY_UNKNOWN), pathWorkspaceDir));
 			return;
 		}
 
 		workspaceDir = this.workspacePlugin.getWorkspaceDirFromPath(pathWorkspaceDir);
 
 		if (!(workspaceDir instanceof WorkspaceDirUserModuleVersion)) {
-			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_WORKSPACE_DIRECTORY_NOT_USER), pathWorkspaceDir));
+			this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_WORKSPACE_DIRECTORY_NOT_USER), pathWorkspaceDir));
 			return;
 		}
 
 		module = this.model.getModule(((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion().getNodePath());
 		builderPlugin = module.getNodePlugin(BuilderPlugin.class, null);
 
-		try (Writer writerLog = this.userInteractionCallbackPlugin.provideInfoWithWriter(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_DELETE_WORKSPACE_DIRECTORY), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()))) {
+		try (Writer writerLog = this.userInteractionCallbackPlugin.provideInfoWithWriter(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()))) {
 			builderPlugin.clean(pathWorkspaceDir, writerLog);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe);
