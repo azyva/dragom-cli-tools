@@ -31,6 +31,7 @@ import org.apache.commons.cli.Parser;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
+import org.azyva.dragom.job.RootManager;
 import org.azyva.dragom.job.TaskInvoker;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 
@@ -94,6 +95,8 @@ public class TaskInvokerTool {
 
 		TaskInvokerTool.init();
 
+		taskInvoker = null;
+
 		try {
 			// Not obvious, but we must use GnuParser to support --long-option=value syntax.
 			// Commons CLI 1.3 (as yet unreleased) is supposed to have a DefaultParser to
@@ -121,12 +124,18 @@ public class TaskInvokerTool {
 
 			taskInvoker = new TaskInvoker(taskPluginId, taskId, CliUtil.getListModuleVersionRoot(commandLine));
 			taskInvoker.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
-
 			taskInvoker.performTask();
 		} catch (RuntimeExceptionUserError reue) {
 			System.err.println(reue.getMessage());
 			System.exit(1);
 		} finally {
+			if ((taskInvoker != null) && taskInvoker.isListModuleVersionRootChanged()) {
+				// It can be the case that RootManager does not specify any root ModuleVersion. In
+				// that case calling RootManager.saveListModuleVersion simply saves an empty list,
+				// even if the user has specified a root ModuleVersion on the command line.
+				RootManager.saveListModuleVersion();
+			}
+
 			ExecContextHolder.endToolAndUnset();
 		}
 	}

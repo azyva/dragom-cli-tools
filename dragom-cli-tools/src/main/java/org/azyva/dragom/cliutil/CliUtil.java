@@ -211,7 +211,7 @@ public final class CliUtil {
 	 * Being a utility class, this ResourceBundle also contains global locale-specific
 	 * resources which can be used by other classes.
 	 */
-	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(CliUtil.class.getName());
+	private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(CliUtil.class.getName() + "ResourceBundle");
 
 	/**
 	 * @return User properties file command line option.
@@ -653,15 +653,6 @@ public final class CliUtil {
 		referencePathMatcherAnd.addReferencePathMatcher(referencePathMatcherOrCommandLine);
 
 		return referencePathMatcherAnd;
-	}
-
-	/**
-	 * @return The ResourceBundle of this class, which also contains global locale-
-	 *   specific resources that can be used by other classes using
-	 *   {@link #getLocalizedMsgPattern}.
-	 */
-	private static ResourceBundle getResourceBundle() {
-		return CliUtil.resourceBundle;
 	}
 
 	/**

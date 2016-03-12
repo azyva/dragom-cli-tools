@@ -195,7 +195,7 @@ public class WorkspaceManagerTool {
 	/**
 	 * ResourceBundle specific to this class.
 	 */
-	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(WorkspaceManagerTool.class.getName());
+	private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(WorkspaceManagerTool.class.getName() + "ResourceBundle");
 
 	/**
 	 * Indicates that the class has been initialized.

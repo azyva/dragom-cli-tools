@@ -72,6 +72,8 @@ public class SwitchToDynamicVersionTool {
 
 		SwitchToDynamicVersionTool.init();
 
+		switchToDynamicVersion = null;
+
 		try {
 			// Not obvious, but we must use GnuParser to support --long-option=value syntax.
 			// Commons CLI 1.3 (as yet unreleased) is supposed to have a DefaultParser to
@@ -99,17 +101,18 @@ public class SwitchToDynamicVersionTool {
 
 			switchToDynamicVersion = new SwitchToDynamicVersion(CliUtil.getListModuleVersionRoot(commandLine));
 			switchToDynamicVersion.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
-
-			// It can be the case that RootManager does not specify any root ModuleVersion. In
-			// that case calling RootManager.saveListModuleVersion simply saves an empty list,
-			// even if the user has specified a root ModuleVersion on the command line.
-			if (switchToDynamicVersion.performTask()) {
-				RootManager.saveListModuleVersion();
-			}
+			switchToDynamicVersion.performTask();
 		} catch (RuntimeExceptionUserError reue) {
 			System.err.println(reue.getMessage());
 			System.exit(1);
 		} finally {
+			if ((switchToDynamicVersion != null) && switchToDynamicVersion.isListModuleVersionRootChanged()) {
+				// It can be the case that RootManager does not specify any root ModuleVersion. In
+				// that case calling RootManager.saveListModuleVersion simply saves an empty list,
+				// even if the user has specified a root ModuleVersion on the command line.
+				RootManager.saveListModuleVersion();
+			}
+
 			ExecContextHolder.endToolAndUnset();
 		}
 	}

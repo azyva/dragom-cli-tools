@@ -121,7 +121,7 @@ public class RootManagerTool {
 	/**
 	 * ResourceBundle specific to this class.
 	 */
-	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(RootManagerTool.class.getName());
+	private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(RootManagerTool.class.getName() + "ResourceBundle");
 
 	/**
 	 * Indicates that the class has been initialized.
