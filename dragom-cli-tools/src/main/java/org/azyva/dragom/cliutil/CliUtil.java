@@ -660,6 +660,6 @@ public final class CliUtil {
 	 * @return Message pattern associated with the key.
 	 */
 	public static String getLocalizedMsgPattern(String msgPatternKey) {
-		return CliUtil.getResourceBundle().getString(msgPatternKey);
+		return CliUtil.resourceBundle.getString(msgPatternKey);
 	}
 }
