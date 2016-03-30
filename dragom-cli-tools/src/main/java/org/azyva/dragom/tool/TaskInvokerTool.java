@@ -60,11 +60,6 @@ import org.azyva.dragom.util.RuntimeExceptionUserError;
  */
 public class TaskInvokerTool {
 	/**
-	 * Logger for the class.
-	 */
-	//private static final Logger logger = LoggerFactory.getLogger(TaskInvokerTool.class);
-
-	/**
 	 * Indicates that the class has been initialized.
 	 */
 	private static boolean indInit;

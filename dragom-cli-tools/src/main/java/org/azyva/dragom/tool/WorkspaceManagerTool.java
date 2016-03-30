@@ -68,129 +68,124 @@ import org.azyva.dragom.util.YesAlwaysNoUserResponse;
  */
 public class WorkspaceManagerTool {
 	/**
-	 * Logger for the class.
+	 * See description in ResourceBundle.
 	 */
-	//private static final Logger logger = LoggerFactory.getLogger(WorkspaceManagerTool.class);
+	private static final String MSG_PATTERN_KEY_STATUS_WORKSPACE_DIRECTORY = "STATUS_WORKSPACE_DIRECTORY";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_STATUS_WORKSPACE_DIRECTORY = "STATUS_WORKSPACE_DIRECTORY";
+	private static final String MSG_PATTERN_KEY_STATUS_MODULE_VERSION = "STATUS_MODULE_VERSION";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_STATUS_MODULE_VERSION = "STATUS_MODULE_VERSION";
+	private static final String MSG_PATTERN_KEY_STATUS_SCM_TYPE = "STATUS_SCM_TYPE";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_STATUS_SCM_TYPE = "STATUS_SCM_TYPE";
+	private static final String MSG_PATTERN_KEY_STATUS_SCM_URL = "STATUS_SCM_URL";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_STATUS_SCM_URL = "STATUS_SCM_URL";
+	private static final String MSG_PATTERN_KEY_STATUS_VERSION = "STATUS_VERSION";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_STATUS_VERSION = "STATUS_VERSION";
+	private static final String MSG_PATTERN_KEY_STATUS_BASE_VERSION = "STATUS_BASE_VERSION";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_STATUS_BASE_VERSION = "STATUS_BASE_VERSION";
+	private static final String MSG_PATTERN_KEY_STATUS_HAS_UNSYNC_LOCAL_CHANGES = "STATUS_HAS_UNSYNC_LOCAL_CHANGES";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_STATUS_HAS_UNSYNC_LOCAL_CHANGES = "STATUS_HAS_UNSYNC_LOCAL_CHANGES";
+	private static final String MSG_PATTERN_KEY_STATUS_HAS_UNSYNC_REMOTE_CHANGES = "STATUS_HAS_UNSYNC_REMOTE_CHANGES";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_STATUS_HAS_UNSYNC_REMOTE_CHANGES = "STATUS_HAS_UNSYNC_REMOTE_CHANGES";
+	private static final String MSG_PATTERN_KEY_UPDATE_UPDATING = "UPDATE_UPDATING";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_UPDATE_UPDATING = "UPDATE_UPDATING";
+	private static final String MSG_PATTERN_KEY_UPDATE_CONFLICTS_WHILE_UPDATING = "UPDATE_CONFLICTS_WHILE_UPDATING";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_UPDATE_CONFLICTS_WHILE_UPDATING = "UPDATE_CONFLICTS_WHILE_UPDATING";
+	private static final String MSG_PATTERN_KEY_UPDATE_NO_UNSYNC_REMOTE_CHANGES = "UPDATE_NO_UNSYNC_REMOTE_CHANGES";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_UPDATE_NO_UNSYNC_REMOTE_CHANGES = "UPDATE_NO_UNSYNC_REMOTE_CHANGES";
+	private static final String MSG_PATTERN_KEY_UPDATE_NO_UPDATE_STATIC_VERSION = "UPDATE_NO_UPDATE_STATIC_VERSION";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_UPDATE_NO_UPDATE_STATIC_VERSION = "UPDATE_NO_UPDATE_STATIC_VERSION";
+	private static final String MSG_PATTERN_KEY_COMMIT_HAS_LOCAL_UNSYNC_CHANGES = "COMMIT_HAS_LOCAL_UNSYNC_CHANGES";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_COMMIT_HAS_LOCAL_UNSYNC_CHANGES = "COMMIT_HAS_LOCAL_UNSYNC_CHANGES";
+	private static final String MSG_PATTERN_KEY_COMMIT_SPECIFY_MESSAGE = "COMMIT_SPECIFY_MESSAGE";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_COMMIT_SPECIFY_MESSAGE = "COMMIT_SPECIFY_MESSAGE";
+	private static final String MSG_PATTERN_KEY_COMMIT_REUSE_COMMIT_MESSAGE = "COMMIT_REUSE_COMMIT_MESSAGE";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_COMMIT_REUSE_COMMIT_MESSAGE = "COMMIT_REUSE_COMMIT_MESSAGE";
+	private static final String MSG_PATTERN_KEY_COMMIT_COMMITTING = "COMMIT_COMMITTING";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_COMMIT_COMMITTING = "COMMIT_COMMITTING";
+	private static final String MSG_PATTERN_KEY_COMMIT_NO_UNSYNC_LOCAL_CHANGES = "COMMIT_NO_UNSYNC_LOCAL_CHANGES";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_COMMIT_NO_UNSYNC_LOCAL_CHANGES = "COMMIT_NO_UNSYNC_LOCAL_CHANGES";
+	private static final String MSG_PATTERN_KEY_COMMIT_NO_COMMIT_STATIC_VERSION = "COMMIT_NO_COMMIT_STATIC_VERSION";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_COMMIT_NO_COMMIT_STATIC_VERSION = "COMMIT_NO_COMMIT_STATIC_VERSION";
+	private static final String MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES = "DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES = "DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES";
+	private static final String MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY = "DELETE_WORKSPACE_DIRECTORY";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY = "DELETE_WORKSPACE_DIRECTORY";
+	private static final String MSG_PATTERN_KEY_NO_WORKSPACE_DIRECTORY_FOR_MODULE_VERSION = "NO_WORKSPACE_DIRECTORY_FOR_MODULE_VERSION";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_NO_WORKSPACE_DIRECTORY_FOR_MODULE_VERSION = "NO_WORKSPACE_DIRECTORY_FOR_MODULE_VERSION";
+	private static final String MSG_PATTERN_KEY_WORKSPACE_DIRECTORY_UNKNOWN = "WORKSPACE_DIRECTORY_UNKNOWN";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_WORKSPACE_DIRECTORY_UNKNOWN = "WORKSPACE_DIRECTORY_UNKNOWN";
+	private static final String MSG_PATTERN_KEY_WORKSPACE_DIRECTORY_NOT_USER = "WORKSPACE_DIRECTORY_NOT_USER";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_WORKSPACE_DIRECTORY_NOT_USER = "WORKSPACE_DIRECTORY_NOT_USER";
-
-	/**
-	 * See description in ResourceBundle.
-	 */
-	public static final String MSG_PATTERN_KEY_CLEAN = "CLEAN";
+	private static final String MSG_PATTERN_KEY_CLEAN = "CLEAN";
 
 	/**
 	 * ResourceBundle specific to this class.

@@ -49,74 +49,69 @@ import org.azyva.dragom.util.RuntimeExceptionUserError;
  */
 public class RootManagerTool {
 	/**
-	 * Logger for the class.
+	 * See description in ResourceBundle.
 	 */
-	//private static final Logger logger = LoggerFactory.getLogger(RootManagerTool.class);
+	private static final String MSG_PATTERN_KEY_LIST_OF_ROOT_MODULE_VERSIONS_EMPTY = "LIST_OF_ROOT_MODULE_VERSIONS_EMPTY";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_LIST_OF_ROOT_MODULE_VERSIONS_EMPTY = "LIST_OF_ROOT_MODULE_VERSIONS_EMPTY";
+	private static final String MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS = "MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS = "MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS";
+	private static final String MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS = "MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS = "MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS";
+	private static final String MSG_PATTERN_KEY_MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS = "MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS = "MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS";
+	private static final String MSG_PATTERN_KEY_MODULE_VERSION_NOT_IN_LIST_OF_ROOTS = "MODULE_VERSION_NOT_IN_LIST_OF_ROOTS";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_MODULE_VERSION_NOT_IN_LIST_OF_ROOTS = "MODULE_VERSION_NOT_IN_LIST_OF_ROOTS";
+	private static final String MSG_PATTERN_KEY_MODULE_VERSION_REMOVED_FROM_LIST_OF_ROOTS = "MODULE_VERSION_REMOVED_FROM_LIST_OF_ROOTS";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_MODULE_VERSION_REMOVED_FROM_LIST_OF_ROOTS = "MODULE_VERSION_REMOVED_FROM_LIST_OF_ROOTS";
+	private static final String MSG_PATTERN_KEY_ALL_MODULE_VERSIONS_REMOVED_FROM_LIST_OF_ROOTS = "ALL_MODULE_VERSIONS_REMOVED_FROM_LIST_OF_ROOTS";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_ALL_MODULE_VERSIONS_REMOVED_FROM_LIST_OF_ROOTS = "ALL_MODULE_VERSIONS_REMOVED_FROM_LIST_OF_ROOTS";
+	private static final String MSG_PATTERN_KEY_LIST_REFERENCE_PATH_MATCHERS_EMPTY = "LIST_REFERENCE_PATH_MATCHERS_EMPTY";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_LIST_REFERENCE_PATH_MATCHERS_EMPTY = "LIST_REFERENCE_PATH_MATCHERS_EMPTY";
+	private static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ALREADY_IN_LIST = "REFERENCE_PATH_MATCHER_ALREADY_IN_LIST";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ALREADY_IN_LIST = "REFERENCE_PATH_MATCHER_ALREADY_IN_LIST";
+	private static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ADDED_TO_LIST = "REFERENCE_PATH_MATCHER_ADDED_TO_LIST";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ADDED_TO_LIST = "REFERENCE_PATH_MATCHER_ADDED_TO_LIST";
+	private static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_NOT_IN_LIST = "REFERENCE_PATH_MATCHER_NOT_IN_LIST";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_NOT_IN_LIST = "REFERENCE_PATH_MATCHER_NOT_IN_LIST";
+	private static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST = "REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST = "REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST";
-
-	/**
-	 * See description in ResourceBundle.
-	 */
-	public static final String MSG_PATTERN_KEY_ALL_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST = "ALL_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST";
+	private static final String MSG_PATTERN_KEY_ALL_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST = "ALL_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST";
 
 	/**
 	 * ResourceBundle specific to this class.

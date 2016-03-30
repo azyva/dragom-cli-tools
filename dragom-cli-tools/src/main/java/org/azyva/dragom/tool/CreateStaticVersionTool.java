@@ -45,11 +45,6 @@ import org.azyva.dragom.util.RuntimeExceptionUserError;
  */
 public class CreateStaticVersionTool {
 	/**
-	 * Logger for the class.
-	 */
-	//private static final Logger logger = LoggerFactory.getLogger(SwitchToDynamicVersionTool.class);
-
-	/**
 	 * Indicates that the class has been initialized.
 	 */
 	private static boolean indInit;
