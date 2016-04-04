@@ -95,7 +95,7 @@ public class CreateStaticVersionTool {
 
 			createStaticVersion = new CreateStaticVersion(CliUtil.getListModuleVersionRoot(commandLine));
 			createStaticVersion.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
-			createStaticVersion.performTask();
+			createStaticVersion.performJob();
 		} catch (RuntimeExceptionUserError reue) {
 			System.err.println(reue.getMessage());
 			System.exit(1);

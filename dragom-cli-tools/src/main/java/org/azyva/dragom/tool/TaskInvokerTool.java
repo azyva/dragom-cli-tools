@@ -119,7 +119,7 @@ public class TaskInvokerTool {
 
 			taskInvoker = new TaskInvoker(taskPluginId, taskId, CliUtil.getListModuleVersionRoot(commandLine));
 			taskInvoker.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
-			taskInvoker.performTask();
+			taskInvoker.performJob();
 		} catch (RuntimeExceptionUserError reue) {
 			System.err.println(reue.getMessage());
 			System.exit(1);

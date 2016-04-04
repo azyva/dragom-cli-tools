@@ -96,7 +96,7 @@ public class SwitchToDynamicVersionTool {
 
 			switchToDynamicVersion = new SwitchToDynamicVersion(CliUtil.getListModuleVersionRoot(commandLine));
 			switchToDynamicVersion.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
-			switchToDynamicVersion.performTask();
+			switchToDynamicVersion.performJob();
 		} catch (RuntimeExceptionUserError reue) {
 			System.err.println(reue.getMessage());
 			System.exit(1);
