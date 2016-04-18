@@ -1,0 +1,34 @@
+Name
+====
+
+dragom
+
+Description
+===========
+
+Invokes a Dragom tool.
+
+Synopsis
+========
+
+dragom <tool> <argument> ...
+  Invokes a tool.
+
+dragom help <tool>
+  Displays help information about a tool.
+
+dragom --help
+  Displays this help information.
+
+Arguments
+=========
+
+<tool>: Tool to invoke. See "Tools" below.
+
+<argument>: Argument to pass to the tool.
+
+Tools
+=====
+
+The available tools are:
+

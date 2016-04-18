@@ -47,6 +47,7 @@ import org.azyva.dragom.execcontext.plugin.WorkspacePlugin;
 import org.azyva.dragom.execcontext.plugin.WorkspacePlugin.GetWorkspaceDirMode;
 import org.azyva.dragom.execcontext.plugin.WorkspacePlugin.WorkspaceDirAccessMode;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
+import org.azyva.dragom.job.BuildReferenceGraph;
 import org.azyva.dragom.model.Model;
 import org.azyva.dragom.model.Module;
 import org.azyva.dragom.model.ModuleVersion;
@@ -55,6 +56,7 @@ import org.azyva.dragom.model.VersionType;
 import org.azyva.dragom.model.plugin.BuilderPlugin;
 import org.azyva.dragom.model.plugin.ScmPlugin;
 import org.azyva.dragom.model.plugin.ScmPlugin.BaseVersion;
+import org.azyva.dragom.reference.ReferenceGraph;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 import org.azyva.dragom.util.Util;
 import org.azyva.dragom.util.YesAlwaysNoUserResponse;
@@ -217,8 +219,22 @@ public class WorkspaceManagerTool {
 	 * workspace.
 	 */
 	private static class WorkspaceDirPath implements Comparable<WorkspaceDirPath> {
+		/**
+		 * WorkspaceDirUserModuleVesion.
+		 */
 		WorkspaceDirUserModuleVersion workspaceDirUserModuleVersion;
+
+		/**
+		 * ModuleVersion.
+		 * <p>
+		 * This is redundant with workspaceDirUserModuleVersion.getModuleVersion(), but is
+		 * convenient since often used.
+		 */
 		ModuleVersion moduleVersion;
+
+		/**
+		 * Path to the workspace directory.
+		 */
 		Path pathWorkspaceDir;
 
 		@Override
@@ -292,6 +308,8 @@ public class WorkspaceManagerTool {
 					workspaceManagerTool.cleanAllCommand();
 				} else if (command.equals("clean-system")) {
 					workspaceManagerTool.cleanSystemCommand();
+				} else if (command.equals("clean-non-root-reachable")) {
+					workspaceManagerTool.cleanNonRootReachableCommand();
 				} else if (command.equals("remove-module-version")) {
 					workspaceManagerTool.removeModuleVersionCommand();
 				} else if (command.equals("remove-dir")) {
@@ -577,6 +595,68 @@ public class WorkspaceManagerTool {
 	}
 
 	/**
+	 * Implements the "clean-non-root-reachable" command.
+	 */
+	private void cleanNonRootReachableCommand() {
+		BuildReferenceGraph buildReferenceGraph;
+		ReferenceGraph referenceGraph;
+		Set<WorkspaceDirPath> setWorkspaceDirPath;
+
+		// Here this.commandLine is not expected to contain the root-module-version
+		// option, as supported by CliUtil.getListModuleVersionRoot. Therefore a List of
+		// root ModuleVersion must be defined within the ExecContext.
+		buildReferenceGraph = new BuildReferenceGraph(null, CliUtil.getListModuleVersionRoot(this.commandLine));
+
+		// Also, this.commandLine is not expected to contain any reference-path-matcher
+		// options, as supported by CliUtil.getReferencePathMatcher.
+		buildReferenceGraph.setReferencePathMatcher(CliUtil.getReferencePathMatcher(this.commandLine));
+
+		// The idea for the above expectations is that the clean-non-root-reachable
+		// command is specifically intended to be applied in the context of the root
+		// ModuleVersion's defined within the ExecContext.
+
+		buildReferenceGraph.performJob();
+
+		referenceGraph = buildReferenceGraph.getReferenceGraph();
+
+		this.workspacePlugin = ExecContextHolder.get().getExecContextPlugin(WorkspacePlugin.class);
+		setWorkspaceDirPath = WorkspaceManagerTool.getSortedSetWorkspaceDirPath();
+
+		for (WorkspaceDirPath workspaceDirPath: setWorkspaceDirPath) {
+			Module module;
+			ScmPlugin scmPlugin;
+
+			if (!referenceGraph.moduleVersionExists(workspaceDirPath.moduleVersion)) {
+				module = this.model.getModule(workspaceDirPath.moduleVersion.getNodePath());
+				scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
+
+				if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
+					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+
+					if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
+						continue;
+					}
+				} else {
+					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+
+					if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY)) {
+						continue;
+					}
+				}
+
+				try {
+					FileUtils.deleteDirectory(workspaceDirPath.pathWorkspaceDir.toFile());
+				} catch (IOException ioe) {
+					throw new RuntimeException(ioe);
+				}
+
+				this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
+				this.workspacePlugin.deleteWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion);
+			}
+		}
+	}
+
+	/**
 	 * Implements the "remove-module-version" command.
 	 */
 	private void removeModuleVersionCommand() {
@@ -833,7 +913,7 @@ public class WorkspaceManagerTool {
 	 */
 	private static void help() {
 		try {
-			IOUtils.copy(WorkspaceManagerTool.class.getResourceAsStream("WorkspaceManagerToolHelp.txt"), System.out);
+			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(WorkspaceManagerTool.class, "WorkspaceManagerToolHelp.txt"), System.out);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe);
 		}

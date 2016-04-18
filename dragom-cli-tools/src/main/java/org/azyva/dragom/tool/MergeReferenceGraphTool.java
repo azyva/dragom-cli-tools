@@ -21,7 +21,6 @@ package org.azyva.dragom.tool;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.Arrays;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.GnuParser;
@@ -31,34 +30,21 @@ import org.apache.commons.cli.Parser;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
+import org.azyva.dragom.job.MergeReferenceGraph;
 import org.azyva.dragom.job.RootManager;
-import org.azyva.dragom.job.TaskInvoker;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 
 /**
- * Tool wrapper for the TaskInvoker class.
+ * Main class for the merge-reference-graph.
+ * <p>
+ * Tool wrapper for {@link MergeReferenceGraph}.
  *
- * Many tools, such as the Checkout tool, can be implemented using TaskPlugin.
- * This class allows invoking a TaskPlugin generically. It avoid having to
- * introduce tool classes only to invoke specific TaskPlugin.
+ * See the help information displayed by {@link MergeReferenceGraphTool#help}
+ * method.
  *
- * This tool first expects the following arguments which allows it to identify the
- * TaskPlugin to invoke:
- *
- * - TaskPlugin ID
- * - Task ID
- * - Text ressource for the help file
- *
- * These arguments are not validated as if they were specified by the user. They
- * are expected to be specified by a script that invokes the tool.
- *
- * After these arguments, the regular user-level options and arguments are
- * expected.
- *
- * @see TaskInvoker
  * @author David Raymond
  */
-public class TaskInvokerTool {
+public class MergeReferenceGraphTool {
 	/**
 	 * Indicates that the class has been initialized.
 	 */
@@ -75,22 +61,13 @@ public class TaskInvokerTool {
 	 * @param args Arguments.
 	 */
 	public static void main(String[] args) {
-		String taskPluginId;
-		String taskId;
-		String helpRessource;
 		Parser parser;
 		CommandLine commandLine = null;
-		TaskInvoker taskInvoker;
+		MergeReferenceGraph mergeReferenceGraph;
 
-		taskPluginId = args[0];
-		taskId = args[1];
-		helpRessource = args[2];
+		MergeReferenceGraphTool.init();
 
-		args = Arrays.copyOfRange(args, 3, args.length);
-
-		TaskInvokerTool.init();
-
-		taskInvoker = null;
+		mergeReferenceGraph = null;
 
 		try {
 			// Not obvious, but we must use GnuParser to support --long-option=value syntax.
@@ -99,13 +76,13 @@ public class TaskInvokerTool {
 			parser = new GnuParser();
 
 			try {
-				commandLine = parser.parse(TaskInvokerTool.options, args);
+				commandLine = parser.parse(MergeReferenceGraphTool.options, args);
 			} catch (ParseException pe) {
 				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
 			}
 
 			if (CliUtil.hasHelpOption(commandLine)) {
-				TaskInvokerTool.help(helpRessource);
+				MergeReferenceGraphTool.help();
 				System.exit(0);
 			}
 
@@ -117,17 +94,19 @@ public class TaskInvokerTool {
 
 			CliUtil.setupExecContext(commandLine, true);
 
-			taskInvoker = new TaskInvoker(taskPluginId, taskId, CliUtil.getListModuleVersionRoot(commandLine));
-			taskInvoker.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
-			taskInvoker.performJob();
+			mergeReferenceGraph = new MergeReferenceGraph(CliUtil.getListModuleVersionRoot(commandLine));
+			mergeReferenceGraph.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
+			??? any other options?
+			mergeReferenceGraph.performJob();
 		} catch (RuntimeExceptionUserError reue) {
 			System.err.println(reue.getMessage());
 			System.exit(1);
 		} finally {
-			if ((taskInvoker != null) && taskInvoker.isListModuleVersionRootChanged()) {
+			if ((mergeReferenceGraph != null) && mergeReferenceGraph.isListModuleVersionRootChanged()) {
 				// It can be the case that RootManager does not specify any root ModuleVersion. In
 				// that case calling RootManager.saveListModuleVersion simply saves an empty list,
 				// even if the user has specified a root ModuleVersion on the command line.
+				??? Can this list be modified?
 				RootManager.saveListModuleVersion();
 			}
 
@@ -139,22 +118,22 @@ public class TaskInvokerTool {
 	 * Initializes the class.
 	 */
 	private synchronized static void init() {
-		if (!TaskInvokerTool.indInit) {
-			TaskInvokerTool.options = new Options();
+		if (!MergeReferenceGraphTool.indInit) {
+			MergeReferenceGraphTool.options = new Options();
 
-			CliUtil.addStandardOptions(TaskInvokerTool.options);
-			CliUtil.addRootModuleVersionOptions(TaskInvokerTool.options);
+			CliUtil.addStandardOptions(MergeReferenceGraphTool.options);
+			CliUtil.addRootModuleVersionOptions(MergeReferenceGraphTool.options);
 
-			TaskInvokerTool.indInit = true;
+			MergeReferenceGraphTool.indInit = true;
 		}
 	}
 
 	/**
 	 * Displays help information.
 	 */
-	private static void help(String ressource) {
+	private static void help() {
 		try {
-			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(TaskInvokerTool.class, ressource),  System.out);
+			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(MergeReferenceGraphTool.class, "MergeReferenceGraphToolHelp.txt"),  System.out);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe);
 		}

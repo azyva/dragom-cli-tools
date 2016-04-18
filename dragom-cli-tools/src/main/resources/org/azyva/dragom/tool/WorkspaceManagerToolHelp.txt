@@ -31,6 +31,10 @@ dragom-workspace-manager [<general options> ...] clean-all
 dragom-workspace-manager [<general options> ...] clean-system
   Removes all system workspace directories.
 
+dragom-workspace-manager [<general options> ...] clean-non-root-reachable
+  Removes all user workspace directories corresponding to module versions that
+  are not reachable from a root module version.
+
 dragom-workspace-manager [<general options> ...]
   remove-module-version <module-version>
   Removes the user workspace directory for a specific module version.

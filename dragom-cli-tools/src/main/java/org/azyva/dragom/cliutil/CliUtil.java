@@ -27,6 +27,7 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -656,10 +657,69 @@ public final class CliUtil {
 	}
 
 	/**
+	 * Returns a message pattern corresponding to a key.
+	 *
 	 * @param msgPatternKey Message pattern key within the ResourceBundle.
 	 * @return Message pattern associated with the key.
 	 */
 	public static String getLocalizedMsgPattern(String msgPatternKey) {
 		return CliUtil.resourceBundle.getString(msgPatternKey);
+	}
+
+	/**
+	 * Returns the version of a resource appropriate for the current default Locale.
+	 * <p>
+	 * The algorithm used for selecting the appropriate resource is similar to the
+	 * once implemented by ResourceBundle.getBundle.
+	 * <p>
+	 * The resource base name is split on the last ".", if any, and the candidate
+	 * variants are inserted before it.
+	 *
+	 * @param clazz Class to which the resource belongs.
+	 * @param resourceBaseName Base name of the resource.
+	 * @return Resource as an InputStream, just as Class.getResourceAsStream would
+	 *   return. null if no resource version exists.
+	 */
+	public static InputStream getLocalizedResourceAsStream(Class<?> clazz, String resourceBaseName) {
+		int indexDot;
+		String resourceBaseNamePrefix;
+		String resourceBaseNameSuffix;
+		Locale locale;
+		String[] arrayCandidate;
+
+		indexDot = resourceBaseName.lastIndexOf('.');
+
+		if (indexDot != -1) {
+			resourceBaseNamePrefix = resourceBaseName.substring(0, indexDot);
+			resourceBaseNameSuffix = resourceBaseName.substring(indexDot);
+		} else {
+			resourceBaseNamePrefix = resourceBaseName;
+			resourceBaseNameSuffix = "";
+		}
+
+		locale = Locale.getDefault();
+
+		arrayCandidate = new String[6];
+
+		arrayCandidate[0] = resourceBaseNamePrefix + "_" + locale.getLanguage() + "_" + locale.getScript() + "_" + locale.getCountry() + "_" + locale.getVariant();
+		arrayCandidate[1] = resourceBaseNamePrefix + "_" + locale.getLanguage() + "_" + locale.getScript() + "_" + locale.getCountry();
+		arrayCandidate[2] = resourceBaseNamePrefix + "_" + locale.getLanguage() + "_" + locale.getScript();
+		arrayCandidate[3] = resourceBaseNamePrefix + "_" + locale.getLanguage() + "_" + locale.getCountry() + "_" + locale.getVariant();
+		arrayCandidate[4] = resourceBaseNamePrefix + "_" + locale.getLanguage() + "_" + locale.getCountry();
+		arrayCandidate[5] = resourceBaseNamePrefix + "_" + locale.getLanguage();
+
+		for (String candidate: arrayCandidate) {
+			if (!candidate.endsWith("_")) {
+				InputStream inputStreamResource;
+
+				inputStreamResource = clazz.getResourceAsStream(candidate + resourceBaseNameSuffix);
+
+				if (inputStreamResource != null) {
+					return inputStreamResource;
+				}
+			}
+		}
+
+		return null;
 	}
 }

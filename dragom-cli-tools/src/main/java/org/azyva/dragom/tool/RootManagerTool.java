@@ -218,7 +218,7 @@ public class RootManagerTool {
 	 */
 	private static void help() {
 		try {
-			IOUtils.copy(RootManagerTool.class.getResourceAsStream("RootManagerToolHelp.txt"),  System.out);
+			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(RootManagerTool.class, "RootManagerToolHelp.txt"),  System.out);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe);
 		}

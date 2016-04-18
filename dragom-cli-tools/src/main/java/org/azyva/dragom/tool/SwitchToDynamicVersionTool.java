@@ -35,7 +35,7 @@ import org.azyva.dragom.job.SwitchToDynamicVersion;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 
 /**
- * Main class for the tool switch-to-dynamic-version tool.
+ * Main class for the switch-to-dynamic-version tool.
  *
  * Tool wrapper for the SwitchToDynamicVersion class.
  *
@@ -139,7 +139,7 @@ public class SwitchToDynamicVersionTool {
 		//TODO: Not sure that artifact references are meaningful here, in a reference graph?
 		//If A refers to a submodule of B, is the path specifically to the submodule or canonically to the main module?
 		try {
-			IOUtils.copy(SwitchToDynamicVersionTool.class.getResourceAsStream("SwitchToDynamicVersionToolHelp.txt"),  System.out);
+			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(SwitchToDynamicVersionTool.class, "SwitchToDynamicVersionToolHelp.txt"),  System.out);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe);
 		}

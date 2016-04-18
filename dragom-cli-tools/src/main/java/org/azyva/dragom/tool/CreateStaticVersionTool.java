@@ -141,7 +141,7 @@ public class CreateStaticVersionTool {
 		//TODO: Not sure that artifact references are meaningful here, in a reference graph?
 		//If A refers to a submodule of B, is the path specifically to the submodule or canonically to the main module?
 		try {
-			IOUtils.copy(CreateStaticVersionTool.class.getResourceAsStream("CreateStaticVersionToolHelp.txt"),  System.out);
+			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(CreateStaticVersionTool.class, "CreateStaticVersionToolHelp.txt"),  System.out);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe);
 		}
