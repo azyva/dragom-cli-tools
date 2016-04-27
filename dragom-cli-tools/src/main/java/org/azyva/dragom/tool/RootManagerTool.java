@@ -168,21 +168,21 @@ public class RootManagerTool {
 			command = args[0];
 
 			if (command.equals("list")) {
-				RootManagerTool.list(commandLine);
+				RootManagerTool.listCommand(commandLine);
 			} else if (command.equals("add")) {
-				RootManagerTool.add(commandLine);
+				RootManagerTool.addCommand(commandLine);
 			} else if (command.equals("remove")) {
-				RootManagerTool.remove(commandLine);
+				RootManagerTool.removeCommand(commandLine);
 			} else if (command.equals("remove-all")) {
-				RootManagerTool.removeAll(commandLine);
+				RootManagerTool.removeAllCommand(commandLine);
 			} else if (command.equals("list-reference-path-matchers")) {
-				RootManagerTool.listReferencePathMatchers(commandLine);
+				RootManagerTool.listReferencePathMatchersCommand(commandLine);
 			} else if (command.equals("add-reference-path-matcher")) {
-				RootManagerTool.addReferencePathMatcher(commandLine);
+				RootManagerTool.addReferencePathMatcherCommand(commandLine);
 			} else if (command.equals("remove-reference-path-matcher")) {
-				RootManagerTool.removeReferencePathMatcher(commandLine);
+				RootManagerTool.removeReferencePathMatcherCommand(commandLine);
 			} else if (command.equals("remove-all-reference-path-matchers")) {
-				RootManagerTool.removeAllReferencePathMatchers(commandLine);
+				RootManagerTool.removeAllReferencePathMatchersCommand(commandLine);
 			} else {
 				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command, CliUtil.getHelpCommandLineOption()));
 			}
@@ -229,7 +229,7 @@ public class RootManagerTool {
 	 *
 	 * @param commandLine CommandLine.
 	 */
-	private static void list(CommandLine commandLine) {
+	private static void listCommand(CommandLine commandLine) {
 		String[] args;
 		List<ModuleVersion> listModuleVersion;
 
@@ -255,7 +255,7 @@ public class RootManagerTool {
 	 *
 	 * @param commandLine CommandLine.
 	 */
-	private static void add(CommandLine commandLine) {
+	private static void addCommand(CommandLine commandLine) {
 		String[] args;
 		ModuleVersion moduleVersion;
 
@@ -302,7 +302,7 @@ public class RootManagerTool {
 	 *
 	 * @param commandLine CommandLine.
 	 */
-	private static void remove(CommandLine commandLine) {
+	private static void removeCommand(CommandLine commandLine) {
 		String[] args;
 		ModuleVersion moduleVersion;
 
@@ -331,7 +331,7 @@ public class RootManagerTool {
 	 *
 	 * @param commandLine CommandLine.
 	 */
-	private static void removeAll(CommandLine commandLine) {
+	private static void removeAllCommand(CommandLine commandLine) {
 		String[] args;
 
 		args = commandLine.getArgs();
@@ -349,7 +349,7 @@ public class RootManagerTool {
 	 *
 	 * @param commandLine CommandLine.
 	 */
-	private static void listReferencePathMatchers(CommandLine commandLine) {
+	private static void listReferencePathMatchersCommand(CommandLine commandLine) {
 		String[] args;
 		ReferencePathMatcherOr referencePathMatcherOr;
 		List<ReferencePathMatcher> listReferencePathMatcher;
@@ -377,7 +377,7 @@ public class RootManagerTool {
 	 *
 	 * @param commandLine CommandLine.
 	 */
-	private static void addReferencePathMatcher(CommandLine commandLine) {
+	private static void addReferencePathMatcherCommand(CommandLine commandLine) {
 		String[] args;
 		ReferencePathMatcherOr referencePathMatcherOr;
 		ReferencePathMatcherByElement referencePathMatcherByElement;
@@ -409,7 +409,7 @@ public class RootManagerTool {
 	 *
 	 * @param commandLine CommandLine.
 	 */
-	private static void removeReferencePathMatcher(CommandLine commandLine) {
+	private static void removeReferencePathMatcherCommand(CommandLine commandLine) {
 		String[] args;
 		ReferencePathMatcherOr referencePathMatcherOr;
 		ReferencePathMatcherByElement referencePathMatcherByElement;
@@ -442,7 +442,7 @@ public class RootManagerTool {
 	 *
 	 * @param commandLine CommandLine.
 	 */
-	private static void removeAllReferencePathMatchers(CommandLine commandLine) {
+	private static void removeAllReferencePathMatchersCommand(CommandLine commandLine) {
 		String[] args;
 		ReferencePathMatcherOr referencePathMatcherOr;
 

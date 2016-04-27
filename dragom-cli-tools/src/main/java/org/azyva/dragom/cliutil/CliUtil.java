@@ -120,14 +120,14 @@ public final class CliUtil {
 	public static final String DEFAULT_USER_PROPERTIES_COMMAND_LINE_OPTION = "user-properties";
 
 	/**
+	 * System property that specifies if single tool properties are supported.
+	 */
+	public static final String SYS_PROP_IND_SINGLE_TOOL_PROPERTIES = "org.azyva.dragom.IndSingleToolProperties";
+
+	/**
 	 * System property that specifies if a tool properties file is supported.
 	 */
 	public static final String SYS_PROP_IND_TOOL_PROPERTIES = "org.azyva.dragom.IndToolProperties";
-
-	/**
-	 * System property that specifies the tool_properties file.
-	 */
-	public static final String SYS_PROP_TOOL_PROPERTIES_FILE = "org.azyva.dragom.ToolProperties";
 
 	/**
 	 * System property that specifies the command line option used to specify the
@@ -300,6 +300,13 @@ public final class CliUtil {
 			options.addOption(option);
 		}
 
+		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_SINGLE_TOOL_PROPERTIES))) {
+			option = new Option("D", null);
+			option.setValueSeparator('=');
+			option.setArgs(1);
+			options.addOption(option);
+		}
+
 		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_TOOL_PROPERTIES))) {
 			option = new Option(null, null);
 			option.setLongOpt(CliUtil.getToolPropertiesFileCommandLineOption());
@@ -455,7 +462,7 @@ public final class CliUtil {
 		propertiesWorkspace = propertiesSystem;
 
 		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_USER_PROPERTIES))) {
-			stringPropertiesFile = commandLine.getOptionValue(System.getProperty(CliUtil.SYS_PROP_USER_PROPERTIES_FILE_COMMAND_LINE_OPTION, CliUtil.DEFAULT_USER_PROPERTIES_COMMAND_LINE_OPTION));
+			stringPropertiesFile = commandLine.getOptionValue(CliUtil.getUserPropertiesFileCommandLineOption());
 
 			if (stringPropertiesFile == null) {
 				stringPropertiesFile = System.getProperty(CliUtil.SYS_PROP_DEFAULT_USER_PROPERTIES_FILE);
@@ -471,7 +478,7 @@ public final class CliUtil {
 			propertiesWorkspace = new Properties(propertiesSystem);
 		}
 
-		workspaceDir = commandLine.getOptionValue(System.getProperty(CliUtil.SYS_PROP_WORKSPACE_PATH_COMMAND_LINE_OPTION, CliUtil.DEFAULT_WORKSPACE_PATH_COMMAND_LINE_OPTION));
+		workspaceDir = commandLine.getOptionValue(CliUtil.getWorkspacePathCommandLineOption());
 
 		if (workspaceDir != null) {
 			propertiesWorkspace.setProperty(workspaceExecContextFactory.getWorkspaceDirInitProp(), workspaceDir);
@@ -485,10 +492,24 @@ public final class CliUtil {
 			propertiesTool = null;
 
 			if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_TOOL_PROPERTIES))) {
-				stringPropertiesFile = commandLine.getOptionValue(System.getProperty(CliUtil.SYS_PROP_TOOL_PROPERTIES_FILE_COMMAND_LINE_OPTION, CliUtil.DEFAULT_TOOL_PROPERTIES_COMMAND_LINE_OPTION));
+				stringPropertiesFile = commandLine.getOptionValue(CliUtil.getToolPropertiesFileCommandLineOption());
 
 				if (stringPropertiesFile != null) {
 					propertiesTool = CliUtil.loadProperties(stringPropertiesFile, null);
+				}
+			}
+
+			if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_SINGLE_TOOL_PROPERTIES))) {
+				Properties propertiesToolSingle;
+
+				propertiesToolSingle = commandLine.getOptionProperties("D");
+
+				if (propertiesTool != null) {
+					// Explicit single properties override similar properties defined in the tool
+					// properties file.
+					propertiesTool.putAll(propertiesToolSingle);
+				} else {
+					propertiesTool = propertiesToolSingle;
 				}
 			}
 
@@ -496,13 +517,15 @@ public final class CliUtil {
 				propertiesTool = new Properties();
 			}
 
-
-			if (commandLine.hasOption(System.getProperty(CliUtil.SYS_PROP_NO_CONFIRM_COMMAND_LINE_OPTION, CliUtil.DEFAULT_NO_CONFIRM_COMMAND_LINE_OPTION))) {
+			// The following properties can also be generically specified as single tool
+			// properties. But they are supported as explicit command line arguments since
+			// they are general and often used.
+			if (commandLine.hasOption(CliUtil.getNoConfirmCommandLineOption())) {
 				propertiesTool.setProperty("runtime-property." + Util.RUNTIME_PROPERTY_IND_NO_CONFIRM, "true");
 			} else {
 				String[] tabNoConfirmContext;
 
-				tabNoConfirmContext = commandLine.getOptionValues(System.getProperty(CliUtil.SYS_PROP_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION, CliUtil.DEFAULT_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION));
+				tabNoConfirmContext = commandLine.getOptionValues(CliUtil.getNoConfirmContextCommandLineOption());
 
 				for (String context: tabNoConfirmContext) {
 					propertiesTool.setProperty("runtime-property."+ Util.RUNTIME_PROPERTY_IND_NO_CONFIRM + '.' + context, "true");
@@ -566,7 +589,7 @@ public final class CliUtil {
 	 * @return Indicates if the help command line option is specified.
 	 */
 	public static boolean hasHelpOption(CommandLine commandLine) {
-		return commandLine.hasOption(System.getProperty(CliUtil.SYS_PROP_HELP_COMMAND_LINE_OPTION, CliUtil.DEFAULT_HELP_COMMAND_LINE_OPTION));
+		return commandLine.hasOption(CliUtil.getHelpCommandLineOption());
 	}
 
 	/**

@@ -1,4 +1,5 @@
 		//TODO: Adjust help for roots
+		//-D...
 
 		//TODO: Mention that multiple --source-refs and/or --artifact-refs options can be specified (implied or).
 		//TODO: Probably have to distinguish between simple references and dependencies.

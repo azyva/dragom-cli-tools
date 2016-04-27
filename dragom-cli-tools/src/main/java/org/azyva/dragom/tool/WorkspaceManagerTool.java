@@ -520,7 +520,7 @@ public class WorkspaceManagerTool {
 		for (WorkspaceDir workspaceDir: setWorkspaceDir) {
 			Path pathWorkspaceDir;
 
-			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
+			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
 			try {
 				FileUtils.deleteDirectory(pathWorkspaceDir.toFile());
@@ -562,7 +562,7 @@ public class WorkspaceManagerTool {
 				throw new RuntimeException(ioe);
 			}
 
-			this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
+			this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 			this.workspacePlugin.deleteWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion);
 		}
 	}
@@ -582,7 +582,7 @@ public class WorkspaceManagerTool {
 		for (WorkspaceDir workspaceDir: setWorkspaceDir) {
 			Path pathWorkspaceDir;
 
-			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
+			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
 			try {
 				FileUtils.deleteDirectory(pathWorkspaceDir.toFile());
@@ -650,7 +650,7 @@ public class WorkspaceManagerTool {
 					throw new RuntimeException(ioe);
 				}
 
-				this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
+				this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 				this.workspacePlugin.deleteWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion);
 			}
 		}
@@ -694,7 +694,7 @@ public class WorkspaceManagerTool {
 
 			module = this.model.getModule(((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion().getNodePath());
 			scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
-			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
+			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
 
 			if (!scmPlugin.isSync(pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
 				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()));
@@ -716,7 +716,7 @@ public class WorkspaceManagerTool {
 				throw new RuntimeException(ioe);
 			}
 
-			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
+			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
 			this.workspacePlugin.deleteWorkspaceDir(workspaceDir);
 		}
 	}
@@ -750,7 +750,7 @@ public class WorkspaceManagerTool {
 
 		module = this.model.getModule(((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion().getNodePath());
 		scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
-		pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
+		pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
 
 
 		if (!scmPlugin.isSync(pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
@@ -773,7 +773,7 @@ public class WorkspaceManagerTool {
 			throw new RuntimeException(ioe);
 		}
 
-		pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
+		pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
 		this.workspacePlugin.deleteWorkspaceDir(workspaceDir);
 	}
 
@@ -796,7 +796,7 @@ public class WorkspaceManagerTool {
 			module = this.model.getModule(workspaceDirPath.moduleVersion.getNodePath());
 			builderPlugin = module.getNodePlugin(BuilderPlugin.class, null);
 
-			this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
+			this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
 			try (Writer writerLog = this.userInteractionCallbackPlugin.provideInfoWithWriter(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion))) {
 				builderPlugin.clean(workspaceDirPath.pathWorkspaceDir, writerLog);
@@ -847,7 +847,7 @@ public class WorkspaceManagerTool {
 			module = this.model.getModule(((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion().getNodePath());
 			builderPlugin = module.getNodePlugin(BuilderPlugin.class, null);
 
-			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
+			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
 			try (Writer writerLog = this.userInteractionCallbackPlugin.provideInfoWithWriter(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()))) {
 				builderPlugin.clean(pathWorkspaceDir, writerLog);
@@ -938,7 +938,7 @@ public class WorkspaceManagerTool {
 			// action to be performed by the caller different access may be required. The
 			// strategy is therefore to not reserve access (WorkspaceDirAccessMode.PEEK)
 			// and let the caller reserve access if and when necessary.
-			workspaceDirPath.pathWorkspaceDir = workspacePlugin.getWorkspaceDir(workspaceDir, GetWorkspaceDirMode.GET_EXISTING, WorkspaceDirAccessMode.PEEK);
+			workspaceDirPath.pathWorkspaceDir = workspacePlugin.getWorkspaceDir(workspaceDir, GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspaceDirAccessMode.PEEK);
 
 			sortedSetWorkspaceDirPath.add(workspaceDirPath);
 		}

@@ -31,7 +31,6 @@ import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.job.MergeReferenceGraph;
-import org.azyva.dragom.job.RootManager;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 
 /**
@@ -96,20 +95,11 @@ public class MergeReferenceGraphTool {
 
 			mergeReferenceGraph = new MergeReferenceGraph(CliUtil.getListModuleVersionRoot(commandLine));
 			mergeReferenceGraph.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
-			??? any other options?
 			mergeReferenceGraph.performJob();
 		} catch (RuntimeExceptionUserError reue) {
 			System.err.println(reue.getMessage());
 			System.exit(1);
 		} finally {
-			if ((mergeReferenceGraph != null) && mergeReferenceGraph.isListModuleVersionRootChanged()) {
-				// It can be the case that RootManager does not specify any root ModuleVersion. In
-				// that case calling RootManager.saveListModuleVersion simply saves an empty list,
-				// even if the user has specified a root ModuleVersion on the command line.
-				??? Can this list be modified?
-				RootManager.saveListModuleVersion();
-			}
-
 			ExecContextHolder.endToolAndUnset();
 		}
 	}
