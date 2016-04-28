@@ -20,8 +20,11 @@
 package org.azyva.dragom.tool;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.GnuParser;
@@ -31,34 +34,36 @@ import org.apache.commons.cli.Parser;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
+import org.azyva.dragom.job.Checkout;
 import org.azyva.dragom.job.RootManager;
-import org.azyva.dragom.job.TaskInvoker;
+import org.azyva.dragom.job.RootModuleVersionJobAbstractImpl;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 
 /**
- * Tool wrapper for the TaskInvoker class.
- *
- * Many tools, such as the Checkout tool, can be implemented using TaskPlugin.
- * This class allows invoking a TaskPlugin generically. It avoid having to
- * introduce tool classes only to invoke specific TaskPlugin.
- *
+ * Generic tool wrapper for many classes which derive from
+ * {@link RootModuleVersionJobAbstractImpl}.
+ * <p>
+ * Many jobs, such as {@link Checkout}, which derive from
+ * RootModuleVersionJobAbstractImpl do not require complex invocation arguments
+ * and can be invoked this generic tool wrapper and avoid having to introduce
+ * specific tool classes.
+ * <p>
  * This tool first expects the following arguments which allows it to identify the
- * TaskPlugin to invoke:
- *
- * - TaskPlugin ID
- * - Task ID
- * - Text ressource for the help file
- *
+ * RootModuleVersionJobAbstractImpl subclass to use and provide an appropriate
+ * help file:
+ * <p>
+ * <li>Fully qualified name of the RootModuleVersionJobAbstractImpl subclass</li>
+ * <li>Text resource for the help file</li>
+ * <p>
  * These arguments are not validated as if they were specified by the user. They
  * are expected to be specified by a script that invokes the tool.
- *
+ * <p>
  * After these arguments, the regular user-level options and arguments are
  * expected.
  *
- * @see TaskInvoker
  * @author David Raymond
  */
-public class TaskInvokerTool {
+public class GenericRootModuleVersionJobInvokerTool {
 	/**
 	 * Indicates that the class has been initialized.
 	 */
@@ -75,22 +80,21 @@ public class TaskInvokerTool {
 	 * @param args Arguments.
 	 */
 	public static void main(String[] args) {
-		String taskPluginId;
-		String taskId;
+		String rootModuleVersionJobAbstractImplSubclass;
 		String helpRessource;
 		Parser parser;
 		CommandLine commandLine = null;
-		TaskInvoker taskInvoker;
+		Constructor<? extends RootModuleVersionJobAbstractImpl> constructor;
+		RootModuleVersionJobAbstractImpl rootModuleVersionJobAbstractImpl;
 
-		taskPluginId = args[0];
-		taskId = args[1];
-		helpRessource = args[2];
+		rootModuleVersionJobAbstractImplSubclass = args[0];
+		helpRessource = args[1];
 
-		args = Arrays.copyOfRange(args, 3, args.length);
+		args = Arrays.copyOfRange(args, 2, args.length);
 
-		TaskInvokerTool.init();
+		GenericRootModuleVersionJobInvokerTool.init();
 
-		taskInvoker = null;
+		rootModuleVersionJobAbstractImpl = null;
 
 		try {
 			// Not obvious, but we must use GnuParser to support --long-option=value syntax.
@@ -99,13 +103,13 @@ public class TaskInvokerTool {
 			parser = new GnuParser();
 
 			try {
-				commandLine = parser.parse(TaskInvokerTool.options, args);
+				commandLine = parser.parse(GenericRootModuleVersionJobInvokerTool.options, args);
 			} catch (ParseException pe) {
 				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
 			}
 
 			if (CliUtil.hasHelpOption(commandLine)) {
-				TaskInvokerTool.help(helpRessource);
+				GenericRootModuleVersionJobInvokerTool.help(helpRessource);
 				System.exit(0);
 			}
 
@@ -117,14 +121,20 @@ public class TaskInvokerTool {
 
 			CliUtil.setupExecContext(commandLine, true);
 
-			taskInvoker = new TaskInvoker(taskPluginId, taskId, CliUtil.getListModuleVersionRoot(commandLine));
-			taskInvoker.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
-			taskInvoker.performJob();
+			try {
+				constructor = Class.forName(rootModuleVersionJobAbstractImplSubclass).asSubclass(RootModuleVersionJobAbstractImpl.class).getConstructor(List.class);
+				rootModuleVersionJobAbstractImpl = constructor.newInstance(CliUtil.getListModuleVersionRoot(commandLine));
+			} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
+				throw new RuntimeException(e);
+			}
+
+			rootModuleVersionJobAbstractImpl.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
+			rootModuleVersionJobAbstractImpl.performJob();
 		} catch (RuntimeExceptionUserError reue) {
 			System.err.println(reue.getMessage());
 			System.exit(1);
 		} finally {
-			if ((taskInvoker != null) && taskInvoker.isListModuleVersionRootChanged()) {
+			if ((rootModuleVersionJobAbstractImpl != null) && rootModuleVersionJobAbstractImpl.isListModuleVersionRootChanged()) {
 				// It can be the case that RootManager does not specify any root ModuleVersion. In
 				// that case calling RootManager.saveListModuleVersion simply saves an empty list,
 				// even if the user has specified a root ModuleVersion on the command line.
@@ -139,13 +149,13 @@ public class TaskInvokerTool {
 	 * Initializes the class.
 	 */
 	private synchronized static void init() {
-		if (!TaskInvokerTool.indInit) {
-			TaskInvokerTool.options = new Options();
+		if (!GenericRootModuleVersionJobInvokerTool.indInit) {
+			GenericRootModuleVersionJobInvokerTool.options = new Options();
 
-			CliUtil.addStandardOptions(TaskInvokerTool.options);
-			CliUtil.addRootModuleVersionOptions(TaskInvokerTool.options);
+			CliUtil.addStandardOptions(GenericRootModuleVersionJobInvokerTool.options);
+			CliUtil.addRootModuleVersionOptions(GenericRootModuleVersionJobInvokerTool.options);
 
-			TaskInvokerTool.indInit = true;
+			GenericRootModuleVersionJobInvokerTool.indInit = true;
 		}
 	}
 
@@ -154,7 +164,7 @@ public class TaskInvokerTool {
 	 */
 	private static void help(String ressource) {
 		try {
-			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(TaskInvokerTool.class, ressource),  System.out);
+			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(GenericRootModuleVersionJobInvokerTool.class, ressource),  System.out);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe);
 		}

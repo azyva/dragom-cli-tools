@@ -99,7 +99,7 @@ public class DragomToolInvoker {
 		/**
 		 * Fixed arguments to pass to "main" before any other arguments.
 		 * <p>
-		 * Useful for generic tool classes such as {@link TaskInvokerTool} which can
+		 * Useful for generic tool classes such as {@link GenericRootModuleVersionJobInvokerTool} which can
 		 * implement multiple different tools from the user's point of view.
 		 */
 		String[] arrayFixedArgs;
