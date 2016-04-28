@@ -33,6 +33,7 @@ import org.apache.commons.cli.Parser;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.ExecContext;
+import org.azyva.dragom.execcontext.ToolLifeCycleExecContext;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 
@@ -100,6 +101,8 @@ public class ExecContextPropertyManagerTool {
 				ExecContextPropertyManagerTool.getPropertyCommand(commandLine);
 			} else if (command.equals("set-property")) {
 				ExecContextPropertyManagerTool.setPropertyCommand(commandLine);
+			} else if (command.equals("set-properties-from-init-properties")) {
+				ExecContextPropertyManagerTool.setPropertiesFromToolPropertiesCommand(commandLine);
 			} else if (command.equals("remove-property")) {
 				ExecContextPropertyManagerTool.removePropertyCommand(commandLine);
 			} else if (command.equals("remove-properties")) {
@@ -212,6 +215,39 @@ public class ExecContextPropertyManagerTool {
 		execContext.setProperty(args[0], args[1]);
 
 		System.out.println(args[0] + "=" + args[1]);
+	}
+
+	/**
+	 * Implements the "set-properties-from-init-properties" command.
+	 *
+	 * @param commandLine CommandLine.
+	 */
+	private static void setPropertiesFromToolPropertiesCommand(CommandLine commandLine) {
+		String[] args;
+		ExecContext execContext;
+		ToolLifeCycleExecContext toolLifeCycleExecContext;
+
+		args = commandLine.getArgs();
+
+		if (args.length != 0) {
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+		}
+
+		execContext = ExecContextHolder.get();
+
+		if (!(execContext instanceof ToolLifeCycleExecContext)) {
+			throw new RuntimeException("ExecContext does not implement ToolLifeCycleExecContext.");
+		}
+
+		toolLifeCycleExecContext = (ToolLifeCycleExecContext)execContext;
+
+		for (String property: toolLifeCycleExecContext.getSetToolProperty()) {
+			String value;
+
+			value = toolLifeCycleExecContext.getToolProperty(property);
+			execContext.setProperty(property, value);
+			System.out.println(property + "=" + value);
+		}
 	}
 
 	/**
