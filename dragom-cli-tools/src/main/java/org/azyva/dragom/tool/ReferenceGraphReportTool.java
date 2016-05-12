@@ -48,7 +48,7 @@ public class ReferenceGraphReportTool {
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE = "ERROR_PARSING_COMMAND_LINE";
+	public static final String MSG_PATTERN_KEY_OUTPUT_FORMAT_POSSIBLE_VALUES = "OUTPUT_FORMAT_POSSIBLE_VALUES";
 
 	/**
 	 * ResourceBundle specific to this class.
@@ -110,7 +110,7 @@ public class ReferenceGraphReportTool {
 				try {
 					outputFormat = ReferenceGraphReport.OutputFormat.valueOf(commandLine.getOptionValue("output-format"));
 				} catch (IllegalArgumentException iae) {
-					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), "output-format", ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), CliUtil.getHelpCommandLineOption()));
+					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), "output-format", ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_OUTPUT_FORMAT_POSSIBLE_VALUES), CliUtil.getHelpCommandLineOption()));
 				}
 			}
 

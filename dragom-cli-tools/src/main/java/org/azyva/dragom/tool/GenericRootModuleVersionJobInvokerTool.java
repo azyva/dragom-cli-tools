@@ -44,8 +44,8 @@ import org.azyva.dragom.util.RuntimeExceptionUserError;
  * {@link RootModuleVersionJobAbstractImpl}.
  * <p>
  * Many jobs, such as {@link Checkout}, which derive from
- * RootModuleVersionJobAbstractImpl do not require complex invocation arguments
- * and can be invoked this generic tool wrapper and avoid having to introduce
+ * RootModuleVersionJobAbstractImpl, do not require complex invocation arguments
+ * and can be invoked by this generic tool wrapper and avoid having to introduce
  * specific tool classes.
  * <p>
  * This tool first expects the following arguments which allows it to identify the
