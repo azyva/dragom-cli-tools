@@ -423,25 +423,32 @@ public class WorkspaceManagerTool {
 			Module module;
 			ScmPlugin scmPlugin;
 
-			module = this.model.getModule(workspaceDirPath.moduleVersion.getNodePath());
-			scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
+			this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
-			if (workspaceDirPath.moduleVersion.getVersion().getVersionType() == VersionType.DYNAMIC) {
-				// Theoretically we should reserve access to the workspace directory. But we do
-				// not bother since the tool does not perform deep processing and is not likely to
-				// get into a conflicting situation.
+			try {
+				module = this.model.getModule(workspaceDirPath.moduleVersion.getNodePath());
 
-				if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlag.REMOTE_CHANGES_ONLY)) {
-					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_UPDATE_UPDATING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+				scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
 
-					if (scmPlugin.update(workspaceDirPath.pathWorkspaceDir)) {
-						this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_UPDATE_CONFLICTS_WHILE_UPDATING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+				if (workspaceDirPath.moduleVersion.getVersion().getVersionType() == VersionType.DYNAMIC) {
+					// Theoretically we should reserve access to the workspace directory. But we do
+					// not bother since the tool does not perform deep processing and is not likely to
+					// get into a conflicting situation.
+
+					if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlag.REMOTE_CHANGES_ONLY)) {
+						this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_UPDATE_UPDATING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+
+						if (scmPlugin.update(workspaceDirPath.pathWorkspaceDir)) {
+							this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_UPDATE_CONFLICTS_WHILE_UPDATING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+						}
+					} else {
+						this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_UPDATE_NO_UNSYNC_REMOTE_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 					}
 				} else {
-					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_UPDATE_NO_UNSYNC_REMOTE_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_UPDATE_NO_UPDATE_STATIC_VERSION), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 				}
-			} else {
-				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_UPDATE_NO_UPDATE_STATIC_VERSION), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+			} finally {
+				this.workspacePlugin.releaseWorkspaceDir(workspaceDirPath.pathWorkspaceDir);
 			}
 		}
 	}
@@ -469,35 +476,41 @@ public class WorkspaceManagerTool {
 			Module module;
 			ScmPlugin scmPlugin;
 
-			module = this.model.getModule(workspaceDirPath.moduleVersion.getNodePath());
-			scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
+			this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
-			if (workspaceDirPath.moduleVersion.getVersion().getVersionType() == VersionType.DYNAMIC) {
-				// Theoretically we should reserve access to the workspace directory. But we do
-				// not bother since the tool does not perform deep processing and is not likely to
-				// get into a conflicting situation.
+			try {
+				module = this.model.getModule(workspaceDirPath.moduleVersion.getNodePath());
+				scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
 
-				if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
-					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_HAS_LOCAL_UNSYNC_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+				if (workspaceDirPath.moduleVersion.getVersion().getVersionType() == VersionType.DYNAMIC) {
+					// Theoretically we should reserve access to the workspace directory. But we do
+					// not bother since the tool does not perform deep processing and is not likely to
+					// get into a conflicting situation.
 
-					if (!indReuseCommitMessage) {
-						message = this.userInteractionCallbackPlugin.getInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_SPECIFY_MESSAGE), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+					if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
+						this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_HAS_LOCAL_UNSYNC_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
-						Util.getInfoYesNoUserResponse(this.userInteractionCallbackPlugin, WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_REUSE_COMMIT_MESSAGE), YesAlwaysNoUserResponse.YES);
+						if (!indReuseCommitMessage) {
+							message = this.userInteractionCallbackPlugin.getInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_SPECIFY_MESSAGE), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+
+							Util.getInfoYesNoUserResponse(this.userInteractionCallbackPlugin, WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_REUSE_COMMIT_MESSAGE), YesAlwaysNoUserResponse.YES);
+						}
+
+						this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_COMMITTING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+
+						if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_COMMIT)) {
+							continue;
+						}
+
+						scmPlugin.commit(workspaceDirPath.pathWorkspaceDir, message, null);
+					} else {
+						this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_NO_UNSYNC_LOCAL_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 					}
-
-					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_COMMITTING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
-
-					if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_COMMIT)) {
-						continue;
-					}
-
-					scmPlugin.commit(workspaceDirPath.pathWorkspaceDir, message, null);
 				} else {
-					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_NO_UNSYNC_LOCAL_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_NO_COMMIT_STATIC_VERSION), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 				}
-			} else {
-				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_NO_COMMIT_STATIC_VERSION), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+			} finally {
+				this.workspacePlugin.releaseWorkspaceDir(workspaceDirPath.pathWorkspaceDir);
 			}
 		}
 	}
@@ -854,7 +867,6 @@ public class WorkspaceManagerTool {
 			} catch (IOException ioe) {
 				throw new RuntimeException(ioe);
 			} finally {
-
 				this.workspacePlugin.releaseWorkspaceDir(pathWorkspaceDir);
 			}
 		}
