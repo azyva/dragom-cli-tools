@@ -138,7 +138,7 @@ public final class CliUtil {
 	/**
 	 * Default command line option for specifying the workspace path.
 	 */
-	public static final String DEFAULT_WORKSPACE_PATH_COMMAND_LINE_OPTION = "workspace-path";
+	public static final String DEFAULT_WORKSPACE_PATH_COMMAND_LINE_OPTION = "workspace";
 
 	/**
 	 * System property that specifies the command line option used to specify the tool
@@ -303,7 +303,7 @@ public final class CliUtil {
 		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_SINGLE_TOOL_PROPERTIES))) {
 			option = new Option("D", null);
 			option.setValueSeparator('=');
-			option.setArgs(1);
+			option.setArgs(2);
 			options.addOption(option);
 		}
 
@@ -527,8 +527,10 @@ public final class CliUtil {
 
 				tabNoConfirmContext = commandLine.getOptionValues(CliUtil.getNoConfirmContextCommandLineOption());
 
-				for (String context: tabNoConfirmContext) {
-					propertiesTool.setProperty("runtime-property."+ Util.RUNTIME_PROPERTY_IND_NO_CONFIRM + '.' + context, "true");
+				if (tabNoConfirmContext != null) {
+					for (String context: tabNoConfirmContext) {
+						propertiesTool.setProperty("runtime-property."+ Util.RUNTIME_PROPERTY_IND_NO_CONFIRM + '.' + context, "true");
+					}
 				}
 			}
 
@@ -693,7 +695,7 @@ public final class CliUtil {
 	 * Returns the version of a resource appropriate for the current default Locale.
 	 * <p>
 	 * The algorithm used for selecting the appropriate resource is similar to the
-	 * once implemented by ResourceBundle.getBundle.
+	 * one implemented by ResourceBundle.getBundle.
 	 * <p>
 	 * The resource base name is split on the last ".", if any, and the candidate
 	 * variants are inserted before it.
@@ -722,7 +724,7 @@ public final class CliUtil {
 
 		locale = Locale.getDefault();
 
-		arrayCandidate = new String[6];
+		arrayCandidate = new String[7];
 
 		arrayCandidate[0] = resourceBaseNamePrefix + "_" + locale.getLanguage() + "_" + locale.getScript() + "_" + locale.getCountry() + "_" + locale.getVariant();
 		arrayCandidate[1] = resourceBaseNamePrefix + "_" + locale.getLanguage() + "_" + locale.getScript() + "_" + locale.getCountry();
@@ -730,6 +732,7 @@ public final class CliUtil {
 		arrayCandidate[3] = resourceBaseNamePrefix + "_" + locale.getLanguage() + "_" + locale.getCountry() + "_" + locale.getVariant();
 		arrayCandidate[4] = resourceBaseNamePrefix + "_" + locale.getLanguage() + "_" + locale.getCountry();
 		arrayCandidate[5] = resourceBaseNamePrefix + "_" + locale.getLanguage();
+		arrayCandidate[6] = resourceBaseNamePrefix;
 
 		for (String candidate: arrayCandidate) {
 			if (!candidate.endsWith("_")) {

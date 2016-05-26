@@ -25,11 +25,10 @@ import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.Parser;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
@@ -71,7 +70,7 @@ public class ReferenceGraphReportTool {
 	 * @param args Arguments.
 	 */
 	public static void main(String[] args) {
-		Parser parser;
+		DefaultParser defaultParser;
 		CommandLine commandLine = null;
 		BuildReferenceGraph buildReferenceGraph;
 		ReferenceGraphReport referenceGraphReport;
@@ -80,86 +79,85 @@ public class ReferenceGraphReportTool {
 		ReferenceGraphReportTool.init();
 
 		try {
-			// Not obvious, but we must use GnuParser to support --long-option=value syntax.
-			// Commons CLI 1.3 (as yet unreleased) is supposed to have a DefaultParser to
-			// replace existing parser implementations.
-			parser = new GnuParser();
+			defaultParser = new DefaultParser();
 
 			try {
-				commandLine = parser.parse(ReferenceGraphReportTool.options, args);
+				commandLine = defaultParser.parse(ReferenceGraphReportTool.options, args);
 			} catch (ParseException pe) {
 				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
 			}
 
 			if (CliUtil.hasHelpOption(commandLine)) {
 				ReferenceGraphReportTool.help();
-				System.exit(0);
-			}
-
-			args = commandLine.getArgs();
-
-			if (args.length != 1) {
-				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-			}
-
-			CliUtil.setupExecContext(commandLine, true);
-
-			if (!commandLine.hasOption("output-format")) {
-				outputFormat = ReferenceGraphReport.OutputFormat.TEXT;
 			} else {
-				try {
-					outputFormat = ReferenceGraphReport.OutputFormat.valueOf(commandLine.getOptionValue("output-format"));
-				} catch (IllegalArgumentException iae) {
-					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), "output-format", ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_OUTPUT_FORMAT_POSSIBLE_VALUES), CliUtil.getHelpCommandLineOption()));
+				args = commandLine.getArgs();
+
+				if (args.length != 1) {
+					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 				}
-			}
 
-			// TODO: avoid-redundancy not valid if not graph
-			// only-multiple-versions not valid if not module-versions
-			// most-recent-available-version-in-scm not valid if not module-version
-			// reference-paths not valid if not module-version.
+				CliUtil.setupExecContext(commandLine, true);
 
-			buildReferenceGraph = new BuildReferenceGraph(null, CliUtil.getListModuleVersionRoot(commandLine));
-			buildReferenceGraph.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
-			buildReferenceGraph.performJob();
-			referenceGraphReport = new ReferenceGraphReport(buildReferenceGraph.getReferenceGraph(), outputFormat);
-			referenceGraphReport.setOutputFilePath(Paths.get(args[0]));
-
-			if (commandLine.hasOption("graph")) {
-				ReferenceGraphReport.ReferenceGraphMode referenceGraphMode;
-
-				if (commandLine.hasOption("avoid-redundancy")) {
-					referenceGraphMode = ReferenceGraphReport.ReferenceGraphMode.TREE_NO_REDUNDANCY;
+				if (!commandLine.hasOption("output-format")) {
+					outputFormat = ReferenceGraphReport.OutputFormat.TEXT;
 				} else {
-					referenceGraphMode = ReferenceGraphReport.ReferenceGraphMode.FULL_TREE;
+					try {
+						outputFormat = ReferenceGraphReport.OutputFormat.valueOf(commandLine.getOptionValue("output-format"));
+					} catch (IllegalArgumentException iae) {
+						throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), "output-format", ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_OUTPUT_FORMAT_POSSIBLE_VALUES), CliUtil.getHelpCommandLineOption()));
+					}
 				}
 
-				referenceGraphReport.includeReferenceGraph(referenceGraphMode);
-			}
+				// TODO: avoid-redundancy not valid if not graph
+				// only-multiple-versions not valid if not module-versions
+				// most-recent-available-version-in-scm not valid if not module-version
+				// reference-paths not valid if not module-version.
 
-			if (commandLine.hasOption("module-versions")) {
-				ReferenceGraphReport.ModuleFilter moduleFilter;
+				buildReferenceGraph = new BuildReferenceGraph(null, CliUtil.getListModuleVersionRoot(commandLine));
+				buildReferenceGraph.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
+				buildReferenceGraph.performJob();
+				referenceGraphReport = new ReferenceGraphReport(buildReferenceGraph.getReferenceGraph(), outputFormat);
+				referenceGraphReport.setOutputFilePath(Paths.get(args[0]));
 
-				if (commandLine.hasOption("only-multiple-versions")) {
-					moduleFilter = ReferenceGraphReport.ModuleFilter.ONLY_MULTIPLE_VERSIONS;
-				} else {
-					moduleFilter = ReferenceGraphReport.ModuleFilter.ALL;
+				if (commandLine.hasOption("graph")) {
+					ReferenceGraphReport.ReferenceGraphMode referenceGraphMode;
+
+					if (commandLine.hasOption("avoid-redundancy")) {
+						referenceGraphMode = ReferenceGraphReport.ReferenceGraphMode.TREE_NO_REDUNDANCY;
+					} else {
+						referenceGraphMode = ReferenceGraphReport.ReferenceGraphMode.FULL_TREE;
+					}
+
+					referenceGraphReport.includeReferenceGraph(referenceGraphMode);
 				}
 
-				referenceGraphReport.includeModules(moduleFilter);
-			}
+				if (commandLine.hasOption("module-versions")) {
+					ReferenceGraphReport.ModuleFilter moduleFilter;
 
-			if (commandLine.hasOption("most-recent-static-version-in-scm")) {
-				referenceGraphReport.includeMostRecentStaticVersionInScm();
-			}
+					if (commandLine.hasOption("only-multiple-versions")) {
+						moduleFilter = ReferenceGraphReport.ModuleFilter.ONLY_MULTIPLE_VERSIONS;
+					} else {
+						moduleFilter = ReferenceGraphReport.ModuleFilter.ALL;
+					}
 
-			if (commandLine.hasOption("referene-paths")) {
-				referenceGraphReport.includeReferencePaths();
-			}
+					referenceGraphReport.includeModules(moduleFilter);
+				}
 
-			referenceGraphReport.performJob();
+				if (commandLine.hasOption("most-recent-static-version-in-scm")) {
+					referenceGraphReport.includeMostRecentStaticVersionInScm();
+				}
+
+				if (commandLine.hasOption("referene-paths")) {
+					referenceGraphReport.includeReferencePaths();
+				}
+
+				referenceGraphReport.performJob();
+			}
 		} catch (RuntimeExceptionUserError reue) {
 			System.err.println(reue.getMessage());
+			System.exit(1);
+		} catch (RuntimeException re) {
+			re.printStackTrace();
 			System.exit(1);
 		} finally {
 			ExecContextHolder.endToolAndUnset();

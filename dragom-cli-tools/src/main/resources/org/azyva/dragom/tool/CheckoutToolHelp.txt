@@ -1,3 +1,5 @@
+CheckoutToolHelp.txt
+
 		//TODO: Adjust help for roots
 		//-D...
 

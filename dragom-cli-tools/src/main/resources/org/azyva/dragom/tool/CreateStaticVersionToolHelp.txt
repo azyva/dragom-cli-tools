@@ -1,3 +1,5 @@
+CreateStaticVersionToolHelp.txt
+
 		//TODO: Make clear that versions are not switched in workspace (to keep dynamic)
 		  // contrary to switchToDYnamic
 -D...

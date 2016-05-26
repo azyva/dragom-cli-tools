@@ -27,9 +27,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.Parser;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.ExecContext;
@@ -62,60 +61,59 @@ public class ExecContextPropertyManagerTool {
 	 * @param args Arguments.
 	 */
 	public static void main(String[] args) {
-		Parser parser;
+		DefaultParser defaultParser;
 		CommandLine commandLine;
 		String command;
 
 		ExecContextPropertyManagerTool.init();
 
 		try {
-			// Not obvious, but we must use GnuParser to support --long-option=value syntax.
-			// Commons CLI 1.3 (as yet unreleased) is supposed to have a DefaultParser to
-			// replace existing parser implementations.
-			parser = new GnuParser();
+			defaultParser = new DefaultParser();
 
 			try {
-				commandLine = parser.parse(ExecContextPropertyManagerTool.options, args);
+				commandLine = defaultParser.parse(ExecContextPropertyManagerTool.options, args);
 			} catch (org.apache.commons.cli.ParseException pe) {
 				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
 			}
 
 			if (CliUtil.hasHelpOption(commandLine)) {
 				ExecContextPropertyManagerTool.help();
-				System.exit(0);
-			}
-
-			args = commandLine.getArgs();
-
-			if (args.length < 1) {
-				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-			}
-
-			CliUtil.setupExecContext(commandLine, true);
-
-			command = args[0];
-
-			if (command.equals("get-properties")) {
-				ExecContextPropertyManagerTool.getPropertiesCommand(commandLine);
-			} else if (command.equals("get-property")) {
-				ExecContextPropertyManagerTool.getPropertyCommand(commandLine);
-			} else if (command.equals("set-property")) {
-				ExecContextPropertyManagerTool.setPropertyCommand(commandLine);
-			} else if (command.equals("set-properties-from-init-properties")) {
-				ExecContextPropertyManagerTool.setPropertiesFromToolPropertiesCommand(commandLine);
-			} else if (command.equals("remove-property")) {
-				ExecContextPropertyManagerTool.removePropertyCommand(commandLine);
-			} else if (command.equals("remove-properties")) {
-				ExecContextPropertyManagerTool.removePropertiesCommand(commandLine);
-			} else if (command.equals("get-init-properties")) {
-				ExecContextPropertyManagerTool.getInitPropertiesCommand(commandLine);
-			} else if (command.equals("get-init-property")) {
-				ExecContextPropertyManagerTool.getInitPropertyCommand(commandLine);
 			} else {
-				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command, CliUtil.getHelpCommandLineOption()));
+				args = commandLine.getArgs();
+
+				if (args.length < 1) {
+					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+				}
+
+				CliUtil.setupExecContext(commandLine, true);
+
+				command = args[0];
+
+				if (command.equals("get-properties")) {
+					ExecContextPropertyManagerTool.getPropertiesCommand(commandLine);
+				} else if (command.equals("get-property")) {
+					ExecContextPropertyManagerTool.getPropertyCommand(commandLine);
+				} else if (command.equals("set-property")) {
+					ExecContextPropertyManagerTool.setPropertyCommand(commandLine);
+				} else if (command.equals("set-properties-from-tool-properties")) {
+					ExecContextPropertyManagerTool.setPropertiesFromToolPropertiesCommand(commandLine);
+				} else if (command.equals("remove-property")) {
+					ExecContextPropertyManagerTool.removePropertyCommand(commandLine);
+				} else if (command.equals("remove-properties")) {
+					ExecContextPropertyManagerTool.removePropertiesCommand(commandLine);
+				} else if (command.equals("get-init-properties")) {
+					ExecContextPropertyManagerTool.getInitPropertiesCommand(commandLine);
+				} else if (command.equals("get-init-property")) {
+					ExecContextPropertyManagerTool.getInitPropertyCommand(commandLine);
+				} else {
+					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command, CliUtil.getHelpCommandLineOption()));
+				}
 			}
 		} catch (RuntimeExceptionUserError reue) {
 			System.err.println(reue.getMessage());
+			System.exit(1);
+		} catch (RuntimeException re) {
+			re.printStackTrace();
 			System.exit(1);
 		} finally {
 			ExecContextHolder.endToolAndUnset();
@@ -140,7 +138,7 @@ public class ExecContextPropertyManagerTool {
 	 */
 	private static void help() {
 		try {
-			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(RootManagerTool.class, "ExecContextPropertyManagerToolHelp.txt"),  System.out);
+			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(ExecContextPropertyManagerTool.class, "ExecContextPropertyManagerToolHelp.txt"),  System.out);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe);
 		}
@@ -159,13 +157,13 @@ public class ExecContextPropertyManagerTool {
 
 		args = commandLine.getArgs();
 
-		if (args.length > 1) {
+		if (args.length > 2) {
 			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		execContext = ExecContextHolder.get();
 
-		setProperty = execContext.getSetProperty((args.length == 1) ? args[0] : null);
+		setProperty = execContext.getSetProperty((args.length == 2) ? args[1] : null);
 		listProperty = new ArrayList<String>(setProperty);
 
 		Collections.sort(listProperty);
@@ -186,13 +184,13 @@ public class ExecContextPropertyManagerTool {
 
 		args = commandLine.getArgs();
 
-		if (args.length != 1) {
+		if (args.length != 2) {
 			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		execContext = ExecContextHolder.get();
 
-		System.out.println(args[0] + "=" + execContext.getProperty(args[0]));
+		System.out.println(args[1] + "=" + execContext.getProperty(args[1]));
 	}
 
 	/**
@@ -206,15 +204,15 @@ public class ExecContextPropertyManagerTool {
 
 		args = commandLine.getArgs();
 
-		if (args.length != 2) {
+		if (args.length != 3) {
 			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		execContext = ExecContextHolder.get();
 
-		execContext.setProperty(args[0], args[1]);
+		execContext.setProperty(args[1], args[2]);
 
-		System.out.println(args[0] + "=" + args[1]);
+		System.out.println(args[1] + "=" + args[2]);
 	}
 
 	/**
@@ -229,7 +227,7 @@ public class ExecContextPropertyManagerTool {
 
 		args = commandLine.getArgs();
 
-		if (args.length != 0) {
+		if (args.length != 1) {
 			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
@@ -261,13 +259,13 @@ public class ExecContextPropertyManagerTool {
 
 		args = commandLine.getArgs();
 
-		if (args.length != 1) {
+		if (args.length != 2) {
 			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		execContext = ExecContextHolder.get();
 
-		execContext.removeProperty(args[0]);
+		execContext.removeProperty(args[1]);
 	}
 
 	/**
@@ -281,13 +279,13 @@ public class ExecContextPropertyManagerTool {
 
 		args = commandLine.getArgs();
 
-		if (args.length != 1) {
+		if (args.length != 2) {
 			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		execContext = ExecContextHolder.get();
 
-		execContext.removeProperties(args[0]);
+		execContext.removeProperties(args[1]);
 	}
 
 	/**
@@ -303,7 +301,7 @@ public class ExecContextPropertyManagerTool {
 
 		args = commandLine.getArgs();
 
-		if (args.length != 0) {
+		if (args.length != 1) {
 			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
@@ -330,12 +328,12 @@ public class ExecContextPropertyManagerTool {
 
 		args = commandLine.getArgs();
 
-		if (args.length != 1) {
+		if (args.length != 2) {
 			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 		}
 
 		execContext = ExecContextHolder.get();
 
-		System.out.println(args[0] + "=" + execContext.getInitProperty(args[0]));
+		System.out.println(args[1] + "=" + execContext.getInitProperty(args[1]));
 	}
 }

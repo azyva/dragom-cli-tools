@@ -27,10 +27,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.Parser;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
@@ -82,7 +81,7 @@ public class GenericRootModuleVersionJobInvokerTool {
 	public static void main(String[] args) {
 		String rootModuleVersionJobAbstractImplSubclass;
 		String helpRessource;
-		Parser parser;
+		DefaultParser defaultParser;
 		CommandLine commandLine = null;
 		Constructor<? extends RootModuleVersionJobAbstractImpl> constructor;
 		RootModuleVersionJobAbstractImpl rootModuleVersionJobAbstractImpl;
@@ -97,41 +96,40 @@ public class GenericRootModuleVersionJobInvokerTool {
 		rootModuleVersionJobAbstractImpl = null;
 
 		try {
-			// Not obvious, but we must use GnuParser to support --long-option=value syntax.
-			// Commons CLI 1.3 (as yet unreleased) is supposed to have a DefaultParser to
-			// replace existing parser implementations.
-			parser = new GnuParser();
+			defaultParser = new DefaultParser();
 
 			try {
-				commandLine = parser.parse(GenericRootModuleVersionJobInvokerTool.options, args);
+				commandLine = defaultParser.parse(GenericRootModuleVersionJobInvokerTool.options, args);
 			} catch (ParseException pe) {
 				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
 			}
 
 			if (CliUtil.hasHelpOption(commandLine)) {
 				GenericRootModuleVersionJobInvokerTool.help(helpRessource);
-				System.exit(0);
+			} else {
+				args = commandLine.getArgs();
+
+				if (args.length != 0) {
+					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+				}
+
+				CliUtil.setupExecContext(commandLine, true);
+
+				try {
+					constructor = Class.forName(rootModuleVersionJobAbstractImplSubclass).asSubclass(RootModuleVersionJobAbstractImpl.class).getConstructor(List.class);
+					rootModuleVersionJobAbstractImpl = constructor.newInstance(CliUtil.getListModuleVersionRoot(commandLine));
+				} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
+					throw new RuntimeException(e);
+				}
+
+				rootModuleVersionJobAbstractImpl.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
+				rootModuleVersionJobAbstractImpl.performJob();
 			}
-
-			args = commandLine.getArgs();
-
-			if (args.length != 0) {
-				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-			}
-
-			CliUtil.setupExecContext(commandLine, true);
-
-			try {
-				constructor = Class.forName(rootModuleVersionJobAbstractImplSubclass).asSubclass(RootModuleVersionJobAbstractImpl.class).getConstructor(List.class);
-				rootModuleVersionJobAbstractImpl = constructor.newInstance(CliUtil.getListModuleVersionRoot(commandLine));
-			} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
-				throw new RuntimeException(e);
-			}
-
-			rootModuleVersionJobAbstractImpl.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
-			rootModuleVersionJobAbstractImpl.performJob();
 		} catch (RuntimeExceptionUserError reue) {
 			System.err.println(reue.getMessage());
+			System.exit(1);
+		} catch (RuntimeException re) {
+			re.printStackTrace();
 			System.exit(1);
 		} finally {
 			if ((rootModuleVersionJobAbstractImpl != null) && rootModuleVersionJobAbstractImpl.isListModuleVersionRootChanged()) {

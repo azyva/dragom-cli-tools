@@ -212,8 +212,16 @@ public class DragomToolInvoker {
 
 		try {
 			method = toolInvocationInfo.classTool.getMethod("main", String[].class);
-			method.invoke(null, (Object[])arrayRealArgs);
-		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+			method.invoke(null, new Object[] {arrayRealArgs});
+		} catch (InvocationTargetException ite) {
+			// This is to support integration tests which prevent System.exit() from
+			// terminating the JVM by causing it to throw an ExitException instead.
+			if (ite.getCause().getClass().getName().contains("ExitException")) {
+				throw (RuntimeException)ite.getCause();
+			}
+
+			throw new RuntimeException(ite);
+		} catch (NoSuchMethodException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
 
