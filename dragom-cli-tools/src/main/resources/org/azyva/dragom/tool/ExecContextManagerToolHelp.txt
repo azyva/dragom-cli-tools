@@ -1,0 +1,7 @@
+ExecContextManagerToolHelp.txt
+
+
+dragom-workspace-manager [<general options> ...] force-unlock
+  Forces the release of the workspace, if the abnormal termination of a tool
+  left it in the locked state.
+

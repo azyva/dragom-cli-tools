@@ -271,6 +271,8 @@ public class WorkspaceManagerTool {
 			if (CliUtil.hasHelpOption(commandLine)) {
 				WorkspaceManagerTool.help();
 			} else {
+				WorkspaceManagerTool workspaceManagerTool;
+
 				args = commandLine.getArgs();
 
 				if (args.length < 1) {
@@ -279,46 +281,40 @@ public class WorkspaceManagerTool {
 
 				command = args[0];
 
-				if (command.equals("force-unlock")) {
-					ExecContextHolder.forceUnset(CliUtil.setupExecContext(commandLine, false));
+				workspaceManagerTool = new WorkspaceManagerTool();
+
+				workspaceManagerTool.commandLine = commandLine;
+				workspaceManagerTool.execContext = CliUtil.setupExecContext(commandLine, true);
+				workspaceManagerTool.workspacePlugin = workspaceManagerTool.execContext.getExecContextPlugin(WorkspacePlugin.class);
+				workspaceManagerTool.userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
+				workspaceManagerTool.model = ExecContextHolder.get().getModel();
+
+				if (command.equals("status")) {
+					workspaceManagerTool.statusCommand();
+				} else if (command.equals("update")) {
+					workspaceManagerTool.updateCommand();
+				} else if (command.equals("commit")) {
+					workspaceManagerTool.commitCommand();
+				} else if (command.equals("clean-all")) {
+					workspaceManagerTool.cleanAllCommand();
+				} else if (command.equals("clean-system")) {
+					workspaceManagerTool.cleanSystemCommand();
+				} else if (command.equals("clean-non-root-reachable")) {
+					workspaceManagerTool.cleanNonRootReachableCommand();
+				} else if (command.equals("remove-module-version")) {
+					workspaceManagerTool.removeModuleVersionCommand();
+				} else if (command.equals("remove-dir")) {
+					workspaceManagerTool.removeDirCommand();
+				} else if (command.equals("build-clean-all")) {
+					workspaceManagerTool.buildCleanAllCommand();
+				} else if (command.equals("build-clean-module-version")) {
+					workspaceManagerTool.buildCleanModuleVersionCommand();
+				} else if (command.equals("build-clean-dir")) {
+					workspaceManagerTool.buildCleanDirCommand();
+				} else if (command.equals("fix")) {
+					workspaceManagerTool.fixCommand();
 				} else {
-					WorkspaceManagerTool workspaceManagerTool;
-
-					workspaceManagerTool = new WorkspaceManagerTool();
-
-					workspaceManagerTool.commandLine = commandLine;
-					workspaceManagerTool.execContext = CliUtil.setupExecContext(commandLine, true);
-					workspaceManagerTool.workspacePlugin = workspaceManagerTool.execContext.getExecContextPlugin(WorkspacePlugin.class);
-					workspaceManagerTool.userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
-					workspaceManagerTool.model = ExecContextHolder.get().getModel();
-
-					if (command.equals("status")) {
-						workspaceManagerTool.statusCommand();
-					} else if (command.equals("update")) {
-						workspaceManagerTool.updateCommand();
-					} else if (command.equals("commit")) {
-						workspaceManagerTool.commitCommand();
-					} else if (command.equals("clean-all")) {
-						workspaceManagerTool.cleanAllCommand();
-					} else if (command.equals("clean-system")) {
-						workspaceManagerTool.cleanSystemCommand();
-					} else if (command.equals("clean-non-root-reachable")) {
-						workspaceManagerTool.cleanNonRootReachableCommand();
-					} else if (command.equals("remove-module-version")) {
-						workspaceManagerTool.removeModuleVersionCommand();
-					} else if (command.equals("remove-dir")) {
-						workspaceManagerTool.removeDirCommand();
-					} else if (command.equals("build-clean-all")) {
-						workspaceManagerTool.buildCleanAllCommand();
-					} else if (command.equals("build-clean-module-version")) {
-						workspaceManagerTool.buildCleanModuleVersionCommand();
-					} else if (command.equals("build-clean-dir")) {
-						workspaceManagerTool.buildCleanDirCommand();
-					} else if (command.equals("fix")) {
-						workspaceManagerTool.fixCommand();
-					} else {
-						throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command, CliUtil.getHelpCommandLineOption()));
-					}
+					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command, CliUtil.getHelpCommandLineOption()));
 				}
 			}
 		} catch (RuntimeExceptionUserError reue) {

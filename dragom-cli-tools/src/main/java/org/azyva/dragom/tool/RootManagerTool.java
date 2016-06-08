@@ -202,7 +202,7 @@ public class RootManagerTool {
 			RootManagerTool.options = new Options();
 
 			option = new Option(null, null);
-			option.setLongOpt("allow-duplicate-modules");
+			option.setLongOpt("ind-allow-duplicate-modules");
 			RootManagerTool.options.addOption(option);
 
 			CliUtil.addStandardOptions(RootManagerTool.options);
@@ -274,7 +274,7 @@ public class RootManagerTool {
 		} else {
 			boolean indAllowDuplicateModule;
 
-			indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-module");
+			indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-modules");
 
 			if (indAllowDuplicateModule) {
 				RootManager.addModuleVersion(moduleVersion, true);

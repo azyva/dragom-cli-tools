@@ -14,10 +14,6 @@ Synopsis
 dragom-workspace-manager [<general options> ...] status
   Displays the status of each workspace directory.
   
-dragom-workspace-manager [<general options> ...] force-unlock
-  Forces the release of the workspace, if the abnormal termination of a tool
-  left it in the locked state.
-
 dragom-workspace-manager [<general options> ...] update
   Performs an SCM update on each workspace directory.
   

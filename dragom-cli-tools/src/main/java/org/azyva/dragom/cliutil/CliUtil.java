@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
@@ -566,7 +567,7 @@ public final class CliUtil {
 
 		CliUtil.logger.debug("Loading properties from " + stringPropertiesFile);
 
-		stringPropertiesFile = stringPropertiesFile.replaceAll("~", System.getProperty("user.home"));
+		stringPropertiesFile = stringPropertiesFile.replaceAll("~", Matcher.quoteReplacement(System.getProperty("user.home")));
 
 		try (InputStream inputStreamProperties = new FileInputStream(stringPropertiesFile )) {
 			if (propertiesDefault == null) {

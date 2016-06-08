@@ -37,14 +37,14 @@ import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 
 /**
- * Class for managing {@link ExecContext} properties.
+ * Class for managing {@link ExecContext}, mainly the  properties.
  * <p>
  * This class is not really a job but is a helper class allowing the user to
- * manage ExecContext properties.
+ * manage ExecContext.
  *
  * @author David Raymond
  */
-public class ExecContextPropertyManagerTool {
+public class ExecContextManagerTool {
 	/**
 	 * Indicates that the class has been initialized.
 	 */
@@ -65,19 +65,19 @@ public class ExecContextPropertyManagerTool {
 		CommandLine commandLine;
 		String command;
 
-		ExecContextPropertyManagerTool.init();
+		ExecContextManagerTool.init();
 
 		try {
 			defaultParser = new DefaultParser();
 
 			try {
-				commandLine = defaultParser.parse(ExecContextPropertyManagerTool.options, args);
+				commandLine = defaultParser.parse(ExecContextManagerTool.options, args);
 			} catch (org.apache.commons.cli.ParseException pe) {
 				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
 			}
 
 			if (CliUtil.hasHelpOption(commandLine)) {
-				ExecContextPropertyManagerTool.help();
+				ExecContextManagerTool.help();
 			} else {
 				args = commandLine.getArgs();
 
@@ -85,28 +85,34 @@ public class ExecContextPropertyManagerTool {
 					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 				}
 
-				CliUtil.setupExecContext(commandLine, true);
-
 				command = args[0];
 
-				if (command.equals("get-properties")) {
-					ExecContextPropertyManagerTool.getPropertiesCommand(commandLine);
-				} else if (command.equals("get-property")) {
-					ExecContextPropertyManagerTool.getPropertyCommand(commandLine);
-				} else if (command.equals("set-property")) {
-					ExecContextPropertyManagerTool.setPropertyCommand(commandLine);
-				} else if (command.equals("set-properties-from-tool-properties")) {
-					ExecContextPropertyManagerTool.setPropertiesFromToolPropertiesCommand(commandLine);
-				} else if (command.equals("remove-property")) {
-					ExecContextPropertyManagerTool.removePropertyCommand(commandLine);
-				} else if (command.equals("remove-properties")) {
-					ExecContextPropertyManagerTool.removePropertiesCommand(commandLine);
-				} else if (command.equals("get-init-properties")) {
-					ExecContextPropertyManagerTool.getInitPropertiesCommand(commandLine);
-				} else if (command.equals("get-init-property")) {
-					ExecContextPropertyManagerTool.getInitPropertyCommand(commandLine);
+				if (command.equals("force-unlock")) {
+					ExecContextHolder.forceUnset(CliUtil.setupExecContext(commandLine, false));
 				} else {
-					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command, CliUtil.getHelpCommandLineOption()));
+					CliUtil.setupExecContext(commandLine, true);
+
+					if (command.equals("release")) {
+						ExecContextManagerTool.releaseCommand(commandLine);
+					} else if (command.equals("get-properties")) {
+						ExecContextManagerTool.getPropertiesCommand(commandLine);
+					} else if (command.equals("get-property")) {
+						ExecContextManagerTool.getPropertyCommand(commandLine);
+					} else if (command.equals("set-property")) {
+						ExecContextManagerTool.setPropertyCommand(commandLine);
+					} else if (command.equals("set-properties-from-tool-properties")) {
+						ExecContextManagerTool.setPropertiesFromToolPropertiesCommand(commandLine);
+					} else if (command.equals("remove-property")) {
+						ExecContextManagerTool.removePropertyCommand(commandLine);
+					} else if (command.equals("remove-properties")) {
+						ExecContextManagerTool.removePropertiesCommand(commandLine);
+					} else if (command.equals("get-init-properties")) {
+						ExecContextManagerTool.getInitPropertiesCommand(commandLine);
+					} else if (command.equals("get-init-property")) {
+						ExecContextManagerTool.getInitPropertyCommand(commandLine);
+					} else {
+						throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command, CliUtil.getHelpCommandLineOption()));
+					}
 				}
 			}
 		} catch (RuntimeExceptionUserError reue) {
@@ -124,12 +130,12 @@ public class ExecContextPropertyManagerTool {
 	 * Initializes the class.
 	 */
 	private synchronized static void init() {
-		if (!ExecContextPropertyManagerTool.indInit) {
-			ExecContextPropertyManagerTool.options = new Options();
+		if (!ExecContextManagerTool.indInit) {
+			ExecContextManagerTool.options = new Options();
 
-			CliUtil.addStandardOptions(ExecContextPropertyManagerTool.options);
+			CliUtil.addStandardOptions(ExecContextManagerTool.options);
 
-			ExecContextPropertyManagerTool.indInit = true;
+			ExecContextManagerTool.indInit = true;
 		}
 	}
 
@@ -138,10 +144,30 @@ public class ExecContextPropertyManagerTool {
 	 */
 	private static void help() {
 		try {
-			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(ExecContextPropertyManagerTool.class, "ExecContextPropertyManagerToolHelp.txt"),  System.out);
+			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(ExecContextManagerTool.class, "ExecContextPropertyManagerToolHelp.txt"),  System.out);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe);
 		}
+	}
+
+	/**
+	 * Implements the "release" command.
+	 *
+	 * @param commandLine CommandLine.
+	 */
+	private static void releaseCommand(CommandLine commandLine) {
+		String[] args;
+		ExecContext execContext;
+
+		args = commandLine.getArgs();
+
+		if (args.length != 1) {
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+		}
+
+		execContext = ExecContextHolder.get();
+
+		execContext.release();
 	}
 
 	/**
