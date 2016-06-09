@@ -1,7 +1,7 @@
 <config>
 	<root-classification-node>
 		<properties>
-			<GIT_REPOS_BASE_URL>file://test-git-repos</GIT_REPOS_BASE_URL>
+			<!-- GIT_REPOS_BASE_URL provided as initialization property. -->
 			<GIT_REPOS_SUFFIX>.git</GIT_REPOS_SUFFIX>
 			<BASE_GROUP_ID>com.acme</BASE_GROUP_ID>
 

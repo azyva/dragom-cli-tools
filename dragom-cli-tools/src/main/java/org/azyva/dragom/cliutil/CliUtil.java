@@ -97,7 +97,7 @@ public final class CliUtil {
 	/**
 	 * See description in ResourceBundle.
 	 */
-	public static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIED = "REFERENCE_PATH_MATCHER_REQUIED";
+	public static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIRED = "REFERENCE_PATH_MATCHER_REQUIRED";
 
 	/**
 	 * System property that specifies if a user properties file is supported.
@@ -661,7 +661,7 @@ public final class CliUtil {
 		arrayStringReferencePathMatcher = commandLine.getOptionValues(CliUtil.getReferencePathMatcherCommandLineOption());
 
 		if (arrayStringReferencePathMatcher == null) {
-			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIED), CliUtil.getReferencePathMatcherCommandLineOption(), CliUtil.getHelpCommandLineOption()));
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIRED), CliUtil.getReferencePathMatcherCommandLineOption(), CliUtil.getHelpCommandLineOption()));
 		}
 
 		referencePathMatcherOrCommandLine = new ReferencePathMatcherOr();
