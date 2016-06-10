@@ -1331,6 +1331,16 @@ public class IntegrationTestSuite {
 		}
 		IntegrationTestSuite.printTestFooter();
 
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
+		try {
+			GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
 	}
 
 	/*********************************************************************************
