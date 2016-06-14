@@ -21,16 +21,20 @@ package org.azyva.dragom.test;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Permission;
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.LogManager;
@@ -38,6 +42,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.azyva.dragom.git.Git;
+import org.azyva.dragom.model.Version;
 import org.azyva.dragom.tool.DragomToolInvoker;
 import org.azyva.dragom.tool.ExecContextManagerTool;
 import org.azyva.dragom.tool.GenericRootModuleVersionJobInvokerTool;
@@ -46,16 +52,18 @@ import org.azyva.dragom.tool.WorkspaceManagerTool;
 
 public class IntegrationTestSuite {
 	private static Path pathTestWorkspace;
+	private static TestInputStream testInputStream;
 
 	public static void main(String[] args) {
-		InputStream inputStreamLoggingProperties;
-		Path pathLoggingProperties;
 		Set<String> setTestCategory;
 		boolean indAllTests;
 
 		System.setSecurityManager(new NoExitSecurityManager());
 
 		EclipseSynchronizeErrOut.fix();
+
+		IntegrationTestSuite.testInputStream = new TestInputStream();
+		System.setIn(IntegrationTestSuite.testInputStream);
 
 		if (args.length == 0) {
 			IntegrationTestSuite.pathTestWorkspace = Paths.get(System.getProperty("user.dir")).resolve("test-workspace");
@@ -84,6 +92,14 @@ public class IntegrationTestSuite {
 
 		if (indAllTests || setTestCategory.contains("CheckoutToolBase")) {
 			IntegrationTestSuite.testCheckoutToolBase();
+		}
+
+		if (indAllTests || setTestCategory.contains("CheckoutToolConflict")) {
+			IntegrationTestSuite.testCheckoutToolConflict();
+		}
+
+		if (indAllTests || setTestCategory.contains("CheckoutToolSwitch")) {
+			IntegrationTestSuite.testCheckoutToolSwitch();
 		}
 
 		if (indAllTests || setTestCategory.contains("WorkspaceManagerTool")) {
@@ -1198,7 +1214,7 @@ public class IntegrationTestSuite {
 		ZipInputStream zipInputStream;
 		ZipEntry zipEntry;
 
-		IntegrationTestSuite.printTestCategoryHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt");
+		IntegrationTestSuite.printTestCategoryHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt | Basic tests");
 
 		IntegrationTestSuite.resetTestWorkspace();
 
@@ -1341,7 +1357,349 @@ public class IntegrationTestSuite {
 		}
 		IntegrationTestSuite.printTestFooter();
 
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader(
+				"git clone test-git-repos/Domain1/app-a.git app-a.ext\n" +
+				"Append to app-a.ext/pom.xml\n" +
+				"git add, git commit, git push");
+		try {
+			Git.clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain1/app-a.git", new Version("D/master"), IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"));
+			IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext/pom.xml"), "<!-- Dummy comment. -->\n");
+			Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null, true);
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		// Default response to "do you want to update" (YA).
+		IntegrationTestSuite.testInputStream.write("\n");
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
+		try {
+			GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader(
+				"Append to app-a.ext/pom.xml\n" +
+				"git add, git commit, git push" +
+				"Append to workspace/app-a/pom.xml\n" +
+				"git add, git commit (no push)");
+		try {
+			IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext/pom.xml"), "<!-- Dummy comment 2. -->\n");
+			Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null, true);
+			IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a/pom.xml"), "<!-- Dummy comment 3. -->\n");
+			Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"), "Dummy message.", null, false);
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		// Default response to "do you want to update" (YA).
+		IntegrationTestSuite.testInputStream.write("\n");
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
+		try {
+			GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader(
+				"Append to app-a.ext/pom.xml\n" +
+				"git add, git commit, git push" +
+				"Append to workspace/app-a/pom.xml\n" +
+				"git add, git commit (no push)");
+		try {
+			IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext/pom.xml"), "<!-- Dummy comment 2. -->\n");
+			Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null, true);
+			IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a/pom.xml"), "<!-- Dummy comment 3. -->\n");
+			Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"), "Dummy message.", null, false);
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
 	}
+
+	/*********************************************************************************
+	 *********************************************************************************
+	 * Tests CheckoutTool.
+	 * <p>
+	 * Conflict tests.
+	 *********************************************************************************
+	 *********************************************************************************/
+	private static void testCheckoutToolConflict() {
+		Path pathModel;
+		InputStream inputStream;
+		ZipInputStream zipInputStream;
+		ZipEntry zipEntry;
+
+		IntegrationTestSuite.printTestCategoryHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt | Conflict tests");
+
+		IntegrationTestSuite.resetTestWorkspace();
+
+		try {
+			pathModel = IntegrationTestSuite.pathTestWorkspace.resolve("basic-model.xml");
+			inputStream = IntegrationTestSuite.class.getResourceAsStream("/basic-model.xml");
+			Files.copy(inputStream, pathModel, StandardCopyOption.REPLACE_EXISTING);
+			inputStream.close();
+
+			inputStream = IntegrationTestSuite.class.getResourceAsStream("/test-git-repos.zip");
+			zipInputStream = new ZipInputStream(inputStream);
+
+			while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+				Path path;
+
+				path = IntegrationTestSuite.pathTestWorkspace.resolve(zipEntry.getName());
+
+				if (zipEntry.isDirectory()) {
+					path.toFile().mkdirs();
+				} else {
+					OutputStream outputStream;
+					final int chunk = 1024;
+					byte[] arrayByteBuffer;
+					long size;
+					int sizeRead;
+
+					outputStream = new FileOutputStream(path.toFile());
+					arrayByteBuffer = new byte[chunk];
+					size = zipEntry.getSize();
+
+					while (size > 0) {
+						sizeRead = (int)Math.min(chunk,  size);
+						sizeRead = zipInputStream.read(arrayByteBuffer, 0, sizeRead);
+						outputStream.write(arrayByteBuffer, 0, sizeRead);
+						size -= sizeRead;
+					}
+
+					outputStream.close();
+				}
+			}
+
+			zipInputStream.close();
+		} catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
+
+		System.setProperty("model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
+		System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
+		try {
+			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a"});
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
+		try {
+			GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader(
+				"git clone test-git-repos/Domain1/app-a.git app-a.ext\n" +
+				"Append to app-a.ext/pom.xml\n" +
+				"git add, git commit, git push");
+		try {
+			Git.clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain1/app-a.git", new Version("D/master"), IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"));
+			IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext/pom.xml"), "<!-- Dummy comment. -->\n");
+			Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null, true);
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		// Default response to "do you want to update" (YA).
+		IntegrationTestSuite.testInputStream.write("\n");
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
+		try {
+			GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader(
+				"Append to app-a.ext/pom.xml\n" +
+				"git add, git commit, git push" +
+				"Append to workspace/app-a/pom.xml\n" +
+				"git add, git commit (no push)");
+		try {
+			IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext/pom.xml"), "<!-- Dummy comment 2. -->\n");
+			Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null, true);
+			IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a/pom.xml"), "<!-- Dummy comment 3. -->\n");
+			Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"), "Dummy message.", null, false);
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		// Default response to "do you want to update" (YA).
+		IntegrationTestSuite.testInputStream.write("\n");
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
+		try {
+			GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+	}
+
+	/*********************************************************************************
+	 *********************************************************************************
+	 * Tests CheckoutTool.
+	 * <p>
+	 * Switch tests.
+	 *********************************************************************************
+	 *********************************************************************************/
+	private static void testCheckoutToolSwitch() {
+		Path pathModel;
+		InputStream inputStream;
+		ZipInputStream zipInputStream;
+		ZipEntry zipEntry;
+
+		IntegrationTestSuite.printTestCategoryHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt | Switch tests");
+
+		IntegrationTestSuite.resetTestWorkspace();
+
+		try {
+			pathModel = IntegrationTestSuite.pathTestWorkspace.resolve("basic-model.xml");
+			inputStream = IntegrationTestSuite.class.getResourceAsStream("/basic-model.xml");
+			Files.copy(inputStream, pathModel, StandardCopyOption.REPLACE_EXISTING);
+			inputStream.close();
+
+			inputStream = IntegrationTestSuite.class.getResourceAsStream("/test-git-repos.zip");
+			zipInputStream = new ZipInputStream(inputStream);
+
+			while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+				Path path;
+
+				path = IntegrationTestSuite.pathTestWorkspace.resolve(zipEntry.getName());
+
+				if (zipEntry.isDirectory()) {
+					path.toFile().mkdirs();
+				} else {
+					OutputStream outputStream;
+					final int chunk = 1024;
+					byte[] arrayByteBuffer;
+					long size;
+					int sizeRead;
+
+					outputStream = new FileOutputStream(path.toFile());
+					arrayByteBuffer = new byte[chunk];
+					size = zipEntry.getSize();
+
+					while (size > 0) {
+						sizeRead = (int)Math.min(chunk,  size);
+						sizeRead = zipInputStream.read(arrayByteBuffer, 0, sizeRead);
+						outputStream.write(arrayByteBuffer, 0, sizeRead);
+						size -= sizeRead;
+					}
+
+					outputStream.close();
+				}
+			}
+
+			zipInputStream.close();
+		} catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
+
+		System.setProperty("model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
+		System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
+		try {
+			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a"});
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
+		try {
+			GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader(
+				"git branch new-branch\n" +
+				"git push");
+		try {
+			Git.createBranch(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"), "new-branch", false);
+			Git.push(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"));
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/new-branch");
+		try {
+			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a:D/new-branch"});
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		// Default response to "do you want to switch" (YA).
+		IntegrationTestSuite.testInputStream.write("\n");
+
+		// ################################################################################
+
+		IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
+		try {
+			GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
+		} catch (Exception e) {
+			IntegrationTestSuite.validateExitException(e, 0);
+		}
+		IntegrationTestSuite.printTestFooter();
+
+		??? switch with unsynched changes.
+	}
+
+	???checkout recurse. Test responses yes/yes always, etc.
 
 	/*********************************************************************************
 	 *********************************************************************************
@@ -1583,6 +1941,43 @@ public class IntegrationTestSuite {
 
 		if (exitException.status != status) {
 			System.err.println(">>>>> TEST FAILURE: Tool exited with status " + exitException.status + " but " + status + " was expected.");
+		}
+	}
+
+	private static void appendToFile(Path pathFile, String content) {
+		Writer writerFile;
+
+		try {
+			writerFile = new FileWriter(pathFile.toFile(), true);
+			writerFile.append(content);
+			writerFile.close();
+		} catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
+	}
+}
+
+class TestInputStream extends InputStream {
+	Deque<Integer> deque;
+
+	public TestInputStream() {
+		this.deque = new ArrayDeque<Integer>();
+	}
+
+	@Override
+	public int read() {
+		// Indicates the end of the stream, which causes BufferedReader.readLine to return
+		// null and potentially cause an exception in the code, which is what we want.
+		if (this.deque.isEmpty()) {
+			return -1;
+		}
+
+		return this.deque.removeLast();
+	}
+
+	public void write(String input) {
+		for (int aByte: input.getBytes()) {
+			this.deque.addFirst(aByte);
 		}
 	}
 }
