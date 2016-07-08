@@ -88,8 +88,20 @@ public class IntegrationTestSuite {
 			IntegrationTestSuiteCheckoutToolSwitch.testCheckoutToolSwitch();
 		}
 
-		if (indAllTests || setTestCategory.contains("CheckoutToolMultiple")) {
-			IntegrationTestSuiteCheckoutToolMultiple.testCheckoutToolMultiple();
+		if (indAllTests || setTestCategory.contains("CheckoutToolMultipleBase")) {
+			IntegrationTestSuiteCheckoutToolMultipleBase.testCheckoutToolMultipleBase();
+		}
+
+		if (indAllTests || setTestCategory.contains("CheckoutToolMultipleConflict")) {
+			IntegrationTestSuiteCheckoutToolMultipleConflict.testCheckoutToolMultipleConflict();
+		}
+
+		if (indAllTests || setTestCategory.contains("CheckoutToolMultipleSwitch")) {
+			IntegrationTestSuiteCheckoutToolMultipleSwitch.testCheckoutToolMultipleSwitch();
+		}
+
+		if (indAllTests || setTestCategory.contains("CheckoutToolMultipleVersions")) {
+			IntegrationTestSuiteCheckoutToolMultipleVersions.testCheckoutToolMultipleVersions();
 		}
 
 		if (indAllTests || setTestCategory.contains("WorkspaceManagerTool")) {
@@ -167,15 +179,13 @@ public class IntegrationTestSuite {
 		ExitException exitException;
 
 		if (!(e instanceof ExitException)) {
-			System.err.println(">>>>> TEST FAILURE: ExitException expected. Exception thrown:");
-			e.printStackTrace();
-			return;
+			throw new RuntimeException(">>>>> TEST FAILURE: ExitException expected. Exception thrown:", e);
 		}
 
 		exitException = (ExitException)e;
 
 		if (exitException.status != status) {
-			System.err.println(">>>>> TEST FAILURE: Tool exited with status " + exitException.status + " but " + status + " was expected.");
+			throw new RuntimeException(">>>>> TEST FAILURE: Tool exited with status " + exitException.status + " but " + status + " was expected.");
 		}
 	}
 

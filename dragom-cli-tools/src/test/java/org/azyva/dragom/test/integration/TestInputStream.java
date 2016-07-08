@@ -42,6 +42,7 @@ class TestInputStream extends InputStream {
 	}
 
 	public void write(String input) {
+		System.out.println("Writing \"" + input + "\" to test input stream.");
 		for (int aByte: input.getBytes()) {
 			this.deque.addFirst(aByte);
 		}

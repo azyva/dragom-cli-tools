@@ -116,7 +116,7 @@ public class ExecContextManagerTool {
 				}
 			}
 		} catch (RuntimeExceptionUserError reue) {
-			System.err.println(reue.getMessage());
+			System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + reue.getMessage());
 			System.exit(1);
 		} catch (RuntimeException re) {
 			re.printStackTrace();

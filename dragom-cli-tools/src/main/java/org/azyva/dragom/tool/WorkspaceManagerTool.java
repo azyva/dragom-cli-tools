@@ -33,7 +33,6 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.ExecContext;
@@ -318,7 +317,7 @@ public class WorkspaceManagerTool {
 				}
 			}
 		} catch (RuntimeExceptionUserError reue) {
-			System.err.println(reue.getMessage());
+			System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + reue.getMessage());
 			System.exit(1);
 		} catch (RuntimeException re) {
 			re.printStackTrace();
@@ -336,11 +335,6 @@ public class WorkspaceManagerTool {
 			Option option;
 
 			WorkspaceManagerTool.options = new Options();
-
-			option = new Option(null, null);
-			option.setLongOpt("commit-message");
-			option.setArgs(1);
-			WorkspaceManagerTool.options.addOption(option);
 
 			option = new Option(null, null);
 			option.setLongOpt("commit-message");
@@ -529,12 +523,6 @@ public class WorkspaceManagerTool {
 
 			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
-			try {
-				FileUtils.deleteDirectory(pathWorkspaceDir.toFile());
-			} catch (IOException ioe) {
-				throw new RuntimeException(ioe);
-			}
-
 			this.workspacePlugin.deleteWorkspaceDir(workspaceDir);
 		}
 
@@ -563,12 +551,6 @@ public class WorkspaceManagerTool {
 				}
 			}
 
-			try {
-				FileUtils.deleteDirectory(workspaceDirPath.pathWorkspaceDir.toFile());
-			} catch (IOException ioe) {
-				throw new RuntimeException(ioe);
-			}
-
 			this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 			this.workspacePlugin.deleteWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion);
 		}
@@ -591,12 +573,6 @@ public class WorkspaceManagerTool {
 
 			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
-			try {
-				FileUtils.deleteDirectory(pathWorkspaceDir.toFile());
-			} catch (IOException ioe) {
-				throw new RuntimeException(ioe);
-			}
-
 			this.workspacePlugin.deleteWorkspaceDir(workspaceDir);
 		}
 	}
@@ -609,14 +585,18 @@ public class WorkspaceManagerTool {
 		ReferenceGraph referenceGraph;
 		Set<WorkspaceDirPath> setWorkspaceDirPath;
 
-		// Here this.commandLine is not expected to contain the root-module-version
-		// option, as supported by CliUtil.getListModuleVersionRoot. Therefore a List of
-		// root ModuleVersion must be defined within the ExecContext.
-		buildReferenceGraph = new BuildReferenceGraph(null, CliUtil.getListModuleVersionRoot(this.commandLine));
+		if (this.commandLine.getArgs().length != 1) {
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+		}
 
-		// Also, this.commandLine is not expected to contain any reference-path-matcher
-		// options, as supported by CliUtil.getReferencePathMatcher.
-		buildReferenceGraph.setReferencePathMatcher(CliUtil.getReferencePathMatcher(this.commandLine));
+		// Here this.commandLine cannot contain the root-module-version option, as
+		// supported by CliUtil.getListModuleVersionRoot. Therefore a List of root
+		// ModuleVersion must be defined within the ExecContext.
+		buildReferenceGraph = new BuildReferenceGraph(null, CliUtil.getListModuleVersionRoot(null));
+
+		// Also, this.commandLine cannot contain any reference-path-matcher options, as
+		// supported by CliUtil.getReferencePathMatcher.
+		buildReferenceGraph.setReferencePathMatcher(CliUtil.getReferencePathMatcher(null));
 
 		// The idea for the above expectations is that the clean-non-root-reachable
 		// command is specifically intended to be applied in the context of the root
@@ -649,12 +629,6 @@ public class WorkspaceManagerTool {
 					if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY)) {
 						continue;
 					}
-				}
-
-				try {
-					FileUtils.deleteDirectory(workspaceDirPath.pathWorkspaceDir.toFile());
-				} catch (IOException ioe) {
-					throw new RuntimeException(ioe);
 				}
 
 				this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
@@ -717,12 +691,6 @@ public class WorkspaceManagerTool {
 				}
 			}
 
-			try {
-				FileUtils.deleteDirectory(pathWorkspaceDir.toFile());
-			} catch (IOException ioe) {
-				throw new RuntimeException(ioe);
-			}
-
 			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
 			this.workspacePlugin.deleteWorkspaceDir(workspaceDir);
 		}
@@ -772,12 +740,6 @@ public class WorkspaceManagerTool {
 			if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY)) {
 				return;
 			}
-		}
-
-		try {
-			FileUtils.deleteDirectory(pathWorkspaceDir.toFile());
-		} catch (IOException ioe) {
-			throw new RuntimeException(ioe);
 		}
 
 		pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);

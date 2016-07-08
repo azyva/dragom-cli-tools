@@ -67,6 +67,11 @@ public final class CliUtil {
 	/**
 	 * See description in ResourceBundle.
 	 */
+	public static final String MSG_PATTERN_KEY_USER_ERROR_PREFIX = "USER_ERROR_PREFIX";
+
+	/**
+	 * See description in ResourceBundle.
+	 */
 	public static final String MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE = "ERROR_PARSING_COMMAND_LINE";
 
 	/**
@@ -93,6 +98,11 @@ public final class CliUtil {
 	 * See description in ResourceBundle.
 	 */
 	public static final String MSG_PATTERN_KEY_ROOT_MODULE_VERSION_REQUIRED_WHEN_NOT_SPECIFIED_WORKSPACE = "ROOT_MODULE_VERSION_REQUIRED_WHEN_NOT_SPECIFIED_WORKSPACE";
+
+	/**
+	 * See description in ResourceBundle.
+	 */
+	public static final String MSG_PATTERN_KEY_ROOT_MODULE_VERSION_REQUIRED_WORKSPACE = "ROOT_MODULE_VERSION_REQUIRED_WORKSPACE";
 
 	/**
 	 * See description in ResourceBundle.
@@ -607,14 +617,19 @@ public final class CliUtil {
 	 * Otherwise, RootManager must specify at least one root ModuleVersion and this
 	 * List of root ModuleVersion's specified by RootManager is returned.
 	 *
-	 * @param commandLine CommandLine.
+	 * @param commandLine CommandLine. Can be null to indicate that root
+	 *   ModuleVersion's cannot be specified on the command line.
 	 * @return List of root ModuleVersion's.
 	 */
 	public static List<ModuleVersion> getListModuleVersionRoot(CommandLine commandLine) {
 		String[] arrayStringRootModuleVersion;
 		List<ModuleVersion> listModuleVersionRoot;
 
-		arrayStringRootModuleVersion = commandLine.getOptionValues(CliUtil.getRootModuleVersionCommandLineOption());
+		if (commandLine != null) {
+			arrayStringRootModuleVersion = commandLine.getOptionValues(CliUtil.getRootModuleVersionCommandLineOption());
+		} else {
+			arrayStringRootModuleVersion = null;
+		}
 
 		if (arrayStringRootModuleVersion != null) {
 			if (!RootManager.getListModuleVersion().isEmpty()) {
@@ -632,7 +647,11 @@ public final class CliUtil {
 			}
 		} else {
 			if (RootManager.getListModuleVersion().isEmpty()) {
-				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_ROOT_MODULE_VERSION_REQUIRED_WHEN_NOT_SPECIFIED_WORKSPACE), CliUtil.getRootModuleVersionCommandLineOption(), CliUtil.getHelpCommandLineOption()));
+				if (commandLine == null) {
+					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_ROOT_MODULE_VERSION_REQUIRED_WHEN_NOT_SPECIFIED_WORKSPACE), CliUtil.getHelpCommandLineOption()));
+				} else {
+					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_ROOT_MODULE_VERSION_REQUIRED_WHEN_NOT_SPECIFIED_WORKSPACE), CliUtil.getRootModuleVersionCommandLineOption(), CliUtil.getHelpCommandLineOption()));
+				}
 			}
 
 			listModuleVersionRoot = RootManager.getListModuleVersion();
@@ -647,7 +666,10 @@ public final class CliUtil {
 	 * built from the --reference-path-matcher options that specify
 	 * ReferencePathMatcherByElement literals.
 	 *
-	 * @param commandLine CommandLine.
+	 * @param commandLine CommandLine. Can be null to indicate that
+	 *   ReferencePathMatcherByElement's cannot be specified on the command line. In
+	 *   this case only the ReferencePathMatcherOr specified by RootManager is
+	 *   returned, equivalent to as if the one specified on the command line was "**".
 	 * @return ReferencePathMatcher.
 	 */
 	public static ReferencePathMatcher getReferencePathMatcher(CommandLine commandLine) {
@@ -658,28 +680,32 @@ public final class CliUtil {
 
 		model = ExecContextHolder.get().getModel();
 
-		arrayStringReferencePathMatcher = commandLine.getOptionValues(CliUtil.getReferencePathMatcherCommandLineOption());
+		if (commandLine != null) {
+			arrayStringReferencePathMatcher = commandLine.getOptionValues(CliUtil.getReferencePathMatcherCommandLineOption());
 
-		if (arrayStringReferencePathMatcher == null) {
-			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIRED), CliUtil.getReferencePathMatcherCommandLineOption(), CliUtil.getHelpCommandLineOption()));
-		}
-
-		referencePathMatcherOrCommandLine = new ReferencePathMatcherOr();
-
-		for (int i = 0; i < arrayStringReferencePathMatcher.length; i++) {
-			try {
-				referencePathMatcherOrCommandLine.addReferencePathMatcher(ReferencePathMatcherByElement.parse(arrayStringReferencePathMatcher[i], model));
-			} catch (ParseException pe) {
-				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), CliUtil.getReferencePathMatcherCommandLineOption(), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
+			if (arrayStringReferencePathMatcher == null) {
+				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIRED), CliUtil.getReferencePathMatcherCommandLineOption(), CliUtil.getHelpCommandLineOption()));
 			}
+
+			referencePathMatcherOrCommandLine = new ReferencePathMatcherOr();
+
+			for (int i = 0; i < arrayStringReferencePathMatcher.length; i++) {
+				try {
+					referencePathMatcherOrCommandLine.addReferencePathMatcher(ReferencePathMatcherByElement.parse(arrayStringReferencePathMatcher[i], model));
+				} catch (ParseException pe) {
+					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), CliUtil.getReferencePathMatcherCommandLineOption(), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
+				}
+			}
+
+			referencePathMatcherAnd = new ReferencePathMatcherAnd();
+
+			referencePathMatcherAnd.addReferencePathMatcher(RootManager.getReferencePathMatcherOr());
+			referencePathMatcherAnd.addReferencePathMatcher(referencePathMatcherOrCommandLine);
+
+			return referencePathMatcherAnd;
+		} else {
+			return RootManager.getReferencePathMatcherOr();
 		}
-
-		referencePathMatcherAnd = new ReferencePathMatcherAnd();
-
-		referencePathMatcherAnd.addReferencePathMatcher(RootManager.getReferencePathMatcherOr());
-		referencePathMatcherAnd.addReferencePathMatcher(referencePathMatcherOrCommandLine);
-
-		return referencePathMatcherAnd;
 	}
 
 	/**

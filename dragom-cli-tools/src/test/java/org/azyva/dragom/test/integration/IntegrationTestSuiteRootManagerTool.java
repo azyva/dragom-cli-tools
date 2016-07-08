@@ -41,504 +41,508 @@ public class IntegrationTestSuiteRootManagerTool {
 		ZipInputStream zipInputStream;
 		ZipEntry zipEntry;
 
-		IntegrationTestSuite.printTestCategoryHeader("RootManagerTool");
-
-		IntegrationTestSuite.resetTestWorkspace();
-
 		try {
-			pathModel = IntegrationTestSuite.pathTestWorkspace.resolve("basic-model.xml");
-			inputStream = IntegrationTestSuite.class.getResourceAsStream("/basic-model.xml");
-			Files.copy(inputStream, pathModel, StandardCopyOption.REPLACE_EXISTING);
-			inputStream.close();
+			IntegrationTestSuite.printTestCategoryHeader("RootManagerTool");
 
-			inputStream = IntegrationTestSuite.class.getResourceAsStream("/test-git-repos.zip");
-			zipInputStream = new ZipInputStream(inputStream);
+			IntegrationTestSuite.resetTestWorkspace();
 
-			while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-				Path path;
+			try {
+				pathModel = IntegrationTestSuite.pathTestWorkspace.resolve("basic-model.xml");
+				inputStream = IntegrationTestSuite.class.getResourceAsStream("/basic-model.xml");
+				Files.copy(inputStream, pathModel, StandardCopyOption.REPLACE_EXISTING);
+				inputStream.close();
 
-				path = IntegrationTestSuite.pathTestWorkspace.resolve(zipEntry.getName());
+				inputStream = IntegrationTestSuite.class.getResourceAsStream("/test-git-repos.zip");
+				zipInputStream = new ZipInputStream(inputStream);
 
-				if (zipEntry.isDirectory()) {
-					path.toFile().mkdirs();
-				} else {
-					OutputStream outputStream;
-					final int chunk = 1024;
-					byte[] arrayByteBuffer;
-					long size;
-					int sizeRead;
+				while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+					Path path;
 
-					outputStream = new FileOutputStream(path.toFile());
-					arrayByteBuffer = new byte[chunk];
-					size = zipEntry.getSize();
+					path = IntegrationTestSuite.pathTestWorkspace.resolve(zipEntry.getName());
 
-					while (size > 0) {
-						sizeRead = (int)Math.min(chunk,  size);
-						sizeRead = zipInputStream.read(arrayByteBuffer, 0, sizeRead);
-						outputStream.write(arrayByteBuffer, 0, sizeRead);
-						size -= sizeRead;
+					if (zipEntry.isDirectory()) {
+						path.toFile().mkdirs();
+					} else {
+						OutputStream outputStream;
+						final int chunk = 1024;
+						byte[] arrayByteBuffer;
+						long size;
+						int sizeRead;
+
+						outputStream = new FileOutputStream(path.toFile());
+						arrayByteBuffer = new byte[chunk];
+						size = zipEntry.getSize();
+
+						while (size > 0) {
+							sizeRead = (int)Math.min(chunk,  size);
+							sizeRead = zipInputStream.read(arrayByteBuffer, 0, sizeRead);
+							outputStream.write(arrayByteBuffer, 0, sizeRead);
+							size -= sizeRead;
+						}
+
+						outputStream.close();
 					}
-
-					outputStream.close();
 				}
+
+				zipInputStream.close();
+			} catch (IOException ioe) {
+				throw new RuntimeException(ioe);
 			}
 
-			zipInputStream.close();
-		} catch (IOException ioe) {
-			throw new RuntimeException(ioe);
-		}
+			System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
+			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 
-		System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
-		System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
+			// ################################################################################
 
-		// ################################################################################
+			IntegrationTestSuite.printTestHeader("RootManagerTool");
+			try {
+				RootManagerTool.main(new String[] {});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
 
-		IntegrationTestSuite.printTestHeader("RootManagerTool");
-		try {
-			RootManagerTool.main(new String[] {});
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --help");
+			try {
+				RootManagerTool.main(new String[] {"--help"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list dummy");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a dummy");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/master");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a:D/master"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add dummy");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace --ind-allow-duplicate-modules add Domain1/app-a");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--ind-allow-duplicate-modules", "add", "Domain1/app-a"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove Domain1/app dummy");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove", "Domain1/app-a", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove Domain1/app");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove", "Domain1/app-a"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove Domain1/app:D/master");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove", "Domain1/app-a:D/master"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-all");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-all"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers dummy");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher ** dummy");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "**", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher dummy");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher **");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "**"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher **");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "**"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher ** dummy");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-reference-path-matcher", "**", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-reference-path-matcher"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher **");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-reference-path-matcher", "**"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher *");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "*"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher **");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "**"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher Domain1/app-a");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "/Domain1/app-a"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher *");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-reference-path-matcher", "*"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher **");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-reference-path-matcher", "**"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-all-reference-path-matchers dummy");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-all-reference-path-matchers", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-all-reference-path-matchers");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-all-reference-path-matchers"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
 		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
+			e.printStackTrace();
 		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --help");
-		try {
-			RootManagerTool.main(new String[] {"--help"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list dummy");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list", "dummy"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a dummy");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a", "dummy"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/master");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a:D/master"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add dummy");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "dummy"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace --ind-allow-duplicate-modules add Domain1/app-a");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--ind-allow-duplicate-modules", "add", "Domain1/app-a"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove Domain1/app dummy");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove", "Domain1/app-a", "dummy"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove Domain1/app");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove", "Domain1/app-a"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove Domain1/app:D/master");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove", "Domain1/app-a:D/master"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-all");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-all"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers dummy");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers", "dummy"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher ** dummy");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "**", "dummy"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher dummy");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "dummy"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher **");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "**"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher **");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "**"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher ** dummy");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-reference-path-matcher", "**", "dummy"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-reference-path-matcher"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher **");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-reference-path-matcher", "**"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher *");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "*"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher **");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "**"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher Domain1/app-a");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add-reference-path-matcher", "/Domain1/app-a"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher *");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-reference-path-matcher", "*"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher **");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-reference-path-matcher", "**"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-all-reference-path-matchers dummy");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-all-reference-path-matchers", "dummy"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-all-reference-path-matchers");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-all-reference-path-matchers"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
-		try {
-			RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "list-reference-path-matchers"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
 	}
 }

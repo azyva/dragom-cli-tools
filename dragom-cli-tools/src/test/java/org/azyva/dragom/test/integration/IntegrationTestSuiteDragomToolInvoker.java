@@ -26,168 +26,172 @@ public class IntegrationTestSuiteDragomToolInvoker {
 	 * Tests DragomToolInvoker.
 	 *********************************************************************************/
 	public static void testDragomToolInvoker() {
-		IntegrationTestSuite.printTestCategoryHeader("DragomToolInvoker");
-
-		IntegrationTestSuite.resetTestWorkspace();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker");
 		try {
-			DragomToolInvoker.main(new String[] {});
+			IntegrationTestSuite.printTestCategoryHeader("DragomToolInvoker");
+
+			IntegrationTestSuite.resetTestWorkspace();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker");
+			try {
+				DragomToolInvoker.main(new String[] {});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker --help");
+			try {
+				DragomToolInvoker.main(new String[] {"--help"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker dummy");
+			try {
+				DragomToolInvoker.main(new String[] {"dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker exec-context-property-manager");
+			try {
+				DragomToolInvoker.main(new String[] {"exec-context-property-manager"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker exec-context-property-manager --help");
+			try {
+				DragomToolInvoker.main(new String[] {"exec-context-property-manager", "--help"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help build");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "build"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help checkout");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "checkout"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help change-reference-to-module-version");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "change-reference-to-module-version"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help create-static-version");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "create-static-version"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help exec-context-property-manager");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "exec-context-property-manager"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help merge-main");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "merge-main"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help merge-reference-graph");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "merge-reference-graph"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help reference-graph-report");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "reference-graph-report"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help root-manager");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "root-manager"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help switch-to-dynamic-version");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "switch-to-dynamic-version"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help workspace-manager");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "workspace-manager"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
 		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
+			e.printStackTrace();
 		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker --help");
-		try {
-			DragomToolInvoker.main(new String[] {"--help"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 0);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker dummy");
-		try {
-			DragomToolInvoker.main(new String[] {"dummy"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker exec-context-property-manager");
-		try {
-			DragomToolInvoker.main(new String[] {"exec-context-property-manager"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker exec-context-property-manager --help");
-		try {
-			DragomToolInvoker.main(new String[] {"exec-context-property-manager", "--help"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker help build");
-		try {
-			DragomToolInvoker.main(new String[] {"help", "build"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker help checkout");
-		try {
-			DragomToolInvoker.main(new String[] {"help", "checkout"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker help change-reference-to-module-version");
-		try {
-			DragomToolInvoker.main(new String[] {"help", "change-reference-to-module-version"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker help create-static-version");
-		try {
-			DragomToolInvoker.main(new String[] {"help", "create-static-version"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker help exec-context-property-manager");
-		try {
-			DragomToolInvoker.main(new String[] {"help", "exec-context-property-manager"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker help merge-main");
-		try {
-			DragomToolInvoker.main(new String[] {"help", "merge-main"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker help merge-reference-graph");
-		try {
-			DragomToolInvoker.main(new String[] {"help", "merge-reference-graph"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker help reference-graph-report");
-		try {
-			DragomToolInvoker.main(new String[] {"help", "reference-graph-report"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker help root-manager");
-		try {
-			DragomToolInvoker.main(new String[] {"help", "root-manager"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker help switch-to-dynamic-version");
-		try {
-			DragomToolInvoker.main(new String[] {"help", "switch-to-dynamic-version"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
-
-		// ################################################################################
-
-		IntegrationTestSuite.printTestHeader("DragomToolInvoker help workspace-manager");
-		try {
-			DragomToolInvoker.main(new String[] {"help", "workspace-manager"});
-		} catch (Exception e) {
-			IntegrationTestSuite.validateExitException(e, 1);
-		}
-		IntegrationTestSuite.printTestFooter();
 	}
 }
