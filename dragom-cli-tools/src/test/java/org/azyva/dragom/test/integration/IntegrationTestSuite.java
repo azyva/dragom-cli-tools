@@ -104,8 +104,12 @@ public class IntegrationTestSuite {
 			IntegrationTestSuiteCheckoutToolMultipleVersions.testCheckoutToolMultipleVersions();
 		}
 
-		if (indAllTests || setTestCategory.contains("WorkspaceManagerTool")) {
-			IntegrationTestSuiteWorkspaceManagerTool.testWorkspaceManagerTool();
+		if (indAllTests || setTestCategory.contains("WorkspaceManagerToolBase")) {
+			IntegrationTestSuiteWorkspaceManagerToolBase.testWorkspaceManagerToolBase();
+		}
+
+		if (indAllTests || setTestCategory.contains("WorkspaceManagerToolNonBuild")) {
+			IntegrationTestSuiteWorkspaceManagerToolNonBuild.testWorkspaceManagerToolNonBuild();
 		}
 	}
 

@@ -411,6 +411,9 @@ public class WorkspaceManagerTool {
 			Module module;
 			ScmPlugin scmPlugin;
 
+			// We do not need to store the Path to the workspace directory, but we still need
+			// need to call WorkspacePlugin.getWorkspaceDir in order to reserve access before
+			// deleting it.
 			this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
 			try {
@@ -464,6 +467,9 @@ public class WorkspaceManagerTool {
 			Module module;
 			ScmPlugin scmPlugin;
 
+			// We do not need to store the Path to the workspace directory, but we still need
+			// need to call WorkspacePlugin.getWorkspaceDir in order to reserve access before
+			// deleting it.
 			this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
 			try {
@@ -486,7 +492,11 @@ public class WorkspaceManagerTool {
 
 						this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_COMMITTING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
-						if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_COMMIT)) {
+						if (!Util.handleDoYouWantToContinueWithIndividualNo(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_COMMIT)) {
+							if (Util.isAbort()) {
+								return;
+							}
+
 							continue;
 						}
 
@@ -519,9 +529,10 @@ public class WorkspaceManagerTool {
 		setWorkspaceDir = this.workspacePlugin.getSetWorkspaceDir(WorkspaceDirSystemModule.class);
 
 		for (WorkspaceDir workspaceDir: setWorkspaceDir) {
-			Path pathWorkspaceDir;
-
-			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
+			// We do not need to store the Path to the workspace directory, but we still need
+			// need to call WorkspacePlugin.getWorkspaceDir in order to reserve access before
+			// deleting it.
+			this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
 			this.workspacePlugin.deleteWorkspaceDir(workspaceDir);
 		}
@@ -540,18 +551,30 @@ public class WorkspaceManagerTool {
 			if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
 				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
-				if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
+				if (!Util.handleDoYouWantToContinueWithIndividualNo(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
+					if (Util.isAbort()) {
+						return;
+					}
+
 					continue;
 				}
 			} else {
 				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
-				if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY)) {
+				if (!Util.handleDoYouWantToContinueWithIndividualNo(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY)) {
+					if (Util.isAbort()) {
+						return;
+					}
+
 					continue;
 				}
 			}
 
+			// We do not need to store the Path to the workspace directory, but we still need
+			// need to call WorkspacePlugin.getWorkspaceDir in order to reserve access before
+			// deleting it.
 			this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
+
 			this.workspacePlugin.deleteWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion);
 		}
 	}
@@ -569,9 +592,10 @@ public class WorkspaceManagerTool {
 		setWorkspaceDir = this.workspacePlugin.getSetWorkspaceDir(WorkspaceDirSystemModule.class);
 
 		for (WorkspaceDir workspaceDir: setWorkspaceDir) {
-			Path pathWorkspaceDir;
-
-			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
+			// We do not need to store the Path to the workspace directory, but we still need
+			// need to call WorkspacePlugin.getWorkspaceDir in order to reserve access before
+			// deleting it.
+			this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
 			this.workspacePlugin.deleteWorkspaceDir(workspaceDir);
 		}
@@ -620,18 +644,30 @@ public class WorkspaceManagerTool {
 				if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
 					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
-					if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
+					if (!Util.handleDoYouWantToContinueWithIndividualNo(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
+						if (Util.isAbort()) {
+							return;
+						}
+
 						continue;
 					}
 				} else {
 					this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
-					if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY)) {
+					if (!Util.handleDoYouWantToContinueWithIndividualNo(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY)) {
+						if (Util.isAbort()) {
+							return;
+						}
+
 						continue;
 					}
 				}
 
+				// We do not need to store the Path to the workspace directory, but we still need
+				// need to call WorkspacePlugin.getWorkspaceDir in order to reserve access before
+				// deleting it.
 				this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
+
 				this.workspacePlugin.deleteWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion);
 			}
 		}
@@ -680,18 +716,30 @@ public class WorkspaceManagerTool {
 			if (!scmPlugin.isSync(pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
 				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()));
 
-				if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
+				if (!Util.handleDoYouWantToContinueWithIndividualNo(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
+					if (Util.isAbort()) {
+						return;
+					}
+
 					continue;
 				}
 			} else {
 				this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()));
 
-				if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY)) {
+				if (!Util.handleDoYouWantToContinueWithIndividualNo(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY)) {
+					if (Util.isAbort()) {
+						return;
+					}
+
 					continue;
 				}
 			}
 
-			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
+			// We do not need to store the Path to the workspace directory, but we still need
+			// need to call WorkspacePlugin.getWorkspaceDir in order to reserve access before
+			// deleting it.
+			this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
+
 			this.workspacePlugin.deleteWorkspaceDir(workspaceDir);
 		}
 	}
@@ -742,7 +790,11 @@ public class WorkspaceManagerTool {
 			}
 		}
 
-		pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
+		// We do not need to store the Path to the workspace directory, but we still need
+		// need to call WorkspacePlugin.getWorkspaceDir in order to reserve access before
+		// deleting it.
+		this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
+
 		this.workspacePlugin.deleteWorkspaceDir(workspaceDir);
 	}
 
