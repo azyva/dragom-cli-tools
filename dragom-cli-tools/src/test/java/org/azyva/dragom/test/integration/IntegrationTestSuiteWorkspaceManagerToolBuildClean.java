@@ -31,22 +31,23 @@ import java.util.zip.ZipInputStream;
 
 import org.azyva.dragom.tool.GenericRootModuleVersionJobInvokerTool;
 import org.azyva.dragom.tool.RootManagerTool;
+import org.azyva.dragom.tool.WorkspaceManagerTool;
 
 
-public class IntegrationTestSuiteCheckoutToolBase {
+public class IntegrationTestSuiteWorkspaceManagerToolBuildClean {
 	/*********************************************************************************
-	 * Tests CheckoutTool.
+	 * Tests WorkspaceManagerTool.
 	 * <p>
-	 * Basic tests.
+	 * Build clean tests.
 	 *********************************************************************************/
-	public static void testCheckoutToolBase() {
+	public static void testWorkspaceManagerToolBuildClean() {
 		Path pathModel;
 		InputStream inputStream;
 		ZipInputStream zipInputStream;
 		ZipEntry zipEntry;
 
 		try {
-			IntegrationTestSuite.printTestCategoryHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt | Basic tests");
+			IntegrationTestSuite.printTestCategoryHeader("WorkspaceManagerTool | Build clean tests");
 
 			IntegrationTestSuite.resetTestWorkspace();
 
@@ -98,29 +99,9 @@ public class IntegrationTestSuiteCheckoutToolBase {
 
 			// ################################################################################
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --help");
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/develop-project1");
 			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--help"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
-			try {
-				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a:D/develop-project1"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -135,8 +116,51 @@ public class IntegrationTestSuiteCheckoutToolBase {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-all");
+			try {
+				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "build-clean-all"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-module-version Domain1/app-a");
+			try {
+				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "build-clean-module-version", "Domain1/app-a"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-dir app-a");
+			try {
+				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "build-clean-dir", "app-a"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-dir .dragom/app-a");
+			try {
+				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "build-clean-dir", ".dragom/app-a"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 }
+//More extensive testing of builder in specific test
+//??? Dragom properties in module

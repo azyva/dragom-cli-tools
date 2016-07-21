@@ -37,13 +37,13 @@ import org.azyva.dragom.tool.RootManagerTool;
 import org.azyva.dragom.tool.WorkspaceManagerTool;
 
 
-public class IntegrationTestSuiteWorkspaceManagerToolNonBuild {
+public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 	/*********************************************************************************
 	 * Tests WorkspaceManagerTool.
 	 * <p>
-	 * Non-build tests.
+	 * Status, update and commit tests.
 	 *********************************************************************************/
-	public static void testWorkspaceManagerToolNonBuild() {
+	public static void testWorkspaceManagerToolStatusUpdateCommit() {
 		Path pathModel;
 		InputStream inputStream;
 		ZipInputStream zipInputStream;
@@ -51,7 +51,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolNonBuild {
 		CommandLine commandLine;
 
 		try {
-			IntegrationTestSuite.printTestCategoryHeader("WorkspaceManagerTool | Non-build tests");
+			IntegrationTestSuite.printTestCategoryHeader("WorkspaceManagerTool | Status, update and commmit tests");
 
 			IntegrationTestSuite.resetTestWorkspace();
 
@@ -270,12 +270,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolNonBuild {
 
 			// ################################################################################
 
-			// Response "B" (abort) to "do you want to delete".
-			IntegrationTestSuite.testInputStream.write("B\n");
-
-			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-all");
+			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace commit");
 			try {
-				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "clean-all"});
+				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "commit"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -283,18 +280,28 @@ public class IntegrationTestSuiteWorkspaceManagerToolNonBuild {
 
 			// ################################################################################
 
-			// Response "Y" to "do you want to delete".
+			IntegrationTestSuite.printTestHeader("Append to workspace/app-a/pom.xml");
+			try {
+				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a/pom.xml"), "<!-- Dummy comment. -->\n");
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// Response "Commit message." to "specify commit message".
+			IntegrationTestSuite.testInputStream.write("Commit message.\n");
+
+			// Response "Y" to "do you want to reuse".
 			IntegrationTestSuite.testInputStream.write("Y\n");
 
-			// Response "N" to "do you want to delete".
+			// Response "N" to "do you want to commit".
 			IntegrationTestSuite.testInputStream.write("N\n");
 
-			// Response "A" to "do you want to delete".
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-all");
+			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace commit");
 			try {
-				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "clean-all"});
+				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "commit"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -302,9 +309,12 @@ public class IntegrationTestSuiteWorkspaceManagerToolNonBuild {
 
 			// ################################################################################
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
+			// Default response to "do you want to commit" (Y).
+			IntegrationTestSuite.testInputStream.write("\n");
+
+			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace --commit-message=\"Commit message.\" commit");
 			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**"});
+				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--commit-message=Commit message.", "commit"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -312,9 +322,12 @@ public class IntegrationTestSuiteWorkspaceManagerToolNonBuild {
 
 			// ################################################################################
 
-			IntegrationTestSuite.printTestHeader("Append to workspace/app-a/pom.xml");
+			IntegrationTestSuite.printTestHeader(
+					"Append to workspace/app-a/pom.xml\n" +
+					"git add, git commit (no push)");
 			try {
-				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a/pom.xml"), "<!-- Dummy comment. -->\n");
+				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a/pom.xml"), "<!-- Dummy comment 2. -->\n");
+				Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"), "Dummy message.", null, false);
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -322,15 +335,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolNonBuild {
 
 			// ################################################################################
 
-			// Response "A" to "do you want to delete".
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			// Response "A" to "do you want to delete with unsync changes".
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-all");
+			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace status");
 			try {
-				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "clean-all"});
+				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "status"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -338,9 +345,29 @@ public class IntegrationTestSuiteWorkspaceManagerToolNonBuild {
 
 			// ################################################################################
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
+			System.setProperty("org.azyva.dragom.runtime-property.GIT_IND_PUSH_ALL" , "true");
+
+			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace status (with GIT_IND_PUSH_ALL=true)");
 			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**"});
+				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "status"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			System.clearProperty("org.azyva.dragom.runtime-property.GIT_IND_PUSH_ALL");
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader(
+					"[app-a.ext] git pull\n" +
+					"Append to app-a.ext/pom.xml\n" +
+					"git add, git commit, git push");
+
+			try {
+				Git.pull(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"));
+				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext/pom.xml"), "<!-- Dummy comment 3. -->\n");
+				Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null, true);
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -348,52 +375,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolNonBuild {
 
 			// ################################################################################
 
-			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-system");
+			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace commit");
 			try {
-				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "clean-system"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/master");
-			try {
-				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a:D/master"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			// Response "A" to "do you want to delete".
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-non-root-reachable");
-			try {
-				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "clean-non-root-reachable"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**"});
+				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "commit"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -403,7 +387,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolNonBuild {
 
 			IntegrationTestSuite.printTestHeader("Append to workspace/app-a/pom.xml");
 			try {
-				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a/pom.xml"), "<!-- Dummy comment. -->\n");
+				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a/pom.xml"), "<!-- Dummy comment 4. -->\n");
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -411,117 +395,12 @@ public class IntegrationTestSuiteWorkspaceManagerToolNonBuild {
 
 			// ################################################################################
 
-			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/develop-project1");
-			try {
-				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a:D/develop-project1"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			// Response "A" to "do you want to delete".
+			// Response "A" to "do you want to continue".
 			IntegrationTestSuite.testInputStream.write("A\n");
 
-			// Response "A" to "do you want to delete with unsync changes".
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-non-root-reachable");
+			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace commit");
 			try {
-				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "clean-non-root-reachable"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			// Response "A" to "do you want to delete".
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-module-version Domain1/app-a:D/develop-project1");
-			try {
-				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-module-version", "Domain1/app-a:D/develop-project1"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("Append to workspace/app-a-model-intf/pom.xml");
-			try {
-				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a-model-intf/pom.xml"), "<!-- Dummy comment. -->\n");
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			// Response "A" to "do you want to delete with unsync changes".
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-module-version Domain1/app-a-model-intf");
-			try {
-				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-module-version", "Domain1/app-a-model-intf"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			// Response "A" to "do you want to delete".
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-dir app-a");
-			try {
-				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-dir", "app-a"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("Append to workspace/app-a-model-intf/pom.xml");
-			try {
-				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a-model-intf/pom.xml"), "<!-- Dummy comment. -->\n");
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			// Response "A" to "do you want to delete with unsync changes".
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-dir app-a-model-intf");
-			try {
-				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-dir", "app-a-model-intf"});
+				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "commit"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -531,5 +410,3 @@ public class IntegrationTestSuiteWorkspaceManagerToolNonBuild {
 		}
 	}
 }
-missing the commit test
-then the build in separate file

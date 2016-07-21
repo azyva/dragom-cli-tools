@@ -76,6 +76,10 @@ public class IntegrationTestSuite {
 			IntegrationTestSuiteRootManagerTool.testRootManagerTool();
 		}
 
+		if (indAllTests || setTestCategory.contains("GenericRootModuleVersionJobInvokerTool")) {
+			IntegrationTestSuiteGenericRootModuleVersionJobInvokerTool.testGenericRootModuleVersionJobInvokerTool();
+		}
+
 		if (indAllTests || setTestCategory.contains("CheckoutToolBase")) {
 			IntegrationTestSuiteCheckoutToolBase.testCheckoutToolBase();
 		}
@@ -108,8 +112,28 @@ public class IntegrationTestSuite {
 			IntegrationTestSuiteWorkspaceManagerToolBase.testWorkspaceManagerToolBase();
 		}
 
-		if (indAllTests || setTestCategory.contains("WorkspaceManagerToolNonBuild")) {
-			IntegrationTestSuiteWorkspaceManagerToolNonBuild.testWorkspaceManagerToolNonBuild();
+		if (indAllTests || setTestCategory.contains("WorkspaceManagerToolStatusUpdateCommit")) {
+			IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit.testWorkspaceManagerToolStatusUpdateCommit();
+		}
+
+		if (indAllTests || setTestCategory.contains("WorkspaceManagerToolClean")) {
+			IntegrationTestSuiteWorkspaceManagerToolClean.testWorkspaceManagerToolClean();
+		}
+
+		if (indAllTests || setTestCategory.contains("WorkspaceManagerToolBuildClean")) {
+			IntegrationTestSuiteWorkspaceManagerToolBuildClean.testWorkspaceManagerToolBuildClean();
+		}
+
+		if (indAllTests || setTestCategory.contains("BuildTool")) {
+			IntegrationTestSuiteBuildToolBase.testBuildToolBase();
+		}
+
+		if (indAllTests || setTestCategory.contains("BuildToolUserSystemMode")) {
+			IntegrationTestSuiteBuildToolUserSystemMode.testBuildToolUserSystemMode();
+		}
+
+		if (indAllTests || setTestCategory.contains("BuildToolMavenBuilderPluginImplConfig")) {
+			IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig.testBuildToolMavenBuilderPluginImplConfig();
 		}
 	}
 

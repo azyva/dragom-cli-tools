@@ -135,6 +135,11 @@ public class WorkspaceManagerTool {
 	/**
 	 * See description in ResourceBundle.
 	 */
+	private static final String MSG_PATTERN_KEY_COMMIT_HAS_UNSYNC_REMOTE_CHANGES = "COMMIT_HAS_UNSYNC_REMOTE_CHANGES";
+
+	/**
+	 * See description in ResourceBundle.
+	 */
 	private static final String MSG_PATTERN_KEY_COMMIT_SPECIFY_MESSAGE = "COMMIT_SPECIFY_MESSAGE";
 
 	/**
@@ -482,6 +487,16 @@ public class WorkspaceManagerTool {
 					// get into a conflicting situation.
 
 					if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
+						if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlag.REMOTE_CHANGES_ONLY)) {
+							this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_HAS_UNSYNC_REMOTE_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
+
+							if (!Util.handleDoYouWantToContinue(Util.DO_YOU_WANT_TO_CONTINUE_CONTEXT_UNSYNC_REMOTE_CHANGES_WHILE_COMMIT)) {
+								return;
+							}
+
+							continue;
+						}
+
 						this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_HAS_LOCAL_UNSYNC_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
 						if (!indReuseCommitMessage) {
@@ -819,7 +834,7 @@ public class WorkspaceManagerTool {
 
 			this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
-			try (Writer writerLog = this.userInteractionCallbackPlugin.provideInfoWithWriter(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion))) {
+			try (Writer writerLog = this.userInteractionCallbackPlugin.provideInfoWithWriter(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_CLEAN), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion))) {
 				builderPlugin.clean(workspaceDirPath.pathWorkspaceDir, writerLog);
 			} catch (IOException ioe) {
 				throw new RuntimeException(ioe);
@@ -870,7 +885,7 @@ public class WorkspaceManagerTool {
 
 			pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
-			try (Writer writerLog = this.userInteractionCallbackPlugin.provideInfoWithWriter(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()))) {
+			try (Writer writerLog = this.userInteractionCallbackPlugin.provideInfoWithWriter(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_CLEAN), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()))) {
 				builderPlugin.clean(pathWorkspaceDir, writerLog);
 			} catch (IOException ioe) {
 				throw new RuntimeException(ioe);
@@ -909,6 +924,8 @@ public class WorkspaceManagerTool {
 
 		module = this.model.getModule(((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion().getNodePath());
 		builderPlugin = module.getNodePlugin(BuilderPlugin.class, null);
+
+		this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
 		try (Writer writerLog = this.userInteractionCallbackPlugin.provideInfoWithWriter(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_CLEAN), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()))) {
 			builderPlugin.clean(pathWorkspaceDir, writerLog);

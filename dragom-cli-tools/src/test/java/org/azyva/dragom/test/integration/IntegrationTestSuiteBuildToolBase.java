@@ -33,20 +33,20 @@ import org.azyva.dragom.tool.GenericRootModuleVersionJobInvokerTool;
 import org.azyva.dragom.tool.RootManagerTool;
 
 
-public class IntegrationTestSuiteCheckoutToolBase {
+public class IntegrationTestSuiteBuildToolBase {
 	/*********************************************************************************
-	 * Tests CheckoutTool.
+	 * Tests BuildTool.
 	 * <p>
 	 * Basic tests.
 	 *********************************************************************************/
-	public static void testCheckoutToolBase() {
+	public static void testBuildToolBase() {
 		Path pathModel;
 		InputStream inputStream;
 		ZipInputStream zipInputStream;
 		ZipEntry zipEntry;
 
 		try {
-			IntegrationTestSuite.printTestCategoryHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt | Basic tests");
+			IntegrationTestSuite.printTestCategoryHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Build BuildToolHelp.txt | Basic tests");
 
 			IntegrationTestSuite.resetTestWorkspace();
 
@@ -98,9 +98,9 @@ public class IntegrationTestSuiteCheckoutToolBase {
 
 			// ################################################################################
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --help");
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Build BuildToolHelp.txt --help");
 			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--help"});
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Build", "BuildToolHelp.txt", "--help"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -108,19 +108,9 @@ public class IntegrationTestSuiteCheckoutToolBase {
 
 			// ################################################################################
 
-			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/develop-project1");
 			try {
-				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a:D/develop-project1"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -135,8 +125,22 @@ public class IntegrationTestSuiteCheckoutToolBase {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Build BuildToolHelp.txt --workspace=workspace --reference-path-matcher=**");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Build", "BuildToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 }
+
+
+// test the different modes (USER, SYSTEM)
+// Test the builder plugin configuration options, including dragom properties file in module.

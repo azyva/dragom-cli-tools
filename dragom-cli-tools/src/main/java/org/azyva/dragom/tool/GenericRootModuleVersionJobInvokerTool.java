@@ -80,14 +80,14 @@ public class GenericRootModuleVersionJobInvokerTool {
 	 */
 	public static void main(String[] args) {
 		String rootModuleVersionJobAbstractImplSubclass;
-		String helpRessource;
+		String helpResource;
 		DefaultParser defaultParser;
 		CommandLine commandLine = null;
 		Constructor<? extends RootModuleVersionJobAbstractImpl> constructor;
 		RootModuleVersionJobAbstractImpl rootModuleVersionJobAbstractImpl;
 
 		rootModuleVersionJobAbstractImplSubclass = args[0];
-		helpRessource = args[1];
+		helpResource = args[1];
 
 		args = Arrays.copyOfRange(args, 2, args.length);
 
@@ -105,7 +105,7 @@ public class GenericRootModuleVersionJobInvokerTool {
 			}
 
 			if (CliUtil.hasHelpOption(commandLine)) {
-				GenericRootModuleVersionJobInvokerTool.help(helpRessource);
+				GenericRootModuleVersionJobInvokerTool.help(helpResource);
 			} else {
 				args = commandLine.getArgs();
 
@@ -160,9 +160,9 @@ public class GenericRootModuleVersionJobInvokerTool {
 	/**
 	 * Displays help information.
 	 */
-	private static void help(String ressource) {
+	private static void help(String resource) {
 		try {
-			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(GenericRootModuleVersionJobInvokerTool.class, ressource),  System.out);
+			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(GenericRootModuleVersionJobInvokerTool.class, resource),  System.out);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe);
 		}
