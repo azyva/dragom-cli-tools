@@ -90,6 +90,9 @@ VERSION_TO_ARTIFACT_VERSION_MAPPING_ADD_PHASE_";
 			<plugin>
 				<plugin-class>org.azyva.dragom.model.plugin.impl.MavenBuilderPluginImpl</plugin-class>
 			</plugin>
+			<plugin>
+				<plugin-class>org.azyva.dragom.model.plugin.impl.SimpleVersionClassifierPluginImpl</plugin-class>
+			</plugin>
 <!--
 			<plugin>
 				<plugin-class>org.azyva.dragom.model.plugin.impl.MavenArtifactVersionManagerPluginImpl</plugin-class>

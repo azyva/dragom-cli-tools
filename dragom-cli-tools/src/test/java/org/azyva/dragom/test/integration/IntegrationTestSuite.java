@@ -124,7 +124,7 @@ public class IntegrationTestSuite {
 			IntegrationTestSuiteWorkspaceManagerToolBuildClean.testWorkspaceManagerToolBuildClean();
 		}
 
-		if (indAllTests || setTestCategory.contains("BuildTool")) {
+		if (indAllTests || setTestCategory.contains("BuildToolBase")) {
 			IntegrationTestSuiteBuildToolBase.testBuildToolBase();
 		}
 
@@ -134,6 +134,14 @@ public class IntegrationTestSuite {
 
 		if (indAllTests || setTestCategory.contains("BuildToolMavenBuilderPluginImplConfig")) {
 			IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig.testBuildToolMavenBuilderPluginImplConfig();
+		}
+
+		if (indAllTests || setTestCategory.contains("ReferenceGraphReportToolBase")) {
+			IntegrationTestSuiteReferenceGraphReportToolBase.testReferenceGraphReportToolBase();
+		}
+
+		if (indAllTests || setTestCategory.contains("SwitchToDynamicVersionToolBase")) {
+			IntegrationTestSuiteSwitchToDynamicVersionToolBase.testSwitchToDynamicVersionToolBase();
 		}
 	}
 

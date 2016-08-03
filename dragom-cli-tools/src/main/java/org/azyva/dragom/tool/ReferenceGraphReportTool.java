@@ -110,12 +110,17 @@ public class ReferenceGraphReportTool {
 
 				// TODO: avoid-redundancy not valid if not graph
 				// only-multiple-versions not valid if not module-versions
+				// only-matched-modules not valid if not module-versions
+				// only-multiple mutually exclusive with only-matched.
 				// most-recent-available-version-in-scm not valid if not module-version
+				// most-recent-static-version-in-scm not valid if not most-recent-version-in-reference-graph
+				//    or maybe do not validate et let automatic apply.
 				// reference-paths not valid if not module-version.
 
 				buildReferenceGraph = new BuildReferenceGraph(null, CliUtil.getListModuleVersionRoot(commandLine));
 				buildReferenceGraph.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
 				buildReferenceGraph.performJob();
+
 				referenceGraphReport = new ReferenceGraphReport(buildReferenceGraph.getReferenceGraph(), outputFormat);
 				referenceGraphReport.setOutputFilePath(Paths.get(args[0]));
 
@@ -136,6 +141,8 @@ public class ReferenceGraphReportTool {
 
 					if (commandLine.hasOption("only-multiple-versions")) {
 						moduleFilter = ReferenceGraphReport.ModuleFilter.ONLY_MULTIPLE_VERSIONS;
+					} else if (commandLine.hasOption("only-matched-modules")) {
+							moduleFilter = ReferenceGraphReport.ModuleFilter.ONLY_MATCHED;
 					} else {
 						moduleFilter = ReferenceGraphReport.ModuleFilter.ALL;
 					}
@@ -143,11 +150,15 @@ public class ReferenceGraphReportTool {
 					referenceGraphReport.includeModules(moduleFilter);
 				}
 
+				if (commandLine.hasOption("most-recent-version-in-reference-graph")) {
+					referenceGraphReport.includeMostRecentVersionInReferenceGraph();
+				}
+
 				if (commandLine.hasOption("most-recent-static-version-in-scm")) {
 					referenceGraphReport.includeMostRecentStaticVersionInScm();
 				}
 
-				if (commandLine.hasOption("referene-paths")) {
+				if (commandLine.hasOption("reference-paths")) {
 					referenceGraphReport.includeReferencePaths();
 				}
 
@@ -175,6 +186,7 @@ public class ReferenceGraphReportTool {
 
 			option = new Option(null, null);
 			option.setLongOpt("output-format");
+			option.setArgs(1);
 			ReferenceGraphReportTool.options.addOption(option);
 
 			option = new Option(null, null);
@@ -191,6 +203,14 @@ public class ReferenceGraphReportTool {
 
 			option = new Option(null, null);
 			option.setLongOpt("only-multiple-versions");
+			ReferenceGraphReportTool.options.addOption(option);
+
+			option = new Option(null, null);
+			option.setLongOpt("only-matched-modules");
+			ReferenceGraphReportTool.options.addOption(option);
+
+			option = new Option(null, null);
+			option.setLongOpt("most-recent-version-in-reference-graph");
 			ReferenceGraphReportTool.options.addOption(option);
 
 			option = new Option(null, null);
@@ -219,6 +239,3 @@ public class ReferenceGraphReportTool {
 		}
 	}
 }
-//report [--graph] [--avoid-redundancy] [--module-versions [--reference-graph-paths] [--most-recent-version] [--most-recent-available-version-scm]]
-
-

@@ -132,7 +132,7 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
-
+/*
 			// ################################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.MAVEN_HOME", System.getenv("MAVEN_HOME"));
@@ -161,7 +161,7 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
-
+*/
 			// ################################################################################
 
 			System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_HOME");
@@ -192,10 +192,9 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
 			Files.copy(inputStream, pathDragomProperties, StandardCopyOption.REPLACE_EXISTING);
 			inputStream.close();
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Build BuildToolHelp.txt --workspace=workspace --reference-path-matcher=Domain1/app-a (with dragom.properties file for the MavenBuilderPluginImpl)");
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Build BuildToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a (with dragom.properties file for the MavenBuilderPluginImpl)");
 			try {
-				??? did not work (dit not process app-a)
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Build", "BuildToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=Domain1/app-a"});
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Build", "BuildToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -205,7 +204,3 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
 		}
 	}
 }
-
-
-// test the different modes (USER, SYSTEM)
-// Test the builder plugin configuration options, including dragom properties file in module.
