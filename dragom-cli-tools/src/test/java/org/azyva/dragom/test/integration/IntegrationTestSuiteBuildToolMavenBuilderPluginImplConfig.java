@@ -132,7 +132,7 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
-/*
+
 			// ################################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.MAVEN_HOME", System.getenv("MAVEN_HOME"));
@@ -161,7 +161,7 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
-*/
+
 			// ################################################################################
 
 			System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_HOME");

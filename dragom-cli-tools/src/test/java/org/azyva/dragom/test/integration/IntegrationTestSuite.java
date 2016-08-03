@@ -140,8 +140,16 @@ public class IntegrationTestSuite {
 			IntegrationTestSuiteReferenceGraphReportToolBase.testReferenceGraphReportToolBase();
 		}
 
+		if (indAllTests || setTestCategory.contains("ReferenceGraphReportToolReport")) {
+			IntegrationTestSuiteReferenceGraphReportToolReport.testReferenceGraphReportToolReport();
+		}
+
 		if (indAllTests || setTestCategory.contains("SwitchToDynamicVersionToolBase")) {
 			IntegrationTestSuiteSwitchToDynamicVersionToolBase.testSwitchToDynamicVersionToolBase();
+		}
+
+		if (indAllTests || setTestCategory.contains("SwitchToDynamicVersionToolRecurse")) {
+			IntegrationTestSuiteSwitchToDynamicVersionToolRecurse.testSwitchToDynamicVersionToolRecurse();
 		}
 	}
 

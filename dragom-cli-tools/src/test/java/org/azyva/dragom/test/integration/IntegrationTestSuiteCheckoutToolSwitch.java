@@ -143,7 +143,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// Default response to "do you want to continue" (YA).
+			// Default response to "do you want to continue" (Y).
 			IntegrationTestSuite.testInputStream.write("\n");
 
 			// ################################################################################

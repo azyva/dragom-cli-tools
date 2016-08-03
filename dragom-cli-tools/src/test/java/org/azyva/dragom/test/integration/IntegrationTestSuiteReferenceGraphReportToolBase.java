@@ -98,11 +98,101 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 
 			// ################################################################################
 
+			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool");
+			try {
+				ReferenceGraphReportTool.main(new String[] {});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
 			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --help");
 			try {
 				ReferenceGraphReportTool.main(new String[] {"--help"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool dummy1 dummy2");
+			try {
+				ReferenceGraphReportTool.main(new String[] {"dummy1", "dummy2"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --module-versions --avoid-redundancy dummy");
+			try {
+				ReferenceGraphReportTool.main(new String[] {"--module-versions", "--avoid-redundancy", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --only-multiple-versions dummy");
+			try {
+				ReferenceGraphReportTool.main(new String[] {"--graph", "--only-multiple-versions", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --only-matched-modules dummy");
+			try {
+				ReferenceGraphReportTool.main(new String[] {"--graph", "--only-matched-modules", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --most-recent-version-in-reference-graph dummy");
+			try {
+				ReferenceGraphReportTool.main(new String[] {"--graph", "--most-recent-version-in-reference-graph", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --most-recent-static-version-in-scm dummy");
+			try {
+				ReferenceGraphReportTool.main(new String[] {"--graph", "--most-recent-static-version-in-scm", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --reference-paths dummy");
+			try {
+				ReferenceGraphReportTool.main(new String[] {"--graph", "--reference-paths", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --module-versions --only-multiple-versions --only-matched-modules dummy");
+			try {
+				ReferenceGraphReportTool.main(new String[] {"--module-versions", "--only-multiple-versions", "--only-matched-modules", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
 			}
 			IntegrationTestSuite.printTestFooter();
 
@@ -121,136 +211,6 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph reference-graph-report.txt");
 			try {
 				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report.txt").toString()});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph --output-format=TEXT reference-graph-report.txt");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", "--output-format=TEXT", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report.txt").toString()});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph --output-format=XML reference-graph-report.xml");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", "--output-format=XML", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report.xml").toString()});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph --output-format=JSON reference-graph-report.json");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", "--output-format=JSON", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report.json").toString()});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph --output-format=TEXT --module-versions --most-recent-version-in-reference-graph --most-recent-static-version-in-scm --reference-paths reference-graph-report-modules.txt");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", "--output-format=TEXT", "--module-versions", "--most-recent-version-in-reference-graph", "--most-recent-static-version-in-scm", "--reference-paths", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report-modules.txt").toString()});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph --output-format=XML --module-versions --most-recent-version-in-reference-graph --most-recent-static-version-in-scm --reference-paths reference-graph-report-modules.xml");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", "--output-format=XML", "--module-versions", "--most-recent-version-in-reference-graph", "--most-recent-static-version-in-scm", "--reference-paths", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report-modules.xml").toString()});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph --output-format=JSON --module-versions --most-recent-version-in-reference-graph --most-recent-static-version-in-scm --reference-paths reference-graph-report-modules.json");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", "--output-format=JSON", "--module-versions", "--most-recent-version-in-reference-graph", "--most-recent-static-version-in-scm", "--reference-paths", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report-modules.json").toString()});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph --output-format=TEXT --module-versions --most-recent-version-in-reference-graph --most-recent-static-version-in-scm --only-multiple-versions --reference-paths reference-graph-report-modules-only-multiple-versions.txt");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", "--output-format=TEXT", "--module-versions", "--most-recent-version-in-reference-graph", "--most-recent-static-version-in-scm", "--only-multiple-versions", "--reference-paths", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report-modules-only-multiple-versions.txt").toString()});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph --output-format=TEXT --module-versions --most-recent-version-in-reference-graph --most-recent-static-version-in-scm --only-matched-modules --reference-paths reference-graph-report-modules-only-matched-modules.txt");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", "--output-format=TEXT", "--module-versions", "--most-recent-version-in-reference-graph", "--most-recent-static-version-in-scm", "--only-matched-modules", "--reference-paths", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report-modules-only-matched-modules.txt").toString()});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:D/develop-project1");
-			try {
-				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain2/app-b:D/develop-project1"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph --output-format=TEXT --module-versions --most-recent-version-in-reference-graph --most-recent-static-version-in-scm --reference-paths reference-graph-report-multiple-modules.txt");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", "--output-format=TEXT", "--module-versions", "--most-recent-version-in-reference-graph", "--most-recent-static-version-in-scm", "--reference-paths", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report-multiple-modules.txt").toString()});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph --output-format=TEXT --module-versions --avoid-redundancy --most-recent-version-in-reference-graph --most-recent-static-version-in-scm --only-multiple-versions --reference-paths reference-graph-report-multiple-avoid-redundancy-modules-only-multiple-versions.txt");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", "--output-format=TEXT", "--avoid-redundancy", "--module-versions", "--most-recent-version-in-reference-graph", "--most-recent-static-version-in-scm", "--only-multiple-versions", "--reference-paths", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report-multiple-avoid-redundancy-modules-only-multiple-versions.txt").toString()});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph --output-format=XML --module-versions --avoid-redundancy --most-recent-version-in-reference-graph --most-recent-static-version-in-scm --only-multiple-versions --reference-paths reference-graph-report-multiple-avoid-redundancy-modules-only-multiple-versions.xml");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", "--output-format=XML", "--avoid-redundancy", "--module-versions", "--most-recent-version-in-reference-graph", "--most-recent-static-version-in-scm", "--only-multiple-versions", "--reference-paths", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report-multiple-avoid-redundancy-modules-only-multiple-versions.xml").toString()});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph --output-format=JSON --module-versions --avoid-redundancy --most-recent-version-in-reference-graph --most-recent-static-version-in-scm --only-multiple-versions --reference-paths reference-graph-report-multiple-avoid-redundancy-modules-only-multiple-versions.json");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", "--output-format=JSON", "--avoid-redundancy", "--module-versions", "--most-recent-version-in-reference-graph", "--most-recent-static-version-in-scm", "--only-multiple-versions", "--reference-paths", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report-multiple-avoid-redundancy-modules-only-multiple-versions.json").toString()});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}

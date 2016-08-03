@@ -50,6 +50,26 @@ public class ReferenceGraphReportTool {
 	public static final String MSG_PATTERN_KEY_OUTPUT_FORMAT_POSSIBLE_VALUES = "OUTPUT_FORMAT_POSSIBLE_VALUES";
 
 	/**
+	 * See description in ResourceBundle.
+	 */
+	public static final String MSG_PATTERN_KEY_GRAPH_OR_MODULE_VERSION_REQUIRED = "GRAPH_OR_MODULE_VERSION_REQUIRED";
+
+	/**
+	 * See description in ResourceBundle.
+	 */
+	public static final String MSG_PATTERN_KEY_GRAPH_REQUIRED_WHEN = "GRAPH_REQUIRED_WHEN";
+
+	/**
+	 * See description in ResourceBundle.
+	 */
+	public static final String MSG_PATTERN_KEY_MODULE_VERSIONS_REQUIRED_WHEN = "MODULE_VERSIONS_REQUIRED_WHEN";
+
+	/**
+	 * See description in ResourceBundle.
+	 */
+	public static final String MSG_PATTERN_KEY_ONLY_MULTIPLE_VERSIONS_AND_ONLY_MATCHED_MODULES_MUTUALLY_EXCLUSIVE = "ONLY_MULTIPLE_VERSIONS_AND_ONLY_MATCHED_MODULES_MUTUALLY_EXCLUSIVE";
+
+	/**
 	 * ResourceBundle specific to this class.
 	 */
 	private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ReferenceGraphReportTool.class.getName() + "ResourceBundle");
@@ -108,14 +128,26 @@ public class ReferenceGraphReportTool {
 					}
 				}
 
-				// TODO: avoid-redundancy not valid if not graph
-				// only-multiple-versions not valid if not module-versions
-				// only-matched-modules not valid if not module-versions
-				// only-multiple mutually exclusive with only-matched.
-				// most-recent-available-version-in-scm not valid if not module-version
-				// most-recent-static-version-in-scm not valid if not most-recent-version-in-reference-graph
-				//    or maybe do not validate et let automatic apply.
-				// reference-paths not valid if not module-version.
+				if (!commandLine.hasOption("graph") && !commandLine.hasOption("module-versions")) {
+					throw new RuntimeExceptionUserError(MessageFormat.format(ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_GRAPH_OR_MODULE_VERSION_REQUIRED), CliUtil.getHelpCommandLineOption()));
+				}
+
+				if (commandLine.hasOption("avoid-redundancy") && !commandLine.hasOption("graph")) {
+					throw new RuntimeExceptionUserError(MessageFormat.format(ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_GRAPH_REQUIRED_WHEN), CliUtil.getHelpCommandLineOption()));
+				}
+
+				if (   (   commandLine.hasOption("only-multiple-versions")
+				        || commandLine.hasOption("only-matched-modules")
+				        || commandLine.hasOption("most-recent-version-in-reference-graph")
+				        || commandLine.hasOption("most-recent-static-version-in-scm")
+				        || commandLine.hasOption("reference-paths"))
+				    && !commandLine.hasOption("module-versions")) {
+					throw new RuntimeExceptionUserError(MessageFormat.format(ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_MODULE_VERSIONS_REQUIRED_WHEN), CliUtil.getHelpCommandLineOption()));
+				}
+
+				if (commandLine.hasOption("only-multiple-versions") && commandLine.hasOption("only-matched-modules")) {
+					throw new RuntimeExceptionUserError(MessageFormat.format(ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_ONLY_MULTIPLE_VERSIONS_AND_ONLY_MATCHED_MODULES_MUTUALLY_EXCLUSIVE), CliUtil.getHelpCommandLineOption()));
+				}
 
 				buildReferenceGraph = new BuildReferenceGraph(null, CliUtil.getListModuleVersionRoot(commandLine));
 				buildReferenceGraph.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
