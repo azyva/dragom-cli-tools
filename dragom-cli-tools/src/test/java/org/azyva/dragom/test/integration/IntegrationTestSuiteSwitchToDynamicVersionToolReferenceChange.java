@@ -29,24 +29,26 @@ import java.nio.file.StandardCopyOption;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.azyva.dragom.git.Git;
+import org.azyva.dragom.model.Version;
 import org.azyva.dragom.tool.GenericRootModuleVersionJobInvokerTool;
 import org.azyva.dragom.tool.RootManagerTool;
 
 
-public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
+public class IntegrationTestSuiteSwitchToDynamicVersionToolReferenceChange {
 	/*********************************************************************************
 	 * Tests SwitchToDynamicVersionTool.
 	 * <p>
-	 * Recursion tests.
+	 * Reference change tests.
 	 *********************************************************************************/
-	public static void testSwitchToDynamicVersionToolRecurse() {
+	public static void testSwitchToDynamicVersionToolReferenceChange() {
 		Path pathModel;
 		InputStream inputStream;
 		ZipInputStream zipInputStream;
 		ZipEntry zipEntry;
 
 		try {
-			IntegrationTestSuite.printTestCategoryHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt | Recurse tests");
+			IntegrationTestSuite.printTestCategoryHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt | Reference change tests");
 
 			IntegrationTestSuite.resetTestWorkspace();
 
@@ -98,6 +100,26 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
 
 			// ################################################################################
 
+			IntegrationTestSuite.printTestHeader(
+					"git clone test-git-repos/Domain2/app-b-model.git app-b-model.ext\n" +
+					"Change references in app-b-model.ext/pom.xml\n" +
+					"git add, git commit, git push");
+			try {
+				Path path;
+
+				Git.clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b-model.git", new Version("D/master"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"));
+				path = IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext/pom.xml");
+				inputStream = IntegrationTestSuite.class.getResourceAsStream("/pom.xml-SwitchToDynamicVersionToolReferenceChange1");
+				Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
+				inputStream.close();
+				Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null, true);
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b");
 			try {
 				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain2/app-b"});
@@ -109,58 +131,29 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
 			// ################################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
-
-			// Response "D/develop-project2" to "to which version do you want to switch"
-			IntegrationTestSuite.testInputStream.write("D/develop-project2\n");
-
-			// Response "Y" to "do you want to automatically reuse dynamic version"
-			IntegrationTestSuite.testInputStream.write("Y\n");
-
-			// Default response to "which base version" (D/master)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "Y" to "do you want to automatically reuse base version"
-			IntegrationTestSuite.testInputStream.write("Y\n");
-
-			// Default response to "do you want to continue" (Y)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "Y" to "process already dynamic versions"
-			IntegrationTestSuite.testInputStream.write("Y\n");
-
-			// Default response to "do you want to continue" (Y)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "A" to "do you want to continue (updating parent)"
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Framework/framework");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b->/Framework/framework"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
 			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project2");
 
-			// Response "A" to "do you want to continue"
-			IntegrationTestSuite.testInputStream.write("A\n");
-
 			// Default response to "which base version" (D/master)
 			IntegrationTestSuite.testInputStream.write("\n");
 
 			// Response "Y" to "do you want to automatically reuse base version"
 			IntegrationTestSuite.testInputStream.write("Y\n");
 
-			// Response "A" to "do you want to continue (updating parent)"
+			// Response "A" to "do you want to continue (creating version)"
 			IntegrationTestSuite.testInputStream.write("A\n");
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=**->/Framework/framework");
+			// Response "A" to "do you want to continue (update parent with reference change)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "A" to "do you want to continue (update parent)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "Y" to "process dynamic versions"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=**->/Domain2/app-b-model->/Framework/framework (switch to D/develop-project2, system workspace directories)");
 			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**->/Framework/framework"});
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**->/Domain2/app-b-model->/Framework/framework"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -188,13 +181,8 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
 
 			// ################################################################################
 
-			System.clearProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION");
-
-			// Response "D/develop-project2" to "to which version do you want to switch"
-			IntegrationTestSuite.testInputStream.write("D/develop-project2\n");
-
-			// Response "Y" to "do you want to automatically reuse dynamic version"
-			IntegrationTestSuite.testInputStream.write("Y\n");
+			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
+			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project3");
 
 			// Default response to "which base version" (D/master)
 			IntegrationTestSuite.testInputStream.write("\n");
@@ -202,60 +190,28 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
 			// Response "Y" to "do you want to automatically reuse base version"
 			IntegrationTestSuite.testInputStream.write("Y\n");
 
-			// Default response to "do you want to continue" (Y)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "Y" to "process already dynamic versions"
-			IntegrationTestSuite.testInputStream.write("Y\n");
-
-			// Default response to "do you want to continue" (Y)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "A" to "do you want to continue (updating parent)"
+			// Response "A" to "do you want to continue (creating version)"
 			IntegrationTestSuite.testInputStream.write("A\n");
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Framework/framework (user workspace directories)");
+			// Response "A" to "do you want to continue (update parent with reference change)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "A" to "do you want to continue (update parent)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "Y" to "process dynamic versions"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=**->/Domain2/app-b-model->/Framework/framework (switch to D/develop-project3, user workspace directories)");
 			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b->/Framework/framework"});
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**->/Domain2/app-b-model->/Framework/framework"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
-
-			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project2");
-
-			// Response "A" to "do you want to continue"
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			// Default response to "which base version" (D/master)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "Y" to "do you want to automatically reuse base version"
-			IntegrationTestSuite.testInputStream.write("Y\n");
-
-			// Response "A" to "do you want to continue (updating parent)"
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=**->/Framework/framework (user workspace directories)");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**->/Framework/framework"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 }
-
-
-/*
-Phase
-Hotfix
-
-cases where equivalent static, and version change commit attributes are not specified (such as for develop-project1).
-unsync changes, remote and local
-*/

@@ -151,6 +151,18 @@ public class IntegrationTestSuite {
 		if (indAllTests || setTestCategory.contains("SwitchToDynamicVersionToolRecurse")) {
 			IntegrationTestSuiteSwitchToDynamicVersionToolRecurse.testSwitchToDynamicVersionToolRecurse();
 		}
+
+		if (indAllTests || setTestCategory.contains("SwitchToDynamicVersionToolReferenceChange")) {
+			IntegrationTestSuiteSwitchToDynamicVersionToolReferenceChange.testSwitchToDynamicVersionToolReferenceChange();
+		}
+
+		if (indAllTests || setTestCategory.contains("SwitchToDynamicVersionToolHotfix")) {
+			IntegrationTestSuiteSwitchToDynamicVersionToolHotfix.testSwitchToDynamicVersionToolHotfix();
+		}
+
+		if (indAllTests || setTestCategory.contains("SwitchToDynamicVersionToolPhase")) {
+			IntegrationTestSuiteSwitchToDynamicVersionToolPhase.testSwitchToDynamicVersionToolPhase();
+		}
 	}
 
 	public static void printTestCategoryHeader(String header) {

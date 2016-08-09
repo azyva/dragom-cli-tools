@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.acme.domain2</groupId>
+  <artifactId>app-b-model</artifactId>
+  <version>develop-project1-SNAPSHOT</version>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.acme.domain2</groupId>
+  		<artifactId>app-b-model-intf</artifactId>
+  		<version>master-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.acme.framework</groupId>
+  		<artifactId>framework-ui</artifactId>
+  		<version>10.0.1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.acme.framework</groupId>
+  		<artifactId>framework-db</artifactId>
+  		<version>10.0.1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.acme.framework</groupId>
+  		<artifactId>framework-util</artifactId>
+  		<version>10.0.1</version>
+  	</dependency>
+  </dependencies>
+</project>

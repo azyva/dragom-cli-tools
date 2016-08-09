@@ -33,20 +33,20 @@ import org.azyva.dragom.tool.GenericRootModuleVersionJobInvokerTool;
 import org.azyva.dragom.tool.RootManagerTool;
 
 
-public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
+public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 	/*********************************************************************************
 	 * Tests SwitchToDynamicVersionTool.
 	 * <p>
-	 * Recursion tests.
+	 * Hotfix tests.
 	 *********************************************************************************/
-	public static void testSwitchToDynamicVersionToolRecurse() {
+	public static void testSwitchToDynamicVersionToolHotfix() {
 		Path pathModel;
 		InputStream inputStream;
 		ZipInputStream zipInputStream;
 		ZipEntry zipEntry;
 
 		try {
-			IntegrationTestSuite.printTestCategoryHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt | Recurse tests");
+			IntegrationTestSuite.printTestCategoryHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt | Hotfix tests");
 
 			IntegrationTestSuite.resetTestWorkspace();
 
@@ -108,8 +108,8 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
 
 			// ################################################################################
 
-			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
-
+			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "hotfix");
+???
 			// Response "D/develop-project2" to "to which version do you want to switch"
 			IntegrationTestSuite.testInputStream.write("D/develop-project2\n");
 
@@ -250,12 +250,3 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
 		}
 	}
 }
-
-
-/*
-Phase
-Hotfix
-
-cases where equivalent static, and version change commit attributes are not specified (such as for develop-project1).
-unsync changes, remote and local
-*/
