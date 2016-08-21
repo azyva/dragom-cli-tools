@@ -163,6 +163,10 @@ public class IntegrationTestSuite {
 		if (indAllTests || setTestCategory.contains("SwitchToDynamicVersionToolPhase")) {
 			IntegrationTestSuiteSwitchToDynamicVersionToolPhase.testSwitchToDynamicVersionToolPhase();
 		}
+
+		if (indAllTests || setTestCategory.contains("MutableModelSimpleConfig")) {
+			IntegrationTestSuiteMutableModelSimpleConfig.testMutableModelSimpleConfig();
+		}
 	}
 
 	public static void printTestCategoryHeader(String header) {
