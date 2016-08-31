@@ -108,10 +108,20 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolPhase {
 
 			// ################################################################################
 
-			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "phase");
-???
-			// Response "D/develop-project2" to "to which version do you want to switch"
-			IntegrationTestSuite.testInputStream.write("D/develop-project2\n");
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain2/app-b"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
+
+			// Response "D/develop-project1-sprint" to "to which version do you want to switch"
+			IntegrationTestSuite.testInputStream.write("D/develop-project1-sprint\n");
 
 			// Response "Y" to "do you want to automatically reuse dynamic version"
 			IntegrationTestSuite.testInputStream.write("Y\n");
@@ -122,14 +132,17 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolPhase {
 			// Response "Y" to "do you want to automatically reuse base version"
 			IntegrationTestSuite.testInputStream.write("Y\n");
 
-			// Default response to "do you want to continue" (Y)
-			IntegrationTestSuite.testInputStream.write("\n");
+			// Response "A" to "do you want to continue"
+			IntegrationTestSuite.testInputStream.write("A\n");
 
-			// Response "Y" to "process already dynamic versions"
+			// Response "sprint01" to "which phase"
+			IntegrationTestSuite.testInputStream.write("sprint01\n");
+
+			// Response "Y" to "reuse phase"
 			IntegrationTestSuite.testInputStream.write("Y\n");
 
-			// Default response to "do you want to continue" (Y)
-			IntegrationTestSuite.testInputStream.write("\n");
+			// Response "Y" to "process already dynamic version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
 
 			// Response "A" to "do you want to continue (updating parent)"
 			IntegrationTestSuite.testInputStream.write("A\n");
@@ -144,77 +157,44 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolPhase {
 
 			// ################################################################################
 
-			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project2");
+			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
 
-			// Response "A" to "do you want to continue"
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			// Default response to "which base version" (D/master)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "Y" to "do you want to automatically reuse base version"
+			// Response "Y" to "process already dynamic version"
 			IntegrationTestSuite.testInputStream.write("Y\n");
 
-			// Response "A" to "do you want to continue (updating parent)"
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=**->/Framework/framework");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**->/Framework/framework"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:D/master");
-			try {
-				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain2/app-b:D/master"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			System.clearProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION");
-
-			// Response "D/develop-project2" to "to which version do you want to switch"
-			IntegrationTestSuite.testInputStream.write("D/develop-project2\n");
+			// Response "D/develop-project1-sprint" to "to which version do you want to switch"
+			IntegrationTestSuite.testInputStream.write("D/develop-project1-sprint\n");
 
 			// Response "Y" to "do you want to automatically reuse dynamic version"
 			IntegrationTestSuite.testInputStream.write("Y\n");
 
+			// Response "A" to "do you want to continue"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+/*
 			// Default response to "which base version" (D/master)
 			IntegrationTestSuite.testInputStream.write("\n");
 
 			// Response "Y" to "do you want to automatically reuse base version"
 			IntegrationTestSuite.testInputStream.write("Y\n");
+*/
 
-			// Default response to "do you want to continue" (Y)
+			// Response "sprint02" to "which phase"
+			IntegrationTestSuite.testInputStream.write("sprint02\n");
+
+			// Default response to "reuse phase" (A)
 			IntegrationTestSuite.testInputStream.write("\n");
 
-			// Response "Y" to "process already dynamic versions"
+			// Default response to "which phase" (sprint02)
+			IntegrationTestSuite.testInputStream.write("\n");
+
+			// Response "Y" to "reuse phase"
 			IntegrationTestSuite.testInputStream.write("Y\n");
-
-			// Default response to "do you want to continue" (Y)
-			IntegrationTestSuite.testInputStream.write("\n");
 
 			// Response "A" to "do you want to continue (updating parent)"
 			IntegrationTestSuite.testInputStream.write("A\n");
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Framework/framework (user workspace directories)");
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Framework/framework");
 			try {
 				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b->/Framework/framework"});
 			} catch (Exception e) {
@@ -222,29 +202,12 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolPhase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
 
-			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project2");
 
-			// Response "A" to "do you want to continue"
-			IntegrationTestSuite.testInputStream.write("A\n");
 
-			// Default response to "which base version" (D/master)
-			IntegrationTestSuite.testInputStream.write("\n");
 
-			// Response "Y" to "do you want to automatically reuse base version"
-			IntegrationTestSuite.testInputStream.write("Y\n");
 
-			// Response "A" to "do you want to continue (updating parent)"
-			IntegrationTestSuite.testInputStream.write("A\n");
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=**->/Framework/framework (user workspace directories)");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**->/Framework/framework"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -181,7 +181,6 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolReferenceChange {
 
 			// ################################################################################
 
-			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
 			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project3");
 
 			// Default response to "which base version" (D/master)

@@ -31,6 +31,7 @@ import java.util.zip.ZipInputStream;
 
 import org.azyva.dragom.tool.GenericRootModuleVersionJobInvokerTool;
 import org.azyva.dragom.tool.RootManagerTool;
+import org.azyva.dragom.tool.WorkspaceManagerTool;
 
 
 public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
@@ -108,30 +109,41 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 
 			// ################################################################################
 
+			// Response "N" to "do you want to continue non-static versions in reference path"
+			IntegrationTestSuite.testInputStream.write("N\n");
+
 			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "hotfix");
-???
-			// Response "D/develop-project2" to "to which version do you want to switch"
-			IntegrationTestSuite.testInputStream.write("D/develop-project2\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Framework/framework");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b->/Framework/framework"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:S/v-2000-07-01.01");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain2/app-b:S/v-2000-07-01.01"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// Response "D/hotfix_hotfix1" to "to which version do you want to switch"
+			IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix1\n");
 
 			// Response "Y" to "do you want to automatically reuse dynamic version"
 			IntegrationTestSuite.testInputStream.write("Y\n");
 
-			// Default response to "which base version" (D/master)
-			IntegrationTestSuite.testInputStream.write("\n");
+			// Response "A" to "do you want to continue create version"
+			IntegrationTestSuite.testInputStream.write("A\n");
 
-			// Response "Y" to "do you want to automatically reuse base version"
-			IntegrationTestSuite.testInputStream.write("Y\n");
-
-			// Default response to "do you want to continue" (Y)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "Y" to "process already dynamic versions"
-			IntegrationTestSuite.testInputStream.write("Y\n");
-
-			// Default response to "do you want to continue" (Y)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "A" to "do you want to continue (updating parent)"
+			// Response "A" to "do you want to continue update parent"
 			IntegrationTestSuite.testInputStream.write("A\n");
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Framework/framework");
@@ -144,33 +156,9 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 
 			// ################################################################################
 
-			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project2");
-
-			// Response "A" to "do you want to continue"
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			// Default response to "which base version" (D/master)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "Y" to "do you want to automatically reuse base version"
-			IntegrationTestSuite.testInputStream.write("Y\n");
-
-			// Response "A" to "do you want to continue (updating parent)"
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=**->/Framework/framework");
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:S/v-2000-07-01.01");
 			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**->/Framework/framework"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-
-			// ################################################################################
-
-			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:D/master");
-			try {
-				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain2/app-b:D/master"});
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain2/app-b:S/v-2000-07-01.01"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -188,30 +176,16 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 
 			// ################################################################################
 
-			System.clearProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION");
-
-			// Response "D/develop-project2" to "to which version do you want to switch"
-			IntegrationTestSuite.testInputStream.write("D/develop-project2\n");
+			// Response "D/hotfix_hotfix2" to "to which version do you want to switch"
+			IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix2\n");
 
 			// Response "Y" to "do you want to automatically reuse dynamic version"
 			IntegrationTestSuite.testInputStream.write("Y\n");
 
-			// Default response to "which base version" (D/master)
-			IntegrationTestSuite.testInputStream.write("\n");
+			// Response "A" to "do you want to continue create version"
+			IntegrationTestSuite.testInputStream.write("A\n");
 
-			// Response "Y" to "do you want to automatically reuse base version"
-			IntegrationTestSuite.testInputStream.write("Y\n");
-
-			// Default response to "do you want to continue" (Y)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "Y" to "process already dynamic versions"
-			IntegrationTestSuite.testInputStream.write("Y\n");
-
-			// Default response to "do you want to continue" (Y)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "A" to "do you want to continue (updating parent)"
+			// Response "A" to "do you want to continue update parent"
 			IntegrationTestSuite.testInputStream.write("A\n");
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Framework/framework (user workspace directories)");
@@ -224,29 +198,108 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 
 			// ################################################################################
 
-			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project2");
-
-			// Response "A" to "do you want to continue"
+			// Response "A" to "do you want to delete".
 			IntegrationTestSuite.testInputStream.write("A\n");
 
-			// Default response to "which base version" (D/master)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "Y" to "do you want to automatically reuse base version"
-			IntegrationTestSuite.testInputStream.write("Y\n");
-
-			// Response "A" to "do you want to continue (updating parent)"
-			IntegrationTestSuite.testInputStream.write("A\n");
-
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=**->/Framework/framework (user workspace directories)");
+			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-all");
 			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**->/Framework/framework"});
+				WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "clean-all"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:S/v-2000-07-01.01");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain2/app-b:S/v-2000-07-01.01"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// Response "D/hotfix_hotfix3" to "to which version do you want to switch"
+			IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix3\n");
+
+			// Response "Y" to "do you want to automatically reuse dynamic version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "A" to "do you want to continue create version"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// Response "A" to "do you want to continue non-static versions in reference path"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "D/hotfix_hotfix3" to "to which version do you want to switch"
+			IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix3\n");
+
+			// Response "Y" to "do you want to automatically reuse dynamic version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "A" to "do you want to continue create version"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "A" to "do you want to continue use current hotfix version"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "A" to "do you want to continue update parent"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Framework/framework (user workspace directories)");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b->/Framework/framework"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:S/v-2000-07-01.01");
+			try {
+				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain2/app-b:S/v-2000-07-01.01"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// Response "D/hotfix_hotfix3" to "to which version do you want to switch"
+			IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix1\n");
+
+			// Response "Y" to "do you want to automatically reuse dynamic version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "A" to "do you want to continue switch version"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b (existing hotfix version)");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 }
+
+
+// Test when hotfix dynamic version already exists (validate base)
