@@ -1,86 +1,109 @@
+/*
+ * Copyright 2015 AZYVA INC.
+ *
+ * This file is part of Dragom.
+ *
+ * Dragom is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Dragom is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.azyva.dragom.test.integration.mutablemodelsimpleconfig;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.azyva.dragom.model.ClassificationNode;
+import org.azyva.dragom.model.Module;
 import org.azyva.dragom.model.MutableNode;
 import org.azyva.dragom.model.Node;
 import org.azyva.dragom.model.config.NodeConfigTransferObject;
-import org.azyva.dragom.model.config.PropertyDefConfig;
-import org.azyva.dragom.model.config.SimplePropertyDefConfig;
+import org.azyva.dragom.model.config.OptimisticLockException;
+import org.azyva.dragom.model.config.OptimisticLockHandle;
 import org.azyva.dragom.model.plugin.impl.NodePluginAbstractImpl;
 
+// Should bi-personnality plugins do this, or should Dragom support bare NodePlugin? Probably this, but with a bi-base impl.
 public class TestPluginImpl extends NodePluginAbstractImpl implements TestPlugin {
-	public TestPluginImpl(Node node) {
-		super(node);
+	public TestPluginImpl(ClassificationNode classificationNode) {
+		super(classificationNode);
+	}
+
+	public TestPluginImpl(Module module) {
+		super(module);
 	}
 
 	@Override
-	public MultiValuedAttributesTransferObject getMultiValuedAttributesTransferObject() {
-		MultiValuedAttributesTransferObject multiValuedAttributesTransferObject;
-		MutableNode mutableNode;
-		NodeConfigTransferObject nodeConfigTransferObject;
-
-		multiValuedAttributesTransferObject = new MultiValuedAttributesTransferObject();
-		mutableNode = (MutableNode)this.getNode();
-		nodeConfigTransferObject = mutableNode.getNodeConfigTransferObject();
-
-		for(PropertyDefConfig propertyDefConfig: nodeConfigTransferObject.getListPropertyDefConfig()) {
-			if (propertyDefConfig.getName().startsWith("MULTI_VALUED_ATTRIBUTE.")) {
-				String attributeName;
-				String[] arrayValue;
-
-				attributeName = propertyDefConfig.getName().substring("MULTI_VALUED_ATTRIBUTE.".length());
-				arrayValue = propertyDefConfig.getValue().split(",");
-
-				for (String value: arrayValue) {
-					multiValuedAttributesTransferObject.addValue(attributeName, value);
-				}
-			}
-		}
-
-		return multiValuedAttributesTransferObject;
+	public ClassificationNode getClassificationNode() {
+		return (ClassificationNode)this.getNode();
 	}
 
 	@Override
-	public void setMultiValuedAttributesTransferObject(MultiValuedAttributesTransferObject multiValuedAttributesTransferObject) {
+	public Module getModule() {
+		return (Module)this.getNode();
+	}
+
+	@Override
+	public MultiValuedAttributesTransferObject getMultiValuedAttributesTransferObject(OptimisticLockHandle optimisticLockHandle)
+			throws OptimisticLockException {
+
+		return new MultiValuedAttributesTransferObject(((MutableNode)this.getNode()).getNodeConfigTransferObject(optimisticLockHandle));
+	}
+
+	@Override
+	public void setMultiValuedAttributesTransferObject(MultiValuedAttributesTransferObject multiValuedAttributesTransferObject, OptimisticLockHandle optimisticLockHandle)
+			throws OptimisticLockException {
 		MutableNode mutableNode;
 		NodeConfigTransferObject nodeConfigTransferObject;
 
 		mutableNode = (MutableNode)this.getNode();
-		nodeConfigTransferObject = mutableNode.getNodeConfigTransferObject();
-
-		for(PropertyDefConfig propertyDefConfig: nodeConfigTransferObject.getListPropertyDefConfig()) {
-			if (propertyDefConfig.getName().startsWith("MULTI_VALUED_ATTRIBUTE.")) {
-				nodeConfigTransferObject.removePropertyDefConfig(propertyDefConfig.getName());
-			}
-		}
-
-		for(String attributeName: multiValuedAttributesTransferObject.getSetAttributeName()) {
-			Set<String> setValue;
-			StringBuilder stringBuilder;
-
-			setValue = multiValuedAttributesTransferObject.getMultiValuedAttribute(attributeName);
-			stringBuilder = new StringBuilder();
-
-			for (String value: setValue) {
-				stringBuilder.append(value).append(',');
-			}
-
-			if (!setValue.isEmpty()) {
-				// Remove the trailing ",".
-				stringBuilder.setLength(stringBuilder.length() - 1);
-			}
-
-			nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("MULTI_VALUED_ATTRIBUTE." + attributeName, stringBuilder.toString(), true));
-		}
-
-		mutableNode.setNodeConfigTransferObject(nodeConfigTransferObject);
+		nodeConfigTransferObject = mutableNode.getNodeConfigTransferObject(optimisticLockHandle);
+		multiValuedAttributesTransferObject.fillNodeConfigTransferObject(nodeConfigTransferObject);
+		mutableNode.setNodeConfigTransferObject(nodeConfigTransferObject, optimisticLockHandle);
 	}
 
 	@Override
 	public Set<String> getCumulativeMultiValuedAttribute(String attributeName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		Set<String> setAttributeNameBeingBuilt;
+		Node nodeCurrent;
+		TestPlugin testPlugin;
+		MultiValuedAttributesTransferObject multiValuedAttributesTransferObject;
+		Set<String> setAttributeName;
 
+		setAttributeNameBeingBuilt = new LinkedHashSet<String>();
+
+		nodeCurrent = this.getNode();
+		testPlugin = this;
+
+		do {
+			if (testPlugin != null) {
+				multiValuedAttributesTransferObject = testPlugin.getMultiValuedAttributesTransferObject(null);
+				setAttributeName = multiValuedAttributesTransferObject.getMultiValuedAttribute(attributeName);
+
+				if (setAttributeName != null) {
+					setAttributeNameBeingBuilt.addAll(setAttributeName);
+				}
+			}
+
+			nodeCurrent = nodeCurrent.getClassificationNodeParent();
+
+			if (nodeCurrent != null) {
+				if (nodeCurrent.isNodePluginExists(TestPlugin.class, null)) {
+					testPlugin = nodeCurrent.getNodePlugin(TestPlugin.class,  null);
+				} else {
+					testPlugin = null;
+				}
+			}
+		} while (nodeCurrent != null);
+
+		return setAttributeNameBeingBuilt;
+	}
 }

@@ -19,7 +19,10 @@
 
 package org.azyva.dragom.test.integration;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import org.azyva.dragom.model.ClassificationNode;
 import org.azyva.dragom.model.Module;
@@ -31,9 +34,13 @@ import org.azyva.dragom.model.config.MutableClassificationNodeConfig;
 import org.azyva.dragom.model.config.MutableConfig;
 import org.azyva.dragom.model.config.MutableModuleConfig;
 import org.azyva.dragom.model.config.NodeConfigTransferObject;
+import org.azyva.dragom.model.config.SimplePluginDefConfig;
 import org.azyva.dragom.model.config.SimplePropertyDefConfig;
 import org.azyva.dragom.model.config.impl.simple.SimpleConfig;
 import org.azyva.dragom.model.impl.simple.SimpleModel;
+import org.azyva.dragom.test.integration.mutablemodelsimpleconfig.MultiValuedAttributesTransferObject;
+import org.azyva.dragom.test.integration.mutablemodelsimpleconfig.TestPlugin;
+import org.azyva.dragom.test.integration.mutablemodelsimpleconfig.TestPluginImpl;
 
 
 public class IntegrationTestSuiteMutableModelSimpleConfig {
@@ -53,6 +60,9 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 		Module module;
 		NodeConfigTransferObject nodeConfigTransferObject;
 		String propertyValue;
+		TestPlugin testPlugin;
+		MultiValuedAttributesTransferObject multiValuedAttributesTransferObject;
+		Set<String> setValue;
 
 		try {
 			IntegrationTestSuite.printTestCategoryHeader("MutableModel with SimpleConfig");
@@ -64,10 +74,10 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 			simpleConfig = new SimpleConfig();
 			mutableConfig = simpleConfig;
 			mutableClassificationNodeConfig = mutableConfig.createMutableClassificationNodeConfigRoot();
-			nodeConfigTransferObject = mutableClassificationNodeConfig.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableClassificationNodeConfig.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName(null);
 			nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("PROPERTY", "value", false));
-			mutableClassificationNodeConfig.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableClassificationNodeConfig.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 			simpleModel = new SimpleModel(simpleConfig, new Properties());
 			mutableModel = simpleModel;
 			classificationNode = mutableModel.getClassificationNodeRoot();
@@ -84,10 +94,10 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 			simpleModel = new SimpleModel(simpleConfig, new Properties());
 			mutableModel = simpleModel;
 			mutableClassificationNode = mutableModel.createMutableClassificationNodeRoot();
-			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName(null);
 			nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("PROPERTY", "value", false));
-			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 			classificationNode = mutableModel.getClassificationNodeRoot();
 			propertyValue = classificationNode.getProperty("PROPERTY");
 
@@ -101,43 +111,43 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 			mutableConfig = simpleConfig;
 
 			mutableClassificationNodeConfig = mutableConfig.createMutableClassificationNodeConfigRoot();
-			nodeConfigTransferObject = mutableClassificationNodeConfig.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableClassificationNodeConfig.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName(null);
 			nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("PROPERTY", "value-root", false));
-			mutableClassificationNodeConfig.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableClassificationNodeConfig.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			mutableClassificationNodeConfig = mutableClassificationNodeConfig.createChildMutableClassificationNodeConfig();
-			nodeConfigTransferObject = mutableClassificationNodeConfig.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableClassificationNodeConfig.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName("Level1");
-			mutableClassificationNodeConfig.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableClassificationNodeConfig.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			mutableClassificationNodeConfig = mutableClassificationNodeConfig.createChildMutableClassificationNodeConfig();
-			nodeConfigTransferObject = mutableClassificationNodeConfig.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableClassificationNodeConfig.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName("Level2");
 			nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("PROPERTY", "value-level-2", true));
-			mutableClassificationNodeConfig.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableClassificationNodeConfig.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			mutableClassificationNodeConfig = mutableClassificationNodeConfig.createChildMutableClassificationNodeConfig();
-			nodeConfigTransferObject = mutableClassificationNodeConfig.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableClassificationNodeConfig.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName("Level3");
-			mutableClassificationNodeConfig.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableClassificationNodeConfig.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			mutableClassificationNodeConfig = mutableClassificationNodeConfig.createChildMutableClassificationNodeConfig();
-			nodeConfigTransferObject = mutableClassificationNodeConfig.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableClassificationNodeConfig.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName("Level4");
 			nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("PROPERTY", "value-level-4", false));
-			mutableClassificationNodeConfig.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableClassificationNodeConfig.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			mutableModuleConfig = mutableClassificationNodeConfig.createChildMutableModuleConfig();
-			nodeConfigTransferObject = mutableModuleConfig.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableModuleConfig.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName("module-1");
-			mutableModuleConfig.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableModuleConfig.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			mutableModuleConfig = mutableClassificationNodeConfig.createChildMutableModuleConfig();
-			nodeConfigTransferObject = mutableModuleConfig.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableModuleConfig.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName("module-2");
 			nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("PROPERTY", "value-module-2", false));
-			mutableModuleConfig.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableModuleConfig.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			simpleModel = new SimpleModel(simpleConfig, new Properties());
 			mutableModel = simpleModel;
@@ -210,43 +220,43 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 			mutableModel = simpleModel;
 
 			mutableClassificationNode = mutableModel.createMutableClassificationNodeRoot();
-			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName(null);
 			nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("PROPERTY", "value-root", false));
-			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			mutableClassificationNode = mutableClassificationNode.createChildMutableClassificationNode();
-			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName("Level1");
-			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			mutableClassificationNode = mutableClassificationNode.createChildMutableClassificationNode();
-			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName("Level2");
 			nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("PROPERTY", "value-level-2", true));
-			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			mutableClassificationNode = mutableClassificationNode.createChildMutableClassificationNode();
-			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName("Level3");
-			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			mutableClassificationNode = mutableClassificationNode.createChildMutableClassificationNode();
-			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName("Level4");
 			nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("PROPERTY", "value-level-4", false));
-			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			mutableModule = mutableClassificationNode.createChildMutableModule();
-			nodeConfigTransferObject = mutableModule.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableModule.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName("module-1");
-			mutableModule.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableModule.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			mutableModule = mutableClassificationNode.createChildMutableModule();
-			nodeConfigTransferObject = mutableModule.getNodeConfigTransferObject();
+			nodeConfigTransferObject = mutableModule.getNodeConfigTransferObject(null);
 			nodeConfigTransferObject.setName("module-2");
 			nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("PROPERTY", "value-module-2", false));
-			mutableModule.setNodeConfigTransferObject(nodeConfigTransferObject);
+			mutableModule.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
 			classificationNode = mutableModel.getClassificationNodeRoot();
 			propertyValue = classificationNode.getProperty("PROPERTY");
@@ -306,6 +316,57 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 
 			IntegrationTestSuite.printTestFooter();
 
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("Plugin.");
+
+			simpleConfig = new SimpleConfig();
+			mutableConfig = simpleConfig;
+			simpleModel = new SimpleModel(simpleConfig, new Properties());
+			mutableModel = simpleModel;
+
+			mutableClassificationNode = mutableModel.createMutableClassificationNodeRoot();
+			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject(null);
+			nodeConfigTransferObject.setPluginDefConfig(new SimplePluginDefConfig(TestPlugin.class, null, TestPluginImpl.class.getName(), false));
+			nodeConfigTransferObject.setName(null);
+			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject, null);
+			testPlugin = mutableClassificationNode.getNodePlugin(TestPlugin.class, null);
+			multiValuedAttributesTransferObject = testPlugin.getMultiValuedAttributesTransferObject(null);
+			multiValuedAttributesTransferObject.addValue("ATTRIBUTE_1", "value-attribute-1-root");
+			testPlugin.setMultiValuedAttributesTransferObject(multiValuedAttributesTransferObject, null);
+
+			mutableClassificationNode = mutableClassificationNode.createChildMutableClassificationNode();
+			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject(null);
+			nodeConfigTransferObject.setName("Level1");
+			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject, null);
+			testPlugin = mutableClassificationNode.getNodePlugin(TestPlugin.class, null);
+			multiValuedAttributesTransferObject = testPlugin.getMultiValuedAttributesTransferObject(null);
+			multiValuedAttributesTransferObject.addValue("ATTRIBUTE_2", "value-attribute-2-level-1");
+			testPlugin.setMultiValuedAttributesTransferObject(multiValuedAttributesTransferObject, null);
+
+			mutableClassificationNode = mutableClassificationNode.createChildMutableClassificationNode();
+			nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject(null);
+			nodeConfigTransferObject.setName("Level2");
+			mutableClassificationNode.setNodeConfigTransferObject(nodeConfigTransferObject, null);
+			testPlugin = mutableClassificationNode.getNodePlugin(TestPlugin.class, null);
+			multiValuedAttributesTransferObject = testPlugin.getMultiValuedAttributesTransferObject(null);
+			multiValuedAttributesTransferObject.addValue("ATTRIBUTE_1", "value-attribute-1-level-2-1");
+			multiValuedAttributesTransferObject.addValue("ATTRIBUTE_1", "value-attribute-1-level-2-2");
+			testPlugin.setMultiValuedAttributesTransferObject(multiValuedAttributesTransferObject, null);
+
+			setValue = testPlugin.getCumulativeMultiValuedAttribute("ATTRIBUTE_1");
+
+			if (!setValue.equals(new HashSet<String>(Arrays.asList("value-attribute-1-root", "value-attribute-1-level-2-1", "value-attribute-1-level-2-2")))) {
+				throw new RuntimeException(">>>>> TEST FAILURE: Value of ATTRIBUTE_1 " + setValue + " expected to be " + new HashSet<String>(Arrays.asList("value-attribute-1-root", "value-attribute-1-level-2-1", "value-attribute-1-level-2-2")));
+			}
+
+			setValue = testPlugin.getCumulativeMultiValuedAttribute("ATTRIBUTE_2");
+
+			if (!setValue.equals(new HashSet<String>(Arrays.asList("value-attribute-2-level-1")))) {
+				throw new RuntimeException(">>>>> TEST FAILURE: Value of ATTRIBUTE_2 " + setValue + " expected to be " + new HashSet<String>(Arrays.asList("value-attribute-2-level-1")));
+			}
+
+			IntegrationTestSuite.printTestFooter();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -319,3 +380,5 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 // Modify existing Node or NodeConfig. Test cleaning caches.
 // Dupliate nodes (same name)
 // Null name on non root.
+
+// Null property to cancel inheritance.
