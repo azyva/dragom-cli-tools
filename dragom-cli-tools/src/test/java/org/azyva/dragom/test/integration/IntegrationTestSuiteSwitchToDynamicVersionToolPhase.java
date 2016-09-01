@@ -171,14 +171,6 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolPhase {
 			// Response "A" to "do you want to continue"
 			IntegrationTestSuite.testInputStream.write("A\n");
 
-/*
-			// Default response to "which base version" (D/master)
-			IntegrationTestSuite.testInputStream.write("\n");
-
-			// Response "Y" to "do you want to automatically reuse base version"
-			IntegrationTestSuite.testInputStream.write("Y\n");
-*/
-
 			// Response "sprint02" to "which phase"
 			IntegrationTestSuite.testInputStream.write("sprint02\n");
 
@@ -201,13 +193,6 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolPhase {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
-
-
-
-
-
-
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

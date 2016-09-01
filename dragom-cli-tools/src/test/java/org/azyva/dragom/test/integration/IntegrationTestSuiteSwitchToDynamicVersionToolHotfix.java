@@ -300,6 +300,3 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 		}
 	}
 }
-
-
-// Test when hotfix dynamic version already exists (validate base)

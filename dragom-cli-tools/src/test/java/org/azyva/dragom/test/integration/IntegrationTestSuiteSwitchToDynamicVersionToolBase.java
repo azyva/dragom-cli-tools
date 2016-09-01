@@ -134,7 +134,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
 			// Response "uniform" to "specify plugin ID".
 			IntegrationTestSuite.testInputStream.write("uniform\n");
 
-			// Response "Y" to "do you want to reused plugin ID"
+			// Response "Y" to "do you want to reuse plugin ID"
 			IntegrationTestSuite.testInputStream.write("Y\n");
 
 			// Response "N" to "process already dynamic versions"
@@ -256,3 +256,11 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
 		}
 	}
 }
+
+
+/*
+cases where equivalent static, and version change commit attributes are not specified (such as for develop-project1).
+unsync changes, remote and local
+
+test all ways to specify runtime properties to automate behavior (specific, etc.)
+*/

@@ -164,6 +164,22 @@ public class IntegrationTestSuite {
 			IntegrationTestSuiteSwitchToDynamicVersionToolPhase.testSwitchToDynamicVersionToolPhase();
 		}
 
+		if (indAllTests || setTestCategory.contains("CreateStaticVersionToolBase")) {
+			IntegrationTestSuiteCreateStaticVersionToolBase.testCreateStaticVersionToolBase();
+		}
+
+		if (indAllTests || setTestCategory.contains("CreateStaticVersionToolRecurse")) {
+			IntegrationTestSuiteCreateStaticVersionToolRecurse.testCreateStaticVersionToolRecurse();
+		}
+/*
+		if (indAllTests || setTestCategory.contains("CreateStaticVersionToolSemantic")) {
+			IntegrationTestSuiteCreateStaticVersionToolSemantic.testCreateStaticVersionToolSemantic();
+		}
+
+		if (indAllTests || setTestCategory.contains("CreateStaticVersionToolPhase")) {
+			IntegrationTestSuiteCreateStaticVersionToolPhase.testCreateStaticVersionToolPhase();
+		}
+*/
 		if (indAllTests || setTestCategory.contains("MutableModelSimpleConfig")) {
 			IntegrationTestSuiteMutableModelSimpleConfig.testMutableModelSimpleConfig();
 		}
@@ -261,78 +277,3 @@ public class IntegrationTestSuite {
 		}
 	}
 }
-
-/*
-private static void testNewDynamicVersionUniform() {
-System.setProperty("org.azyva.dragom.runtime-property.NEW_DYNAMIC_VERSION_PLUGIN_ID", "uniform");
-//try { SwitchToDynamicVersionTool.main(new String[] {"--help"}); } catch (ExitException ee) {}
-//try { SwitchToDynamicVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--root-module-version=Domain1/app-a", "--reference-path-matcher=**->/Domain1/app-a"}); } catch (ExitException ee) {}
-//try { SwitchToDynamicVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--root-module-version=Domain1/app-a", "--reference-path-matcher=**->/Domain1/app-a-model-intf"}); } catch (ExitException ee) {}
-//try { RootManagerTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "add", "Domain1/app-a"}); } catch (ExitException ee) {}
-//try { RootManagerTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "add", "Domain2/app-b"}); } catch (ExitException ee) {}
-//try { RootManagerTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "add-reference-path-matcher", "/Domain1/app-a->/Domain1/app-a-model-intf"}); } catch (ExitException ee) {}
-//try { SwitchToDynamicVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=**->/Domain1/app-a-model-intf"}); } catch (ExitException ee) {}
-//try { SwitchToDynamicVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=**->/:D/develop"}); } catch (ExitException ee) {}
-}
-
-private static void testNewStaticVersionUniform() {
-System.setProperty("org.azyva.dragom.runtime-property.NEW_DYNAMIC_VERSION_PLUGIN_ID", "uniform");
-//try { CreateStaticVersionTool.main(new String[] {"--help"}); } catch (ExitException ee) {}
-//try { SwitchToDynamicVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--root-module-version=Domain1/app-a", "--reference-path-matcher=/Domain1/app-a"}); } catch (ExitException ee) {}
-try { RootManagerTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "add", "Domain1/app-a:D/develop"}); } catch (ExitException ee) {}
-//try { CreateStaticVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=/Domain1/app-a:D/develop"}); } catch (ExitException ee) {}
-
-//System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_STATIC_VERSION", "S/v-2017-05-15");
-//try { CreateStaticVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=/Domain1/app-a:D/develop"}); } catch (ExitException ee) {}
-
-//System.setProperty("org.azyva.dragom.runtime-property.NEW_STATIC_VERSION_PLUGIN_ID", "uniform");
-
-//System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_STATIC_VERSION_PREFIX", "S/v-2017-05-15");
-//System.setProperty("org.azyva.dragom.runtime-property.REVISION_DECIMAL_POSITION_COUNT", "5");
-//try { CreateStaticVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=/Domain1/app-a:D/develop"}); } catch (ExitException ee) {}
-
-//try { SwitchToDynamicVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=/Domain1/app-a"}); } catch (ExitException ee) {}
-
-//try { CreateStaticVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=/Domain1/app-a:D/develop"}); } catch (ExitException ee) {}
-}
-
-private static void testNewStaticVersionSemantic() {
-try { RootManagerTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "add", "Domain1/app-a:D/develop"}); } catch (ExitException ee) {}
-
-System.setProperty("org.azyva.dragom.runtime-property.NEW_STATIC_VERSION_PLUGIN_ID", "semantic");
-//try { CreateStaticVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=/Domain1/app-a:D/develop"}); } catch (ExitException ee) {}
-//try { SwitchToDynamicVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=**->/Domain1/app-a-model-intf"}); } catch (ExitException ee) {}
-//try { CreateStaticVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=**->/Domain1/app-a-model-intf"}); } catch (ExitException ee) {}
-
-}
-
-private static void testPhaseDevelopment() {
-//try { RootManagerTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "add", "Domain1/app-a:S/v-3.2.1"}); } catch (ExitException ee) {}
-//System.setProperty("org.azyva.dragom.runtime-property.NEW_DYNAMIC_VERSION_PLUGIN_ID", "uniform");
-//try { SwitchToDynamicVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=/Domain1/app-a"}); } catch (ExitException ee) {}
-//
-//System.setProperty("org.azyva.dragom.runtime-property.NEW_STATIC_VERSION_PLUGIN_ID", "phase");
-//System.setProperty("org.azyva.dragom.runtime-property.CURRENT_PHASE", "iteration01");
-//try { CreateStaticVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=/Domain1/app-a"}); } catch (ExitException ee) {}
-//
-//System.setProperty("org.azyva.dragom.runtime-property.NEW_DYNAMIC_VERSION_PLUGIN_ID", "phase");
-//try { SwitchToDynamicVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=/Domain1/app-a"}); } catch (ExitException ee) {}
-
-
-//try { RootManagerTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "add", "Domain1/app-a:S/v-3.2.1"}); } catch (ExitException ee) {}
-//try { RootManagerTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "add", "Domain2/app-b:S/v-2000-07-01.01"}); } catch (ExitException ee) {}
-//System.setProperty("org.azyva.dragom.runtime-property.NEW_DYNAMIC_VERSION_PLUGIN_ID", "uniform");
-//try { SwitchToDynamicVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=**->/Domain1/app-a-model-intf"}); } catch (ExitException ee) {}
-
-//System.setProperty("org.azyva.dragom.runtime-property.NEW_STATIC_VERSION_PLUGIN_ID", "phase");
-//System.setProperty("org.azyva.dragom.runtime-property.CURRENT_PHASE", "iteration01");
-//try { CreateStaticVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=/Domain1/app-a"}); } catch (ExitException ee) {}
-
-//System.setProperty("org.azyva.dragom.runtime-property.NEW_DYNAMIC_VERSION_PLUGIN_ID", "phase");
-//try { SwitchToDynamicVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=/Domain1/app-a"}); } catch (ExitException ee) {}
-//try { SwitchToDynamicVersionTool.main(new String[] {"--workspace-path=C:\\Projects\\workspace", "--reference-path-matcher=**->/Domain1/app-a-model-intf"}); } catch (ExitException ee) {}
-}
-
-private static void testNewStaticVersionPhase() {
-}
-*/

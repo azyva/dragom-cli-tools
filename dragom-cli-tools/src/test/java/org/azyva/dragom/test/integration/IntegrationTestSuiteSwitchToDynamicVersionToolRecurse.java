@@ -250,12 +250,3 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
 		}
 	}
 }
-
-
-/*
-Phase
-Hotfix
-
-cases where equivalent static, and version change commit attributes are not specified (such as for develop-project1).
-unsync changes, remote and local
-*/
