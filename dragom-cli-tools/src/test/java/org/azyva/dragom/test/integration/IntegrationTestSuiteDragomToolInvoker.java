@@ -63,9 +63,9 @@ public class IntegrationTestSuiteDragomToolInvoker {
 
 			// ################################################################################
 
-			IntegrationTestSuite.printTestHeader("DragomToolInvoker exec-context-property-manager");
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker exec-context-manager");
 			try {
-				DragomToolInvoker.main(new String[] {"exec-context-property-manager"});
+				DragomToolInvoker.main(new String[] {"exec-context-manager"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 1);
 			}
@@ -73,11 +73,11 @@ public class IntegrationTestSuiteDragomToolInvoker {
 
 			// ################################################################################
 
-			IntegrationTestSuite.printTestHeader("DragomToolInvoker exec-context-property-manager --help");
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker exec-context-manager --help");
 			try {
-				DragomToolInvoker.main(new String[] {"exec-context-property-manager", "--help"});
+				DragomToolInvoker.main(new String[] {"exec-context-manager", "--help"});
 			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
+				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
@@ -123,9 +123,9 @@ public class IntegrationTestSuiteDragomToolInvoker {
 
 			// ################################################################################
 
-			IntegrationTestSuite.printTestHeader("DragomToolInvoker help exec-context-property-manager");
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help exec-context-manager");
 			try {
-				DragomToolInvoker.main(new String[] {"help", "exec-context-property-manager"});
+				DragomToolInvoker.main(new String[] {"help", "exec-context-manager"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 1);
 			}

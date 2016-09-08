@@ -29,6 +29,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.azyva.dragom.git.Git;
+import org.azyva.dragom.model.Version;
 import org.azyva.dragom.tool.GenericRootModuleVersionJobInvokerTool;
 import org.azyva.dragom.tool.RootManagerTool;
 
@@ -163,23 +165,190 @@ public class IntegrationTestSuiteCreateStaticVersionToolRecurse {
 
 			// ################################################################################
 
-			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:D/develop-project1");
+			// We are not testing SwitchToDynamicVersion, but we are using this tool to put
+			// back Domain2/app-b-model in development within the graph since it was released
+			// above.
+
+			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
+
+			// Response "D/develop-project1" to "to which version do you want to switch"
+			IntegrationTestSuite.testInputStream.write("D/develop-project1\n");
+
+			// Response "Y" to "do you want to automatically reuse dynamic version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "A" to "do you want to continue (switching)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "A" to "do you want to continue (updating parent)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model");
 			try {
-				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain2/app-b:D/develop-project1"});
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
 			// ################################################################################
-??? Need to review this one. When getting develop-project1 again, it has been modified above and now is not multiple level deep (only app-b is on branch).
+
 			// There is now an equivalent static version because of above.
+
+			// Response "Y" to "do you want to reuse existing static version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "Y" to "do you want to automatically apply that response always reuse existing static version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "A" to "do you want to continue (updating parent)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.CreateStaticVersion CreateStaticVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b (reuse existing static versions)");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.CreateStaticVersion", "CreateStaticVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// We are not testing SwitchToDynamicVersion, but we are using this tool to put
+			// back Domain2/app-b-model in development within the graph since it was released
+			// above.
+
+			// Response "D/develop-project1" to "to which version do you want to switch"
+			IntegrationTestSuite.testInputStream.write("D/develop-project1\n");
+
+			// Response "Y" to "do you want to automatically reuse dynamic version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "A" to "do you want to continue (switching)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "A" to "do you want to continue (updating parent)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// There is now an equivalent static version because of above, but we are not
+			// using it.
 
 			// Response "N" to "do you want to reuse existing static version"
 			IntegrationTestSuite.testInputStream.write("N\n");
 
 			// Response "Y" to "do you want to automatically apply that response always reuse existing static version"
 			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "S/v-2001-01-01" to "specify prefix"
+			IntegrationTestSuite.testInputStream.write("S/v-2001-01-01\n");
+
+			// Response "Y" to "do you want to reuse prefix"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "A" to "do you want to continue creating static version"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "Y" to "do you want to revert"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "Y" to "do you want to continue update parent"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.CreateStaticVersion CreateStaticVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b (not reusing existing static versions)");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.CreateStaticVersion", "CreateStaticVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+
+			// We redo all tests but with the modules checked ou in user workspace
+			// directories.
+
+			// ################################################################################
+
+			// We introduce dummy changes so that make the existing static versions not
+			// equivalent.
+
+			IntegrationTestSuite.printTestHeader(
+					"git clone test-git-repos/Domain2/app-b.git app-b.ext (branch develop-project1)\n" +
+					"Append to app-b.ext/pom.xml\n" +
+					"git add, git commit, git push");
+			try {
+				Git.clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b.git", new Version("D/develop-project1"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b.ext"));
+				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-b.ext/pom.xml"), "<!-- Dummy comment. -->\n");
+				Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b.ext"), "Dummy message.", null, true);
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader(
+					"git clone test-git-repos/Domain2/app-b-model.git app-b-model.ext (branch develop-project1)\n" +
+					"Append to app-b-model.ext/pom.xml\n" +
+					"git add, git commit, git push");
+			try {
+				Git.clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b-model.git", new Version("D/develop-project1"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"));
+				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext/pom.xml"), "<!-- Dummy comment. -->\n");
+				Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null, true);
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// We are not testing SwitchToDynamicVersion, but we are using this tool to put
+			// back Domain2/app-b-model in development within the graph since it was released
+			// above.
+
+			// Response "D/develop-project1" to "to which version do you want to switch"
+			IntegrationTestSuite.testInputStream.write("D/develop-project1\n");
+
+			// Response "Y" to "do you want to automatically reuse dynamic version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "A" to "do you want to continue (switching)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "A" to "do you want to continue (updating parent)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// There is no equivalent version since commit attributes not recorded in test
+			// repository.
 
 			// Response "S/v-2001-01-01" to "specify prefix"
 			IntegrationTestSuite.testInputStream.write("S/v-2001-01-01\n");
@@ -196,7 +365,32 @@ public class IntegrationTestSuiteCreateStaticVersionToolRecurse {
 			// Response "Y" to "do you want to continue update parent"
 			IntegrationTestSuite.testInputStream.write("Y\n");
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.CreateStaticVersion CreateStaticVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b");
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.CreateStaticVersion CreateStaticVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model (user workspace directories)");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.CreateStaticVersion", "CreateStaticVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// There is no equivalent version since commit attributes not recorded in test
+			// repository.
+
+			// Response "S/v-2001-01-01" to "specify prefix"
+			IntegrationTestSuite.testInputStream.write("S/v-2001-01-01\n");
+
+			// Response "Y" to "do you want to reuse prefix"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "Y" to "do you want to continue creating static version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "Y" to "do you want to revert"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.CreateStaticVersion CreateStaticVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b (user workspace directories)");
 			try {
 				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.CreateStaticVersion", "CreateStaticVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b"});
 			} catch (Exception e) {
@@ -204,7 +398,112 @@ public class IntegrationTestSuiteCreateStaticVersionToolRecurse {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-??? repeat in UWD.
+			// ################################################################################
+
+			// We are not testing SwitchToDynamicVersion, but we are using this tool to put
+			// back Domain2/app-b-model in development within the graph since it was released
+			// above.
+
+			// Response "D/develop-project1" to "to which version do you want to switch"
+			IntegrationTestSuite.testInputStream.write("D/develop-project1\n");
+
+			// Response "Y" to "do you want to automatically reuse dynamic version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "A" to "do you want to continue (switching)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "A" to "do you want to continue (updating parent)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model (user workspace directories)");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// There is now an equivalent static version because of above.
+
+			// Response "Y" to "do you want to reuse existing static version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "Y" to "do you want to automatically apply that response always reuse existing static version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "A" to "do you want to continue (updating parent)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.CreateStaticVersion CreateStaticVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b (reuse existing static versions; user workspace directories)");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.CreateStaticVersion", "CreateStaticVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// We are not testing SwitchToDynamicVersion, but we are using this tool to put
+			// back Domain2/app-b-model in development within the graph since it was released
+			// above.
+
+			// Response "D/develop-project1" to "to which version do you want to switch"
+			IntegrationTestSuite.testInputStream.write("D/develop-project1\n");
+
+			// Response "Y" to "do you want to automatically reuse dynamic version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "A" to "do you want to continue (switching)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "A" to "do you want to continue (updating parent)"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model (user workspace directories)");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// There is now an equivalent static version because of above, but we are not
+			// using it.
+
+			// Response "N" to "do you want to reuse existing static version"
+			IntegrationTestSuite.testInputStream.write("N\n");
+
+			// Response "Y" to "do you want to automatically apply that response always reuse existing static version"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "S/v-2001-01-01" to "specify prefix"
+			IntegrationTestSuite.testInputStream.write("S/v-2001-01-01\n");
+
+			// Response "Y" to "do you want to reuse prefix"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "A" to "do you want to continue creating static version"
+			IntegrationTestSuite.testInputStream.write("A\n");
+
+			// Response "Y" to "do you want to revert"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			// Response "Y" to "do you want to continue update parent"
+			IntegrationTestSuite.testInputStream.write("Y\n");
+
+			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.CreateStaticVersion CreateStaticVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b (not reusing existing static versions; user workspace directories)");
+			try {
+				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.CreateStaticVersion", "CreateStaticVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -212,3 +511,4 @@ public class IntegrationTestSuiteCreateStaticVersionToolRecurse {
 }
 
 // Some modules evolve, other remain at same version (no increment, reuse existing equivalent)
+// Test when unsync changes at different levels.
