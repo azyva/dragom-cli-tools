@@ -39,9 +39,10 @@
 			
 			<REVISION_DECIMAL_POSITION_COUNT>1</REVISION_DECIMAL_POSITION_COUNT>
 
-<!--
-<SEMANTIC_VERSION_PREFIX>v-</SEMANTIC_VERSION_PREFIX>
--->
+
+			<!-- SemanticNewStaticVersionPluginImpl -->
+
+			<SEMANTIC_VERSION_PREFIX>v-</SEMANTIC_VERSION_PREFIX>
 
 		</properties>
 		<child-nodes>

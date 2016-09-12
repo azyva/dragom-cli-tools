@@ -171,11 +171,11 @@ public class IntegrationTestSuite {
 		if (indAllTests || setTestCategory.contains("CreateStaticVersionToolRecurse")) {
 			IntegrationTestSuiteCreateStaticVersionToolRecurse.testCreateStaticVersionToolRecurse();
 		}
-/*
+
 		if (indAllTests || setTestCategory.contains("CreateStaticVersionToolSemantic")) {
 			IntegrationTestSuiteCreateStaticVersionToolSemantic.testCreateStaticVersionToolSemantic();
 		}
-
+/*
 		if (indAllTests || setTestCategory.contains("CreateStaticVersionToolPhase")) {
 			IntegrationTestSuiteCreateStaticVersionToolPhase.testCreateStaticVersionToolPhase();
 		}
