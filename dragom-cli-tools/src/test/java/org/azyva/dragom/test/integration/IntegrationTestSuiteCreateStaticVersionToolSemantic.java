@@ -448,8 +448,8 @@ public class IntegrationTestSuiteCreateStaticVersionToolSemantic {
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model");
 			try {
-??? Problem here. Non-fast-forward when fetch. The dragom.log file is bizarre also. Says that fetch is now disabled, but it fetched.
-		??? there seems to be a problem with main workspace directory concept.
+//??? Problem here. Non-fast-forward when fetch. The dragom.log file is bizarre also. Says that fetch is now disabled, but it fetched.
+//		??? there seems to be a problem with main workspace directory concept.
 				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
