@@ -1,0 +1,15 @@
+SetupJenkinsJobsToolHelp.txt
+
+runtime properties:
+- (global) Jenkins base URL (https://<server>/jenkins)
+- (global) Root folder for continuous integration jobs (assemblage/ic)
+
+- Root node path for jobs (can be not specified, in which case the NodePath of Module's is used) (Domain/SubDomain)
+- Sub-folder, which can not exist. If ends with /, a folder. If not and below is true, simply concatenate
+- Include Version as sub-folder (true/false), which may not exist.
+
+parameters:
+- Report path to produce. May already exist, in which case merge, delete and replace or simply replace
+- Existig report. If not specified use above
+- Report mode: merge, delete and replace or replace
+  (can delete by specifying delete and replace with non-matching ReferencePathMatcher)

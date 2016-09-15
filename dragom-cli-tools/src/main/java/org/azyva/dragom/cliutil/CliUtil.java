@@ -115,7 +115,8 @@ public final class CliUtil {
 	public static final String SYS_PROP_IND_USER_PROPERTIES = "org.azyva.dragom.IndUserProperties";
 
 	/**
-	 * System property that specifies the default user properties file.
+	 * System property that specifies the default user properties file. "~" in the
+	 * value of this property is replaced by the user home directory.
 	 */
 	public static final String SYS_PROP_DEFAULT_USER_PROPERTIES_FILE = "org.azyva.dragom.DefaultUserProperties";
 
@@ -302,7 +303,7 @@ public final class CliUtil {
 	public static void addStandardOptions(Options options) {
 		Option option;
 
-		Util.setDragomSystemProperties();
+		Util.applyDragomSystemProperties();
 
 		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_USER_PROPERTIES))) {
 			option = new Option(null, null);
@@ -359,7 +360,7 @@ public final class CliUtil {
 	public static void addRootModuleVersionOptions(Options options) {
 		Option option;
 
-		Util.setDragomSystemProperties();
+		Util.applyDragomSystemProperties();
 
 		option = new Option(null, null);
 		option.setLongOpt(CliUtil.getRootModuleVersionCommandLineOption());
@@ -467,7 +468,7 @@ public final class CliUtil {
 
 		workspaceExecContextFactory = (WorkspaceExecContextFactory)execContextFactory;
 
-		Util.setDragomSystemProperties();
+		Util.applyDragomSystemProperties();
 
 		propertiesSystem = System.getProperties();
 		propertiesWorkspace = propertiesSystem;
