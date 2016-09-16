@@ -21,7 +21,6 @@ package org.azyva.dragom.tool;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.text.ParseException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -31,12 +30,10 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
+import org.azyva.dragom.execcontext.plugin.CredentialStorePlugin;
+import org.azyva.dragom.execcontext.plugin.UserInteractionCallbackPlugin;
+import org.azyva.dragom.execcontext.plugin.impl.DefaultCredentialStorePluginImpl;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
-import org.azyva.dragom.job.RootManager;
-import org.azyva.dragom.model.ModuleVersion;
-import org.azyva.dragom.reference.ReferencePathMatcher;
-import org.azyva.dragom.reference.ReferencePathMatcherByElement;
-import org.azyva.dragom.reference.ReferencePathMatcherOr;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 
 /**
@@ -50,67 +47,12 @@ public class CredentialManagerTool {
 	/**
 	 * See description in ResourceBundle.
 	 */
-	private static final String MSG_PATTERN_KEY_LIST_OF_ROOT_MODULE_VERSIONS_EMPTY = "LIST_OF_ROOT_MODULE_VERSIONS_EMPTY";
+	private static final String MSG_PATTERN_KEY_USER = "USER";
 
 	/**
 	 * See description in ResourceBundle.
 	 */
-	private static final String MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS = "MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS";
-
-	/**
-	 * See description in ResourceBundle.
-	 */
-	private static final String MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS = "MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS";
-
-	/**
-	 * See description in ResourceBundle.
-	 */
-	private static final String MSG_PATTERN_KEY_MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS = "MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS";
-
-	/**
-	 * See description in ResourceBundle.
-	 */
-	private static final String MSG_PATTERN_KEY_MODULE_VERSION_NOT_IN_LIST_OF_ROOTS = "MODULE_VERSION_NOT_IN_LIST_OF_ROOTS";
-
-	/**
-	 * See description in ResourceBundle.
-	 */
-	private static final String MSG_PATTERN_KEY_MODULE_VERSION_REMOVED_FROM_LIST_OF_ROOTS = "MODULE_VERSION_REMOVED_FROM_LIST_OF_ROOTS";
-
-	/**
-	 * See description in ResourceBundle.
-	 */
-	private static final String MSG_PATTERN_KEY_ALL_MODULE_VERSIONS_REMOVED_FROM_LIST_OF_ROOTS = "ALL_MODULE_VERSIONS_REMOVED_FROM_LIST_OF_ROOTS";
-
-	/**
-	 * See description in ResourceBundle.
-	 */
-	private static final String MSG_PATTERN_KEY_LIST_REFERENCE_PATH_MATCHERS_EMPTY = "LIST_REFERENCE_PATH_MATCHERS_EMPTY";
-
-	/**
-	 * See description in ResourceBundle.
-	 */
-	private static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ALREADY_IN_LIST = "REFERENCE_PATH_MATCHER_ALREADY_IN_LIST";
-
-	/**
-	 * See description in ResourceBundle.
-	 */
-	private static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ADDED_TO_LIST = "REFERENCE_PATH_MATCHER_ADDED_TO_LIST";
-
-	/**
-	 * See description in ResourceBundle.
-	 */
-	private static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_NOT_IN_LIST = "REFERENCE_PATH_MATCHER_NOT_IN_LIST";
-
-	/**
-	 * See description in ResourceBundle.
-	 */
-	private static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST = "REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST";
-
-	/**
-	 * See description in ResourceBundle.
-	 */
-	private static final String MSG_PATTERN_KEY_ALL_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST = "ALL_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST";
+	private static final String MSG_PATTERN_KEY_REALM = "REALM";
 
 	/**
 	 * ResourceBundle specific to this class.
@@ -133,7 +75,7 @@ public class CredentialManagerTool {
 	 * @param args Arguments.
 	 */
 	public static void main(String[] args) {
-???		DefaultParser defaultParser;
+		DefaultParser defaultParser;
 		CommandLine commandLine;
 		String command;
 
@@ -153,7 +95,7 @@ public class CredentialManagerTool {
 			} else {
 				args = commandLine.getArgs();
 
-				if (args.length < 1) {
+				if (args.length == 0) {
 					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 				}
 
@@ -161,22 +103,22 @@ public class CredentialManagerTool {
 
 				command = args[0];
 
-				if (command.equals("list")) {
-					CredentialManagerTool.listCommand(commandLine);
-				} else if (command.equals("add")) {
-					CredentialManagerTool.addCommand(commandLine);
-				} else if (command.equals("remove")) {
-					CredentialManagerTool.removeCommand(commandLine);
-				} else if (command.equals("remove-all")) {
-					CredentialManagerTool.removeAllCommand(commandLine);
-				} else if (command.equals("list-reference-path-matchers")) {
-					CredentialManagerTool.listReferencePathMatchersCommand(commandLine);
-				} else if (command.equals("add-reference-path-matcher")) {
-					CredentialManagerTool.addReferencePathMatcherCommand(commandLine);
-				} else if (command.equals("remove-reference-path-matcher")) {
-					CredentialManagerTool.removeReferencePathMatcherCommand(commandLine);
-				} else if (command.equals("remove-all-reference-path-matchers")) {
-					CredentialManagerTool.removeAllReferencePathMatchersCommand(commandLine);
+				if (command.equals("enum-resource-realm-mappings")) {
+					CredentialManagerTool.enumResourceRealmMappingsCommand(commandLine);
+				} else if (command.equals("enum-passwords")) {
+					CredentialManagerTool.enumPasswordsCommand(commandLine);
+				} else if (command.equals("get-password")) {
+					CredentialManagerTool.getPasswordCommand(commandLine);
+				} else if (command.equals("enum-default-users")) {
+					CredentialManagerTool.enumDefaultUsersCommand(commandLine);
+				} else if (command.equals("set-password")) {
+					CredentialManagerTool.setPasswordCommand(commandLine);
+				} else if (command.equals("remove-password")) {
+					CredentialManagerTool.removePasswordCommand(commandLine);
+				} else if (command.equals("set-default-user")) {
+					CredentialManagerTool.setDefaultUserCommand(commandLine);
+				} else if (command.equals("remove-default-user")) {
+					CredentialManagerTool.removeDefaultUserCommand(commandLine);
 				} else {
 					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command, CliUtil.getHelpCommandLineOption()));
 				}
@@ -201,10 +143,6 @@ public class CredentialManagerTool {
 
 			CredentialManagerTool.options = new Options();
 
-			option = new Option(null, null);
-			option.setLongOpt("ind-allow-duplicate-modules");
-			CredentialManagerTool.options.addOption(option);
-
 			CliUtil.addStandardOptions(CredentialManagerTool.options);
 
 			CredentialManagerTool.indInit = true;
@@ -212,248 +150,122 @@ public class CredentialManagerTool {
 	}
 
 	/**
+	 * Implements the "enum-resource-realm-mappings" command.
+	 *
+	 * @param commandLine CommandLine.
+	 */
+	private static void enumResourceRealmMappingsCommand(CommandLine commandLine) {
+		UserInteractionCallbackPlugin userInteractionCallbackPlugin;
+		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
+		List<DefaultCredentialStorePluginImpl.ResourcePatternRealmUser> listResourcePatternRealmUser;
+		StringBuilder stringBuilder;
+
+		userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
+		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
+
+		listResourcePatternRealmUser = defaultCredentialStorePluginImpl.getListResourcePatternRealmUser();
+
+		stringBuilder = new StringBuilder();
+
+		for (DefaultCredentialStorePluginImpl.ResourcePatternRealmUser resourcePatternRealmUser: listResourcePatternRealmUser) {
+			stringBuilder.append(resourcePatternRealmUser.patternResource.toString()).append(" -> ").append(resourcePatternRealmUser.realm);
+
+			if (resourcePatternRealmUser.user != null) {
+				stringBuilder
+						.append(" (")
+						.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_USER))
+						.append(": ")
+						.append(resourcePatternRealmUser.user)
+						.append(')');
+			}
+
+			stringBuilder.append('\n');
+		}
+
+		if (stringBuilder.length() != 0) {
+			// Remove the useless trailing linefeed.
+			stringBuilder.setLength(stringBuilder.length() - 1);
+
+			userInteractionCallbackPlugin.provideInfo(stringBuilder.toString());
+		}
+	}
+
+	/**
+	 * Implements the "enum-passwords" command.
+	 *
+	 * @param commandLine CommandLine.
+	 */
+	private static void enumPasswordsCommand(CommandLine commandLine) {
+		UserInteractionCallbackPlugin userInteractionCallbackPlugin;
+		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
+		List<DefaultCredentialStorePluginImpl.ResourcePatternRealmUser> listResourcePatternRealmUser;
+		StringBuilder stringBuilder;
+
+		userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
+		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
+
+		listResourcePatternRealmUser = defaultCredentialStorePluginImpl.getListRealmUser();
+
+		stringBuilder = new StringBuilder();
+
+		for (DefaultCredentialStorePluginImpl.ResourcePatternRealmUser resourcePatternRealmUser: listResourcePatternRealmUser) {
+			stringBuilder.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM)).append(": ").append(resourcePatternRealmUser.realm).append(" -> ").append(resourcePatternRealmUser.realm);
+
+			if (resourcePatternRealmUser.user != null) {
+				stringBuilder
+						.append(" (")
+						.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM))
+						.append(": ")
+						.append(resourcePatternRealmUser.realm)
+						.append(' ')
+						.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_USER))
+						.append(": ")
+						.append(resourcePatternRealmUser.user)
+						.append('\n');
+			}
+		}
+
+		if (stringBuilder.length() != 0) {
+			// Remove the useless trailing linefeed.
+			stringBuilder.setLength(stringBuilder.length() - 1);
+
+			userInteractionCallbackPlugin.provideInfo(stringBuilder.toString());
+		}
+	}
+
+	private static void getPasswordCommand(CommandLine commandLine) {
+
+	}
+
+	private static void enumDefaultUsersCommand(CommandLine commandLine) {
+
+	}
+
+	private static void setPasswordCommand(CommandLine commandLine) {
+
+	}
+
+	private static void removePasswordCommand(CommandLine commandLine) {
+
+	}
+
+	private static void setDefaultUserCommand(CommandLine commandLine) {
+
+	}
+
+	private static void removeDefaultUserCommand(CommandLine commandLine) {
+
+	}
+
+	/**
 	 * Displays help information.
 	 */
 	private static void help() {
 		try {
-			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(CredentialManagerTool.class, "RootManagerToolHelp.txt"),  System.out);
+			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(CredentialManagerTool.class, "CredentialManagerToolHelp.txt"),  System.out);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe);
 		}
 	}
 
-	/**
-	 * Implements the "list" command.
-	 *
-	 * @param commandLine CommandLine.
-	 */
-	private static void listCommand(CommandLine commandLine) {
-		String[] args;
-		List<ModuleVersion> listModuleVersion;
-
-		args = commandLine.getArgs();
-
-		if (args.length != 1) {
-			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-		}
-
-		listModuleVersion = RootManager.getListModuleVersion();
-
-		if (listModuleVersion.isEmpty()) {
-			System.out.println(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_LIST_OF_ROOT_MODULE_VERSIONS_EMPTY));
-		} else {
-			for (ModuleVersion moduleVersion: listModuleVersion) {
-				System.out.println(moduleVersion.toString());
-			}
-		}
-	}
-
-	/**
-	 * Implements the "add" command.
-	 *
-	 * @param commandLine CommandLine.
-	 */
-	private static void addCommand(CommandLine commandLine) {
-		String[] args;
-		ModuleVersion moduleVersion;
-
-		args = commandLine.getArgs();
-
-		if (args.length != 2) {
-			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-		}
-
-		try {
-			moduleVersion = ModuleVersion.parse(args[1]);
-		} catch (ParseException pe) {
-			throw new RuntimeExceptionUserError(pe.getMessage());
-		}
-
-		if (RootManager.containsModuleVersion(moduleVersion)) {
-			System.out.println(MessageFormat.format(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS), moduleVersion));
-		} else {
-			boolean indAllowDuplicateModule;
-
-			indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-modules");
-
-			if (indAllowDuplicateModule) {
-				RootManager.addModuleVersion(moduleVersion, true);
-				System.out.println(MessageFormat.format(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
-			} else {
-				ModuleVersion moduleVersionOrg;
-
-				moduleVersionOrg = RootManager.getModuleVersion(moduleVersion.getNodePath());
-
-				if (moduleVersionOrg != null) {
-					RootManager.replaceModuleVersion(moduleVersionOrg, moduleVersion);
-					System.out.println(MessageFormat.format(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS), moduleVersionOrg, moduleVersion));
-				} else {
-					RootManager.addModuleVersion(moduleVersion, false);
-					System.out.println(MessageFormat.format(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
-				}
-			}
-		}
-	}
-
-	/**
-	 * Implements the "remove" command.
-	 *
-	 * @param commandLine CommandLine.
-	 */
-	private static void removeCommand(CommandLine commandLine) {
-		String[] args;
-		ModuleVersion moduleVersion;
-
-		args = commandLine.getArgs();
-
-		if (args.length != 2) {
-			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-		}
-
-		try {
-			moduleVersion = ModuleVersion.parse(args[1]);
-		} catch (ParseException pe) {
-			throw new RuntimeExceptionUserError(pe.getMessage());
-		}
-
-		if (!RootManager.containsModuleVersion(moduleVersion)) {
-			System.out.println(MessageFormat.format(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_NOT_IN_LIST_OF_ROOTS), moduleVersion));
-		} else {
-			RootManager.removeModuleVersion(moduleVersion);
-			System.out.println(MessageFormat.format(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REMOVED_FROM_LIST_OF_ROOTS), moduleVersion));
-		}
-	}
-
-	/**
-	 * Implements the "remove-all" command.
-	 *
-	 * @param commandLine CommandLine.
-	 */
-	private static void removeAllCommand(CommandLine commandLine) {
-		String[] args;
-
-		args = commandLine.getArgs();
-
-		if (args.length != 1) {
-			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-		}
-
-		RootManager.removeAllModuleVersion();
-		System.out.println(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_ALL_MODULE_VERSIONS_REMOVED_FROM_LIST_OF_ROOTS));
-	}
-
-	/**
-	 * Implements the "list-reference-path-matchers" command.
-	 *
-	 * @param commandLine CommandLine.
-	 */
-	private static void listReferencePathMatchersCommand(CommandLine commandLine) {
-		String[] args;
-		ReferencePathMatcherOr referencePathMatcherOr;
-		List<ReferencePathMatcher> listReferencePathMatcher;
-
-		args = commandLine.getArgs();
-
-		if (args.length != 1) {
-			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-		}
-
-		referencePathMatcherOr = RootManager.getReferencePathMatcherOr();
-		listReferencePathMatcher = referencePathMatcherOr.getListReferencePathMatcher();
-
-		if (listReferencePathMatcher.isEmpty()) {
-			System.out.println(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_LIST_REFERENCE_PATH_MATCHERS_EMPTY));
-		} else {
-			for (ReferencePathMatcher referencePathMatcher: listReferencePathMatcher) {
-				System.out.println(referencePathMatcher.toString());
-			}
-		}
-	}
-
-	/**
-	 * Implements the "add-reference-path-matcher" command.
-	 *
-	 * @param commandLine CommandLine.
-	 */
-	private static void addReferencePathMatcherCommand(CommandLine commandLine) {
-		String[] args;
-		ReferencePathMatcherOr referencePathMatcherOr;
-		ReferencePathMatcherByElement referencePathMatcherByElement;
-
-		args = commandLine.getArgs();
-
-		if (args.length != 2) {
-			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-		}
-
-		referencePathMatcherOr = RootManager.getReferencePathMatcherOr();
-		try {
-			referencePathMatcherByElement = ReferencePathMatcherByElement.parse(args[1], ExecContextHolder.get().getModel());
-		} catch (ParseException pe) {
-			throw new RuntimeExceptionUserError(pe.getMessage());
-		}
-
-		if (referencePathMatcherOr.getListReferencePathMatcher().contains(referencePathMatcherByElement)) {
-			System.out.println(MessageFormat.format(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ALREADY_IN_LIST), referencePathMatcherByElement));
-		} else {
-			referencePathMatcherOr.addReferencePathMatcher(referencePathMatcherByElement);
-			RootManager.saveReferencePathMatcherOr();
-			System.out.println(MessageFormat.format(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ADDED_TO_LIST), referencePathMatcherByElement));
-		}
-	}
-
-	/**
-	 * Implements the "remove-reference-path-matcher" command.
-	 *
-	 * @param commandLine CommandLine.
-	 */
-	private static void removeReferencePathMatcherCommand(CommandLine commandLine) {
-		String[] args;
-		ReferencePathMatcherOr referencePathMatcherOr;
-		ReferencePathMatcherByElement referencePathMatcherByElement;
-
-		args = commandLine.getArgs();
-
-		if (args.length != 2) {
-			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-		}
-
-		referencePathMatcherOr = RootManager.getReferencePathMatcherOr();
-
-		try {
-			referencePathMatcherByElement = ReferencePathMatcherByElement.parse(args[1], ExecContextHolder.get().getModel());
-		} catch (ParseException pe) {
-			throw new RuntimeExceptionUserError(pe.getMessage());
-		}
-
-		if (!referencePathMatcherOr.getListReferencePathMatcher().contains(referencePathMatcherByElement)) {
-			System.out.println(MessageFormat.format(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_NOT_IN_LIST), referencePathMatcherByElement));
-		} else {
-			referencePathMatcherOr.getListReferencePathMatcher().remove(referencePathMatcherByElement);
-			System.out.println(MessageFormat.format(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST), referencePathMatcherByElement));
-			RootManager.saveReferencePathMatcherOr();
-		}
-	}
-
-	/**
-	 * Implements the "remove-all-reference-path-matchers" command.
-	 *
-	 * @param commandLine CommandLine.
-	 */
-	private static void removeAllReferencePathMatchersCommand(CommandLine commandLine) {
-		String[] args;
-		ReferencePathMatcherOr referencePathMatcherOr;
-
-		args = commandLine.getArgs();
-
-		if (args.length != 1) {
-			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-		}
-
-		referencePathMatcherOr = RootManager.getReferencePathMatcherOr();
-		referencePathMatcherOr.getListReferencePathMatcher().clear();
-
-		RootManager.saveReferencePathMatcherOr();
-		System.out.println(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_ALL_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST));
-	}
 }

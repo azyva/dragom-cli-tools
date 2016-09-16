@@ -76,6 +76,10 @@ public class IntegrationTestSuite {
 			IntegrationTestSuiteRootManagerTool.testRootManagerTool();
 		}
 
+		if (indAllTests || setTestCategory.contains("CredentialManagerTool")) {
+			IntegrationTestSuiteCredentialManagerTool.testCredentialManagerTool();
+		}
+
 		if (indAllTests || setTestCategory.contains("GenericRootModuleVersionJobInvokerTool")) {
 			IntegrationTestSuiteGenericRootModuleVersionJobInvokerTool.testGenericRootModuleVersionJobInvokerTool();
 		}
