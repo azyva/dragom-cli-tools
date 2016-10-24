@@ -26,7 +26,6 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
@@ -37,9 +36,9 @@ import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 
 /**
- * Tool wrapper for the RootManager class.
+ * Tool wrapper for {@link DefaultCredentialStorePluginImpl}.
  *
- * See the help information displayed by the RootManagerTool.help method.
+ * See the help information displayed by the {@link CredentialManagerTool#help}.
  *
  * @author David Raymond
  */
@@ -109,12 +108,14 @@ public class CredentialManagerTool {
 					CredentialManagerTool.enumPasswordsCommand(commandLine);
 				} else if (command.equals("get-password")) {
 					CredentialManagerTool.getPasswordCommand(commandLine);
-				} else if (command.equals("enum-default-users")) {
-					CredentialManagerTool.enumDefaultUsersCommand(commandLine);
 				} else if (command.equals("set-password")) {
 					CredentialManagerTool.setPasswordCommand(commandLine);
 				} else if (command.equals("remove-password")) {
 					CredentialManagerTool.removePasswordCommand(commandLine);
+				} else if (command.equals("enum-default-users")) {
+					CredentialManagerTool.enumDefaultUsersCommand(commandLine);
+				} else if (command.equals("get-default-user")) {
+					CredentialManagerTool.getDefaultUserCommand(commandLine);
 				} else if (command.equals("set-default-user")) {
 					CredentialManagerTool.setDefaultUserCommand(commandLine);
 				} else if (command.equals("remove-default-user")) {
@@ -139,8 +140,6 @@ public class CredentialManagerTool {
 	 */
 	private synchronized static void init() {
 		if (!CredentialManagerTool.indInit) {
-			Option option;
-
 			CredentialManagerTool.options = new Options();
 
 			CliUtil.addStandardOptions(CredentialManagerTool.options);
@@ -159,6 +158,10 @@ public class CredentialManagerTool {
 		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
 		List<DefaultCredentialStorePluginImpl.ResourcePatternRealmUser> listResourcePatternRealmUser;
 		StringBuilder stringBuilder;
+
+		if (commandLine.getArgs().length != 1) {
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+		}
 
 		userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
@@ -201,6 +204,10 @@ public class CredentialManagerTool {
 		List<DefaultCredentialStorePluginImpl.ResourcePatternRealmUser> listResourcePatternRealmUser;
 		StringBuilder stringBuilder;
 
+		if (commandLine.getArgs().length != 1) {
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+		}
+
 		userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
 
@@ -233,28 +240,219 @@ public class CredentialManagerTool {
 		}
 	}
 
+	/**
+	 * Implements the "get-password" command.
+	 *
+	 * @param commandLine CommandLine.
+	 */
 	private static void getPasswordCommand(CommandLine commandLine) {
+		String[] args;
+		String resource;
+		String user;
+		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
 
+		args = commandLine.getArgs();
+
+		if ((args.length < 2) || (args.length > 3)) {
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+		}
+
+		resource = args[1];
+
+		if (args.length == 3) {
+			user = args[2];
+		} else {
+			user = null;
+		}
+
+		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
+
+		if (defaultCredentialStorePluginImpl.isCredentialsExist(resource, user, null, true)) {
+			System.out.print(defaultCredentialStorePluginImpl.getCredentials(resource, user, null, true).password);
+		} else {
+			System.exit(1);
+		}
 	}
 
-	private static void enumDefaultUsersCommand(CommandLine commandLine) {
-
-	}
-
+	/**
+	 * Implements the "set-password" command.
+	 *
+	 * @param commandLine CommandLine.
+	 */
 	private static void setPasswordCommand(CommandLine commandLine) {
+		String[] args;
+		String resource;
+		String user;
+		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
 
+		args = commandLine.getArgs();
+
+		if ((args.length < 2) || (args.length > 3)) {
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+		}
+
+		resource = args[1];
+
+		if (args.length == 3) {
+			user = args[2];
+		} else {
+			user = null;
+		}
+
+		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
+
+		defaultCredentialStorePluginImpl.setPassword(resource, user);
 	}
 
+	/**
+	 * Implements the "remote-password" command.
+	 *
+	 * @param commandLine CommandLine.
+	 */
 	private static void removePasswordCommand(CommandLine commandLine) {
+		String[] args;
+		String resource;
+		String user;
+		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
 
+		args = commandLine.getArgs();
+
+		if ((args.length < 2) || (args.length > 3)) {
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+		}
+
+		resource = args[1];
+
+		if (args.length == 3) {
+			user = args[2];
+		} else {
+			user = null;
+		}
+
+		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
+
+		defaultCredentialStorePluginImpl.resetCredentials(resource, user);
 	}
 
+	/**
+	 * Implements the "enum-defaults-users" command.
+	 *
+	 * @param commandLine CommandLine.
+	 */
+	private static void enumDefaultUsersCommand(CommandLine commandLine) {
+		UserInteractionCallbackPlugin userInteractionCallbackPlugin;
+		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
+		List<DefaultCredentialStorePluginImpl.ResourcePatternRealmUser> listResourcePatternRealmUser;
+		StringBuilder stringBuilder;
+
+		if (commandLine.getArgs().length != 1) {
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+		}
+
+		userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
+		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
+
+		listResourcePatternRealmUser = defaultCredentialStorePluginImpl.getListDefaultRealmUser();
+
+		stringBuilder = new StringBuilder();
+
+		for (DefaultCredentialStorePluginImpl.ResourcePatternRealmUser resourcePatternRealmUser: listResourcePatternRealmUser) {
+			stringBuilder.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM)).append(": ").append(resourcePatternRealmUser.realm).append(" -> ").append(resourcePatternRealmUser.realm);
+
+			if (resourcePatternRealmUser.user != null) {
+				stringBuilder
+						.append(" (")
+						.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM))
+						.append(": ")
+						.append(resourcePatternRealmUser.realm)
+						.append(' ')
+						.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_USER))
+						.append(": ")
+						.append(resourcePatternRealmUser.user)
+						.append('\n');
+			}
+		}
+
+		if (stringBuilder.length() != 0) {
+			// Remove the useless trailing linefeed.
+			stringBuilder.setLength(stringBuilder.length() - 1);
+
+			userInteractionCallbackPlugin.provideInfo(stringBuilder.toString());
+		}
+	}
+
+	/**
+	 * Implements the "get-default-user" command.
+	 *
+	 * @param commandLine CommandLine.
+	 */
+	private static void getDefaultUserCommand(CommandLine commandLine) {
+		String[] args;
+		String resource;
+		String user;
+		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
+
+		args = commandLine.getArgs();
+
+		if (args.length != 2) {
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+		}
+
+		resource = args[1];
+
+		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
+
+		user = defaultCredentialStorePluginImpl.getDefaultUser(resource);
+
+		System.out.print(user);
+	}
+
+	/**
+	 * Implements the "set-default-user" command.
+	 *
+	 * @param commandLine CommandLine.
+	 */
 	private static void setDefaultUserCommand(CommandLine commandLine) {
+		String[] args;
+		String resource;
+		String user;
+		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
 
+		args = commandLine.getArgs();
+
+		if (args.length != 3) {
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+		}
+
+		resource = args[1];
+		user = args[2];
+
+		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
+
+		defaultCredentialStorePluginImpl.setDefaultUser(resource, user);
 	}
 
+	/**
+	 * Implements the "remove-default-user" command.
+	 *
+	 * @param commandLine CommandLine.
+	 */
 	private static void removeDefaultUserCommand(CommandLine commandLine) {
+		String[] args;
+		String resource;
+		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
 
+		args = commandLine.getArgs();
+
+		if (args.length != 2) {
+			throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+		}
+
+		resource = args[1];
+
+		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
+
+		defaultCredentialStorePluginImpl.removeDefaultUser(resource);
 	}
 
 	/**
@@ -267,5 +465,4 @@ public class CredentialManagerTool {
 			throw new RuntimeException(ioe);
 		}
 	}
-
 }
