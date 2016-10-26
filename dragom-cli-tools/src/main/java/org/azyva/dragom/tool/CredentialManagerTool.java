@@ -33,6 +33,7 @@ import org.azyva.dragom.execcontext.plugin.CredentialStorePlugin;
 import org.azyva.dragom.execcontext.plugin.UserInteractionCallbackPlugin;
 import org.azyva.dragom.execcontext.plugin.impl.DefaultCredentialStorePluginImpl;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
+import org.azyva.dragom.security.CredentialStore;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 
 /**
@@ -156,7 +157,7 @@ public class CredentialManagerTool {
 	private static void enumResourceRealmMappingsCommand(CommandLine commandLine) {
 		UserInteractionCallbackPlugin userInteractionCallbackPlugin;
 		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
-		List<DefaultCredentialStorePluginImpl.ResourcePatternRealmUser> listResourcePatternRealmUser;
+		List<CredentialStore.ResourcePatternRealmUser> listResourcePatternRealmUser;
 		StringBuilder stringBuilder;
 
 		if (commandLine.getArgs().length != 1) {
@@ -166,11 +167,11 @@ public class CredentialManagerTool {
 		userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
 
-		listResourcePatternRealmUser = defaultCredentialStorePluginImpl.getListResourcePatternRealmUser();
+		listResourcePatternRealmUser = defaultCredentialStorePluginImpl.getCredentialStore().getListResourcePatternRealmUser();
 
 		stringBuilder = new StringBuilder();
 
-		for (DefaultCredentialStorePluginImpl.ResourcePatternRealmUser resourcePatternRealmUser: listResourcePatternRealmUser) {
+		for (CredentialStore.ResourcePatternRealmUser resourcePatternRealmUser: listResourcePatternRealmUser) {
 			stringBuilder.append(resourcePatternRealmUser.patternResource.toString()).append(" -> ").append(resourcePatternRealmUser.realm);
 
 			if (resourcePatternRealmUser.user != null) {
@@ -201,7 +202,7 @@ public class CredentialManagerTool {
 	private static void enumPasswordsCommand(CommandLine commandLine) {
 		UserInteractionCallbackPlugin userInteractionCallbackPlugin;
 		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
-		List<DefaultCredentialStorePluginImpl.ResourcePatternRealmUser> listResourcePatternRealmUser;
+		List<CredentialStore.ResourcePatternRealmUser> listResourcePatternRealmUser;
 		StringBuilder stringBuilder;
 
 		if (commandLine.getArgs().length != 1) {
@@ -211,11 +212,11 @@ public class CredentialManagerTool {
 		userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
 
-		listResourcePatternRealmUser = defaultCredentialStorePluginImpl.getListRealmUser();
+		listResourcePatternRealmUser = defaultCredentialStorePluginImpl.getCredentialStore().getListRealmUser();
 
 		stringBuilder = new StringBuilder();
 
-		for (DefaultCredentialStorePluginImpl.ResourcePatternRealmUser resourcePatternRealmUser: listResourcePatternRealmUser) {
+		for (CredentialStore.ResourcePatternRealmUser resourcePatternRealmUser: listResourcePatternRealmUser) {
 			stringBuilder.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM)).append(": ").append(resourcePatternRealmUser.realm).append(" -> ").append(resourcePatternRealmUser.realm);
 
 			if (resourcePatternRealmUser.user != null) {
@@ -250,6 +251,7 @@ public class CredentialManagerTool {
 		String resource;
 		String user;
 		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
+		String password;
 
 		args = commandLine.getArgs();
 
@@ -267,8 +269,10 @@ public class CredentialManagerTool {
 
 		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
 
-		if (defaultCredentialStorePluginImpl.isCredentialsExist(resource, user, null, true)) {
-			System.out.print(defaultCredentialStorePluginImpl.getCredentials(resource, user, null, true).password);
+		password = defaultCredentialStorePluginImpl.getCredentialStore().getPassword(resource, user);
+
+		if (password != null) {
+			System.out.print(password);
 		} else {
 			System.exit(1);
 		}
@@ -301,7 +305,11 @@ public class CredentialManagerTool {
 
 		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
 
-		defaultCredentialStorePluginImpl.setPassword(resource, user);
+		defaultCredentialStorePluginImpl.resetCredentials(resource, user);
+
+		// Getting the credentials after having reset them causes
+		// DefaultCredentialStorePluginImpl to request them.
+		defaultCredentialStorePluginImpl.getCredentials(resource, user, null);
 	}
 
 	/**
@@ -342,7 +350,7 @@ public class CredentialManagerTool {
 	private static void enumDefaultUsersCommand(CommandLine commandLine) {
 		UserInteractionCallbackPlugin userInteractionCallbackPlugin;
 		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
-		List<DefaultCredentialStorePluginImpl.ResourcePatternRealmUser> listResourcePatternRealmUser;
+		List<CredentialStore.RealmUser> listRealmUser;
 		StringBuilder stringBuilder;
 
 		if (commandLine.getArgs().length != 1) {
@@ -352,23 +360,23 @@ public class CredentialManagerTool {
 		userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
 
-		listResourcePatternRealmUser = defaultCredentialStorePluginImpl.getListDefaultRealmUser();
+		listRealmUser = defaultCredentialStorePluginImpl.getCredentialStore().getListRealmUserDefault();
 
 		stringBuilder = new StringBuilder();
 
-		for (DefaultCredentialStorePluginImpl.ResourcePatternRealmUser resourcePatternRealmUser: listResourcePatternRealmUser) {
-			stringBuilder.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM)).append(": ").append(resourcePatternRealmUser.realm).append(" -> ").append(resourcePatternRealmUser.realm);
+		for (CredentialStore.RealmUser realmUser: listRealmUser) {
+			stringBuilder.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM)).append(": ").append(realmUser.realm).append(" -> ").append(realmUser.realm);
 
-			if (resourcePatternRealmUser.user != null) {
+			if (realmUser.user != null) {
 				stringBuilder
 						.append(" (")
 						.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM))
 						.append(": ")
-						.append(resourcePatternRealmUser.realm)
+						.append(realmUser.realm)
 						.append(' ')
 						.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_USER))
 						.append(": ")
-						.append(resourcePatternRealmUser.user)
+						.append(realmUser.user)
 						.append('\n');
 			}
 		}
@@ -402,7 +410,7 @@ public class CredentialManagerTool {
 
 		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
 
-		user = defaultCredentialStorePluginImpl.getDefaultUser(resource);
+		user = defaultCredentialStorePluginImpl.getCredentialStore().getDefaultUser(resource);
 
 		System.out.print(user);
 	}
@@ -429,7 +437,7 @@ public class CredentialManagerTool {
 
 		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
 
-		defaultCredentialStorePluginImpl.setDefaultUser(resource, user);
+		defaultCredentialStorePluginImpl.getCredentialStore().setDefaultUser(resource, user);
 	}
 
 	/**
@@ -452,7 +460,7 @@ public class CredentialManagerTool {
 
 		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
 
-		defaultCredentialStorePluginImpl.removeDefaultUser(resource);
+		defaultCredentialStorePluginImpl.getCredentialStore().deleteDefaultUser(resource);
 	}
 
 	/**
