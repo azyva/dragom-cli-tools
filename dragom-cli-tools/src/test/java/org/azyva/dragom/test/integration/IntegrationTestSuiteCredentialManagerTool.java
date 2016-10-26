@@ -91,6 +91,8 @@ public class IntegrationTestSuiteCredentialManagerTool {
 
 			System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
+			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
+			System.setProperty("org.azyva.dragom.runtime-property.IND_PASSWORD_INPUT_NORMAL", "true");
 
 			// ################################################################################
 
@@ -141,8 +143,257 @@ public class IntegrationTestSuiteCredentialManagerTool {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://jsmith@acme.com/git");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "get-password", "http://jsmith@acme.com/git"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://jsmith@acme.com/git jsmith");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "get-password", "http://jsmith@acme.com/git", "jsmith"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://jsmith@acme.com/git dummy");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "get-password", "http://jsmith@acme.com/git", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// Response "password" to "input password"
+			IntegrationTestSuite.testInputStream.write("password\n");
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-password http://jsmith@acme.com/git");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "set-password", "http://jsmith@acme.com/git"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://jsmith@acme.com/git (with password available)");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "get-password", "http://jsmith@acme.com/git"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://jsmith@acme.com/git jsmith (with password available)");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "get-password", "http://jsmith@acme.com/git", "jsmith"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// Response "password" to "input password"
+			IntegrationTestSuite.testInputStream.write("password\n");
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-password http://jsmith@acme.com/git jsmith");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "set-password", "http://jsmith@acme.com/git", "jsmith"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-password http://jsmith@acme.com/git dummy");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "set-password", "http://jsmith@acme.com/git", "dummy"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://acme.com/git");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "get-password", "http://acme.com/git"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://acme.com/git jsmith");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "get-password", "http://acme.com/git", "jsmith"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://acme.com/git bob");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "get-password", "http://acme.com/git", "bob"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// Response "password" to "input password"
+			IntegrationTestSuite.testInputStream.write("password\n");
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-password http://acme.com/git jsmith");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "set-password", "http://acme.com/git", "jsmith"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			// Response "jsmith" to "which user"
+			IntegrationTestSuite.testInputStream.write("jsmith\n");
+
+			// Response "password" to "input password"
+			IntegrationTestSuite.testInputStream.write("password\n");
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-password http://acme.com/git");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "set-password", "http://acme.com/git"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://acme.com/git");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "get-password", "http://acme.com/git"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace enum-passwords");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "enum-passwords"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace enum-default-users");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "enum-default-users"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-default-user http://acme.com/git");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "get-default-user", "http://acme.com/git"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-default-user http://bob@acme.com/git");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "get-default-user", "http://bob@acme.com/git"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-default-user http://acme.com/git bob");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "set-default-user", "http://acme.com/git", "bob"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-default-user http://bob@acme.com/git bob");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "set-default-user", "http://bob@acme.com/git", "bob"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-default-user http://bob@acme.com/git jsmith");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "set-default-user", "http://bob@acme.com/git", "jsmith"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 1);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace remove-default-user http://bob@acme.com/git");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-default-user", "http://bob@acme.com/git"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace remove-default-user http://acme.com/git");
+			try {
+				CredentialManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-default-user", "http://acme.com/git"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 }
+
+// how to test isCredentialsExist if ever worth it?
+// credential validation is not tested either.

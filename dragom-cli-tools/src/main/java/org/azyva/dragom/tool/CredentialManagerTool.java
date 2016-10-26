@@ -172,7 +172,9 @@ public class CredentialManagerTool {
 		stringBuilder = new StringBuilder();
 
 		for (CredentialStore.ResourcePatternRealmUser resourcePatternRealmUser: listResourcePatternRealmUser) {
-			stringBuilder.append(resourcePatternRealmUser.patternResource.toString()).append(" -> ").append(resourcePatternRealmUser.realm);
+			stringBuilder
+					.append(resourcePatternRealmUser.patternResource.toString())
+					.append(" -> ").append(resourcePatternRealmUser.realm);
 
 			if (resourcePatternRealmUser.user != null) {
 				stringBuilder
@@ -202,7 +204,7 @@ public class CredentialManagerTool {
 	private static void enumPasswordsCommand(CommandLine commandLine) {
 		UserInteractionCallbackPlugin userInteractionCallbackPlugin;
 		DefaultCredentialStorePluginImpl defaultCredentialStorePluginImpl;
-		List<CredentialStore.ResourcePatternRealmUser> listResourcePatternRealmUser;
+		List<CredentialStore.RealmUser> listRealmUser;
 		StringBuilder stringBuilder;
 
 		if (commandLine.getArgs().length != 1) {
@@ -212,25 +214,20 @@ public class CredentialManagerTool {
 		userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
 
-		listResourcePatternRealmUser = defaultCredentialStorePluginImpl.getCredentialStore().getListRealmUser();
+		listRealmUser = defaultCredentialStorePluginImpl.getCredentialStore().getListRealmUser();
 
 		stringBuilder = new StringBuilder();
 
-		for (CredentialStore.ResourcePatternRealmUser resourcePatternRealmUser: listResourcePatternRealmUser) {
-			stringBuilder.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM)).append(": ").append(resourcePatternRealmUser.realm).append(" -> ").append(resourcePatternRealmUser.realm);
-
-			if (resourcePatternRealmUser.user != null) {
-				stringBuilder
-						.append(" (")
-						.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM))
-						.append(": ")
-						.append(resourcePatternRealmUser.realm)
-						.append(' ')
-						.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_USER))
-						.append(": ")
-						.append(resourcePatternRealmUser.user)
-						.append('\n');
-			}
+		for (CredentialStore.RealmUser realmUser: listRealmUser) {
+			stringBuilder
+					.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM))
+					.append(": ")
+					.append(realmUser.realm)
+					.append(' ')
+					.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_USER))
+					.append(": ")
+					.append(realmUser.user)
+					.append('\n');
 		}
 
 		if (stringBuilder.length() != 0) {
@@ -309,7 +306,9 @@ public class CredentialManagerTool {
 
 		// Getting the credentials after having reset them causes
 		// DefaultCredentialStorePluginImpl to request them.
-		defaultCredentialStorePluginImpl.getCredentials(resource, user, null);
+		if (defaultCredentialStorePluginImpl.getCredentials(resource, user, null) == null) {
+			System.exit(1);
+		}
 	}
 
 	/**
@@ -365,20 +364,15 @@ public class CredentialManagerTool {
 		stringBuilder = new StringBuilder();
 
 		for (CredentialStore.RealmUser realmUser: listRealmUser) {
-			stringBuilder.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM)).append(": ").append(realmUser.realm).append(" -> ").append(realmUser.realm);
-
-			if (realmUser.user != null) {
-				stringBuilder
-						.append(" (")
-						.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM))
-						.append(": ")
-						.append(realmUser.realm)
-						.append(' ')
-						.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_USER))
-						.append(": ")
-						.append(realmUser.user)
-						.append('\n');
-			}
+			stringBuilder
+			.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_REALM))
+			.append(": ")
+			.append(realmUser.realm)
+			.append(' ')
+			.append(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_USER))
+			.append(": ")
+			.append(realmUser.user)
+			.append('\n');
 		}
 
 		if (stringBuilder.length() != 0) {
@@ -412,7 +406,11 @@ public class CredentialManagerTool {
 
 		user = defaultCredentialStorePluginImpl.getCredentialStore().getDefaultUser(resource);
 
-		System.out.print(user);
+		if (user != null) {
+			System.out.print(user);
+		} else {
+			System.exit(1);
+		}
 	}
 
 	/**
@@ -437,7 +435,9 @@ public class CredentialManagerTool {
 
 		defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);
 
-		defaultCredentialStorePluginImpl.getCredentialStore().setDefaultUser(resource, user);
+		if (!defaultCredentialStorePluginImpl.getCredentialStore().setDefaultUser(resource, user)) {
+			System.exit(1);
+		}
 	}
 
 	/**
