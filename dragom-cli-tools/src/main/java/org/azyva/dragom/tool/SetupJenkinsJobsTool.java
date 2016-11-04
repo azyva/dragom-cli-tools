@@ -70,7 +70,7 @@ public class SetupJenkinsJobsTool {
 	public static void main(String[] args) {
 		DefaultParser defaultParser;
 		CommandLine commandLine = null;
-		Path pathItemsCreatedFile;
+		Path pathJobsCreatedFile;
 		BuildReferenceGraph buildReferenceGraph;
 		SetupJenkinsJobs setupJenkinsJobs;
 
@@ -94,10 +94,10 @@ public class SetupJenkinsJobsTool {
 					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 				}
 
-				if (commandLine.hasOption("items-created-file")) {
-					pathItemsCreatedFile = Paths.get(commandLine.getOptionValue("items-created-file"));
+				if (commandLine.hasOption("jobs-created-file")) {
+					pathJobsCreatedFile = Paths.get(commandLine.getOptionValue("jobs-created-file"));
 				} else {
-					pathItemsCreatedFile = null;
+					pathJobsCreatedFile = null;
 				}
 
 				CliUtil.setupExecContext(commandLine, true);
@@ -106,7 +106,12 @@ public class SetupJenkinsJobsTool {
 				buildReferenceGraph.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
 				buildReferenceGraph.performJob();
 
-				setupJenkinsJobs = new SetupJenkinsJobs(buildReferenceGraph.getReferenceGraph() , pathItemsCreatedFile);
+				setupJenkinsJobs = new SetupJenkinsJobs(buildReferenceGraph.getReferenceGraph());
+
+				if (pathJobsCreatedFile != null) {
+					setupJenkinsJobs.setPathJobsCreatedFile(pathJobsCreatedFile);
+				}
+
 				setupJenkinsJobs.performJob();
 			}
 		} catch (RuntimeExceptionUserError reue) {
@@ -130,7 +135,7 @@ public class SetupJenkinsJobsTool {
 			SetupJenkinsJobsTool.options = new Options();
 
 			option = new Option(null, null);
-			option.setLongOpt("items-created-file");
+			option.setLongOpt("jobs-created-file");
 			option.setArgs(1);
 			SetupJenkinsJobsTool.options.addOption(option);
 

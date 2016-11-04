@@ -20,6 +20,7 @@
 package org.azyva.dragom.test.integration;
 
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -43,7 +44,7 @@ class TestInputStream extends InputStream {
 
 	public void write(String input) {
 		System.out.println("Writing \"" + input + "\" to test input stream.");
-		for (int aByte: input.getBytes()) {
+		for (int aByte: input.getBytes(Charset.defaultCharset())) {
 			this.deque.addFirst(aByte);
 		}
 	}
