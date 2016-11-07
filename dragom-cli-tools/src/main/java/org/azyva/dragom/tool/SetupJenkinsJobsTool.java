@@ -70,7 +70,7 @@ public class SetupJenkinsJobsTool {
 	public static void main(String[] args) {
 		DefaultParser defaultParser;
 		CommandLine commandLine = null;
-		Path pathJobsCreatedFile;
+		Path pathItemsCreatedFile;
 		BuildReferenceGraph buildReferenceGraph;
 		SetupJenkinsJobs setupJenkinsJobs;
 
@@ -94,10 +94,10 @@ public class SetupJenkinsJobsTool {
 					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
 				}
 
-				if (commandLine.hasOption("jobs-created-file")) {
-					pathJobsCreatedFile = Paths.get(commandLine.getOptionValue("jobs-created-file"));
+				if (commandLine.hasOption("items-created-file")) {
+					pathItemsCreatedFile = Paths.get(commandLine.getOptionValue("items-created-file"));
 				} else {
-					pathJobsCreatedFile = null;
+					pathItemsCreatedFile = null;
 				}
 
 				CliUtil.setupExecContext(commandLine, true);
@@ -108,8 +108,8 @@ public class SetupJenkinsJobsTool {
 
 				setupJenkinsJobs = new SetupJenkinsJobs(buildReferenceGraph.getReferenceGraph());
 
-				if (pathJobsCreatedFile != null) {
-					setupJenkinsJobs.setPathJobsCreatedFile(pathJobsCreatedFile);
+				if (pathItemsCreatedFile != null) {
+					setupJenkinsJobs.setPathItemsCreatedFile(pathItemsCreatedFile);
 				}
 
 				setupJenkinsJobs.performJob();
@@ -135,7 +135,7 @@ public class SetupJenkinsJobsTool {
 			SetupJenkinsJobsTool.options = new Options();
 
 			option = new Option(null, null);
-			option.setLongOpt("jobs-created-file");
+			option.setLongOpt("items-created-file");
 			option.setArgs(1);
 			SetupJenkinsJobsTool.options.addOption(option);
 

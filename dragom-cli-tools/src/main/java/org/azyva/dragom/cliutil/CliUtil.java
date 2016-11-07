@@ -62,7 +62,7 @@ import org.slf4j.LoggerFactory;
  * @author David Raymond
  */
 public final class CliUtil {
-	private static Logger logger = LoggerFactory.getLogger(CliUtil.class);
+	private static final Logger logger = LoggerFactory.getLogger(CliUtil.class);
 
 	/**
 	 * See description in ResourceBundle.
