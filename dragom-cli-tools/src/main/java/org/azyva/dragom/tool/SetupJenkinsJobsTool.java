@@ -172,7 +172,7 @@ public class SetupJenkinsJobsTool {
 			SetupJenkinsJobsTool.options.addOption(option);
 
 			option = new Option(null, null);
-			option.setLongOpt("existint-items-created-file-mode");
+			option.setLongOpt("existing-items-created-file-mode");
 			option.setArgs(1);
 			SetupJenkinsJobsTool.options.addOption(option);
 

@@ -178,15 +178,25 @@ public class IntegrationTestSuite {
 
 		if (indAllTests || setTestCategory.contains("CreateStaticVersionToolSemantic")) {
 			IntegrationTestSuiteCreateStaticVersionToolSemantic.testCreateStaticVersionToolSemantic();
+			//??? incomplete.
 		}
 /*
 		if (indAllTests || setTestCategory.contains("CreateStaticVersionToolPhase")) {
 			IntegrationTestSuiteCreateStaticVersionToolPhase.testCreateStaticVersionToolPhase();
 		}
 */
+		if (indAllTests || setTestCategory.contains("SetupJenkinsJobsToolBase")) {
+			IntegrationTestSuiteSetupJenkinsJobsToolBase.testSetupJenkinsJobsToolBase();
+		}
+
 		if (indAllTests || setTestCategory.contains("MutableModelSimpleConfig")) {
 			IntegrationTestSuiteMutableModelSimpleConfig.testMutableModelSimpleConfig();
 		}
+
+//		build-remote
+//		change-reference-to-module-version
+//		merge-main
+//		merge-reference-graph
 	}
 
 	public static void printTestCategoryHeader(String header) {
@@ -242,17 +252,17 @@ public class IntegrationTestSuite {
 	}
 
 	public static void printTestHeader(String header) {
-		System.out.println("##########");
+		System.out.println("###############################################################################");
 		System.out.println("Starting test of:");
 		System.out.println(header);
 		System.out.println("Output of tool follows.");
-		System.out.println("##########");
+		System.out.println("###############################################################################");
 	}
 
 	public static void printTestFooter() {
-		System.out.println("##########");
+		System.out.println("###############################################################################");
 		System.out.println("Test completed.");
-		System.out.println("##########\n");
+		System.out.println("###############################################################################\n");
 	}
 
 	public static void validateExitException(Exception e, int status) {

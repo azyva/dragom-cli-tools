@@ -24,10 +24,10 @@
 			
 			<ARTIFACT_VERSION_TO_VERSION_MAPPINGS>PHASE_STATIC,PHASE_DYNAMIC,DYNAMIC,STATIC</ARTIFACT_VERSION_TO_VERSION_MAPPINGS>
 
-			<ARTIFACT_VERSION_TO_VERSION_MAPPING_PHASE.STATIC>develop-(.+)-sprint(\d+)-SNAPSHOT:S/develop-$1-sprint$2</ARTIFACT_VERSION_TO_VERSION_MAPPING_PHASE.STATIC>
-			<ARTIFACT_VERSION_TO_VERSION_MAPPING_TEST_EXISTENCE_PHASE.STATIC>true</ARTIFACT_VERSION_TO_VERSION_MAPPING_TEST_EXISTENCE_PHASE.STATIC>=
+			<ARTIFACT_VERSION_TO_VERSION_MAPPING.PHASE_STATIC>develop-(.+)-sprint(\d+)-SNAPSHOT:S/develop-$1-sprint$2</ARTIFACT_VERSION_TO_VERSION_MAPPING.PHASE_STATIC>
+			<ARTIFACT_VERSION_TO_VERSION_MAPPING_TEST_EXISTENCE.PHASE_STATIC>true</ARTIFACT_VERSION_TO_VERSION_MAPPING_TEST_EXISTENCE.PHASE_STATIC>
 
-			<ARTIFACT_VERSION_TO_VERSION_MAPPING_PHASE.DYNAMIC>develop-(.+)-sprint(\d+)-SNAPSHOT:D/develop-$1-sprint</ARTIFACT_VERSION_TO_VERSION_MAPPING_PHASE.DYNAMIC>
+			<ARTIFACT_VERSION_TO_VERSION_MAPPING.PHASE_DYNAMIC>develop-(.+)-sprint(\d+)-SNAPSHOT:D/develop-$1-sprint</ARTIFACT_VERSION_TO_VERSION_MAPPING.PHASE_DYNAMIC>
 
 			<ARTIFACT_VERSION_TO_VERSION_MAPPING.DYNAMIC>(.+)-SNAPSHOT:D/$1</ARTIFACT_VERSION_TO_VERSION_MAPPING.DYNAMIC>
 			<ARTIFACT_VERSION_TO_VERSION_MAPPING.STATIC>(.+):S/v-$1</ARTIFACT_VERSION_TO_VERSION_MAPPING.STATIC>
@@ -52,6 +52,12 @@
 			<!-- SemanticNewStaticVersionPluginImpl -->
 
 			<SEMANTIC_VERSION_PREFIX>v-</SEMANTIC_VERSION_PREFIX>
+			
+			<!-- SimpleJenkinsJobInfoPlugin -->
+			
+			<JENKINS_BASE_URL>https://acme.com/jenkins</JENKINS_BASE_URL>
+			<JENKINS_JOBS_ROOT_FOLDER>build/ci</JENKINS_JOBS_ROOT_FOLDER>
+			<JENKINS_MODULE_SUBFOLDER>projects</JENKINS_MODULE_SUBFOLDER>
 
 		</properties>
 		<child-nodes>
@@ -137,8 +143,11 @@
 			<plugin>
 				<plugin-class>org.azyva.dragom.model.plugin.impl.MavenArtifactVersionManagerPluginImpl</plugin-class>
 			</plugin>
-<!--
 
+			<plugin>
+				<plugin-class>org.azyva.dragom.test.integration.setupjenkinsjobs.TestJenkinsJobInfoPluginImpl</plugin-class>
+			</plugin>
+<!--
 			<plugin>
 				<plugin-class>org.azyva.dragom.model.plugin.impl.NodeInitDemoNodeEventListenerPluginFactory</plugin-class>
 				<ind-only-this-node>true</ind-only-this-node>

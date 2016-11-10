@@ -87,7 +87,17 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			try {
 				DragomToolInvoker.main(new String[] {"help", "build"});
 			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help build-remote");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "build-remote"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
@@ -97,7 +107,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			try {
 				DragomToolInvoker.main(new String[] {"help", "checkout"});
 			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
+				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
@@ -107,7 +117,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			try {
 				DragomToolInvoker.main(new String[] {"help", "change-reference-to-module-version"});
 			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
+				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
@@ -117,7 +127,17 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			try {
 				DragomToolInvoker.main(new String[] {"help", "create-static-version"});
 			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help credential-manager");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "credential-manager"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
@@ -127,7 +147,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			try {
 				DragomToolInvoker.main(new String[] {"help", "exec-context-manager"});
 			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
+				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
@@ -137,7 +157,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			try {
 				DragomToolInvoker.main(new String[] {"help", "merge-main"});
 			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
+				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
@@ -147,7 +167,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			try {
 				DragomToolInvoker.main(new String[] {"help", "merge-reference-graph"});
 			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
+				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
@@ -157,7 +177,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			try {
 				DragomToolInvoker.main(new String[] {"help", "reference-graph-report"});
 			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
+				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
@@ -167,7 +187,17 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			try {
 				DragomToolInvoker.main(new String[] {"help", "root-manager"});
 			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
+				IntegrationTestSuite.validateExitException(e, 0);
+			}
+			IntegrationTestSuite.printTestFooter();
+
+			// ################################################################################
+
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help setup-jenkins-jobs");
+			try {
+				DragomToolInvoker.main(new String[] {"help", "setup-jenkins-jobs"});
+			} catch (Exception e) {
+				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
@@ -177,7 +207,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			try {
 				DragomToolInvoker.main(new String[] {"help", "switch-to-dynamic-version"});
 			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
+				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
@@ -187,7 +217,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			try {
 				DragomToolInvoker.main(new String[] {"help", "workspace-manager"});
 			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
+				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 		} catch (Exception e) {
