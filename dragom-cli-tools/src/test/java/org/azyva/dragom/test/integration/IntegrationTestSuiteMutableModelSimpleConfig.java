@@ -67,7 +67,7 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 		try {
 			IntegrationTestSuite.printTestCategoryHeader("MutableModel with SimpleConfig");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Create new SimpleModel based on SimpleConfig with initial root ClassificationNodeConfig.");
 
@@ -85,7 +85,7 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Create new SimpleModel based on SimpleConfig without initial root ClassificationNodeConfig.");
 
@@ -103,7 +103,7 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Property inheritance with SimpleModel based on complete SimpleConfig.");
 
@@ -210,7 +210,7 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Property inheritance with constructed SimpleModel initially based on empty SimpleConfig.");
 
@@ -316,7 +316,7 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Plugin.");
 

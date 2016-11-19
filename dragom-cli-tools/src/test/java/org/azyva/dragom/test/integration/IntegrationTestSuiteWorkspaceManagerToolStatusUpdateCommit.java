@@ -100,7 +100,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/develop-project1");
 			try {
@@ -110,7 +110,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -120,7 +120,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace status");
 			try {
@@ -130,7 +130,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Append to workspace/app-a/pom.xml");
 			try {
@@ -140,7 +140,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace status");
 			try {
@@ -150,7 +150,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("[workspace/app-a] git add, git commit (no push)");
 			try {
@@ -161,7 +161,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace status");
 			try {
@@ -171,7 +171,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("[workspace/app-a] git push");
 			try {
@@ -181,7 +181,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace status");
 			try {
@@ -191,7 +191,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader(
 					"git clone --branch develop-project1 test-git-repos/Domain1/app-a.git app-a.ext\n" +
@@ -206,7 +206,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace status");
 			try {
@@ -216,7 +216,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Append to workspace/app-a/pom.xml");
 			try {
@@ -226,7 +226,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace status");
 			try {
@@ -236,7 +236,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace update");
 			try {
@@ -246,7 +246,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("git reset --hard HEAD [workspace/app-a]");
 			try {
@@ -256,7 +256,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace update");
 			try {
@@ -266,7 +266,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace commit");
 			try {
@@ -276,7 +276,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Append to workspace/app-a/pom.xml");
 			try {
@@ -286,7 +286,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "Commit message." to "specify commit message".
 			IntegrationTestSuite.testInputStream.write("Commit message.\n");
@@ -305,7 +305,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Default response to "do you want to commit" (Y).
 			IntegrationTestSuite.testInputStream.write("\n");
@@ -318,7 +318,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader(
 					"Append to workspace/app-a/pom.xml\n" +
@@ -331,7 +331,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace status");
 			try {
@@ -341,7 +341,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.GIT_IND_PUSH_ALL" , "true");
 
@@ -355,7 +355,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 
 			System.clearProperty("org.azyva.dragom.runtime-property.GIT_IND_PUSH_ALL");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader(
 					"[app-a.ext] git pull\n" +
@@ -371,7 +371,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace commit");
 			try {
@@ -381,7 +381,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Append to workspace/app-a/pom.xml");
 			try {
@@ -391,7 +391,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "A" to "do you want to continue".
 			IntegrationTestSuite.testInputStream.write("A\n");

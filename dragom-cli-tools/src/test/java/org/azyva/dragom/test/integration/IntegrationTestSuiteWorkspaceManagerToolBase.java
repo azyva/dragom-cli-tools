@@ -97,7 +97,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool");
 			try {
@@ -107,7 +107,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --help");
 			try {
@@ -117,7 +117,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool dummy");
 			try {
@@ -127,7 +127,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace status dummy");
 			try {
@@ -137,7 +137,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace status");
 			try {
@@ -147,7 +147,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace update dummy");
 			try {
@@ -157,7 +157,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace update");
 			try {
@@ -167,7 +167,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace commit dummy");
 			try {
@@ -177,7 +177,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace commit");
 			try {
@@ -187,7 +187,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace --commit-message=\"dummy\" commit");
 			try {
@@ -197,7 +197,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-all dummy");
 			try {
@@ -207,7 +207,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-all");
 			try {
@@ -217,7 +217,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-system dummy");
 			try {
@@ -227,7 +227,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-system");
 			try {
@@ -237,7 +237,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-non-root-reachable dummy");
 			try {
@@ -247,7 +247,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-non-root-reachable");
 			try {
@@ -257,7 +257,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
 			try {
@@ -267,7 +267,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-non-root-reachable");
 			try {
@@ -277,7 +277,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-module-version");
 			try {
@@ -287,7 +287,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-module-version dummy dummy");
 			try {
@@ -297,7 +297,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-module-version Domain1/app-a");
 			try {
@@ -307,7 +307,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-dir");
 			try {
@@ -317,7 +317,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-dir dummy dummy");
 			try {
@@ -327,7 +327,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-dir dir");
 			try {
@@ -337,7 +337,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-all dummy");
 			try {
@@ -347,7 +347,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-all");
 			try {
@@ -357,7 +357,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-module-version");
 			try {
@@ -367,7 +367,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-module-version dummy dummy");
 			try {
@@ -377,7 +377,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-module-version Domain1/app-a");
 			try {
@@ -387,7 +387,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-dir");
 			try {
@@ -397,7 +397,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-dir dummy dummy");
 			try {
@@ -407,7 +407,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-dir dir");
 			try {
@@ -417,7 +417,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace fix");
 			try {

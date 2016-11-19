@@ -17,4 +17,4 @@ REM along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
 
 @echo off
 set DRAGOM_HOME=%~dp0%..
-%JAVA_HOME%\bin\java -classpath %DRAGOM_HOME%\lib\* -Djava.util.logging.config.file=%DRAGOM_HOME%/config/logging.properties -Dorg.azyva.dragom.UrlModel=file:///%DRAGOM_HOME%/config/model.xml org.azyva.dragom.tool.CreateStaticVersionTool %*
+%JAVA_HOME%\bin\java -classpath %DRAGOM_HOME%\lib\* -Djava.util.logging.config.file=%DRAGOM_HOME%/config/logging.properties -Dorg.azyva.dragom.UrlModel=file:///%DRAGOM_HOME%/config/model.xml org.azyva.dragom.tool.ReleaseTool %*

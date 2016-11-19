@@ -42,7 +42,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 
 			IntegrationTestSuite.resetTestWorkspace();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool");
 			try {
@@ -52,7 +52,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --help");
 			try {
@@ -62,7 +62,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool release (with UrlModel not set)");
 			try {
@@ -72,7 +72,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --user-properties=dummy-user.properties release (with dummy UrlModel)");
 			try {
@@ -88,7 +88,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			IntegrationTestSuite.printTestFooter();
 
 
-			// ################################################################################
+			// ###############################################################################
 
 			try {
 				inputStream = IntegrationTestSuite.class.getResourceAsStream("/simple-user.properties");
@@ -111,7 +111,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace force-unlock");
 			try {
@@ -121,7 +121,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace get-properties");
 			try {
@@ -131,7 +131,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace set-property NAME");
 			try {
@@ -141,7 +141,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace set-property NAME VALUE extra");
 			try {
@@ -151,7 +151,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace set-property NAME VALUE");
 			try {
@@ -161,7 +161,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace get-properties");
 			try {
@@ -171,7 +171,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace get-properties (with IndIgnoreCachedExecContext and IndIgnoreCachedModel)");
 			try {
@@ -185,7 +185,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace get-properties NA extra");
 			try {
@@ -195,7 +195,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace get-properties NA");
 			try {
@@ -205,7 +205,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace get-properties NB");
 			try {
@@ -215,7 +215,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace get-property");
 			try {
@@ -225,7 +225,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace get-property NAME extra");
 			try {
@@ -235,7 +235,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace get-property NB");
 			try {
@@ -245,7 +245,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace get-property NAME");
 			try {
@@ -255,7 +255,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace remove-property");
 			try {
@@ -265,7 +265,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace remove-property NAME extra");
 			try {
@@ -275,7 +275,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace remove-property NA");
 			try {
@@ -285,7 +285,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace remove-properties");
 			try {
@@ -295,7 +295,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace remove-properties NA extra");
 			try {
@@ -305,7 +305,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace remove-properties NB");
 			try {
@@ -315,7 +315,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace remove-properties NA");
 			try {
@@ -325,7 +325,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace set-properties-from-tool-properties extra");
 			try {
@@ -335,7 +335,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace set-properties-from-tool-properties");
 			try {
@@ -345,7 +345,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace -DNAME=VALUE set-properties-from-tool-properties");
 			try {
@@ -355,7 +355,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace -DNAME=VALUE -DNAME2=VALUE2 set-properties-from-tool-properties");
 			try {
@@ -365,7 +365,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace -DNAME=VALUE --tool-properties=simple-tool.properties set-properties-from-tool-properties");
 			try {
@@ -375,7 +375,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --user-properties=simple-user.properties --workspace=workspace get-init-property");
 			try {
@@ -385,7 +385,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --user-properties=simple-user.properties --workspace=workspace get-init-property NAME extra");
 			try {
@@ -395,7 +395,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --user-properties=simple-user.properties --workspace=workspace get-init-property NB");
 			try {
@@ -405,7 +405,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --user-properties=simple-user.properties --workspace=workspace get-init-property NAME4");
 			try {
@@ -415,7 +415,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace --no-confirm get-properties");
 			try {
@@ -425,7 +425,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace --no-confirm-context=A --no-confirm-context=B get-properties");
 			try {

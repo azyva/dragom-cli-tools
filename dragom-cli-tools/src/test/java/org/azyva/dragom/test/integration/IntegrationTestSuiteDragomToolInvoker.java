@@ -31,7 +31,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 
 			IntegrationTestSuite.resetTestWorkspace();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker");
 			try {
@@ -41,7 +41,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker --help");
 			try {
@@ -51,7 +51,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker dummy");
 			try {
@@ -61,7 +61,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker exec-context-manager");
 			try {
@@ -71,7 +71,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker exec-context-manager --help");
 			try {
@@ -81,7 +81,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker help build");
 			try {
@@ -91,7 +91,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker help build-remote");
 			try {
@@ -101,7 +101,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker help checkout");
 			try {
@@ -111,7 +111,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker help change-reference-to-module-version");
 			try {
@@ -121,17 +121,17 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("DragomToolInvoker help create-static-version");
+			IntegrationTestSuite.printTestHeader("DragomToolInvoker help release");
 			try {
-				DragomToolInvoker.main(new String[] {"help", "create-static-version"});
+				DragomToolInvoker.main(new String[] {"help", "release"});
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker help credential-manager");
 			try {
@@ -141,7 +141,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker help exec-context-manager");
 			try {
@@ -151,7 +151,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker help merge-main");
 			try {
@@ -161,7 +161,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker help merge-reference-graph");
 			try {
@@ -171,7 +171,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker help reference-graph-report");
 			try {
@@ -181,7 +181,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker help root-manager");
 			try {
@@ -191,7 +191,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker help setup-jenkins-jobs");
 			try {
@@ -201,7 +201,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker help switch-to-dynamic-version");
 			try {
@@ -211,7 +211,7 @@ public class IntegrationTestSuiteDragomToolInvoker {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("DragomToolInvoker help workspace-manager");
 			try {

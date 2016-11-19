@@ -103,7 +103,7 @@ public class IntegrationTestSuiteGenericRootModuleVersionJobInvokerTool {
 			// arguments so the test of not passing any argument and expecting a corresponding
 			// message is not pertinent.
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt dummy");
 			try {
@@ -113,7 +113,7 @@ public class IntegrationTestSuiteGenericRootModuleVersionJobInvokerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --help");
 			try {
@@ -123,7 +123,7 @@ public class IntegrationTestSuiteGenericRootModuleVersionJobInvokerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace");
 			try {
@@ -133,7 +133,7 @@ public class IntegrationTestSuiteGenericRootModuleVersionJobInvokerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a");
 			try {
@@ -143,7 +143,7 @@ public class IntegrationTestSuiteGenericRootModuleVersionJobInvokerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a --reference-path-matcher=/Domain1/app-a");
 			try {
@@ -153,7 +153,7 @@ public class IntegrationTestSuiteGenericRootModuleVersionJobInvokerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
 			try {
@@ -163,7 +163,7 @@ public class IntegrationTestSuiteGenericRootModuleVersionJobInvokerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace");
 			try {
@@ -173,7 +173,7 @@ public class IntegrationTestSuiteGenericRootModuleVersionJobInvokerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a");
 			try {
@@ -183,7 +183,7 @@ public class IntegrationTestSuiteGenericRootModuleVersionJobInvokerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
 			try {

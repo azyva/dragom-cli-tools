@@ -98,7 +98,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBuildClean {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/develop-project1");
 			try {
@@ -108,7 +108,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBuildClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -118,7 +118,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBuildClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-all");
 			try {
@@ -128,7 +128,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBuildClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-module-version Domain1/app-a");
 			try {
@@ -138,7 +138,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBuildClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-dir app-a");
 			try {
@@ -148,7 +148,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolBuildClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace build-clean-dir .dragom/app-a");
 			try {

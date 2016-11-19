@@ -44,12 +44,12 @@
 			<VERSION_TO_ARTIFACT_VERSION_MAPPING.DYNAMIC>D/(.+):$1-SNAPSHOT</VERSION_TO_ARTIFACT_VERSION_MAPPING.DYNAMIC>
 			<VERSION_TO_ARTIFACT_VERSION_MAPPING.STATIC>S/v-(.+):$1</VERSION_TO_ARTIFACT_VERSION_MAPPING.STATIC>
 
-			<!-- UniformNewStaticVersionPluginImpl -->
+			<!-- UniformSelectStaticVersionPluginImpl -->
 			
 			<REVISION_DECIMAL_POSITION_COUNT>1</REVISION_DECIMAL_POSITION_COUNT>
 
 
-			<!-- SemanticNewStaticVersionPluginImpl -->
+			<!-- SemanticSelectStaticVersionPluginImpl -->
 
 			<SEMANTIC_VERSION_PREFIX>v-</SEMANTIC_VERSION_PREFIX>
 			
@@ -107,37 +107,37 @@
 			</plugin>
 
 			<plugin>
-				<plugin-interface>org.azyva.dragom.model.plugin.NewDynamicVersionPlugin</plugin-interface>
+				<plugin-interface>org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin</plugin-interface>
 				<plugin-class>org.azyva.dragom.model.plugin.impl.RuntimeSelectionPluginFactory</plugin-class>
 			</plugin>
 			<plugin>
 				<plugin-id>uniform</plugin-id>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.UniformNewDynamicVersionPluginImpl</plugin-class>
+				<plugin-class>org.azyva.dragom.model.plugin.impl.UniformSelectDynamicVersionPluginImpl</plugin-class>
 			</plugin>
 			<plugin>
 				<plugin-id>hotfix</plugin-id>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.HotfixNewDynamicVersionPluginImpl</plugin-class>
+				<plugin-class>org.azyva.dragom.model.plugin.impl.HotfixSelectDynamicVersionPluginImpl</plugin-class>
 			</plugin>
 			<plugin>
 				<plugin-id>phase</plugin-id>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.PhaseNewDynamicVersionPluginImpl</plugin-class>
+				<plugin-class>org.azyva.dragom.model.plugin.impl.PhaseSelectDynamicVersionPluginImpl</plugin-class>
 			</plugin>
 
 			<plugin>
-				<plugin-interface>org.azyva.dragom.model.plugin.NewStaticVersionPlugin</plugin-interface>
+				<plugin-interface>org.azyva.dragom.model.plugin.SelectStaticVersionPlugin</plugin-interface>
 				<plugin-class>org.azyva.dragom.model.plugin.impl.RuntimeSelectionPluginFactory</plugin-class>
 			</plugin>
 			<plugin>
 				<plugin-id>uniform</plugin-id>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.UniformNewStaticVersionPluginImpl</plugin-class>
+				<plugin-class>org.azyva.dragom.model.plugin.impl.UniformSelectStaticVersionPluginImpl</plugin-class>
 			</plugin>
 			<plugin>
 				<plugin-id>semantic</plugin-id>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.SemanticNewStaticVersionPluginImpl</plugin-class>
+				<plugin-class>org.azyva.dragom.model.plugin.impl.SemanticSelectStaticVersionPluginImpl</plugin-class>
 			</plugin>
 			<plugin>
 				<plugin-id>phase</plugin-id>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.PhaseNewStaticVersionPluginImpl</plugin-class>
+				<plugin-class>org.azyva.dragom.model.plugin.impl.PhaseSelectStaticVersionPluginImpl</plugin-class>
 			</plugin>
 
 			<plugin>

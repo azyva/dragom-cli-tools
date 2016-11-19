@@ -94,7 +94,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 			System.setProperty("org.azyva.dragom.runtime-property.IND_PASSWORD_INPUT_NORMAL", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool");
 			try {
@@ -104,7 +104,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --help");
 			try {
@@ -114,7 +114,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace enum-resource-realm-mappings dummy");
 			try {
@@ -124,7 +124,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace enum-resource-realm-mappings");
 			try {
@@ -134,7 +134,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace enum-passwords");
 			try {
@@ -144,7 +144,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://jsmith@acme.com/git");
 			try {
@@ -154,7 +154,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://jsmith@acme.com/git jsmith");
 			try {
@@ -164,7 +164,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://jsmith@acme.com/git dummy");
 			try {
@@ -174,7 +174,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "password" to "input password"
 			IntegrationTestSuite.testInputStream.write("password\n");
@@ -187,7 +187,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://jsmith@acme.com/git (with password available)");
 			try {
@@ -197,7 +197,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://jsmith@acme.com/git jsmith (with password available)");
 			try {
@@ -207,7 +207,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "password" to "input password"
 			IntegrationTestSuite.testInputStream.write("password\n");
@@ -220,7 +220,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-password http://jsmith@acme.com/git dummy");
 			try {
@@ -230,7 +230,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://acme.com/git");
 			try {
@@ -240,7 +240,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://acme.com/git jsmith");
 			try {
@@ -250,7 +250,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://acme.com/git bob");
 			try {
@@ -260,7 +260,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "password" to "input password"
 			IntegrationTestSuite.testInputStream.write("password\n");
@@ -273,7 +273,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "jsmith" to "which user"
 			IntegrationTestSuite.testInputStream.write("jsmith\n");
@@ -289,7 +289,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-password http://acme.com/git");
 			try {
@@ -299,7 +299,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace enum-passwords");
 			try {
@@ -309,7 +309,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace enum-default-users");
 			try {
@@ -319,7 +319,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-default-user http://acme.com/git");
 			try {
@@ -329,7 +329,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace get-default-user http://bob@acme.com/git");
 			try {
@@ -339,7 +339,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-default-user http://acme.com/git bob");
 			try {
@@ -349,7 +349,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-default-user http://bob@acme.com/git bob");
 			try {
@@ -359,7 +359,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-default-user http://bob@acme.com/git jsmith");
 			try {
@@ -369,7 +369,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace remove-default-user http://bob@acme.com/git");
 			try {
@@ -379,7 +379,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace remove-default-user http://acme.com/git");
 			try {

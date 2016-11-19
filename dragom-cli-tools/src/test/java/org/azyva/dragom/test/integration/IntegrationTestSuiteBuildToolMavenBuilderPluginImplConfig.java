@@ -104,7 +104,7 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/develop-project1");
 			try {
@@ -114,7 +114,7 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -124,7 +124,7 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Build BuildToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -134,7 +134,7 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.MAVEN_HOME", System.getenv("MAVEN_HOME"));
 			System.setProperty("org.azyva.dragom.runtime-property.MAVEN_LOCAL_REPO", IntegrationTestSuite.pathTestWorkspace.toAbsolutePath().resolve("repository").toString());
@@ -163,7 +163,7 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_HOME");
 			System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_LOCAL_REPO");

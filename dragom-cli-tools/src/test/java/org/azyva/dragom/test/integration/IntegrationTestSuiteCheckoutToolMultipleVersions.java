@@ -98,7 +98,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleVersions {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:D/develop-project1");
 			try {
@@ -108,7 +108,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleVersions {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/develop-project1");
 			try {
@@ -118,7 +118,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleVersions {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "1" to "specify version to keep".
 			IntegrationTestSuite.testInputStream.write("1\n");
@@ -131,7 +131,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleVersions {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "2" to "specify version to keep".
 			IntegrationTestSuite.testInputStream.write("2\n");
@@ -147,7 +147,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleVersions {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "S/v-1.0" to "specify version to keep".
 			IntegrationTestSuite.testInputStream.write("S/v-1.0\n");

@@ -96,7 +96,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a --reference-path-matcher=/Domain1/app-a");
 			try {
@@ -106,7 +106,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader(
 					"git branch new-branch\n" +
@@ -119,7 +119,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Default response to "do you want to switch" (YA).
 			IntegrationTestSuite.testInputStream.write("\n");
@@ -132,7 +132,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Append to workspace/app-a/pom.xml\n");
 
@@ -146,7 +146,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
 			// Default response to "do you want to continue" (Y).
 			IntegrationTestSuite.testInputStream.write("\n");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a:D/master --reference-path-matcher=/Domain1/app-a");
 			try {
@@ -156,7 +156,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("[workspace/app-a] git add, git commit");
 			try {
@@ -166,7 +166,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response NA to "do you want to switch".
 			IntegrationTestSuite.testInputStream.write("NA\n");
@@ -179,7 +179,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader(
 					"[workspace/app-a] git push\n" +
@@ -197,7 +197,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Default response to "do you want to switch" (YA).
 			IntegrationTestSuite.testInputStream.write("\n");

@@ -97,7 +97,7 @@ public class IntegrationTestSuiteBuildToolUserSystemMode {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Build BuildToolHelp.txt --help");
 			try {
@@ -107,7 +107,7 @@ public class IntegrationTestSuiteBuildToolUserSystemMode {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/develop-project1");
 			try {
@@ -117,7 +117,7 @@ public class IntegrationTestSuiteBuildToolUserSystemMode {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**->/:(D/.*)");
 			try {
@@ -127,7 +127,7 @@ public class IntegrationTestSuiteBuildToolUserSystemMode {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Build BuildToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -137,7 +137,7 @@ public class IntegrationTestSuiteBuildToolUserSystemMode {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.BUILD_SCOPE", "ONLY_USER_ABORT_IF_SYSTEM");
 
@@ -149,7 +149,7 @@ public class IntegrationTestSuiteBuildToolUserSystemMode {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.BUILD_SCOPE", "ALL");
 
@@ -161,7 +161,7 @@ public class IntegrationTestSuiteBuildToolUserSystemMode {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// This does not fully test this case since all modules have the ArtiafctInfoPlugin.
 			System.setProperty("org.azyva.dragom.runtime-property.BUILD_SCOPE", "ALL_ABORT_IF_SYSTEM_AND_NO_ARTIFACT");

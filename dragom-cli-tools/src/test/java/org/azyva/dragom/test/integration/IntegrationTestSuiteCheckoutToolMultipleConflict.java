@@ -99,7 +99,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleConflict {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:D/develop-project1");
 			try {
@@ -109,7 +109,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleConflict {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -119,7 +119,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleConflict {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader(
 					"git clone --branch develop-project1 test-git-repos/Domain2/app-b-model.git app-b-model.ext\n" +
@@ -134,7 +134,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleConflict {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Default response to "do you want to update" (YA).
 			IntegrationTestSuite.testInputStream.write("\n");
@@ -147,7 +147,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleConflict {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader(
 					"Append to app-b-model.ext/pom.xml\n" +
@@ -164,7 +164,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleConflict {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Default response to "do you want to update" (YA).
 			IntegrationTestSuite.testInputStream.write("\n");

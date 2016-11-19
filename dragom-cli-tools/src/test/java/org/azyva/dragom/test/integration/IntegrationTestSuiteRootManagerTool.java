@@ -93,7 +93,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool");
 			try {
@@ -103,7 +103,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --help");
 			try {
@@ -113,7 +113,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list dummy");
 			try {
@@ -123,7 +123,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
 			try {
@@ -133,7 +133,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add");
 			try {
@@ -143,7 +143,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a dummy");
 			try {
@@ -153,7 +153,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
 			try {
@@ -163,7 +163,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/master");
 			try {
@@ -173,7 +173,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add dummy");
 			try {
@@ -183,7 +183,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
 			try {
@@ -193,7 +193,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace --ind-allow-duplicate-modules add Domain1/app-a");
 			try {
@@ -203,7 +203,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
 			try {
@@ -213,7 +213,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove");
 			try {
@@ -223,7 +223,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove Domain1/app dummy");
 			try {
@@ -233,7 +233,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove Domain1/app");
 			try {
@@ -243,7 +243,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
 			try {
@@ -253,7 +253,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove Domain1/app:D/master");
 			try {
@@ -263,7 +263,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
 			try {
@@ -273,7 +273,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
 			try {
@@ -283,7 +283,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
 			try {
@@ -293,7 +293,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-all");
 			try {
@@ -303,7 +303,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list");
 			try {
@@ -313,7 +313,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers dummy");
 			try {
@@ -323,7 +323,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
 			try {
@@ -333,7 +333,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher");
 			try {
@@ -343,7 +343,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher ** dummy");
 			try {
@@ -353,7 +353,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher dummy");
 			try {
@@ -363,7 +363,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher **");
 			try {
@@ -373,7 +373,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
 			try {
@@ -383,7 +383,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher **");
 			try {
@@ -393,7 +393,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher ** dummy");
 			try {
@@ -403,7 +403,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher");
 			try {
@@ -413,7 +413,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher **");
 			try {
@@ -423,7 +423,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
 			try {
@@ -433,7 +433,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher *");
 			try {
@@ -443,7 +443,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher **");
 			try {
@@ -453,7 +453,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add-reference-path-matcher Domain1/app-a");
 			try {
@@ -463,7 +463,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
 			try {
@@ -473,7 +473,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher *");
 			try {
@@ -483,7 +483,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
 			try {
@@ -493,7 +493,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-reference-path-matcher **");
 			try {
@@ -503,7 +503,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
 			try {
@@ -513,7 +513,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-all-reference-path-matchers dummy");
 			try {
@@ -523,7 +523,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove-all-reference-path-matchers");
 			try {
@@ -533,7 +533,7 @@ public class IntegrationTestSuiteRootManagerTool {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace list-reference-path-matchers");
 			try {

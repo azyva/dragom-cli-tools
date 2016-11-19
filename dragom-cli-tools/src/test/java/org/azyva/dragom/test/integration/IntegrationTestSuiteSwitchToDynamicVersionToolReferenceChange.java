@@ -98,7 +98,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolReferenceChange {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader(
 					"git clone test-git-repos/Domain2/app-b-model.git app-b-model.ext\n" +
@@ -118,7 +118,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolReferenceChange {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b");
 			try {
@@ -128,7 +128,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolReferenceChange {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
 			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project2");
@@ -159,7 +159,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolReferenceChange {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:D/master");
 			try {
@@ -169,7 +169,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolReferenceChange {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -179,7 +179,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolReferenceChange {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project3");
 

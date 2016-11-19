@@ -99,7 +99,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
 			try {
@@ -109,7 +109,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -119,7 +119,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -129,7 +129,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Append to workspace/app-a/pom.xml");
 			try {
@@ -139,7 +139,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -149,7 +149,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("[workspace/app-a] git add, git commit (no push)");
 			try {
@@ -160,7 +160,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -170,7 +170,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("[workspace/app-a] git push");
 			try {
@@ -180,7 +180,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -190,7 +190,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader(
 					"git clone test-git-repos/Domain1/app-a.git app-a.ext\n" +
@@ -205,7 +205,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "N" to "do you want to update".
 			IntegrationTestSuite.testInputStream.write("N\n");
@@ -218,7 +218,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Default response to "do you want to update" (YA).
 			IntegrationTestSuite.testInputStream.write("\n");

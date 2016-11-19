@@ -171,20 +171,20 @@ public class IntegrationTestSuite {
 			IntegrationTestSuiteSwitchToDynamicVersionToolPhase.testSwitchToDynamicVersionToolPhase();
 		}
 
-		if (indAllTests || setTestCategory.contains("CreateStaticVersionToolBase")) {
-			IntegrationTestSuiteCreateStaticVersionToolBase.testCreateStaticVersionToolBase();
+		if (indAllTests || setTestCategory.contains("ReleaseToolBase")) {
+			IntegrationTestSuiteReleaseToolBase.testReleaseToolBase();
 		}
 
-		if (indAllTests || setTestCategory.contains("CreateStaticVersionToolRecurse")) {
-			IntegrationTestSuiteCreateStaticVersionToolRecurse.testCreateStaticVersionToolRecurse();
+		if (indAllTests || setTestCategory.contains("ReleaseVersionToolRecurse")) {
+			IntegrationTestSuiteReleaseToolRecurse.testReleaseToolRecurse();
 		}
 
-		if (indAllTests || setTestCategory.contains("CreateStaticVersionToolSemantic")) {
-			IntegrationTestSuiteCreateStaticVersionToolSemantic.testCreateStaticVersionToolSemantic();
+		if (indAllTests || setTestCategory.contains("ReleaseVersionToolSemantic")) {
+			IntegrationTestSuiteReleaseToolSemantic.testReleaseToolSemantic();
 			//??? incomplete.
 		}
 /*
-		if (indAllTests || setTestCategory.contains("CreateStaticVersionToolPhase")) {
+		if (indAllTests || setTestCategory.contains("ReleaseVersionToolPhase")) {
 			IntegrationTestSuiteCreateStaticVersionToolPhase.testCreateStaticVersionToolPhase();
 		}
 */

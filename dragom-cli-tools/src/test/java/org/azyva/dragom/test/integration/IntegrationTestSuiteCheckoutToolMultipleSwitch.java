@@ -98,7 +98,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain2/app-b --reference-path-matcher=**");
 			try {
@@ -108,7 +108,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "Y" to "do you want to switch".
 			IntegrationTestSuite.testInputStream.write("Y\n");
@@ -121,7 +121,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Append to workspace/app-b-model/pom.xml\n");
 
@@ -135,7 +135,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
 			// Default response to "do you want to continue" (Y).
 			IntegrationTestSuite.testInputStream.write("\n");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain2/app-b:D/master --reference-path-matcher=**");
 			try {
@@ -145,7 +145,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("[workspace/app-b-model] git add, git commit");
 			try {
@@ -155,7 +155,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response NA to "do you want to switch".
 			IntegrationTestSuite.testInputStream.write("NA\n");
@@ -168,7 +168,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader(
 					"[workspace/app-b-model] git push\n" +
@@ -186,7 +186,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Default response to "do you want to switch" (YA).
 			IntegrationTestSuite.testInputStream.write("\n");

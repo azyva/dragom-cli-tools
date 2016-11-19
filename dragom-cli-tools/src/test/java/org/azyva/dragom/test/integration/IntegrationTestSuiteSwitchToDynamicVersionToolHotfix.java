@@ -98,7 +98,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b");
 			try {
@@ -108,7 +108,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "N" to "do you want to continue non-static versions in reference path"
 			IntegrationTestSuite.testInputStream.write("N\n");
@@ -123,7 +123,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:S/v-2000-07-01.01");
 			try {
@@ -133,7 +133,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "D/hotfix_hotfix1" to "to which version do you want to switch"
 			IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix1\n");
@@ -155,7 +155,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:S/v-2000-07-01.01");
 			try {
@@ -165,7 +165,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -175,7 +175,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "D/hotfix_hotfix2" to "to which version do you want to switch"
 			IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix2\n");
@@ -197,7 +197,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "A" to "do you want to delete".
 			IntegrationTestSuite.testInputStream.write("A\n");
@@ -210,7 +210,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:S/v-2000-07-01.01");
 			try {
@@ -220,7 +220,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "D/hotfix_hotfix3" to "to which version do you want to switch"
 			IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix3\n");
@@ -239,7 +239,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "A" to "do you want to continue non-static versions in reference path"
 			IntegrationTestSuite.testInputStream.write("A\n");
@@ -267,7 +267,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:S/v-2000-07-01.01");
 			try {
@@ -277,7 +277,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "D/hotfix_hotfix3" to "to which version do you want to switch"
 			IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix1\n");

@@ -31,7 +31,7 @@ import org.azyva.dragom.model.config.OptimisticLockException;
 import org.azyva.dragom.model.config.OptimisticLockHandle;
 import org.azyva.dragom.model.plugin.impl.NodePluginAbstractImpl;
 
-// Should bi-personnality plugins do this, or should Dragom support bare NodePlugin? Probably this, but with a bi-base impl.
+// TODO: Should bi-personnality plugins do this, or should Dragom support bare NodePlugin? Probably this, but with a bi-base impl.
 public class TestPluginImpl extends NodePluginAbstractImpl implements TestPlugin {
 	public TestPluginImpl(ClassificationNode classificationNode) {
 		super(classificationNode);

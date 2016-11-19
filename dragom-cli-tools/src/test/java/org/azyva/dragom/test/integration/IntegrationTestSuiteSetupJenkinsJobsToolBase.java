@@ -102,7 +102,7 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 			System.setProperty("org.azyva.dragom.DefaultServiceImpl.org.azyva.dragom.jenkins.JenkinsClient", "org.azyva.dragom.test.integration.setupjenkinsjobs.JenkinsClientTestDouble");
 
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --help");
 			try {
@@ -112,7 +112,7 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool dummy");
 			try {
@@ -122,7 +122,7 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain2/app-b:D/develop-project1");
 			try {
@@ -135,7 +135,7 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
 			// First set of tests without creating a project folder for the jobs.
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_USER", "correct-user");
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test");
@@ -165,7 +165,7 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test");
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
@@ -186,7 +186,7 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test");
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
@@ -207,7 +207,7 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test");
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
@@ -231,7 +231,7 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
 			// Second set of tests without creating a project folder for the jobs.
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test/");
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
@@ -252,7 +252,7 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test/");
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
@@ -275,7 +275,7 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test/");
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
@@ -296,7 +296,7 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test/");
 			System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");

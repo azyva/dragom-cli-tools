@@ -120,7 +120,7 @@ Arguments
 
 <module-classification-path>: Classification path of the module.
 
-<version>: Version to checkout. If not specified the main version (e.g.: trunk,
+<version>: Version to checkout. If not specified the main version (e.g., trunk,
   master) is assumed
 
 Source Reference Filter

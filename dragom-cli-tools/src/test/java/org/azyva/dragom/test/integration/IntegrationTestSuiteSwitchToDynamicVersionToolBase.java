@@ -97,7 +97,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --help");
 			try {
@@ -107,7 +107,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
 			try {
@@ -117,7 +117,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
 			try {
@@ -128,7 +128,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ALLOW_USER_SPECIFIED_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "true");
 
@@ -152,7 +152,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
 
@@ -170,7 +170,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Default response to "process already dynamic versions" (Y)
 			IntegrationTestSuite.testInputStream.write("Y\n");
@@ -192,7 +192,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Default response to "process already dynamic versions" (Y)
 			IntegrationTestSuite.testInputStream.write("Y\n");
@@ -214,7 +214,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
 			try {
@@ -224,7 +224,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Default response to "process already dynamic versions" (Y)
 			IntegrationTestSuite.testInputStream.write("Y\n");

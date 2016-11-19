@@ -37,7 +37,7 @@ Arguments
 
 <module-classification-path>: Classification path of the root module.
 
-<version>: Version of the root module. If not specified the main version (e.g.:
+<version>: Version of the root module. If not specified the main version (e.g.,
   trunk, master) is assumed
 
 

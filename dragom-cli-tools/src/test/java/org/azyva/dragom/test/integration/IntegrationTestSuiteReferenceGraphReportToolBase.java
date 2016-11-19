@@ -97,7 +97,7 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool");
 			try {
@@ -107,7 +107,7 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --help");
 			try {
@@ -117,7 +117,7 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool dummy1 dummy2");
 			try {
@@ -127,7 +127,7 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --module-versions --avoid-redundancy dummy");
 			try {
@@ -137,7 +137,7 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --only-multiple-versions dummy");
 			try {
@@ -147,7 +147,7 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --only-matched-modules dummy");
 			try {
@@ -157,7 +157,7 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --most-recent-version-in-reference-graph dummy");
 			try {
@@ -167,7 +167,7 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --most-recent-static-version-in-scm dummy");
 			try {
@@ -177,7 +177,7 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --reference-paths dummy");
 			try {
@@ -187,7 +187,7 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --module-versions --only-multiple-versions --only-matched-modules dummy");
 			try {
@@ -197,7 +197,7 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/develop-project1");
 			try {
@@ -207,7 +207,7 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph reference-graph-report.txt");
 			try {

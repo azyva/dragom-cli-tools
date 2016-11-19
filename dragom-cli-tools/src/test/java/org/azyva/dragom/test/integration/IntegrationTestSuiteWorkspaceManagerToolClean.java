@@ -98,7 +98,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
 			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/develop-project1");
 			try {
@@ -108,7 +108,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -118,7 +118,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "B" (abort) to "do you want to delete".
 			IntegrationTestSuite.testInputStream.write("B\n");
@@ -131,7 +131,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "Y" to "do you want to delete".
 			IntegrationTestSuite.testInputStream.write("Y\n");
@@ -150,7 +150,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -160,7 +160,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Append to workspace/app-a/pom.xml");
 			try {
@@ -170,7 +170,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "A" to "do you want to delete".
 			IntegrationTestSuite.testInputStream.write("A\n");
@@ -186,7 +186,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -196,7 +196,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-system");
 			try {
@@ -206,7 +206,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -216,7 +216,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/master");
 			try {
@@ -226,7 +226,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "A" to "do you want to delete".
 			IntegrationTestSuite.testInputStream.write("A\n");
@@ -239,7 +239,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -249,7 +249,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Append to workspace/app-a/pom.xml");
 			try {
@@ -259,7 +259,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/develop-project1");
 			try {
@@ -269,7 +269,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "A" to "do you want to delete".
 			IntegrationTestSuite.testInputStream.write("A\n");
@@ -285,7 +285,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -295,7 +295,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "A" to "do you want to delete".
 			IntegrationTestSuite.testInputStream.write("A\n");
@@ -308,7 +308,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Append to workspace/app-a-model-intf/pom.xml");
 			try {
@@ -318,7 +318,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "A" to "do you want to delete with unsync changes".
 			IntegrationTestSuite.testInputStream.write("A\n");
@@ -331,7 +331,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
 			try {
@@ -341,7 +341,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "A" to "do you want to delete".
 			IntegrationTestSuite.testInputStream.write("A\n");
@@ -354,7 +354,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			IntegrationTestSuite.printTestHeader("Append to workspace/app-a-model-intf/pom.xml");
 			try {
@@ -364,7 +364,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
 			}
 			IntegrationTestSuite.printTestFooter();
 
-			// ################################################################################
+			// ###############################################################################
 
 			// Response "A" to "do you want to delete with unsync changes".
 			IntegrationTestSuite.testInputStream.write("A\n");
