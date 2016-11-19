@@ -29,7 +29,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.azyva.dragom.git.Git;
 import org.azyva.dragom.model.Version;
 import org.azyva.dragom.tool.GenericRootModuleVersionJobInvokerTool;
 import org.azyva.dragom.tool.RootManagerTool;
@@ -287,9 +286,9 @@ public class IntegrationTestSuiteCreateStaticVersionToolRecurse {
 					"Append to app-b.ext/pom.xml\n" +
 					"git add, git commit, git push");
 			try {
-				Git.clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b.git", new Version("D/develop-project1"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b.ext"));
+				IntegrationTestSuite.getGit().clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b.git", new Version("D/develop-project1"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b.ext"));
 				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-b.ext/pom.xml"), "<!-- Dummy comment. -->\n");
-				Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b.ext"), "Dummy message.", null, true);
+				IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b.ext"), "Dummy message.", null, true);
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -302,9 +301,9 @@ public class IntegrationTestSuiteCreateStaticVersionToolRecurse {
 					"Append to app-b-model.ext/pom.xml\n" +
 					"git add, git commit, git push");
 			try {
-				Git.clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b-model.git", new Version("D/develop-project1"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"));
+				IntegrationTestSuite.getGit().clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b-model.git", new Version("D/develop-project1"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"));
 				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext/pom.xml"), "<!-- Dummy comment. -->\n");
-				Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null, true);
+				IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null, true);
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}

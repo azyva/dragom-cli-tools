@@ -29,7 +29,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.azyva.dragom.git.Git;
 import org.azyva.dragom.model.Version;
 import org.azyva.dragom.tool.GenericRootModuleVersionJobInvokerTool;
 import org.azyva.dragom.tool.RootManagerTool;
@@ -125,9 +124,9 @@ public class IntegrationTestSuiteCheckoutToolConflict {
 					"Append to app-a.ext/pom.xml\n" +
 					"git add, git commit, git push");
 			try {
-				Git.clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain1/app-a.git", new Version("D/master"), IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"));
+				IntegrationTestSuite.getGit().clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain1/app-a.git", new Version("D/master"), IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"));
 				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext/pom.xml"), "<!-- Dummy comment. -->\n");
-				Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null, true);
+				IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null, true);
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -155,9 +154,9 @@ public class IntegrationTestSuiteCheckoutToolConflict {
 					"git add, git commit (no push)");
 			try {
 				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext/pom.xml"), "<!-- Dummy comment 2. -->\n");
-				Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null, true);
+				IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null, true);
 				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a/pom.xml"), "<!-- Dummy comment 3. -->\n");
-				Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"), "Dummy message.", null, false);
+				IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"), "Dummy message.", null, false);
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}

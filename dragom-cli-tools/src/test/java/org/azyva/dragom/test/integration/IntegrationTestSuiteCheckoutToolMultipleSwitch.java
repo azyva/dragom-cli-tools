@@ -29,7 +29,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.azyva.dragom.git.Git;
 import org.azyva.dragom.model.Version;
 import org.azyva.dragom.tool.GenericRootModuleVersionJobInvokerTool;
 
@@ -150,7 +149,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
 
 			IntegrationTestSuite.printTestHeader("[workspace/app-b-model] git add, git commit");
 			try {
-				Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-b-model"), "Dummy message.", null, false);
+				IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-b-model"), "Dummy message.", null, false);
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
@@ -178,10 +177,10 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
 					"git add, git commit, git push");
 
 			try {
-				Git.push(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-b-model"));
-				Git.clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b-model.git", new Version("D/master"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"));
+				IntegrationTestSuite.getGit().push(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-b-model"));
+				IntegrationTestSuite.getGit().clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b-model.git", new Version("D/master"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"));
 				IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext/pom.xml"), "<!-- Dummy comment 2. -->\n");
-				Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null, true);
+				IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null, true);
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}

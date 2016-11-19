@@ -34,11 +34,14 @@ import java.util.Set;
 import java.util.logging.LogManager;
 
 import org.apache.commons.io.FileUtils;
+import org.azyva.dragom.git.Git;
+import org.azyva.dragom.git.impl.DefaultGitImpl;
 import org.azyva.dragom.tool.ExecContextManagerTool;
 
 public class IntegrationTestSuite {
 	public static Path pathTestWorkspace;
 	public static TestInputStream testInputStream;
+	public static Git git;
 
 	public static void main(String[] args) {
 		Set<String> setTestCategory;
@@ -289,5 +292,13 @@ public class IntegrationTestSuite {
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe);
 		}
+	}
+
+	public static Git getGit() {
+		if (IntegrationTestSuite.git == null) {
+			IntegrationTestSuite.git = new DefaultGitImpl();
+		}
+
+		return IntegrationTestSuite.git;
 	}
 }

@@ -29,7 +29,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.azyva.dragom.git.Git;
 import org.azyva.dragom.model.Version;
 import org.azyva.dragom.tool.GenericRootModuleVersionJobInvokerTool;
 import org.azyva.dragom.tool.RootManagerTool;
@@ -108,12 +107,12 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolReferenceChange {
 			try {
 				Path path;
 
-				Git.clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b-model.git", new Version("D/master"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"));
+				IntegrationTestSuite.getGit().clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b-model.git", new Version("D/master"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"));
 				path = IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext/pom.xml");
 				inputStream = IntegrationTestSuite.class.getResourceAsStream("/pom.xml-SwitchToDynamicVersionToolReferenceChange1");
 				Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
 				inputStream.close();
-				Git.addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null, true);
+				IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null, true);
 			} catch (Exception e) {
 				IntegrationTestSuite.validateExitException(e, 0);
 			}
