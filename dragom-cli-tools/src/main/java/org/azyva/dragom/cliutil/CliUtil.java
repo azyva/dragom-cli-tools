@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 AZYVA INC.
+ * Copyright 2015 - 2017 AZYVA INC. INC.
  *
  * This file is part of Dragom.
  *
@@ -112,19 +112,19 @@ public final class CliUtil {
 	/**
 	 * System property that specifies if a user properties file is supported.
 	 */
-	public static final String SYS_PROP_IND_USER_PROPERTIES = "org.azyva.dragom.IndUserProperties";
+	public static final String SYS_PROPERTY_IND_USER_PROPERTIES = "org.azyva.dragom.IndUserProperties";
 
 	/**
 	 * System property that specifies the default user properties file. "~" in the
 	 * value of this property is replaced by the user home directory.
 	 */
-	public static final String SYS_PROP_DEFAULT_USER_PROPERTIES_FILE = "org.azyva.dragom.DefaultUserProperties";
+	public static final String SYS_PROPERTY_DEFAULT_USER_PROPERTIES_FILE = "org.azyva.dragom.DefaultUserProperties";
 
 	/**
 	 * System property that specifies the command line option used to specify the user
 	 * properties file.
 	 */
-	public static final String SYS_PROP_USER_PROPERTIES_FILE_COMMAND_LINE_OPTION = "org.azyva.dragom.UserPropertiesCommandLineOption";
+	public static final String SYS_PROPERTY_USER_PROPERTIES_FILE_COMMAND_LINE_OPTION = "org.azyva.dragom.UserPropertiesCommandLineOption";
 
 	/**
 	 * Default command line option for specifying the user properties file.
@@ -134,18 +134,18 @@ public final class CliUtil {
 	/**
 	 * System property that specifies if single tool properties are supported.
 	 */
-	public static final String SYS_PROP_IND_SINGLE_TOOL_PROPERTIES = "org.azyva.dragom.IndSingleToolProperties";
+	public static final String SYS_PROPERTY_IND_SINGLE_TOOL_PROPERTIES = "org.azyva.dragom.IndSingleToolProperties";
 
 	/**
 	 * System property that specifies if a tool properties file is supported.
 	 */
-	public static final String SYS_PROP_IND_TOOL_PROPERTIES = "org.azyva.dragom.IndToolProperties";
+	public static final String SYS_PROPERTY_IND_TOOL_PROPERTIES = "org.azyva.dragom.IndToolProperties";
 
 	/**
 	 * System property that specifies the command line option used to specify the
 	 * workspace path.
 	 */
-	public static final String SYS_PROP_WORKSPACE_PATH_COMMAND_LINE_OPTION = "org.azyva.dragom.WorkspacePathCommandLineOption";
+	public static final String SYS_PROPERTY_WORKSPACE_PATH_COMMAND_LINE_OPTION = "org.azyva.dragom.WorkspacePathCommandLineOption";
 
 	/**
 	 * Default command line option for specifying the workspace path.
@@ -156,7 +156,7 @@ public final class CliUtil {
 	 * System property that specifies the command line option used to specify the tool
 	 * properties file.
 	 */
-	public static final String SYS_PROP_TOOL_PROPERTIES_FILE_COMMAND_LINE_OPTION = "org.azyva.dragom.ToolPropertiesCommandLineOption";
+	public static final String SYS_PROPERTY_TOOL_PROPERTIES_FILE_COMMAND_LINE_OPTION = "org.azyva.dragom.ToolPropertiesCommandLineOption";
 
 	/**
 	 * Default command line option for specifying the tool properties file.
@@ -167,7 +167,7 @@ public final class CliUtil {
 	 * System property that specifies the command line option specifying whether
 	 * confirmation is required.
 	 */
-	public static final String SYS_PROP_NO_CONFIRM_COMMAND_LINE_OPTION = "org.azyva.dragom.NoConfirmCommandLineOption";
+	public static final String SYS_PROPERTY_NO_CONFIRM_COMMAND_LINE_OPTION = "org.azyva.dragom.NoConfirmCommandLineOption";
 
 	/**
 	 * Default command line option for specifying whether confirmation is required.
@@ -178,7 +178,7 @@ public final class CliUtil {
 	 * System property that specifies the command line option specifying whether
 	 * confirmation is required for a particular context.
 	 */
-	public static final String SYS_PROP_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION = "org.azyva.dragom.NoConfirmContextCommandLineOption";
+	public static final String SYS_PROPERTY_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION = "org.azyva.dragom.NoConfirmContextCommandLineOption";
 
 	/**
 	 * Default command line option for specifying whether confirmation is required
@@ -189,7 +189,7 @@ public final class CliUtil {
 	/**
 	 * System property that specifies the help command line option.
 	 */
-	public static final String SYS_PROP_HELP_COMMAND_LINE_OPTION = "org.azyva.dragom.HelpCommandLineOption";
+	public static final String SYS_PROPERTY_HELP_COMMAND_LINE_OPTION = "org.azyva.dragom.HelpCommandLineOption";
 
 	/**
 	 * Default help command line option.
@@ -200,7 +200,7 @@ public final class CliUtil {
 	 * System property that specifies the root {@link ModuleVersion} command line
 	 * option.
 	 */
-	public static final String SYS_PROP_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION = "org.azyva.dragom.RootModuleVersionCommandLineOption";
+	public static final String SYS_PROPERTY_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION = "org.azyva.dragom.RootModuleVersionCommandLineOption";
 
 	/**
 	 * Default root {@link ModuleVersion} command line option.
@@ -211,7 +211,7 @@ public final class CliUtil {
 	 * System property that specifies the {@link ReferencePathMatcherByElement}
 	 * command line option.
 	 */
-	public static final String SYS_PROP_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION = "org.azyva.dragom.ReferencePathMatcherCommandLineOption";
+	public static final String SYS_PROPERTY_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION = "org.azyva.dragom.ReferencePathMatcherCommandLineOption";
 
 	/**
 	 * Default {@link ReferencePathMatcherByElement} command line option.
@@ -230,28 +230,28 @@ public final class CliUtil {
 	 * @return User properties file command line option.
 	 */
 	public static String getUserPropertiesFileCommandLineOption() {
-		return System.getProperty(CliUtil.SYS_PROP_USER_PROPERTIES_FILE_COMMAND_LINE_OPTION, CliUtil.DEFAULT_USER_PROPERTIES_COMMAND_LINE_OPTION);
+		return System.getProperty(CliUtil.SYS_PROPERTY_USER_PROPERTIES_FILE_COMMAND_LINE_OPTION, CliUtil.DEFAULT_USER_PROPERTIES_COMMAND_LINE_OPTION);
 	}
 
 	/**
 	 * @return Tool properties file command line option.
 	 */
 	public static String getToolPropertiesFileCommandLineOption() {
-		return System.getProperty(CliUtil.SYS_PROP_TOOL_PROPERTIES_FILE_COMMAND_LINE_OPTION, CliUtil.DEFAULT_TOOL_PROPERTIES_COMMAND_LINE_OPTION);
+		return System.getProperty(CliUtil.SYS_PROPERTY_TOOL_PROPERTIES_FILE_COMMAND_LINE_OPTION, CliUtil.DEFAULT_TOOL_PROPERTIES_COMMAND_LINE_OPTION);
 	}
 
 	/**
 	 * @return Workspace path command line option.
 	 */
 	public static String getWorkspacePathCommandLineOption() {
-		return System.getProperty(CliUtil.SYS_PROP_WORKSPACE_PATH_COMMAND_LINE_OPTION, CliUtil.DEFAULT_WORKSPACE_PATH_COMMAND_LINE_OPTION);
+		return System.getProperty(CliUtil.SYS_PROPERTY_WORKSPACE_PATH_COMMAND_LINE_OPTION, CliUtil.DEFAULT_WORKSPACE_PATH_COMMAND_LINE_OPTION);
 	}
 
 	/**
 	 * @return Command line option specifying whether confirmation is required.
 	 */
 	public static String getNoConfirmCommandLineOption() {
-		return System.getProperty(CliUtil.SYS_PROP_NO_CONFIRM_COMMAND_LINE_OPTION, CliUtil.DEFAULT_NO_CONFIRM_COMMAND_LINE_OPTION);
+		return System.getProperty(CliUtil.SYS_PROPERTY_NO_CONFIRM_COMMAND_LINE_OPTION, CliUtil.DEFAULT_NO_CONFIRM_COMMAND_LINE_OPTION);
 	}
 
 	/**
@@ -259,28 +259,28 @@ public final class CliUtil {
 	 *   particular context.
 	 */
 	public static String getNoConfirmContextCommandLineOption() {
-		return System.getProperty(CliUtil.SYS_PROP_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION, CliUtil.DEFAULT_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION);
+		return System.getProperty(CliUtil.SYS_PROPERTY_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION, CliUtil.DEFAULT_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION);
 	}
 
 	/**
 	 * @return Help command line option.
 	 */
 	public static String getHelpCommandLineOption() {
-		return System.getProperty(CliUtil.SYS_PROP_HELP_COMMAND_LINE_OPTION, CliUtil.DEFAULT_HELP_COMMAND_LINE_OPTION);
+		return System.getProperty(CliUtil.SYS_PROPERTY_HELP_COMMAND_LINE_OPTION, CliUtil.DEFAULT_HELP_COMMAND_LINE_OPTION);
 	}
 
 	/**
 	 * @return Root {@link ModuleVersion} command line option.
 	 */
 	public static String getRootModuleVersionCommandLineOption() {
-		return System.getProperty(CliUtil.SYS_PROP_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION, CliUtil.DEFAULT_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION);
+		return System.getProperty(CliUtil.SYS_PROPERTY_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION, CliUtil.DEFAULT_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION);
 	}
 
 	/**
 	 * @return ReferencePathMatcher command line option.
 	 */
 	public static String getReferencePathMatcherCommandLineOption() {
-		return System.getProperty(CliUtil.SYS_PROP_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION, CliUtil.DEFAULT_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION);
+		return System.getProperty(CliUtil.SYS_PROPERTY_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION, CliUtil.DEFAULT_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION);
 	}
 
 	/**
@@ -305,21 +305,21 @@ public final class CliUtil {
 
 		Util.applyDragomSystemProperties();
 
-		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_USER_PROPERTIES))) {
+		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROPERTY_IND_USER_PROPERTIES))) {
 			option = new Option(null, null);
 			option.setLongOpt(CliUtil.getUserPropertiesFileCommandLineOption());
 			option.setArgs(1);
 			options.addOption(option);
 		}
 
-		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_SINGLE_TOOL_PROPERTIES))) {
+		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROPERTY_IND_SINGLE_TOOL_PROPERTIES))) {
 			option = new Option("D", null);
 			option.setValueSeparator('=');
 			option.setArgs(2);
 			options.addOption(option);
 		}
 
-		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_TOOL_PROPERTIES))) {
+		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROPERTY_IND_TOOL_PROPERTIES))) {
 			option = new Option(null, null);
 			option.setLongOpt(CliUtil.getToolPropertiesFileCommandLineOption());
 			option.setArgs(1);
@@ -417,7 +417,7 @@ public final class CliUtil {
 	 * <p>
 	 * <li>Initialize an empty Properties. This Properties when fully initialized will
 	 *     become the tool initialization Properties;</li>
-	 * <li>If the org.azyva.IndTaskProperties system property is defined, load the
+	 * <li>If the org.azyva.IndToolProperties system property is defined, load the
 	 *     Properties defined in the Properties file specified by the
 	 *     tool-properties command line option. If not defined or if the properties
 	 *     file does not exist, do not load the Properties.</li>
@@ -427,7 +427,7 @@ public final class CliUtil {
 	 * <p>
 	 * It is possible that ExecContextFactory.getExecContext uses a cached ExecContext
 	 * corresponding to a workspace that has already been initialized previously. In
-	 * that case workspace initialization Properties not be considered since
+	 * that case workspace initialization Properties will not be considered since
 	 * ExecContextFactory.getExecContext considers them only when a new ExecContext is
 	 * created. This is not expected to be a problem or source of confusion since this
 	 * can happen only if a user service implementation is actually used and in such a
@@ -473,11 +473,11 @@ public final class CliUtil {
 		propertiesSystem = System.getProperties();
 		propertiesWorkspace = propertiesSystem;
 
-		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_USER_PROPERTIES))) {
+		if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROPERTY_IND_USER_PROPERTIES))) {
 			stringPropertiesFile = commandLine.getOptionValue(CliUtil.getUserPropertiesFileCommandLineOption());
 
 			if (stringPropertiesFile == null) {
-				stringPropertiesFile = System.getProperty(CliUtil.SYS_PROP_DEFAULT_USER_PROPERTIES_FILE);
+				stringPropertiesFile = System.getProperty(CliUtil.SYS_PROPERTY_DEFAULT_USER_PROPERTIES_FILE);
 			}
 
 			if (stringPropertiesFile != null) {
@@ -493,7 +493,7 @@ public final class CliUtil {
 		workspaceDir = commandLine.getOptionValue(CliUtil.getWorkspacePathCommandLineOption());
 
 		if (workspaceDir != null) {
-			propertiesWorkspace.setProperty(workspaceExecContextFactory.getWorkspaceDirInitProp(), workspaceDir);
+			propertiesWorkspace.setProperty(workspaceExecContextFactory.getWorkspaceDirInitProperty(), workspaceDir);
 		}
 
 		execContext = execContextFactory.getExecContext(propertiesWorkspace);
@@ -503,7 +503,7 @@ public final class CliUtil {
 
 			propertiesTool = null;
 
-			if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_TOOL_PROPERTIES))) {
+			if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROPERTY_IND_TOOL_PROPERTIES))) {
 				stringPropertiesFile = commandLine.getOptionValue(CliUtil.getToolPropertiesFileCommandLineOption());
 
 				if (stringPropertiesFile != null) {
@@ -511,7 +511,7 @@ public final class CliUtil {
 				}
 			}
 
-			if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROP_IND_SINGLE_TOOL_PROPERTIES))) {
+			if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROPERTY_IND_SINGLE_TOOL_PROPERTIES))) {
 				Properties propertiesToolSingle;
 
 				propertiesToolSingle = commandLine.getOptionProperties("D");

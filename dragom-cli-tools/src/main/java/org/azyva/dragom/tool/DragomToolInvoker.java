@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 AZYVA INC.
+ * Copyright 2015 - 2017 AZYVA INC. INC.
  *
  * This file is part of Dragom.
  *
@@ -59,23 +59,23 @@ public class DragomToolInvoker {
 	/**
 	 * System property specifying the list of supported tools.
 	 */
-	private static final String SYS_PROP_TOOLS = "org.azyva.dragom.Tools";
+	private static final String SYS_PROPERTY_TOOLS = "org.azyva.dragom.Tools";
 
 	/**
 	 * Prefix for a system property specifying some tool invocation information.
 	 */
-	private static final String SYS_PROP_PREFIX_TOOL = "org.azyva.dragom.Tool.";
+	private static final String SYS_PROPERTY_PREFIX_TOOL = "org.azyva.dragom.Tool.";
 
 	/**
 	 * Suffix for the system property specifying the class of the tool.
 	 */
-	private static final String SYS_PROP_SUFFIX_TOOL_CLASS = ".ToolClass";
+	private static final String SYS_PROPERTY_SUFFIX_TOOL_CLASS = ".ToolClass";
 
 	/**
 	 * Suffix for the system property specifying the fixed arguments to pass to "main"
 	 * before any other arguments.
 	 */
-	private static final String SYS_PROP_SUFFIX_FIXED_ARGS = ".FixedArgs";
+	private static final String SYS_PROPERTY_SUFFIX_FIXED_ARGS = ".FixedArgs";
 
 	/**
 	 * ResourceBundle specific to this class.
@@ -166,7 +166,7 @@ public class DragomToolInvoker {
 			// help information.
 			DragomToolInvoker.mapToolInvocationInfo = new LinkedHashMap<String, ToolInvocationInfo>();
 
-			arrayTool = System.getProperty(DragomToolInvoker.SYS_PROP_TOOLS).split(",");
+			arrayTool = System.getProperty(DragomToolInvoker.SYS_PROPERTY_TOOLS).split(",");
 
 			for (String tool: arrayTool) {
 				String fixedArgs;
@@ -174,12 +174,12 @@ public class DragomToolInvoker {
 				toolInvocationInfo = new ToolInvocationInfo();
 
 				try {
-					toolInvocationInfo.classTool = Class.forName(System.getProperty(DragomToolInvoker.SYS_PROP_PREFIX_TOOL + tool + DragomToolInvoker.SYS_PROP_SUFFIX_TOOL_CLASS));
+					toolInvocationInfo.classTool = Class.forName(System.getProperty(DragomToolInvoker.SYS_PROPERTY_PREFIX_TOOL + tool + DragomToolInvoker.SYS_PROPERTY_SUFFIX_TOOL_CLASS));
 				} catch (ClassNotFoundException cnfe) {
 					throw new RuntimeException(cnfe);
 				}
 
-				fixedArgs = System.getProperty(DragomToolInvoker.SYS_PROP_PREFIX_TOOL + tool + DragomToolInvoker.SYS_PROP_SUFFIX_FIXED_ARGS);
+				fixedArgs = System.getProperty(DragomToolInvoker.SYS_PROPERTY_PREFIX_TOOL + tool + DragomToolInvoker.SYS_PROPERTY_SUFFIX_FIXED_ARGS);
 
 				if (fixedArgs != null) {
 					toolInvocationInfo.arrayFixedArgs = fixedArgs.split(",");

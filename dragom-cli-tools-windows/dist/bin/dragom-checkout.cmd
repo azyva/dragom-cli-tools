@@ -1,4 +1,4 @@
-REM Copyright 2015 AZYVA INC.
+REM Copyright 2015 - 2017 AZYVA INC. INC.
 REM
 REM This file is part of Dragom.
 REM

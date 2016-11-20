@@ -44,10 +44,9 @@
 			<VERSION_TO_ARTIFACT_VERSION_MAPPING.DYNAMIC>D/(.+):$1-SNAPSHOT</VERSION_TO_ARTIFACT_VERSION_MAPPING.DYNAMIC>
 			<VERSION_TO_ARTIFACT_VERSION_MAPPING.STATIC>S/v-(.+):$1</VERSION_TO_ARTIFACT_VERSION_MAPPING.STATIC>
 
-			<!-- UniformSelectStaticVersionPluginImpl -->
+			<!-- SelectStaticVersionBaseImpl (UniformSelectStaticVersionPluginImpl, SemanticSelectStaticVersionPluginImpl, ContinuousReleaseSelectStaticVersionPluginImpl) -->
 			
 			<REVISION_DECIMAL_POSITION_COUNT>1</REVISION_DECIMAL_POSITION_COUNT>
-
 
 			<!-- SemanticSelectStaticVersionPluginImpl -->
 
@@ -58,6 +57,11 @@
 			<JENKINS_BASE_URL>https://acme.com/jenkins</JENKINS_BASE_URL>
 			<JENKINS_JOBS_ROOT_FOLDER>build/ci</JENKINS_JOBS_ROOT_FOLDER>
 			<JENKINS_MODULE_SUBFOLDER>projects</JENKINS_MODULE_SUBFOLDER>
+			
+			<!-- ContinuousReleaseSelectStaticVersionPlugin -->
+			
+			<CONTINUOUS_RELEASE_MAPPINGS>DEVELOP</CONTINUOUS_RELEASE_MAPPINGS>
+			<CONTINUOUS_RELEASE_MAPPING.DEVELOP>D/develop-cd-(.+):S/v-$1.</CONTINUOUS_RELEASE_MAPPING.DEVELOP>
 
 		</properties>
 		<child-nodes>

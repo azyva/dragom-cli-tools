@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 AZYVA INC.
+ * Copyright 2015 - 2017 AZYVA INC. INC.
  *
  * This file is part of Dragom.
  *
@@ -184,10 +184,16 @@ public class IntegrationTestSuite {
 			//??? incomplete.
 		}
 /*
+TODO:
 		if (indAllTests || setTestCategory.contains("ReleaseVersionToolPhase")) {
 			IntegrationTestSuiteCreateStaticVersionToolPhase.testCreateStaticVersionToolPhase();
 		}
 */
+
+		if (indAllTests || setTestCategory.contains("ReleaseToolMainModuleVersion")) {
+//TODO:
+			IntegrationTestSuiteReleaseToolMainModuleVersion.testReleaseToolMainModuleVersion();
+		}
 		if (indAllTests || setTestCategory.contains("SetupJenkinsJobsToolBase")) {
 			IntegrationTestSuiteSetupJenkinsJobsToolBase.testSetupJenkinsJobsToolBase();
 		}
