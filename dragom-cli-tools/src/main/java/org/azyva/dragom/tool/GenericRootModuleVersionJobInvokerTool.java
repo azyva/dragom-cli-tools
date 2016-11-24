@@ -122,7 +122,7 @@ public class GenericRootModuleVersionJobInvokerTool {
 					throw new RuntimeException(e);
 				}
 
-				rootModuleVersionJobAbstractImpl.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
+				rootModuleVersionJobAbstractImpl.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
 				rootModuleVersionJobAbstractImpl.performJob();
 			}
 		} catch (RuntimeExceptionUserError reue) {

@@ -33,7 +33,6 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
-import org.azyva.dragom.job.BuildReferenceGraph;
 import org.azyva.dragom.job.SetupJenkinsJobs;
 import org.azyva.dragom.reference.ReferenceGraph;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
@@ -78,7 +77,6 @@ public class SetupJenkinsJobsTool {
 		Path pathItemsCreatedFile;
 		boolean indEmptyPathItemsCreatedFile;
 		SetupJenkinsJobs.ExistingItemsCreatedFileMode existingItemsCreatredFileMode;
-		BuildReferenceGraph buildReferenceGraph;
 		SetupJenkinsJobs setupJenkinsJobs;
 
 		SetupJenkinsJobsTool.init();
@@ -130,11 +128,8 @@ public class SetupJenkinsJobsTool {
 
 				CliUtil.setupExecContext(commandLine, true);
 
-				buildReferenceGraph = new BuildReferenceGraph(null, CliUtil.getListModuleVersionRoot(commandLine));
-				buildReferenceGraph.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
-				buildReferenceGraph.performJob();
-
-				setupJenkinsJobs = new SetupJenkinsJobs(buildReferenceGraph.getReferenceGraph());
+				setupJenkinsJobs = new SetupJenkinsJobs(CliUtil.getListModuleVersionRoot(commandLine));
+				setupJenkinsJobs.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
 
 				if (indEmptyPathItemsCreatedFile) {
 					setupJenkinsJobs.setPathItemsCreatedFile(null);

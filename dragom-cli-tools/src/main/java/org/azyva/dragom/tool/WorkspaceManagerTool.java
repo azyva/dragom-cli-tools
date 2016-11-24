@@ -635,7 +635,8 @@ public class WorkspaceManagerTool {
 
 		// Also, this.commandLine cannot contain any reference-path-matcher options, as
 		// supported by CliUtil.getReferencePathMatcher.
-		buildReferenceGraph.setReferencePathMatcher(CliUtil.getReferencePathMatcher(null));
+		buildReferenceGraph.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(null));
+		buildReferenceGraph.setupReferencePathMatcherForProjectCode();
 
 		// The idea for the above expectations is that the clean-non-root-reachable
 		// command is specifically intended to be applied in the context of the root

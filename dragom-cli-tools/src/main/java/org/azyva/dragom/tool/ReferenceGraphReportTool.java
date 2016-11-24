@@ -32,7 +32,6 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
-import org.azyva.dragom.job.BuildReferenceGraph;
 import org.azyva.dragom.job.ReferenceGraphReport;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 
@@ -92,7 +91,6 @@ public class ReferenceGraphReportTool {
 	public static void main(String[] args) {
 		DefaultParser defaultParser;
 		CommandLine commandLine = null;
-		BuildReferenceGraph buildReferenceGraph;
 		ReferenceGraphReport referenceGraphReport;
 		ReferenceGraphReport.OutputFormat outputFormat;
 
@@ -149,11 +147,8 @@ public class ReferenceGraphReportTool {
 					throw new RuntimeExceptionUserError(MessageFormat.format(ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_ONLY_MULTIPLE_VERSIONS_AND_ONLY_MATCHED_MODULES_MUTUALLY_EXCLUSIVE), CliUtil.getHelpCommandLineOption()));
 				}
 
-				buildReferenceGraph = new BuildReferenceGraph(null, CliUtil.getListModuleVersionRoot(commandLine));
-				buildReferenceGraph.setReferencePathMatcher(CliUtil.getReferencePathMatcher(commandLine));
-				buildReferenceGraph.performJob();
-
-				referenceGraphReport = new ReferenceGraphReport(buildReferenceGraph.getReferenceGraph(), outputFormat);
+				referenceGraphReport = new ReferenceGraphReport(CliUtil.getListModuleVersionRoot(commandLine), outputFormat);
+				referenceGraphReport.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
 				referenceGraphReport.setOutputFilePath(Paths.get(args[0]));
 
 				if (commandLine.hasOption("graph")) {

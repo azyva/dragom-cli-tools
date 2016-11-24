@@ -245,3 +245,4 @@ specific prefix and other specific stuff.
 build unsuccessful
 user workspace directory
 */
+Tests with project code
