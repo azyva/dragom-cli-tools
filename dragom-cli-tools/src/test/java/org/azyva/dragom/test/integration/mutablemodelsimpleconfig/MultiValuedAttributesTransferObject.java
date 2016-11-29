@@ -30,99 +30,99 @@ import org.azyva.dragom.model.config.PropertyDefConfig;
 import org.azyva.dragom.model.config.SimplePropertyDefConfig;
 
 public class MultiValuedAttributesTransferObject {
-	private Map<String, Set<String>> mapAttributeValues;
+  private Map<String, Set<String>> mapAttributeValues;
 
-	public MultiValuedAttributesTransferObject(NodeConfigTransferObject nodeConfigTransferObject) {
-		this.mapAttributeValues = new HashMap<String, Set<String>>();
+  public MultiValuedAttributesTransferObject(NodeConfigTransferObject nodeConfigTransferObject) {
+    this.mapAttributeValues = new HashMap<String, Set<String>>();
 
-		for(PropertyDefConfig propertyDefConfig: nodeConfigTransferObject.getListPropertyDefConfig()) {
-			if (propertyDefConfig.getName().startsWith("MULTI_VALUED_ATTRIBUTE.")) {
-				String attributeName;
-				String[] arrayValue;
+    for(PropertyDefConfig propertyDefConfig: nodeConfigTransferObject.getListPropertyDefConfig()) {
+      if (propertyDefConfig.getName().startsWith("MULTI_VALUED_ATTRIBUTE.")) {
+        String attributeName;
+        String[] arrayValue;
 
-				attributeName = propertyDefConfig.getName().substring("MULTI_VALUED_ATTRIBUTE.".length());
-				arrayValue = propertyDefConfig.getValue().split(",");
+        attributeName = propertyDefConfig.getName().substring("MULTI_VALUED_ATTRIBUTE.".length());
+        arrayValue = propertyDefConfig.getValue().split(",");
 
-				for (String value: arrayValue) {
-					this.addValue(attributeName, value);
-				}
-			}
-		}
-	}
+        for (String value: arrayValue) {
+          this.addValue(attributeName, value);
+        }
+      }
+    }
+  }
 
-	public void fillNodeConfigTransferObject(NodeConfigTransferObject nodeConfigTransferObject) {
-		for(PropertyDefConfig propertyDefConfig: nodeConfigTransferObject.getListPropertyDefConfig()) {
-			if (propertyDefConfig.getName().startsWith("MULTI_VALUED_ATTRIBUTE.")) {
-				nodeConfigTransferObject.removePropertyDefConfig(propertyDefConfig.getName());
-			}
-		}
+  public void fillNodeConfigTransferObject(NodeConfigTransferObject nodeConfigTransferObject) {
+    for(PropertyDefConfig propertyDefConfig: nodeConfigTransferObject.getListPropertyDefConfig()) {
+      if (propertyDefConfig.getName().startsWith("MULTI_VALUED_ATTRIBUTE.")) {
+        nodeConfigTransferObject.removePropertyDefConfig(propertyDefConfig.getName());
+      }
+    }
 
-		for(String attributeName: this.getSetAttributeName()) {
-			Set<String> setValue;
-			StringBuilder stringBuilder;
+    for(String attributeName: this.getSetAttributeName()) {
+      Set<String> setValue;
+      StringBuilder stringBuilder;
 
-			setValue = this.getMultiValuedAttribute(attributeName);
-			stringBuilder = new StringBuilder();
+      setValue = this.getMultiValuedAttribute(attributeName);
+      stringBuilder = new StringBuilder();
 
-			for (String value: setValue) {
-				stringBuilder.append(value).append(',');
-			}
+      for (String value: setValue) {
+        stringBuilder.append(value).append(',');
+      }
 
-			if (!setValue.isEmpty()) {
-				// Remove the trailing ",".
-				stringBuilder.setLength(stringBuilder.length() - 1);
-			}
+      if (!setValue.isEmpty()) {
+        // Remove the trailing ",".
+        stringBuilder.setLength(stringBuilder.length() - 1);
+      }
 
-			nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("MULTI_VALUED_ATTRIBUTE." + attributeName, stringBuilder.toString(), true));
-		}
-	}
+      nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("MULTI_VALUED_ATTRIBUTE." + attributeName, stringBuilder.toString(), true));
+    }
+  }
 
-	public Set<String> getSetAttributeName() {
-		return Collections.unmodifiableSet(this.mapAttributeValues.keySet());
-	}
+  public Set<String> getSetAttributeName() {
+    return Collections.unmodifiableSet(this.mapAttributeValues.keySet());
+  }
 
-	public Set<String> getMultiValuedAttribute(String attributeName) {
-		Set<String> setValue;
+  public Set<String> getMultiValuedAttribute(String attributeName) {
+    Set<String> setValue;
 
-		setValue = this.mapAttributeValues.get(attributeName);
+    setValue = this.mapAttributeValues.get(attributeName);
 
-		if (setValue == null) {
-			return null;
-		} else {
-			return Collections.unmodifiableSet(setValue);
-		}
-	}
+    if (setValue == null) {
+      return null;
+    } else {
+      return Collections.unmodifiableSet(setValue);
+    }
+  }
 
-	public boolean setMultiValuedAttribute(String attributeName, Set<String> setValue) {
-		return this.mapAttributeValues.put(attributeName, new LinkedHashSet<String>(setValue)) == null;
-	}
+  public boolean setMultiValuedAttribute(String attributeName, Set<String> setValue) {
+    return this.mapAttributeValues.put(attributeName, new LinkedHashSet<String>(setValue)) == null;
+  }
 
-	public boolean removeMultiValuedAttribute(String attributeName) {
-		return this.mapAttributeValues.remove(attributeName) != null;
-	}
+  public boolean removeMultiValuedAttribute(String attributeName) {
+    return this.mapAttributeValues.remove(attributeName) != null;
+  }
 
-	public boolean addValue(String attributeName, String value) {
-		Set<String> setValue;
+  public boolean addValue(String attributeName, String value) {
+    Set<String> setValue;
 
-		setValue = this.mapAttributeValues.get(attributeName);
+    setValue = this.mapAttributeValues.get(attributeName);
 
-		if (setValue == null) {
-			setValue = new LinkedHashSet<String>();
-			this.mapAttributeValues.put(attributeName,  setValue);
-		}
+    if (setValue == null) {
+      setValue = new LinkedHashSet<String>();
+      this.mapAttributeValues.put(attributeName,  setValue);
+    }
 
-		return setValue.add(value);
-	}
+    return setValue.add(value);
+  }
 
-	public boolean removeValue(String attributeName, String value) {
-		Set<String> setValue;
+  public boolean removeValue(String attributeName, String value) {
+    Set<String> setValue;
 
-		setValue = this.mapAttributeValues.get(attributeName);
+    setValue = this.mapAttributeValues.get(attributeName);
 
-		if (setValue != null) {
-			return setValue.remove(value);
-		}
+    if (setValue != null) {
+      return setValue.remove(value);
+    }
 
-		return false;
-	}
+    return false;
+  }
 }

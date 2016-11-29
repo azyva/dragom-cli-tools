@@ -20,9 +20,9 @@
 package org.azyva.dragom.test.integration;
 
 class ExitException extends SecurityException {
-	static final long serialVersionUID = 0;
-	public final int status;
-	public ExitException(int status) {
+  static final long serialVersionUID = 0;
+  public final int status;
+  public ExitException(int status) {
         this.status = status;
     }
 }

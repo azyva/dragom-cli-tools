@@ -25,27 +25,27 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 class TestInputStream extends InputStream {
-	Deque<Integer> deque;
+  Deque<Integer> deque;
 
-	public TestInputStream() {
-		this.deque = new ArrayDeque<Integer>();
-	}
+  public TestInputStream() {
+    this.deque = new ArrayDeque<Integer>();
+  }
 
-	@Override
-	public int read() {
-		// Indicates the end of the stream, which causes BufferedReader.readLine to return
-		// null and potentially cause an exception in the code, which is what we want.
-		if (this.deque.isEmpty()) {
-			return -1;
-		}
+  @Override
+  public int read() {
+    // Indicates the end of the stream, which causes BufferedReader.readLine to return
+    // null and potentially cause an exception in the code, which is what we want.
+    if (this.deque.isEmpty()) {
+      return -1;
+    }
 
-		return this.deque.removeLast();
-	}
+    return this.deque.removeLast();
+  }
 
-	public void write(String input) {
-		System.out.println("Writing \"" + input + "\" to test input stream.");
-		for (int aByte: input.getBytes(Charset.defaultCharset())) {
-			this.deque.addFirst(aByte);
-		}
-	}
+  public void write(String input) {
+    System.out.println("Writing \"" + input + "\" to test input stream.");
+    for (int aByte: input.getBytes(Charset.defaultCharset())) {
+      this.deque.addFirst(aByte);
+    }
+  }
 }

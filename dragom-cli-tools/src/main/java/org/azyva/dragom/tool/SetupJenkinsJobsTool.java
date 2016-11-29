@@ -46,146 +46,146 @@ import org.azyva.dragom.util.RuntimeExceptionUserError;
  * @author David Raymond
  */
 public class SetupJenkinsJobsTool {
-	/**
-	 * ResourceBundle specific to this class.
-	 */
-	private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(SetupJenkinsJobsTool.class.getName() + "ResourceBundle");
+  /**
+   * ResourceBundle specific to this class.
+   */
+  private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(SetupJenkinsJobsTool.class.getName() + "ResourceBundle");
 
-	/**
-	 * See description in resource bundle.
-	 */
-	private static final String MSG_PATTERN_KEY_EXISTING_ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES = "EXISTING_ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES";
+  /**
+   * See description in resource bundle.
+   */
+  private static final String MSG_PATTERN_KEY_EXISTING_ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES = "EXISTING_ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES";
 
-	/**
-	 * Indicates that the class has been initialized.
-	 */
-	private static boolean indInit;
+  /**
+   * Indicates that the class has been initialized.
+   */
+  private static boolean indInit;
 
-	/**
-	 * Options for parsing the command line.
-	 */
-	private static Options options;
+  /**
+   * Options for parsing the command line.
+   */
+  private static Options options;
 
-	/**
-	 * Method main.
-	 *
-	 * @param args Arguments.
-	 */
-	public static void main(String[] args) {
-		DefaultParser defaultParser;
-		CommandLine commandLine = null;
-		Path pathItemsCreatedFile;
-		boolean indEmptyPathItemsCreatedFile;
-		SetupJenkinsJobs.ExistingItemsCreatedFileMode existingItemsCreatredFileMode;
-		SetupJenkinsJobs setupJenkinsJobs;
+  /**
+   * Method main.
+   *
+   * @param args Arguments.
+   */
+  public static void main(String[] args) {
+    DefaultParser defaultParser;
+    CommandLine commandLine = null;
+    Path pathItemsCreatedFile;
+    boolean indEmptyPathItemsCreatedFile;
+    SetupJenkinsJobs.ExistingItemsCreatedFileMode existingItemsCreatredFileMode;
+    SetupJenkinsJobs setupJenkinsJobs;
 
-		SetupJenkinsJobsTool.init();
+    SetupJenkinsJobsTool.init();
 
-		try {
-			defaultParser = new DefaultParser();
+    try {
+      defaultParser = new DefaultParser();
 
-			try {
-				commandLine = defaultParser.parse(SetupJenkinsJobsTool.options, args);
-			} catch (ParseException pe) {
-				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
-			}
+      try {
+        commandLine = defaultParser.parse(SetupJenkinsJobsTool.options, args);
+      } catch (ParseException pe) {
+        throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
+      }
 
-			if (CliUtil.hasHelpOption(commandLine)) {
-				SetupJenkinsJobsTool.help();
-			} else {
-				args = commandLine.getArgs();
+      if (CliUtil.hasHelpOption(commandLine)) {
+        SetupJenkinsJobsTool.help();
+      } else {
+        args = commandLine.getArgs();
 
-				if (args.length != 0) {
-					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-				}
+        if (args.length != 0) {
+          throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+        }
 
-				indEmptyPathItemsCreatedFile = false;
+        indEmptyPathItemsCreatedFile = false;
 
-				if (commandLine.hasOption("items-created-file")) {
-					String itemsCreatedFileOptionValue;
+        if (commandLine.hasOption("items-created-file")) {
+          String itemsCreatedFileOptionValue;
 
-					itemsCreatedFileOptionValue = commandLine.getOptionValue("items-created-file");
+          itemsCreatedFileOptionValue = commandLine.getOptionValue("items-created-file");
 
-					if ((itemsCreatedFileOptionValue == null) || (itemsCreatedFileOptionValue.length() == 0)) {
-						indEmptyPathItemsCreatedFile = true;
-						pathItemsCreatedFile = null;
-					} else {
-						pathItemsCreatedFile = Paths.get(itemsCreatedFileOptionValue);
-					}
-				} else {
-					pathItemsCreatedFile = null;
-				}
+          if ((itemsCreatedFileOptionValue == null) || (itemsCreatedFileOptionValue.length() == 0)) {
+            indEmptyPathItemsCreatedFile = true;
+            pathItemsCreatedFile = null;
+          } else {
+            pathItemsCreatedFile = Paths.get(itemsCreatedFileOptionValue);
+          }
+        } else {
+          pathItemsCreatedFile = null;
+        }
 
-				if (!commandLine.hasOption("existing-items-created-file-mode")) {
-					existingItemsCreatredFileMode = SetupJenkinsJobs.ExistingItemsCreatedFileMode.MERGE;
-				} else {
-					try {
-						existingItemsCreatredFileMode = SetupJenkinsJobs.ExistingItemsCreatedFileMode.valueOf(commandLine.getOptionValue("existing-items-created-file-mode"));
-					} catch (IllegalArgumentException iae) {
-						throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), "existing-items-created-file-mode", SetupJenkinsJobsTool.resourceBundle.getString(SetupJenkinsJobsTool.MSG_PATTERN_KEY_EXISTING_ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES), CliUtil.getHelpCommandLineOption()));
-					}
-				}
+        if (!commandLine.hasOption("existing-items-created-file-mode")) {
+          existingItemsCreatredFileMode = SetupJenkinsJobs.ExistingItemsCreatedFileMode.MERGE;
+        } else {
+          try {
+            existingItemsCreatredFileMode = SetupJenkinsJobs.ExistingItemsCreatedFileMode.valueOf(commandLine.getOptionValue("existing-items-created-file-mode"));
+          } catch (IllegalArgumentException iae) {
+            throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), "existing-items-created-file-mode", SetupJenkinsJobsTool.resourceBundle.getString(SetupJenkinsJobsTool.MSG_PATTERN_KEY_EXISTING_ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES), CliUtil.getHelpCommandLineOption()));
+          }
+        }
 
-				CliUtil.setupExecContext(commandLine, true);
+        CliUtil.setupExecContext(commandLine, true);
 
-				setupJenkinsJobs = new SetupJenkinsJobs(CliUtil.getListModuleVersionRoot(commandLine));
-				setupJenkinsJobs.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
+        setupJenkinsJobs = new SetupJenkinsJobs(CliUtil.getListModuleVersionRoot(commandLine));
+        setupJenkinsJobs.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
 
-				if (indEmptyPathItemsCreatedFile) {
-					setupJenkinsJobs.setPathItemsCreatedFile(null);
-				} else if (pathItemsCreatedFile != null) {
-					setupJenkinsJobs.setPathItemsCreatedFile(pathItemsCreatedFile);
-				}
+        if (indEmptyPathItemsCreatedFile) {
+          setupJenkinsJobs.setPathItemsCreatedFile(null);
+        } else if (pathItemsCreatedFile != null) {
+          setupJenkinsJobs.setPathItemsCreatedFile(pathItemsCreatedFile);
+        }
 
-				setupJenkinsJobs.setExistingItemsCreatedFileMode(existingItemsCreatredFileMode);
+        setupJenkinsJobs.setExistingItemsCreatedFileMode(existingItemsCreatredFileMode);
 
-				setupJenkinsJobs.performJob();
-			}
-		} catch (RuntimeExceptionUserError reue) {
-			System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + reue.getMessage());
-			System.exit(1);
-		} catch (RuntimeException re) {
-			re.printStackTrace();
-			System.exit(1);
-		} finally {
-			ExecContextHolder.endToolAndUnset();
-		}
-	}
+        setupJenkinsJobs.performJob();
+      }
+    } catch (RuntimeExceptionUserError reue) {
+      System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + reue.getMessage());
+      System.exit(1);
+    } catch (RuntimeException re) {
+      re.printStackTrace();
+      System.exit(1);
+    } finally {
+      ExecContextHolder.endToolAndUnset();
+    }
+  }
 
-	/**
-	 * Initializes the class.
-	 */
-	private synchronized static void init() {
-		if (!SetupJenkinsJobsTool.indInit) {
-			Option option;
+  /**
+   * Initializes the class.
+   */
+  private synchronized static void init() {
+    if (!SetupJenkinsJobsTool.indInit) {
+      Option option;
 
-			SetupJenkinsJobsTool.options = new Options();
+      SetupJenkinsJobsTool.options = new Options();
 
-			option = new Option(null, null);
-			option.setLongOpt("items-created-file");
-			option.setArgs(1);
-			SetupJenkinsJobsTool.options.addOption(option);
+      option = new Option(null, null);
+      option.setLongOpt("items-created-file");
+      option.setArgs(1);
+      SetupJenkinsJobsTool.options.addOption(option);
 
-			option = new Option(null, null);
-			option.setLongOpt("existing-items-created-file-mode");
-			option.setArgs(1);
-			SetupJenkinsJobsTool.options.addOption(option);
+      option = new Option(null, null);
+      option.setLongOpt("existing-items-created-file-mode");
+      option.setArgs(1);
+      SetupJenkinsJobsTool.options.addOption(option);
 
-			CliUtil.addStandardOptions(SetupJenkinsJobsTool.options);
-			CliUtil.addRootModuleVersionOptions(SetupJenkinsJobsTool.options);
+      CliUtil.addStandardOptions(SetupJenkinsJobsTool.options);
+      CliUtil.addRootModuleVersionOptions(SetupJenkinsJobsTool.options);
 
-			SetupJenkinsJobsTool.indInit = true;
-		}
-	}
+      SetupJenkinsJobsTool.indInit = true;
+    }
+  }
 
-	/**
-	 * Displays help information.
-	 */
-	private static void help() {
-		try {
-			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(SetupJenkinsJobsTool.class, "SetupJenkinsJobsToolHelp.txt"),  System.out);
-		} catch (IOException ioe) {
-			throw new RuntimeException(ioe);
-		}
-	}
+  /**
+   * Displays help information.
+   */
+  private static void help() {
+    try {
+      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(SetupJenkinsJobsTool.class, "SetupJenkinsJobsToolHelp.txt"),  System.out);
+    } catch (IOException ioe) {
+      throw new RuntimeException(ioe);
+    }
+  }
 }

@@ -28,9 +28,9 @@ import org.azyva.dragom.model.plugin.ModulePlugin;
 import org.azyva.dragom.model.plugin.NodePlugin;
 
 public interface TestPlugin extends NodePlugin, ClassificationNodePlugin, ModulePlugin {
-	MultiValuedAttributesTransferObject getMultiValuedAttributesTransferObject(OptimisticLockHandle optimisticLockHandle) throws OptimisticLockException;
+  MultiValuedAttributesTransferObject getMultiValuedAttributesTransferObject(OptimisticLockHandle optimisticLockHandle) throws OptimisticLockException;
 
-	void setMultiValuedAttributesTransferObject(MultiValuedAttributesTransferObject multiValuedAttributesTransferObject, OptimisticLockHandle optimisticLockHandle) throws OptimisticLockException;
+  void setMultiValuedAttributesTransferObject(MultiValuedAttributesTransferObject multiValuedAttributesTransferObject, OptimisticLockHandle optimisticLockHandle) throws OptimisticLockException;
 
-	Set<String> getCumulativeMultiValuedAttribute(String attributeName);
+  Set<String> getCumulativeMultiValuedAttribute(String attributeName);
 }

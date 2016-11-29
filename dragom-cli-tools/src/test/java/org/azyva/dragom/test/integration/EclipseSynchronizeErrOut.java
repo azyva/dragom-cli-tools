@@ -24,66 +24,66 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 public class EclipseSynchronizeErrOut {
-	private static OutputStream outputStreamLast;
+  private static OutputStream outputStreamLast;
 
-	private static class FixedOutputStream extends OutputStream {
-		private final OutputStream outputStreamOrg;
+  private static class FixedOutputStream extends OutputStream {
+    private final OutputStream outputStreamOrg;
 
-		public FixedOutputStream(OutputStream outputStreamOrg) {
-			this.outputStreamOrg = outputStreamOrg;
-		}
+    public FixedOutputStream(OutputStream outputStreamOrg) {
+      this.outputStreamOrg = outputStreamOrg;
+    }
 
-		@Override
-		public void write(int aByte) throws IOException {
-			if (EclipseSynchronizeErrOut.outputStreamLast != this) {
-				this.swap();
-			}
+    @Override
+    public void write(int aByte) throws IOException {
+      if (EclipseSynchronizeErrOut.outputStreamLast != this) {
+        this.swap();
+      }
 
-			this.outputStreamOrg.write(aByte);
-		}
+      this.outputStreamOrg.write(aByte);
+    }
 
-		@Override
-		public void write(byte[] arrayByte) throws IOException {
-			if (EclipseSynchronizeErrOut.outputStreamLast != this) {
-				this.swap();
-			}
+    @Override
+    public void write(byte[] arrayByte) throws IOException {
+      if (EclipseSynchronizeErrOut.outputStreamLast != this) {
+        this.swap();
+      }
 
-			this.outputStreamOrg.write(arrayByte);
-		}
+      this.outputStreamOrg.write(arrayByte);
+    }
 
-		@Override
-		public void write(byte[] arrayByte, int offset, int length) throws IOException {
-			if (EclipseSynchronizeErrOut.outputStreamLast != this) {
-				this.swap();
-			}
+    @Override
+    public void write(byte[] arrayByte, int offset, int length) throws IOException {
+      if (EclipseSynchronizeErrOut.outputStreamLast != this) {
+        this.swap();
+      }
 
-			this.outputStreamOrg.write(arrayByte, offset, length);
-		}
+      this.outputStreamOrg.write(arrayByte, offset, length);
+    }
 
-		private void swap() throws IOException {
-			if (EclipseSynchronizeErrOut.outputStreamLast != null) {
-				EclipseSynchronizeErrOut.outputStreamLast.flush();
-				try {
-					Thread.sleep(200);
-				} catch (InterruptedException e) {
-				}
-			}
+    private void swap() throws IOException {
+      if (EclipseSynchronizeErrOut.outputStreamLast != null) {
+        EclipseSynchronizeErrOut.outputStreamLast.flush();
+        try {
+          Thread.sleep(200);
+        } catch (InterruptedException e) {
+        }
+      }
 
-			EclipseSynchronizeErrOut.outputStreamLast = this;
-		}
+      EclipseSynchronizeErrOut.outputStreamLast = this;
+    }
 
-		@Override
-		public void close() throws IOException {
-			this.outputStreamOrg.close();
-		}
+    @Override
+    public void close() throws IOException {
+      this.outputStreamOrg.close();
+    }
 
-		@Override public void flush() throws IOException {
-			this.outputStreamOrg.flush();
-		}
-	}
+    @Override public void flush() throws IOException {
+      this.outputStreamOrg.flush();
+    }
+  }
 
-	public static void fix() {
-		System.setErr(new PrintStream(new FixedOutputStream(System.err)));
-		System.setOut(new PrintStream(new FixedOutputStream(System.out)));
-	}
+  public static void fix() {
+    System.setErr(new PrintStream(new FixedOutputStream(System.err)));
+    System.setOut(new PrintStream(new FixedOutputStream(System.out)));
+  }
 }

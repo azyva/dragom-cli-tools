@@ -34,277 +34,277 @@ import org.azyva.dragom.jenkins.JenkinsClient;
  * @author David Raymond
  */
 public class JenkinsClientTestDouble implements JenkinsClient {
-	/**
-	 * User.
-	 */
-	private String user;
+  /**
+   * User.
+   */
+  private String user;
 
-	/**
-	 * Password.
-	 */
-	private String password;
+  /**
+   * Password.
+   */
+  private String password;
 
-	/**
-	 * Set of folders.
-	 */
-	private static Set<String> setFolder = new HashSet<String>();
+  /**
+   * Set of folders.
+   */
+  private static Set<String> setFolder = new HashSet<String>();
 
-	/**
-	 * Set of jobs.
-	 */
-	private static Set<String> setJob = new HashSet<String>();
+  /**
+   * Set of jobs.
+   */
+  private static Set<String> setJob = new HashSet<String>();
 
-	/**
-	 * Constructor.
-	 */
-	public JenkinsClientTestDouble() {
-	}
+  /**
+   * Constructor.
+   */
+  public JenkinsClientTestDouble() {
+  }
 
-	@Override
-	public void setBaseUrl(String baseUrl) {
-		System.out.println("JenkinsClientTestDouble.setBaseUrl(" + baseUrl + ") called.");
-	}
+  @Override
+  public void setBaseUrl(String baseUrl) {
+    System.out.println("JenkinsClientTestDouble.setBaseUrl(" + baseUrl + ") called.");
+  }
 
-	@Override
-	public void setUser(String user) {
-		System.out.println("JenkinsClientTestDouble.setUser(" + user + ") called.");
-		this.user = user;
-	}
+  @Override
+  public void setUser(String user) {
+    System.out.println("JenkinsClientTestDouble.setUser(" + user + ") called.");
+    this.user = user;
+  }
 
-	@Override
-	public void setPassword(String password) {
-		System.out.println("JenkinsClientTestDouble.setPassword(" + password + ") called.");
-		this.password = password;
-	}
+  @Override
+  public void setPassword(String password) {
+    System.out.println("JenkinsClientTestDouble.setPassword(" + password + ") called.");
+    this.password = password;
+  }
 
-	@Override
-	public boolean validateCredentials() {
-		return this.user.equals("correct-user") && this.password.equals("correct-password");
-	}
+  @Override
+  public boolean validateCredentials() {
+    return this.user.equals("correct-user") && this.password.equals("correct-password");
+  }
 
-	@Override
-	public ItemType getItemType(String item) {
-		if (JenkinsClientTestDouble.setFolder.contains(item)) {
-			return ItemType.FOLDER;
-		} else if (JenkinsClientTestDouble.setJob.contains(item)) {
-			return ItemType.NOT_FOLDER;
-		} else {
-			return null;
-		}
-	}
+  @Override
+  public ItemType getItemType(String item) {
+    if (JenkinsClientTestDouble.setFolder.contains(item)) {
+      return ItemType.FOLDER;
+    } else if (JenkinsClientTestDouble.setJob.contains(item)) {
+      return ItemType.NOT_FOLDER;
+    } else {
+      return null;
+    }
+  }
 
-	@Override
-	public boolean deleteItem(String item) {
-		ItemType itemType;
+  @Override
+  public boolean deleteItem(String item) {
+    ItemType itemType;
 
-		itemType = this.getItemType(item);
+    itemType = this.getItemType(item);
 
-		if (itemType == null) {
-			return false;
-		}
+    if (itemType == null) {
+      return false;
+    }
 
-		switch (this.getItemType(item)) {
-		case FOLDER:
-			Iterator<String> iteratorJob;
+    switch (this.getItemType(item)) {
+    case FOLDER:
+      Iterator<String> iteratorJob;
 
-			JenkinsClientTestDouble.setFolder.remove(item);
+      JenkinsClientTestDouble.setFolder.remove(item);
 
-			iteratorJob = JenkinsClientTestDouble.setJob.iterator();
+      iteratorJob = JenkinsClientTestDouble.setJob.iterator();
 
-			while (iteratorJob.hasNext()) {
-				String folder;
-				String job;
+      while (iteratorJob.hasNext()) {
+        String folder;
+        String job;
 
-				folder = item + '/';
-				job = iteratorJob.next();
+        folder = item + '/';
+        job = iteratorJob.next();
 
-				if (job.startsWith(folder)) {
-					iteratorJob.remove();
-				}
-			}
-			return true;
+        if (job.startsWith(folder)) {
+          iteratorJob.remove();
+        }
+      }
+      return true;
 
-		case NOT_FOLDER:
-			JenkinsClientTestDouble.setJob.remove(item);
-			return true;
+    case NOT_FOLDER:
+      JenkinsClientTestDouble.setJob.remove(item);
+      return true;
 
-		default:
-			throw new RuntimeException("Should not get here.");
-		}
-	}
+    default:
+      throw new RuntimeException("Should not get here.");
+    }
+  }
 
-	@Override
-	public void createUpdateJobFromTemplate(String template, String job, Map<String, String> mapTemplateParam) {
-		ItemType itemType;
+  @Override
+  public void createUpdateJobFromTemplate(String template, String job, Map<String, String> mapTemplateParam) {
+    ItemType itemType;
 
-		System.out.println("JenkinsClientTestDouble.createUpdateJobFromTemplate(" + template + ", " + job + ", ...) called with the following template parameters");
+    System.out.println("JenkinsClientTestDouble.createUpdateJobFromTemplate(" + template + ", " + job + ", ...) called with the following template parameters");
 
-		for (Map.Entry<String, String> mapEntry: mapTemplateParam.entrySet()) {
-			System.out.println("Key: " + mapEntry.getKey() + "  Value: " + mapEntry.getValue());
-		}
+    for (Map.Entry<String, String> mapEntry: mapTemplateParam.entrySet()) {
+      System.out.println("Key: " + mapEntry.getKey() + "  Value: " + mapEntry.getValue());
+    }
 
-		this.validateParentFolderExists(job);
+    this.validateParentFolderExists(job);
 
-		itemType = this.getItemType(job);
+    itemType = this.getItemType(job);
 
-		if (itemType == null) {
-			System.out.println("Job did not exist");
-		} else if (itemType == ItemType.NOT_FOLDER) {
-			System.out.println("Job already existed");
-		} else {
-			throw new RuntimeException("Job " + job + " is a folder.");
-		}
+    if (itemType == null) {
+      System.out.println("Job did not exist");
+    } else if (itemType == ItemType.NOT_FOLDER) {
+      System.out.println("Job already existed");
+    } else {
+      throw new RuntimeException("Job " + job + " is a folder.");
+    }
 
-		JenkinsClientTestDouble.setJob.add(job);
-	}
+    JenkinsClientTestDouble.setJob.add(job);
+  }
 
-	@Override
-	public void createJob(String job, Reader readerConfig) {
-		System.out.println("JenkinsClientTestDouble.createJob(" + job + ", <reader>)) called.");
+  @Override
+  public void createJob(String job, Reader readerConfig) {
+    System.out.println("JenkinsClientTestDouble.createJob(" + job + ", <reader>)) called.");
 
-		this.validateParentFolderExists(job);
+    this.validateParentFolderExists(job);
 
-		if (this.getItemType(job) != null) {
-			throw new RuntimeException("Job " + job + " already exists.");
-		}
+    if (this.getItemType(job) != null) {
+      throw new RuntimeException("Job " + job + " already exists.");
+    }
 
-		JenkinsClientTestDouble.setJob.add(job);
+    JenkinsClientTestDouble.setJob.add(job);
 }
 
-	@Override
-	public void updateJob(String job, Reader readerConfig) {
-		ItemType itemType;
+  @Override
+  public void updateJob(String job, Reader readerConfig) {
+    ItemType itemType;
 
-		System.out.println("JenkinsClientTestDouble.updateJob(" + job + ", <reader>)) called.");
+    System.out.println("JenkinsClientTestDouble.updateJob(" + job + ", <reader>)) called.");
 
-		this.validateParentFolderExists(job);
+    this.validateParentFolderExists(job);
 
-		itemType = this.getItemType(job);
+    itemType = this.getItemType(job);
 
-		if (itemType == null) {
-			throw new RuntimeException("Job " + job + " does not exist.");
-		} else if (itemType == ItemType.FOLDER) {
-			throw new RuntimeException("Job " + job + " is a folder.");
-		}
-	}
+    if (itemType == null) {
+      throw new RuntimeException("Job " + job + " does not exist.");
+    } else if (itemType == ItemType.FOLDER) {
+      throw new RuntimeException("Job " + job + " is a folder.");
+    }
+  }
 
-	@Override
-	public void createUpdateJob(String job, Reader readerConfig) {
-		ItemType itemType;
+  @Override
+  public void createUpdateJob(String job, Reader readerConfig) {
+    ItemType itemType;
 
-		System.out.println("JenkinsClientTestDouble.createUpdateJob(" + job + ", <reader>)) called.");
+    System.out.println("JenkinsClientTestDouble.createUpdateJob(" + job + ", <reader>)) called.");
 
-		this.validateParentFolderExists(job);
+    this.validateParentFolderExists(job);
 
-		itemType = this.getItemType(job);
+    itemType = this.getItemType(job);
 
-		if (itemType == null) {
-			System.out.println("Job did not exist.");
-			JenkinsClientTestDouble.setJob.add(job);
-		} else if (itemType == ItemType.NOT_FOLDER){
-			System.out.println("Job already existed.");
-		} else {
-			throw new RuntimeException("Job " + job + " is a folder.");
-		}
-	}
+    if (itemType == null) {
+      System.out.println("Job did not exist.");
+      JenkinsClientTestDouble.setJob.add(job);
+    } else if (itemType == ItemType.NOT_FOLDER){
+      System.out.println("Job already existed.");
+    } else {
+      throw new RuntimeException("Job " + job + " is a folder.");
+    }
+  }
 
-	@Override
-	public Build build(String job, Map<String, String> mapBuildParam) {
-		throw new NotImplementedException();
-	}
+  @Override
+  public Build build(String job, Map<String, String> mapBuildParam) {
+    throw new NotImplementedException();
+  }
 
-	@Override
-	public boolean isFolderEmpty(String folder) {
-		if (this.getItemType(folder) != ItemType.FOLDER) {
-			throw new RuntimeException("Folder " + folder + " does not exist.");
-		}
+  @Override
+  public boolean isFolderEmpty(String folder) {
+    if (this.getItemType(folder) != ItemType.FOLDER) {
+      throw new RuntimeException("Folder " + folder + " does not exist.");
+    }
 
-		folder = folder + '/';
+    folder = folder + '/';
 
-		for (String job: JenkinsClientTestDouble.setJob) {
-			if (job.startsWith(folder)) {
-				return false;
-			}
-		}
+    for (String job: JenkinsClientTestDouble.setJob) {
+      if (job.startsWith(folder)) {
+        return false;
+      }
+    }
 
-		return true;
-	}
+    return true;
+  }
 
-	@Override
-	public boolean createSimpleFolder(String folder) {
-		ItemType itemType;
+  @Override
+  public boolean createSimpleFolder(String folder) {
+    ItemType itemType;
 
-		System.out.println("JenkinsClientTestDouble.createSimpleFolder(" + folder + ") called.");
+    System.out.println("JenkinsClientTestDouble.createSimpleFolder(" + folder + ") called.");
 
-		this.validateParentFolderExists(folder);
+    this.validateParentFolderExists(folder);
 
-		itemType = this.getItemType(folder);
+    itemType = this.getItemType(folder);
 
-		if (itemType == null) {
-			System.out.println("Folder did not exist.");
-			JenkinsClientTestDouble.setFolder.add(folder);
-			return true;
-		} else if (itemType == ItemType.FOLDER){
-			System.out.println("Folder already existed.");
-			return false;
-		} else {
-			throw new RuntimeException("Folder " + folder + " is a job.");
-		}
-	}
+    if (itemType == null) {
+      System.out.println("Folder did not exist.");
+      JenkinsClientTestDouble.setFolder.add(folder);
+      return true;
+    } else if (itemType == ItemType.FOLDER){
+      System.out.println("Folder already existed.");
+      return false;
+    } else {
+      throw new RuntimeException("Folder " + folder + " is a job.");
+    }
+  }
 
-	/**
-	 * Validates that the parent folder of an item exists.
-	 *
-	 * @param item Item.
-	 */
-	private void validateParentFolderExists(String item) {
-		int indexItemName;
-		String folder;
-		ItemType itemType;
+  /**
+   * Validates that the parent folder of an item exists.
+   *
+   * @param item Item.
+   */
+  private void validateParentFolderExists(String item) {
+    int indexItemName;
+    String folder;
+    ItemType itemType;
 
-		indexItemName = item.lastIndexOf('/');
+    indexItemName = item.lastIndexOf('/');
 
-		if (indexItemName == -1) {
-			return;
-		}
+    if (indexItemName == -1) {
+      return;
+    }
 
-		folder = item.substring(0, indexItemName);
+    folder = item.substring(0, indexItemName);
 
-		itemType = this.getItemType(folder);
+    itemType = this.getItemType(folder);
 
-		if (itemType == null) {
-			throw new RuntimeException("Parent folder " + folder + " does not exist.");
-		} else if (itemType == ItemType.NOT_FOLDER) {
-			throw new RuntimeException("Parent folder " + folder + " is a job.");
-		}
-	}
+    if (itemType == null) {
+      throw new RuntimeException("Parent folder " + folder + " does not exist.");
+    } else if (itemType == ItemType.NOT_FOLDER) {
+      throw new RuntimeException("Parent folder " + folder + " is a job.");
+    }
+  }
 
-	/**
-	 * Creates an initial folder.
-	 *
-	 * @param folder
-	 */
-	public static void createInitialFolder(String folder) {
-		JenkinsClientTestDouble.setFolder.add(folder);
-	}
+  /**
+   * Creates an initial folder.
+   *
+   * @param folder
+   */
+  public static void createInitialFolder(String folder) {
+    JenkinsClientTestDouble.setFolder.add(folder);
+  }
 
-	/**
-	 * Creates an initial job.
-	 * @param folder
-	 */
-	public static void createInitialJob(String job) {
-		JenkinsClientTestDouble.setJob.add(job);
-	}
+  /**
+   * Creates an initial job.
+   * @param folder
+   */
+  public static void createInitialJob(String job) {
+    JenkinsClientTestDouble.setJob.add(job);
+  }
 
-	/**
-	 * Prints folers and jobs.
-	 */
-	public static void printContents() {
-		for (String folder: JenkinsClientTestDouble.setFolder) {
-			System.out.println("Folder: " + folder);
-		}
-		for (String job: JenkinsClientTestDouble.setJob) {
-			System.out.println("Job: " + job);
-		}
-	}
+  /**
+   * Prints folers and jobs.
+   */
+  public static void printContents() {
+    for (String folder: JenkinsClientTestDouble.setFolder) {
+      System.out.println("Folder: " + folder);
+    }
+    for (String job: JenkinsClientTestDouble.setJob) {
+      System.out.println("Job: " + job);
+    }
+  }
 }

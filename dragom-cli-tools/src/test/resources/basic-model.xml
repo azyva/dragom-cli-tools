@@ -1,162 +1,162 @@
 <config>
-	<root-classification-node>
-		<properties>
-		
-			<!-- CredentialStorePlugin -->
-			
-			<RESOURCE_PATTERN_REALM_USER_MAPPINGS>EXPLICIT_REALM,CATCH_ALL</RESOURCE_PATTERN_REALM_USER_MAPPINGS>
-			<RESOURCE_PATTERN_REALM_USER_MAPPING_RESOURCE_PATTERN.EXPLICIT_REALM>REALM:([a-zA-Z0-9_\.\-]+)</RESOURCE_PATTERN_REALM_USER_MAPPING_RESOURCE_PATTERN.EXPLICIT_REALM>
-			<RESOURCE_PATTERN_REALM_USER_MAPPING_REALM.EXPLICIT_REALM>$1</RESOURCE_PATTERN_REALM_USER_MAPPING_REALM.EXPLICIT_REALM>
-			<RESOURCE_PATTERN_REALM_USER_MAPPING_RESOURCE_PATTERN.CATCH_ALL>[a-zA-Z0-9-]+://(?:([a-zA-Z0-9_\.\-]+)@)?([a-zA-Z0-9-.]+)(?:/.*)?</RESOURCE_PATTERN_REALM_USER_MAPPING_RESOURCE_PATTERN.CATCH_ALL>
-			<RESOURCE_PATTERN_REALM_USER_MAPPING_REALM.CATCH_ALL>$2</RESOURCE_PATTERN_REALM_USER_MAPPING_REALM.CATCH_ALL>
-			<RESOURCE_PATTERN_REALM_USER_MAPPING_USER.CATCH_ALL>$1</RESOURCE_PATTERN_REALM_USER_MAPPING_USER.CATCH_ALL>
-		
-			<!-- Git (GitScmPluginImpl). -->
+  <root-classification-node>
+    <properties>
+    
+      <!-- CredentialStorePlugin -->
+      
+      <RESOURCE_PATTERN_REALM_USER_MAPPINGS>EXPLICIT_REALM,CATCH_ALL</RESOURCE_PATTERN_REALM_USER_MAPPINGS>
+      <RESOURCE_PATTERN_REALM_USER_MAPPING_RESOURCE_PATTERN.EXPLICIT_REALM>REALM:([a-zA-Z0-9_\.\-]+)</RESOURCE_PATTERN_REALM_USER_MAPPING_RESOURCE_PATTERN.EXPLICIT_REALM>
+      <RESOURCE_PATTERN_REALM_USER_MAPPING_REALM.EXPLICIT_REALM>$1</RESOURCE_PATTERN_REALM_USER_MAPPING_REALM.EXPLICIT_REALM>
+      <RESOURCE_PATTERN_REALM_USER_MAPPING_RESOURCE_PATTERN.CATCH_ALL>[a-zA-Z0-9-]+://(?:([a-zA-Z0-9_\.\-]+)@)?([a-zA-Z0-9-.]+)(?:/.*)?</RESOURCE_PATTERN_REALM_USER_MAPPING_RESOURCE_PATTERN.CATCH_ALL>
+      <RESOURCE_PATTERN_REALM_USER_MAPPING_REALM.CATCH_ALL>$2</RESOURCE_PATTERN_REALM_USER_MAPPING_REALM.CATCH_ALL>
+      <RESOURCE_PATTERN_REALM_USER_MAPPING_USER.CATCH_ALL>$1</RESOURCE_PATTERN_REALM_USER_MAPPING_USER.CATCH_ALL>
+    
+      <!-- Git (GitScmPluginImpl). -->
 
-			<!-- GIT_REPOS_BASE_URL provided as initialization property. -->
-			<GIT_REPOS_SUFFIX>.git</GIT_REPOS_SUFFIX>
+      <!-- GIT_REPOS_BASE_URL provided as initialization property. -->
+      <GIT_REPOS_SUFFIX>.git</GIT_REPOS_SUFFIX>
 
-			<!-- SimpleArtifactInfoPluginImpl. -->
+      <!-- SimpleArtifactInfoPluginImpl. -->
 
-			<BASE_GROUP_ID>com.acme</BASE_GROUP_ID>
+      <BASE_GROUP_ID>com.acme</BASE_GROUP_ID>
 
-			<!-- ArtifactVersion to Version mappings (ConfigArtifactVersionMapperPluginImpl). -->
-			
-			<ARTIFACT_VERSION_TO_VERSION_MAPPINGS>PHASE_STATIC,PHASE_DYNAMIC,DYNAMIC,STATIC</ARTIFACT_VERSION_TO_VERSION_MAPPINGS>
+      <!-- ArtifactVersion to Version mappings (ConfigArtifactVersionMapperPluginImpl). -->
+      
+      <ARTIFACT_VERSION_TO_VERSION_MAPPINGS>PHASE_STATIC,PHASE_DYNAMIC,DYNAMIC,STATIC</ARTIFACT_VERSION_TO_VERSION_MAPPINGS>
 
-			<ARTIFACT_VERSION_TO_VERSION_MAPPING.PHASE_STATIC>develop-(.+)-sprint(\d+)-SNAPSHOT:S/develop-$1-sprint$2</ARTIFACT_VERSION_TO_VERSION_MAPPING.PHASE_STATIC>
-			<ARTIFACT_VERSION_TO_VERSION_MAPPING_TEST_EXISTENCE.PHASE_STATIC>true</ARTIFACT_VERSION_TO_VERSION_MAPPING_TEST_EXISTENCE.PHASE_STATIC>
+      <ARTIFACT_VERSION_TO_VERSION_MAPPING.PHASE_STATIC>develop-(.+)-sprint(\d+)-SNAPSHOT:S/develop-$1-sprint$2</ARTIFACT_VERSION_TO_VERSION_MAPPING.PHASE_STATIC>
+      <ARTIFACT_VERSION_TO_VERSION_MAPPING_TEST_EXISTENCE.PHASE_STATIC>true</ARTIFACT_VERSION_TO_VERSION_MAPPING_TEST_EXISTENCE.PHASE_STATIC>
 
-			<ARTIFACT_VERSION_TO_VERSION_MAPPING.PHASE_DYNAMIC>develop-(.+)-sprint(\d+)-SNAPSHOT:D/develop-$1-sprint</ARTIFACT_VERSION_TO_VERSION_MAPPING.PHASE_DYNAMIC>
+      <ARTIFACT_VERSION_TO_VERSION_MAPPING.PHASE_DYNAMIC>develop-(.+)-sprint(\d+)-SNAPSHOT:D/develop-$1-sprint</ARTIFACT_VERSION_TO_VERSION_MAPPING.PHASE_DYNAMIC>
 
-			<ARTIFACT_VERSION_TO_VERSION_MAPPING.DYNAMIC>(.+)-SNAPSHOT:D/$1</ARTIFACT_VERSION_TO_VERSION_MAPPING.DYNAMIC>
-			<ARTIFACT_VERSION_TO_VERSION_MAPPING.STATIC>(.+):S/v-$1</ARTIFACT_VERSION_TO_VERSION_MAPPING.STATIC>
+      <ARTIFACT_VERSION_TO_VERSION_MAPPING.DYNAMIC>(.+)-SNAPSHOT:D/$1</ARTIFACT_VERSION_TO_VERSION_MAPPING.DYNAMIC>
+      <ARTIFACT_VERSION_TO_VERSION_MAPPING.STATIC>(.+):S/v-$1</ARTIFACT_VERSION_TO_VERSION_MAPPING.STATIC>
 
-			<!-- Version to ArtifactVersion mappings (ConfigArtifactVersionMapperPluginImpl). -->
-			
-			<VERSION_TO_ARTIFACT_VERSION_MAPPINGS>PHASE_DYNAMIC,PHASE_STATIC,DYNAMIC,STATIC</VERSION_TO_ARTIFACT_VERSION_MAPPINGS>
+      <!-- Version to ArtifactVersion mappings (ConfigArtifactVersionMapperPluginImpl). -->
+      
+      <VERSION_TO_ARTIFACT_VERSION_MAPPINGS>PHASE_DYNAMIC,PHASE_STATIC,DYNAMIC,STATIC</VERSION_TO_ARTIFACT_VERSION_MAPPINGS>
 
-			<VERSION_TO_ARTIFACT_VERSION_MAPPING.PHASE_DYNAMIC>D/develop-(.+)-sprint:develop-$1-@PHASE-SNAPSHOT</VERSION_TO_ARTIFACT_VERSION_MAPPING.PHASE_DYNAMIC>
-			<VERSION_TO_ARTIFACT_VERSION_MAPPING_ADD_PHASE.PHASE_DYNAMIC>true</VERSION_TO_ARTIFACT_VERSION_MAPPING_ADD_PHASE.PHASE_DYNAMIC>
+      <VERSION_TO_ARTIFACT_VERSION_MAPPING.PHASE_DYNAMIC>D/develop-(.+)-sprint:develop-$1-@PHASE-SNAPSHOT</VERSION_TO_ARTIFACT_VERSION_MAPPING.PHASE_DYNAMIC>
+      <VERSION_TO_ARTIFACT_VERSION_MAPPING_ADD_PHASE.PHASE_DYNAMIC>true</VERSION_TO_ARTIFACT_VERSION_MAPPING_ADD_PHASE.PHASE_DYNAMIC>
 
-			<VERSION_TO_ARTIFACT_VERSION_MAPPING.PHASE_STATIC>S/develop-(.+)-sprint(\d+):develop-$1-sprint$2-SNAPSHOT</VERSION_TO_ARTIFACT_VERSION_MAPPING.PHASE_STATIC>
+      <VERSION_TO_ARTIFACT_VERSION_MAPPING.PHASE_STATIC>S/develop-(.+)-sprint(\d+):develop-$1-sprint$2-SNAPSHOT</VERSION_TO_ARTIFACT_VERSION_MAPPING.PHASE_STATIC>
 
-			<VERSION_TO_ARTIFACT_VERSION_MAPPING.DYNAMIC>D/(.+):$1-SNAPSHOT</VERSION_TO_ARTIFACT_VERSION_MAPPING.DYNAMIC>
-			<VERSION_TO_ARTIFACT_VERSION_MAPPING.STATIC>S/v-(.+):$1</VERSION_TO_ARTIFACT_VERSION_MAPPING.STATIC>
+      <VERSION_TO_ARTIFACT_VERSION_MAPPING.DYNAMIC>D/(.+):$1-SNAPSHOT</VERSION_TO_ARTIFACT_VERSION_MAPPING.DYNAMIC>
+      <VERSION_TO_ARTIFACT_VERSION_MAPPING.STATIC>S/v-(.+):$1</VERSION_TO_ARTIFACT_VERSION_MAPPING.STATIC>
 
-			<!-- SelectStaticVersionBaseImpl (UniformSelectStaticVersionPluginImpl, SemanticSelectStaticVersionPluginImpl, ContinuousReleaseSelectStaticVersionPluginImpl) -->
-			
-			<REVISION_DECIMAL_POSITION_COUNT>1</REVISION_DECIMAL_POSITION_COUNT>
+      <!-- SelectStaticVersionBaseImpl (UniformSelectStaticVersionPluginImpl, SemanticSelectStaticVersionPluginImpl, ContinuousReleaseSelectStaticVersionPluginImpl) -->
+      
+      <REVISION_DECIMAL_POSITION_COUNT>1</REVISION_DECIMAL_POSITION_COUNT>
 
-			<!-- SemanticSelectStaticVersionPluginImpl -->
+      <!-- SemanticSelectStaticVersionPluginImpl -->
 
-			<SEMANTIC_VERSION_PREFIX>v-</SEMANTIC_VERSION_PREFIX>
-			
-			<!-- SimpleJenkinsJobInfoPlugin -->
-			
-			<JENKINS_BASE_URL>https://acme.com/jenkins</JENKINS_BASE_URL>
-			<JENKINS_JOBS_ROOT_FOLDER>build/ci</JENKINS_JOBS_ROOT_FOLDER>
-			<JENKINS_MODULE_SUBFOLDER>projects</JENKINS_MODULE_SUBFOLDER>
-			
-			<!-- ContinuousReleaseSelectStaticVersionPlugin -->
-			
-			<CONTINUOUS_RELEASE_MAPPINGS>DEVELOP</CONTINUOUS_RELEASE_MAPPINGS>
-			<CONTINUOUS_RELEASE_MAPPING.DEVELOP>D/develop-cd-(.+):S/v-$1.</CONTINUOUS_RELEASE_MAPPING.DEVELOP>
+      <SEMANTIC_VERSION_PREFIX>v-</SEMANTIC_VERSION_PREFIX>
+      
+      <!-- SimpleJenkinsJobInfoPlugin -->
+      
+      <JENKINS_BASE_URL>https://acme.com/jenkins</JENKINS_BASE_URL>
+      <JENKINS_JOBS_ROOT_FOLDER>build/ci</JENKINS_JOBS_ROOT_FOLDER>
+      <JENKINS_MODULE_SUBFOLDER>projects</JENKINS_MODULE_SUBFOLDER>
+      
+      <!-- ContinuousReleaseSelectStaticVersionPlugin -->
+      
+      <CONTINUOUS_RELEASE_MAPPINGS>DEVELOP</CONTINUOUS_RELEASE_MAPPINGS>
+      <CONTINUOUS_RELEASE_MAPPING.DEVELOP>D/develop-cd-(.+):S/v-$1.</CONTINUOUS_RELEASE_MAPPING.DEVELOP>
 
-		</properties>
-		<child-nodes>
-			<classification-node>
-				<name>Domain1</name>
-				<properties>
-					<GIT_REPOS_DOMAIN_FOLDER>Domain1</GIT_REPOS_DOMAIN_FOLDER>
-				</properties>
-			</classification-node>
-			<classification-node>
-				<name>Domain2</name>
-				<properties>
-					<GIT_REPOS_DOMAIN_FOLDER>Domain2</GIT_REPOS_DOMAIN_FOLDER>
-				</properties>
-			</classification-node>
-			<classification-node>
-				<name>Framework</name>
-				<properties>
-					<GIT_REPOS_DOMAIN_FOLDER>Framework</GIT_REPOS_DOMAIN_FOLDER>
-				</properties>
-			</classification-node>
-		</child-nodes>
-		<plugins>
-			<plugin>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.UndefinedDescendantNodeManagerSimpleDynamicModulePluginImpl</plugin-class>
-			</plugin>
-			<plugin>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.GitScmPluginImpl</plugin-class>
-			</plugin>
-			<plugin>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.MavenReferenceManagerPluginImpl</plugin-class>
-			</plugin>
-			<plugin>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.SimpleArtifactInfoPluginImpl</plugin-class>
-			</plugin>
-			<plugin>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.SimpleFindModuleByArtifactGroupIdPluginImpl</plugin-class>
-			</plugin>
-			<plugin>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.ConfigArtifactVersionMapperPluginImpl</plugin-class>
-			</plugin>
-			<plugin>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.MavenBuilderPluginImpl</plugin-class>
-			</plugin>
-			<plugin>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.SimpleVersionClassifierPluginImpl</plugin-class>
-			</plugin>
+    </properties>
+    <child-nodes>
+      <classification-node>
+        <name>Domain1</name>
+        <properties>
+          <GIT_REPOS_DOMAIN_FOLDER>Domain1</GIT_REPOS_DOMAIN_FOLDER>
+        </properties>
+      </classification-node>
+      <classification-node>
+        <name>Domain2</name>
+        <properties>
+          <GIT_REPOS_DOMAIN_FOLDER>Domain2</GIT_REPOS_DOMAIN_FOLDER>
+        </properties>
+      </classification-node>
+      <classification-node>
+        <name>Framework</name>
+        <properties>
+          <GIT_REPOS_DOMAIN_FOLDER>Framework</GIT_REPOS_DOMAIN_FOLDER>
+        </properties>
+      </classification-node>
+    </child-nodes>
+    <plugins>
+      <plugin>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.UndefinedDescendantNodeManagerSimpleDynamicModulePluginImpl</plugin-class>
+      </plugin>
+      <plugin>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.GitScmPluginImpl</plugin-class>
+      </plugin>
+      <plugin>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.MavenReferenceManagerPluginImpl</plugin-class>
+      </plugin>
+      <plugin>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.SimpleArtifactInfoPluginImpl</plugin-class>
+      </plugin>
+      <plugin>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.SimpleFindModuleByArtifactGroupIdPluginImpl</plugin-class>
+      </plugin>
+      <plugin>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.ConfigArtifactVersionMapperPluginImpl</plugin-class>
+      </plugin>
+      <plugin>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.MavenBuilderPluginImpl</plugin-class>
+      </plugin>
+      <plugin>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.SimpleVersionClassifierPluginImpl</plugin-class>
+      </plugin>
 
-			<plugin>
-				<plugin-interface>org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin</plugin-interface>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.RuntimeSelectionPluginFactory</plugin-class>
-			</plugin>
-			<plugin>
-				<plugin-id>uniform</plugin-id>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.UniformSelectDynamicVersionPluginImpl</plugin-class>
-			</plugin>
-			<plugin>
-				<plugin-id>hotfix</plugin-id>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.HotfixSelectDynamicVersionPluginImpl</plugin-class>
-			</plugin>
-			<plugin>
-				<plugin-id>phase</plugin-id>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.PhaseSelectDynamicVersionPluginImpl</plugin-class>
-			</plugin>
+      <plugin>
+        <plugin-interface>org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin</plugin-interface>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.RuntimeSelectionPluginFactory</plugin-class>
+      </plugin>
+      <plugin>
+        <plugin-id>uniform</plugin-id>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.UniformSelectDynamicVersionPluginImpl</plugin-class>
+      </plugin>
+      <plugin>
+        <plugin-id>hotfix</plugin-id>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.HotfixSelectDynamicVersionPluginImpl</plugin-class>
+      </plugin>
+      <plugin>
+        <plugin-id>phase</plugin-id>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.PhaseSelectDynamicVersionPluginImpl</plugin-class>
+      </plugin>
 
-			<plugin>
-				<plugin-interface>org.azyva.dragom.model.plugin.SelectStaticVersionPlugin</plugin-interface>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.RuntimeSelectionPluginFactory</plugin-class>
-			</plugin>
-			<plugin>
-				<plugin-id>uniform</plugin-id>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.UniformSelectStaticVersionPluginImpl</plugin-class>
-			</plugin>
-			<plugin>
-				<plugin-id>semantic</plugin-id>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.SemanticSelectStaticVersionPluginImpl</plugin-class>
-			</plugin>
-			<plugin>
-				<plugin-id>phase</plugin-id>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.PhaseSelectStaticVersionPluginImpl</plugin-class>
-			</plugin>
+      <plugin>
+        <plugin-interface>org.azyva.dragom.model.plugin.SelectStaticVersionPlugin</plugin-interface>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.RuntimeSelectionPluginFactory</plugin-class>
+      </plugin>
+      <plugin>
+        <plugin-id>uniform</plugin-id>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.UniformSelectStaticVersionPluginImpl</plugin-class>
+      </plugin>
+      <plugin>
+        <plugin-id>semantic</plugin-id>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.SemanticSelectStaticVersionPluginImpl</plugin-class>
+      </plugin>
+      <plugin>
+        <plugin-id>phase</plugin-id>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.PhaseSelectStaticVersionPluginImpl</plugin-class>
+      </plugin>
 
-			<plugin>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.MavenArtifactVersionManagerPluginImpl</plugin-class>
-			</plugin>
+      <plugin>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.MavenArtifactVersionManagerPluginImpl</plugin-class>
+      </plugin>
 
-			<plugin>
-				<plugin-class>org.azyva.dragom.test.integration.setupjenkinsjobs.TestJenkinsJobInfoPluginImpl</plugin-class>
-			</plugin>
+      <plugin>
+        <plugin-class>org.azyva.dragom.test.integration.setupjenkinsjobs.TestJenkinsJobInfoPluginImpl</plugin-class>
+      </plugin>
 <!--
-			<plugin>
-				<plugin-class>org.azyva.dragom.model.plugin.impl.NodeInitDemoNodeEventListenerPluginFactory</plugin-class>
-				<ind-only-this-node>true</ind-only-this-node>
-			</plugin>
+      <plugin>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.NodeInitDemoNodeEventListenerPluginFactory</plugin-class>
+        <ind-only-this-node>true</ind-only-this-node>
+      </plugin>
 -->
-		</plugins>
-	</root-classification-node>
+    </plugins>
+  </root-classification-node>
 </config>

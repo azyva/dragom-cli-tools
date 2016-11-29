@@ -33,77 +33,77 @@ import org.azyva.dragom.model.plugin.impl.NodePluginAbstractImpl;
 
 // TODO: Should bi-personnality plugins do this, or should Dragom support bare NodePlugin? Probably this, but with a bi-base impl.
 public class TestPluginImpl extends NodePluginAbstractImpl implements TestPlugin {
-	public TestPluginImpl(ClassificationNode classificationNode) {
-		super(classificationNode);
-	}
+  public TestPluginImpl(ClassificationNode classificationNode) {
+    super(classificationNode);
+  }
 
-	public TestPluginImpl(Module module) {
-		super(module);
-	}
+  public TestPluginImpl(Module module) {
+    super(module);
+  }
 
-	@Override
-	public ClassificationNode getClassificationNode() {
-		return (ClassificationNode)this.getNode();
-	}
+  @Override
+  public ClassificationNode getClassificationNode() {
+    return (ClassificationNode)this.getNode();
+  }
 
-	@Override
-	public Module getModule() {
-		return (Module)this.getNode();
-	}
+  @Override
+  public Module getModule() {
+    return (Module)this.getNode();
+  }
 
-	@Override
-	public MultiValuedAttributesTransferObject getMultiValuedAttributesTransferObject(OptimisticLockHandle optimisticLockHandle)
-			throws OptimisticLockException {
+  @Override
+  public MultiValuedAttributesTransferObject getMultiValuedAttributesTransferObject(OptimisticLockHandle optimisticLockHandle)
+      throws OptimisticLockException {
 
-		return new MultiValuedAttributesTransferObject(((MutableNode)this.getNode()).getNodeConfigTransferObject(optimisticLockHandle));
-	}
+    return new MultiValuedAttributesTransferObject(((MutableNode)this.getNode()).getNodeConfigTransferObject(optimisticLockHandle));
+  }
 
-	@Override
-	public void setMultiValuedAttributesTransferObject(MultiValuedAttributesTransferObject multiValuedAttributesTransferObject, OptimisticLockHandle optimisticLockHandle)
-			throws OptimisticLockException {
-		MutableNode mutableNode;
-		NodeConfigTransferObject nodeConfigTransferObject;
+  @Override
+  public void setMultiValuedAttributesTransferObject(MultiValuedAttributesTransferObject multiValuedAttributesTransferObject, OptimisticLockHandle optimisticLockHandle)
+      throws OptimisticLockException {
+    MutableNode mutableNode;
+    NodeConfigTransferObject nodeConfigTransferObject;
 
-		mutableNode = (MutableNode)this.getNode();
-		nodeConfigTransferObject = mutableNode.getNodeConfigTransferObject(optimisticLockHandle);
-		multiValuedAttributesTransferObject.fillNodeConfigTransferObject(nodeConfigTransferObject);
-		mutableNode.setNodeConfigTransferObject(nodeConfigTransferObject, optimisticLockHandle);
-	}
+    mutableNode = (MutableNode)this.getNode();
+    nodeConfigTransferObject = mutableNode.getNodeConfigTransferObject(optimisticLockHandle);
+    multiValuedAttributesTransferObject.fillNodeConfigTransferObject(nodeConfigTransferObject);
+    mutableNode.setNodeConfigTransferObject(nodeConfigTransferObject, optimisticLockHandle);
+  }
 
-	@Override
-	public Set<String> getCumulativeMultiValuedAttribute(String attributeName) {
-		Set<String> setAttributeNameBeingBuilt;
-		Node nodeCurrent;
-		TestPlugin testPlugin;
-		MultiValuedAttributesTransferObject multiValuedAttributesTransferObject;
-		Set<String> setAttributeName;
+  @Override
+  public Set<String> getCumulativeMultiValuedAttribute(String attributeName) {
+    Set<String> setAttributeNameBeingBuilt;
+    Node nodeCurrent;
+    TestPlugin testPlugin;
+    MultiValuedAttributesTransferObject multiValuedAttributesTransferObject;
+    Set<String> setAttributeName;
 
-		setAttributeNameBeingBuilt = new LinkedHashSet<String>();
+    setAttributeNameBeingBuilt = new LinkedHashSet<String>();
 
-		nodeCurrent = this.getNode();
-		testPlugin = this;
+    nodeCurrent = this.getNode();
+    testPlugin = this;
 
-		do {
-			if (testPlugin != null) {
-				multiValuedAttributesTransferObject = testPlugin.getMultiValuedAttributesTransferObject(null);
-				setAttributeName = multiValuedAttributesTransferObject.getMultiValuedAttribute(attributeName);
+    do {
+      if (testPlugin != null) {
+        multiValuedAttributesTransferObject = testPlugin.getMultiValuedAttributesTransferObject(null);
+        setAttributeName = multiValuedAttributesTransferObject.getMultiValuedAttribute(attributeName);
 
-				if (setAttributeName != null) {
-					setAttributeNameBeingBuilt.addAll(setAttributeName);
-				}
-			}
+        if (setAttributeName != null) {
+          setAttributeNameBeingBuilt.addAll(setAttributeName);
+        }
+      }
 
-			nodeCurrent = nodeCurrent.getClassificationNodeParent();
+      nodeCurrent = nodeCurrent.getClassificationNodeParent();
 
-			if (nodeCurrent != null) {
-				if (nodeCurrent.isNodePluginExists(TestPlugin.class, null)) {
-					testPlugin = nodeCurrent.getNodePlugin(TestPlugin.class,  null);
-				} else {
-					testPlugin = null;
-				}
-			}
-		} while (nodeCurrent != null);
+      if (nodeCurrent != null) {
+        if (nodeCurrent.isNodePluginExists(TestPlugin.class, null)) {
+          testPlugin = nodeCurrent.getNodePlugin(TestPlugin.class,  null);
+        } else {
+          testPlugin = null;
+        }
+      }
+    } while (nodeCurrent != null);
 
-		return setAttributeNameBeingBuilt;
-	}
+    return setAttributeNameBeingBuilt;
+  }
 }

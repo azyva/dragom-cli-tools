@@ -34,166 +34,166 @@ import org.azyva.dragom.tool.RootManagerTool;
 
 
 public class IntegrationTestSuiteGenericRootModuleVersionJobInvokerTool {
-	/*********************************************************************************
-	 * Tests GenericRootModuleVersionJobInvokerTool.
-	 * <p>
-	 * Note that this is not a tool by itself. But there are many tests that are
-	 * common to all tools that are invoked using this class. Here the tests are made
-	 * with the Checkout tool.
-	 *********************************************************************************/
-	public static void testGenericRootModuleVersionJobInvokerTool() {
-		Path pathModel;
-		InputStream inputStream;
-		ZipInputStream zipInputStream;
-		ZipEntry zipEntry;
+  /*********************************************************************************
+   * Tests GenericRootModuleVersionJobInvokerTool.
+   * <p>
+   * Note that this is not a tool by itself. But there are many tests that are
+   * common to all tools that are invoked using this class. Here the tests are made
+   * with the Checkout tool.
+   *********************************************************************************/
+  public static void testGenericRootModuleVersionJobInvokerTool() {
+    Path pathModel;
+    InputStream inputStream;
+    ZipInputStream zipInputStream;
+    ZipEntry zipEntry;
 
-		try {
-			IntegrationTestSuite.printTestCategoryHeader("GenericRootModuleVersionJobInvokerTool");
+    try {
+      IntegrationTestSuite.printTestCategoryHeader("GenericRootModuleVersionJobInvokerTool");
 
-			IntegrationTestSuite.resetTestWorkspace();
+      IntegrationTestSuite.resetTestWorkspace();
 
-			try {
-				pathModel = IntegrationTestSuite.pathTestWorkspace.resolve("basic-model.xml");
-				inputStream = IntegrationTestSuite.class.getResourceAsStream("/basic-model.xml");
-				Files.copy(inputStream, pathModel, StandardCopyOption.REPLACE_EXISTING);
-				inputStream.close();
+      try {
+        pathModel = IntegrationTestSuite.pathTestWorkspace.resolve("basic-model.xml");
+        inputStream = IntegrationTestSuite.class.getResourceAsStream("/basic-model.xml");
+        Files.copy(inputStream, pathModel, StandardCopyOption.REPLACE_EXISTING);
+        inputStream.close();
 
-				inputStream = IntegrationTestSuite.class.getResourceAsStream("/test-git-repos.zip");
-				zipInputStream = new ZipInputStream(inputStream);
+        inputStream = IntegrationTestSuite.class.getResourceAsStream("/test-git-repos.zip");
+        zipInputStream = new ZipInputStream(inputStream);
 
-				while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-					Path path;
+        while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+          Path path;
 
-					path = IntegrationTestSuite.pathTestWorkspace.resolve(zipEntry.getName());
+          path = IntegrationTestSuite.pathTestWorkspace.resolve(zipEntry.getName());
 
-					if (zipEntry.isDirectory()) {
-						path.toFile().mkdirs();
-					} else {
-						OutputStream outputStream;
-						final int chunk = 1024;
-						byte[] arrayByteBuffer;
-						long size;
-						int sizeRead;
+          if (zipEntry.isDirectory()) {
+            path.toFile().mkdirs();
+          } else {
+            OutputStream outputStream;
+            final int chunk = 1024;
+            byte[] arrayByteBuffer;
+            long size;
+            int sizeRead;
 
-						outputStream = new FileOutputStream(path.toFile());
-						arrayByteBuffer = new byte[chunk];
-						size = zipEntry.getSize();
+            outputStream = new FileOutputStream(path.toFile());
+            arrayByteBuffer = new byte[chunk];
+            size = zipEntry.getSize();
 
-						while (size > 0) {
-							sizeRead = (int)Math.min(chunk,  size);
-							sizeRead = zipInputStream.read(arrayByteBuffer, 0, sizeRead);
-							outputStream.write(arrayByteBuffer, 0, sizeRead);
-							size -= sizeRead;
-						}
+            while (size > 0) {
+              sizeRead = (int)Math.min(chunk,  size);
+              sizeRead = zipInputStream.read(arrayByteBuffer, 0, sizeRead);
+              outputStream.write(arrayByteBuffer, 0, sizeRead);
+              size -= sizeRead;
+            }
 
-						outputStream.close();
-					}
-				}
+            outputStream.close();
+          }
+        }
 
-				zipInputStream.close();
-			} catch (IOException ioe) {
-				throw new RuntimeException(ioe);
-			}
+        zipInputStream.close();
+      } catch (IOException ioe) {
+        throw new RuntimeException(ioe);
+      }
 
-			System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
-			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
-			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
+      System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
+      System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
+      System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// Tools based on GenericRootModuleVersionJobInvokerTool do not have regular
-			// arguments so the test of not passing any argument and expecting a corresponding
-			// message is not pertinent.
+      // Tools based on GenericRootModuleVersionJobInvokerTool do not have regular
+      // arguments so the test of not passing any argument and expecting a corresponding
+      // message is not pertinent.
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt dummy");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "dummy"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt dummy");
+      try {
+        GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "dummy"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --help");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--help"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --help");
+      try {
+        GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--help"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 0);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace")});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace");
+      try {
+        GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace")});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--root-module-version=Domain1/app-a"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a");
+      try {
+        GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--root-module-version=Domain1/app-a"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a --reference-path-matcher=/Domain1/app-a");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--root-module-version=Domain1/app-a", "--reference-path-matcher=/Domain1/app-a"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a --reference-path-matcher=/Domain1/app-a");
+      try {
+        GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--root-module-version=Domain1/app-a", "--reference-path-matcher=/Domain1/app-a"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 0);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
-			try {
-				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
+      try {
+        RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 0);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace")});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace");
+      try {
+        GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace")});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--root-module-version=Domain1/app-b"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a");
+      try {
+        GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--root-module-version=Domain1/app-b"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
-			try {
-				GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+      IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
+      try {
+        GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 0);
+      }
+      IntegrationTestSuite.printTestFooter();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }

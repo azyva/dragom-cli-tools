@@ -63,108 +63,108 @@ import org.azyva.dragom.util.RuntimeExceptionUserError;
  * @author David Raymond
  */
 public class GenericRootModuleVersionJobInvokerTool {
-	/**
-	 * Indicates that the class has been initialized.
-	 */
-	private static boolean indInit;
+  /**
+   * Indicates that the class has been initialized.
+   */
+  private static boolean indInit;
 
-	/**
-	 * Options for parsing the command line.
-	 */
-	private static Options options;
+  /**
+   * Options for parsing the command line.
+   */
+  private static Options options;
 
-	/**
-	 * Method main.
-	 *
-	 * @param args Arguments.
-	 */
-	public static void main(String[] args) {
-		String rootModuleVersionJobAbstractImplSubclass;
-		String helpResource;
-		DefaultParser defaultParser;
-		CommandLine commandLine = null;
-		Constructor<? extends RootModuleVersionJobAbstractImpl> constructor;
-		RootModuleVersionJobAbstractImpl rootModuleVersionJobAbstractImpl;
+  /**
+   * Method main.
+   *
+   * @param args Arguments.
+   */
+  public static void main(String[] args) {
+    String rootModuleVersionJobAbstractImplSubclass;
+    String helpResource;
+    DefaultParser defaultParser;
+    CommandLine commandLine = null;
+    Constructor<? extends RootModuleVersionJobAbstractImpl> constructor;
+    RootModuleVersionJobAbstractImpl rootModuleVersionJobAbstractImpl;
 
-		rootModuleVersionJobAbstractImplSubclass = args[0];
-		helpResource = args[1];
+    rootModuleVersionJobAbstractImplSubclass = args[0];
+    helpResource = args[1];
 
-		args = Arrays.copyOfRange(args, 2, args.length);
+    args = Arrays.copyOfRange(args, 2, args.length);
 
-		GenericRootModuleVersionJobInvokerTool.init();
+    GenericRootModuleVersionJobInvokerTool.init();
 
-		rootModuleVersionJobAbstractImpl = null;
+    rootModuleVersionJobAbstractImpl = null;
 
-		try {
-			defaultParser = new DefaultParser();
+    try {
+      defaultParser = new DefaultParser();
 
-			try {
-				commandLine = defaultParser.parse(GenericRootModuleVersionJobInvokerTool.options, args);
-			} catch (ParseException pe) {
-				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
-			}
+      try {
+        commandLine = defaultParser.parse(GenericRootModuleVersionJobInvokerTool.options, args);
+      } catch (ParseException pe) {
+        throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
+      }
 
-			if (CliUtil.hasHelpOption(commandLine)) {
-				GenericRootModuleVersionJobInvokerTool.help(helpResource);
-			} else {
-				args = commandLine.getArgs();
+      if (CliUtil.hasHelpOption(commandLine)) {
+        GenericRootModuleVersionJobInvokerTool.help(helpResource);
+      } else {
+        args = commandLine.getArgs();
 
-				if (args.length != 0) {
-					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-				}
+        if (args.length != 0) {
+          throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+        }
 
-				CliUtil.setupExecContext(commandLine, true);
+        CliUtil.setupExecContext(commandLine, true);
 
-				try {
-					constructor = Class.forName(rootModuleVersionJobAbstractImplSubclass).asSubclass(RootModuleVersionJobAbstractImpl.class).getConstructor(List.class);
-					rootModuleVersionJobAbstractImpl = constructor.newInstance(CliUtil.getListModuleVersionRoot(commandLine));
-				} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
-					throw new RuntimeException(e);
-				}
+        try {
+          constructor = Class.forName(rootModuleVersionJobAbstractImplSubclass).asSubclass(RootModuleVersionJobAbstractImpl.class).getConstructor(List.class);
+          rootModuleVersionJobAbstractImpl = constructor.newInstance(CliUtil.getListModuleVersionRoot(commandLine));
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
+          throw new RuntimeException(e);
+        }
 
-				rootModuleVersionJobAbstractImpl.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
-				rootModuleVersionJobAbstractImpl.performJob();
-			}
-		} catch (RuntimeExceptionUserError reue) {
-			System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + reue.getMessage());
-			System.exit(1);
-		} catch (RuntimeException re) {
-			re.printStackTrace();
-			System.exit(1);
-		} finally {
-			if ((rootModuleVersionJobAbstractImpl != null) && rootModuleVersionJobAbstractImpl.isListModuleVersionRootChanged()) {
-				// It can be the case that RootManager does not specify any root ModuleVersion. In
-				// that case calling RootManager.saveListModuleVersion simply saves an empty list,
-				// even if the user has specified a root ModuleVersion on the command line.
-				RootManager.saveListModuleVersion();
-			}
+        rootModuleVersionJobAbstractImpl.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
+        rootModuleVersionJobAbstractImpl.performJob();
+      }
+    } catch (RuntimeExceptionUserError reue) {
+      System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + reue.getMessage());
+      System.exit(1);
+    } catch (RuntimeException re) {
+      re.printStackTrace();
+      System.exit(1);
+    } finally {
+      if ((rootModuleVersionJobAbstractImpl != null) && rootModuleVersionJobAbstractImpl.isListModuleVersionRootChanged()) {
+        // It can be the case that RootManager does not specify any root ModuleVersion. In
+        // that case calling RootManager.saveListModuleVersion simply saves an empty list,
+        // even if the user has specified a root ModuleVersion on the command line.
+        RootManager.saveListModuleVersion();
+      }
 
-			ExecContextHolder.endToolAndUnset();
-		}
-	}
+      ExecContextHolder.endToolAndUnset();
+    }
+  }
 
-	/**
-	 * Initializes the class.
-	 */
-	private synchronized static void init() {
-		if (!GenericRootModuleVersionJobInvokerTool.indInit) {
-			GenericRootModuleVersionJobInvokerTool.options = new Options();
+  /**
+   * Initializes the class.
+   */
+  private synchronized static void init() {
+    if (!GenericRootModuleVersionJobInvokerTool.indInit) {
+      GenericRootModuleVersionJobInvokerTool.options = new Options();
 
-			CliUtil.addStandardOptions(GenericRootModuleVersionJobInvokerTool.options);
-			CliUtil.addRootModuleVersionOptions(GenericRootModuleVersionJobInvokerTool.options);
+      CliUtil.addStandardOptions(GenericRootModuleVersionJobInvokerTool.options);
+      CliUtil.addRootModuleVersionOptions(GenericRootModuleVersionJobInvokerTool.options);
 
-			GenericRootModuleVersionJobInvokerTool.indInit = true;
-		}
-	}
+      GenericRootModuleVersionJobInvokerTool.indInit = true;
+    }
+  }
 
-	/**
-	 * Displays help information.
-	 */
-	private static void help(String resource) {
-		try {
-			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(GenericRootModuleVersionJobInvokerTool.class, resource),  System.out);
-		} catch (IOException ioe) {
-			throw new RuntimeException(ioe);
-		}
-	}
+  /**
+   * Displays help information.
+   */
+  private static void help(String resource) {
+    try {
+      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(GenericRootModuleVersionJobInvokerTool.class, resource),  System.out);
+    } catch (IOException ioe) {
+      throw new RuntimeException(ioe);
+    }
+  }
 }

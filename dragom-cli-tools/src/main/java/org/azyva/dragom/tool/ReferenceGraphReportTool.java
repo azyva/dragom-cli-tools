@@ -43,226 +43,226 @@ import org.azyva.dragom.util.RuntimeExceptionUserError;
  * @author David Raymond
  */
 public class ReferenceGraphReportTool {
-	/**
-	 * See description in ResourceBundle.
-	 */
-	public static final String MSG_PATTERN_KEY_OUTPUT_FORMAT_POSSIBLE_VALUES = "OUTPUT_FORMAT_POSSIBLE_VALUES";
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_OUTPUT_FORMAT_POSSIBLE_VALUES = "OUTPUT_FORMAT_POSSIBLE_VALUES";
 
-	/**
-	 * See description in ResourceBundle.
-	 */
-	public static final String MSG_PATTERN_KEY_GRAPH_OR_MODULE_VERSION_REQUIRED = "GRAPH_OR_MODULE_VERSION_REQUIRED";
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_GRAPH_OR_MODULE_VERSION_REQUIRED = "GRAPH_OR_MODULE_VERSION_REQUIRED";
 
-	/**
-	 * See description in ResourceBundle.
-	 */
-	public static final String MSG_PATTERN_KEY_GRAPH_REQUIRED_WHEN = "GRAPH_REQUIRED_WHEN";
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_GRAPH_REQUIRED_WHEN = "GRAPH_REQUIRED_WHEN";
 
-	/**
-	 * See description in ResourceBundle.
-	 */
-	public static final String MSG_PATTERN_KEY_MODULE_VERSIONS_REQUIRED_WHEN = "MODULE_VERSIONS_REQUIRED_WHEN";
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_MODULE_VERSIONS_REQUIRED_WHEN = "MODULE_VERSIONS_REQUIRED_WHEN";
 
-	/**
-	 * See description in ResourceBundle.
-	 */
-	public static final String MSG_PATTERN_KEY_ONLY_MULTIPLE_VERSIONS_AND_ONLY_MATCHED_MODULES_MUTUALLY_EXCLUSIVE = "ONLY_MULTIPLE_VERSIONS_AND_ONLY_MATCHED_MODULES_MUTUALLY_EXCLUSIVE";
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_ONLY_MULTIPLE_VERSIONS_AND_ONLY_MATCHED_MODULES_MUTUALLY_EXCLUSIVE = "ONLY_MULTIPLE_VERSIONS_AND_ONLY_MATCHED_MODULES_MUTUALLY_EXCLUSIVE";
 
-	/**
-	 * ResourceBundle specific to this class.
-	 */
-	private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ReferenceGraphReportTool.class.getName() + "ResourceBundle");
+  /**
+   * ResourceBundle specific to this class.
+   */
+  private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(ReferenceGraphReportTool.class.getName() + "ResourceBundle");
 
-	/**
-	 * Indicates that the class has been initialized.
-	 */
-	private static boolean indInit;
+  /**
+   * Indicates that the class has been initialized.
+   */
+  private static boolean indInit;
 
-	/**
-	 * Options for parsing the command line.
-	 */
-	private static Options options;
+  /**
+   * Options for parsing the command line.
+   */
+  private static Options options;
 
-	/**
-	 * Method main.
-	 *
-	 * @param args Arguments.
-	 */
-	public static void main(String[] args) {
-		DefaultParser defaultParser;
-		CommandLine commandLine = null;
-		ReferenceGraphReport referenceGraphReport;
-		ReferenceGraphReport.OutputFormat outputFormat;
+  /**
+   * Method main.
+   *
+   * @param args Arguments.
+   */
+  public static void main(String[] args) {
+    DefaultParser defaultParser;
+    CommandLine commandLine = null;
+    ReferenceGraphReport referenceGraphReport;
+    ReferenceGraphReport.OutputFormat outputFormat;
 
-		ReferenceGraphReportTool.init();
+    ReferenceGraphReportTool.init();
 
-		try {
-			defaultParser = new DefaultParser();
+    try {
+      defaultParser = new DefaultParser();
 
-			try {
-				commandLine = defaultParser.parse(ReferenceGraphReportTool.options, args);
-			} catch (ParseException pe) {
-				throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
-			}
+      try {
+        commandLine = defaultParser.parse(ReferenceGraphReportTool.options, args);
+      } catch (ParseException pe) {
+        throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
+      }
 
-			if (CliUtil.hasHelpOption(commandLine)) {
-				ReferenceGraphReportTool.help();
-			} else {
-				args = commandLine.getArgs();
+      if (CliUtil.hasHelpOption(commandLine)) {
+        ReferenceGraphReportTool.help();
+      } else {
+        args = commandLine.getArgs();
 
-				if (args.length != 1) {
-					throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-				}
+        if (args.length != 1) {
+          throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+        }
 
-				CliUtil.setupExecContext(commandLine, true);
+        CliUtil.setupExecContext(commandLine, true);
 
-				if (!commandLine.hasOption("output-format")) {
-					outputFormat = ReferenceGraphReport.OutputFormat.TEXT;
-				} else {
-					try {
-						outputFormat = ReferenceGraphReport.OutputFormat.valueOf(commandLine.getOptionValue("output-format"));
-					} catch (IllegalArgumentException iae) {
-						throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), "output-format", ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_OUTPUT_FORMAT_POSSIBLE_VALUES), CliUtil.getHelpCommandLineOption()));
-					}
-				}
+        if (!commandLine.hasOption("output-format")) {
+          outputFormat = ReferenceGraphReport.OutputFormat.TEXT;
+        } else {
+          try {
+            outputFormat = ReferenceGraphReport.OutputFormat.valueOf(commandLine.getOptionValue("output-format"));
+          } catch (IllegalArgumentException iae) {
+            throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), "output-format", ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_OUTPUT_FORMAT_POSSIBLE_VALUES), CliUtil.getHelpCommandLineOption()));
+          }
+        }
 
-				if (!commandLine.hasOption("graph") && !commandLine.hasOption("module-versions")) {
-					throw new RuntimeExceptionUserError(MessageFormat.format(ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_GRAPH_OR_MODULE_VERSION_REQUIRED), CliUtil.getHelpCommandLineOption()));
-				}
+        if (!commandLine.hasOption("graph") && !commandLine.hasOption("module-versions")) {
+          throw new RuntimeExceptionUserError(MessageFormat.format(ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_GRAPH_OR_MODULE_VERSION_REQUIRED), CliUtil.getHelpCommandLineOption()));
+        }
 
-				if (commandLine.hasOption("avoid-redundancy") && !commandLine.hasOption("graph")) {
-					throw new RuntimeExceptionUserError(MessageFormat.format(ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_GRAPH_REQUIRED_WHEN), CliUtil.getHelpCommandLineOption()));
-				}
+        if (commandLine.hasOption("avoid-redundancy") && !commandLine.hasOption("graph")) {
+          throw new RuntimeExceptionUserError(MessageFormat.format(ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_GRAPH_REQUIRED_WHEN), CliUtil.getHelpCommandLineOption()));
+        }
 
-				if (   (   commandLine.hasOption("only-multiple-versions")
-				        || commandLine.hasOption("only-matched-modules")
-				        || commandLine.hasOption("most-recent-version-in-reference-graph")
-				        || commandLine.hasOption("most-recent-static-version-in-scm")
-				        || commandLine.hasOption("reference-paths"))
-				    && !commandLine.hasOption("module-versions")) {
-					throw new RuntimeExceptionUserError(MessageFormat.format(ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_MODULE_VERSIONS_REQUIRED_WHEN), CliUtil.getHelpCommandLineOption()));
-				}
+        if (   (   commandLine.hasOption("only-multiple-versions")
+                || commandLine.hasOption("only-matched-modules")
+                || commandLine.hasOption("most-recent-version-in-reference-graph")
+                || commandLine.hasOption("most-recent-static-version-in-scm")
+                || commandLine.hasOption("reference-paths"))
+            && !commandLine.hasOption("module-versions")) {
+          throw new RuntimeExceptionUserError(MessageFormat.format(ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_MODULE_VERSIONS_REQUIRED_WHEN), CliUtil.getHelpCommandLineOption()));
+        }
 
-				if (commandLine.hasOption("only-multiple-versions") && commandLine.hasOption("only-matched-modules")) {
-					throw new RuntimeExceptionUserError(MessageFormat.format(ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_ONLY_MULTIPLE_VERSIONS_AND_ONLY_MATCHED_MODULES_MUTUALLY_EXCLUSIVE), CliUtil.getHelpCommandLineOption()));
-				}
+        if (commandLine.hasOption("only-multiple-versions") && commandLine.hasOption("only-matched-modules")) {
+          throw new RuntimeExceptionUserError(MessageFormat.format(ReferenceGraphReportTool.resourceBundle.getString(ReferenceGraphReportTool.MSG_PATTERN_KEY_ONLY_MULTIPLE_VERSIONS_AND_ONLY_MATCHED_MODULES_MUTUALLY_EXCLUSIVE), CliUtil.getHelpCommandLineOption()));
+        }
 
-				referenceGraphReport = new ReferenceGraphReport(CliUtil.getListModuleVersionRoot(commandLine), outputFormat);
-				referenceGraphReport.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
-				referenceGraphReport.setOutputFilePath(Paths.get(args[0]));
+        referenceGraphReport = new ReferenceGraphReport(CliUtil.getListModuleVersionRoot(commandLine), outputFormat);
+        referenceGraphReport.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
+        referenceGraphReport.setOutputFilePath(Paths.get(args[0]));
 
-				if (commandLine.hasOption("graph")) {
-					ReferenceGraphReport.ReferenceGraphMode referenceGraphMode;
+        if (commandLine.hasOption("graph")) {
+          ReferenceGraphReport.ReferenceGraphMode referenceGraphMode;
 
-					if (commandLine.hasOption("avoid-redundancy")) {
-						referenceGraphMode = ReferenceGraphReport.ReferenceGraphMode.TREE_NO_REDUNDANCY;
-					} else {
-						referenceGraphMode = ReferenceGraphReport.ReferenceGraphMode.FULL_TREE;
-					}
+          if (commandLine.hasOption("avoid-redundancy")) {
+            referenceGraphMode = ReferenceGraphReport.ReferenceGraphMode.TREE_NO_REDUNDANCY;
+          } else {
+            referenceGraphMode = ReferenceGraphReport.ReferenceGraphMode.FULL_TREE;
+          }
 
-					referenceGraphReport.includeReferenceGraph(referenceGraphMode);
-				}
+          referenceGraphReport.includeReferenceGraph(referenceGraphMode);
+        }
 
-				if (commandLine.hasOption("module-versions")) {
-					ReferenceGraphReport.ModuleFilter moduleFilter;
+        if (commandLine.hasOption("module-versions")) {
+          ReferenceGraphReport.ModuleFilter moduleFilter;
 
-					if (commandLine.hasOption("only-multiple-versions")) {
-						moduleFilter = ReferenceGraphReport.ModuleFilter.ONLY_MULTIPLE_VERSIONS;
-					} else if (commandLine.hasOption("only-matched-modules")) {
-							moduleFilter = ReferenceGraphReport.ModuleFilter.ONLY_MATCHED;
-					} else {
-						moduleFilter = ReferenceGraphReport.ModuleFilter.ALL;
-					}
+          if (commandLine.hasOption("only-multiple-versions")) {
+            moduleFilter = ReferenceGraphReport.ModuleFilter.ONLY_MULTIPLE_VERSIONS;
+          } else if (commandLine.hasOption("only-matched-modules")) {
+              moduleFilter = ReferenceGraphReport.ModuleFilter.ONLY_MATCHED;
+          } else {
+            moduleFilter = ReferenceGraphReport.ModuleFilter.ALL;
+          }
 
-					referenceGraphReport.includeModules(moduleFilter);
-				}
+          referenceGraphReport.includeModules(moduleFilter);
+        }
 
-				if (commandLine.hasOption("most-recent-version-in-reference-graph")) {
-					referenceGraphReport.includeMostRecentVersionInReferenceGraph();
-				}
+        if (commandLine.hasOption("most-recent-version-in-reference-graph")) {
+          referenceGraphReport.includeMostRecentVersionInReferenceGraph();
+        }
 
-				if (commandLine.hasOption("most-recent-static-version-in-scm")) {
-					referenceGraphReport.includeMostRecentStaticVersionInScm();
-				}
+        if (commandLine.hasOption("most-recent-static-version-in-scm")) {
+          referenceGraphReport.includeMostRecentStaticVersionInScm();
+        }
 
-				if (commandLine.hasOption("reference-paths")) {
-					referenceGraphReport.includeReferencePaths();
-				}
+        if (commandLine.hasOption("reference-paths")) {
+          referenceGraphReport.includeReferencePaths();
+        }
 
-				referenceGraphReport.performJob();
-			}
-		} catch (RuntimeExceptionUserError reue) {
-			System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + reue.getMessage());
-			System.exit(1);
-		} catch (RuntimeException re) {
-			re.printStackTrace();
-			System.exit(1);
-		} finally {
-			ExecContextHolder.endToolAndUnset();
-		}
-	}
+        referenceGraphReport.performJob();
+      }
+    } catch (RuntimeExceptionUserError reue) {
+      System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + reue.getMessage());
+      System.exit(1);
+    } catch (RuntimeException re) {
+      re.printStackTrace();
+      System.exit(1);
+    } finally {
+      ExecContextHolder.endToolAndUnset();
+    }
+  }
 
-	/**
-	 * Initializes the class.
-	 */
-	private synchronized static void init() {
-		if (!ReferenceGraphReportTool.indInit) {
-			Option option;
+  /**
+   * Initializes the class.
+   */
+  private synchronized static void init() {
+    if (!ReferenceGraphReportTool.indInit) {
+      Option option;
 
-			ReferenceGraphReportTool.options = new Options();
+      ReferenceGraphReportTool.options = new Options();
 
-			option = new Option(null, null);
-			option.setLongOpt("output-format");
-			option.setArgs(1);
-			ReferenceGraphReportTool.options.addOption(option);
+      option = new Option(null, null);
+      option.setLongOpt("output-format");
+      option.setArgs(1);
+      ReferenceGraphReportTool.options.addOption(option);
 
-			option = new Option(null, null);
-			option.setLongOpt("graph");
-			ReferenceGraphReportTool.options.addOption(option);
+      option = new Option(null, null);
+      option.setLongOpt("graph");
+      ReferenceGraphReportTool.options.addOption(option);
 
-			option = new Option(null, null);
-			option.setLongOpt("avoid-redundancy");
-			ReferenceGraphReportTool.options.addOption(option);
+      option = new Option(null, null);
+      option.setLongOpt("avoid-redundancy");
+      ReferenceGraphReportTool.options.addOption(option);
 
-			option = new Option(null, null);
-			option.setLongOpt("module-versions");
-			ReferenceGraphReportTool.options.addOption(option);
+      option = new Option(null, null);
+      option.setLongOpt("module-versions");
+      ReferenceGraphReportTool.options.addOption(option);
 
-			option = new Option(null, null);
-			option.setLongOpt("only-multiple-versions");
-			ReferenceGraphReportTool.options.addOption(option);
+      option = new Option(null, null);
+      option.setLongOpt("only-multiple-versions");
+      ReferenceGraphReportTool.options.addOption(option);
 
-			option = new Option(null, null);
-			option.setLongOpt("only-matched-modules");
-			ReferenceGraphReportTool.options.addOption(option);
+      option = new Option(null, null);
+      option.setLongOpt("only-matched-modules");
+      ReferenceGraphReportTool.options.addOption(option);
 
-			option = new Option(null, null);
-			option.setLongOpt("most-recent-version-in-reference-graph");
-			ReferenceGraphReportTool.options.addOption(option);
+      option = new Option(null, null);
+      option.setLongOpt("most-recent-version-in-reference-graph");
+      ReferenceGraphReportTool.options.addOption(option);
 
-			option = new Option(null, null);
-			option.setLongOpt("most-recent-static-version-in-scm");
-			ReferenceGraphReportTool.options.addOption(option);
+      option = new Option(null, null);
+      option.setLongOpt("most-recent-static-version-in-scm");
+      ReferenceGraphReportTool.options.addOption(option);
 
-			option = new Option(null, null);
-			option.setLongOpt("reference-paths");
-			ReferenceGraphReportTool.options.addOption(option);
+      option = new Option(null, null);
+      option.setLongOpt("reference-paths");
+      ReferenceGraphReportTool.options.addOption(option);
 
-			CliUtil.addStandardOptions(ReferenceGraphReportTool.options);
-			CliUtil.addRootModuleVersionOptions(ReferenceGraphReportTool.options);
+      CliUtil.addStandardOptions(ReferenceGraphReportTool.options);
+      CliUtil.addRootModuleVersionOptions(ReferenceGraphReportTool.options);
 
-			ReferenceGraphReportTool.indInit = true;
-		}
-	}
+      ReferenceGraphReportTool.indInit = true;
+    }
+  }
 
-	/**
-	 * Displays help information.
-	 */
-	private static void help() {
-		try {
-			IOUtils.copy(CliUtil.getLocalizedResourceAsStream(ReferenceGraphReportTool.class, "ReferenceGraphReportToolHelp.txt"),  System.out);
-		} catch (IOException ioe) {
-			throw new RuntimeException(ioe);
-		}
-	}
+  /**
+   * Displays help information.
+   */
+  private static void help() {
+    try {
+      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(ReferenceGraphReportTool.class, "ReferenceGraphReportToolHelp.txt"),  System.out);
+    } catch (IOException ioe) {
+      throw new RuntimeException(ioe);
+    }
+  }
 }

@@ -38,65 +38,65 @@ import org.azyva.dragom.reference.ReferenceGraph;
 
 public class TestJenkinsJobInfoPluginImpl extends SimpleJenkinsJobInfoPluginBaseImpl implements JenkinsJobInfoPlugin {
 
-	public TestJenkinsJobInfoPluginImpl(Module module) {
-		super(module);
-		// TODO Auto-generated constructor stub
-	}
+  public TestJenkinsJobInfoPluginImpl(Module module) {
+    super(module);
+    // TODO Auto-generated constructor stub
+  }
 
-	@Override
-	public String getTemplate() {
-		return "build/ci/template-build-job";
-	}
+  @Override
+  public String getTemplate() {
+    return "build/ci/template-build-job";
+  }
 
-	@Override
-	public Map<String, String> getMapTemplateParam(ReferenceGraph referenceGraph, Version version) {
-		Model model;
-		Map<String, String> mapTemplateParam;
-		ScmPlugin scmPlugin;
-		ArtifactInfoPlugin artifactInfoPlugin;
-		ArtifactGroupId artifactGroupId;
-		List<ReferenceGraph.Referrer> listReferrer;
-		StringBuilder stringBuilder;
+  @Override
+  public Map<String, String> getMapTemplateParam(ReferenceGraph referenceGraph, Version version) {
+    Model model;
+    Map<String, String> mapTemplateParam;
+    ScmPlugin scmPlugin;
+    ArtifactInfoPlugin artifactInfoPlugin;
+    ArtifactGroupId artifactGroupId;
+    List<ReferenceGraph.Referrer> listReferrer;
+    StringBuilder stringBuilder;
 
-		model = ExecContextHolder.get().getModel();
-		mapTemplateParam = new HashMap<String, String>();
+    model = ExecContextHolder.get().getModel();
+    mapTemplateParam = new HashMap<String, String>();
 
-		scmPlugin = this.getModule().getNodePlugin(ScmPlugin.class, null);
+    scmPlugin = this.getModule().getNodePlugin(ScmPlugin.class, null);
 
-		artifactInfoPlugin = this.getModule().getNodePlugin(ArtifactInfoPlugin.class, null);
-		artifactGroupId = artifactInfoPlugin.getSetDefiniteArtifactGroupIdProduced().iterator().next();
+    artifactInfoPlugin = this.getModule().getNodePlugin(ArtifactInfoPlugin.class, null);
+    artifactGroupId = artifactInfoPlugin.getSetDefiniteArtifactGroupIdProduced().iterator().next();
 
-		mapTemplateParam.put("URL_GIT_REPOS", scmPlugin.getScmUrl(null));
-		mapTemplateParam.put("BRANCH", version.getVersion());
-		mapTemplateParam.put("GROUP_ID", artifactGroupId.getGroupId());
-		mapTemplateParam.put("ARTIFACT_ID", artifactGroupId.getArtifactId());
+    mapTemplateParam.put("URL_GIT_REPOS", scmPlugin.getScmUrl(null));
+    mapTemplateParam.put("BRANCH", version.getVersion());
+    mapTemplateParam.put("GROUP_ID", artifactGroupId.getGroupId());
+    mapTemplateParam.put("ARTIFACT_ID", artifactGroupId.getArtifactId());
 
-		listReferrer = referenceGraph.getListReferrer(new ModuleVersion(this.getModule().getNodePath(), version));
-		stringBuilder = new StringBuilder();
+    listReferrer = referenceGraph.getListReferrer(new ModuleVersion(this.getModule().getNodePath(), version));
+    stringBuilder = new StringBuilder();
 
-		for (ReferenceGraph.Referrer referrer: listReferrer) {
-			Module module;
-			JenkinsJobInfoPlugin jenkinsJobInfoPlugin;
+    for (ReferenceGraph.Referrer referrer: listReferrer) {
+      Module module;
+      JenkinsJobInfoPlugin jenkinsJobInfoPlugin;
 
-			module = model.getModule(referrer.getModuleVersion().getNodePath());
-			jenkinsJobInfoPlugin = module.getNodePlugin(JenkinsJobInfoPlugin.class, null);
+      module = model.getModule(referrer.getModuleVersion().getNodePath());
+      jenkinsJobInfoPlugin = module.getNodePlugin(JenkinsJobInfoPlugin.class, null);
 
-			if (stringBuilder.length() != 0) {
-				stringBuilder.append(',');
-			}
+      if (stringBuilder.length() != 0) {
+        stringBuilder.append(',');
+      }
 
-			stringBuilder.append(jenkinsJobInfoPlugin.getJobFullName(referrer.getModuleVersion().getVersion()));
-		}
+      stringBuilder.append(jenkinsJobInfoPlugin.getJobFullName(referrer.getModuleVersion().getVersion()));
+    }
 
-		mapTemplateParam.put("DOWNSTREAM_JOBS", stringBuilder.toString());
+    mapTemplateParam.put("DOWNSTREAM_JOBS", stringBuilder.toString());
 
-		return mapTemplateParam;
-	}
+    return mapTemplateParam;
+  }
 
-	@Override
-	public Reader getReaderConfig(ReferenceGraph referenceGraph, Version version) {
-		return null;
-	}
+  @Override
+  public Reader getReaderConfig(ReferenceGraph referenceGraph, Version version) {
+    return null;
+  }
 }
 
 /*

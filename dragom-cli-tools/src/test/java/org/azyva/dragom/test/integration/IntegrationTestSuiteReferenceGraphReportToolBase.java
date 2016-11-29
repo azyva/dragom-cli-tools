@@ -34,191 +34,191 @@ import org.azyva.dragom.tool.RootManagerTool;
 
 
 public class IntegrationTestSuiteReferenceGraphReportToolBase {
-	/*********************************************************************************
-	 * Tests ReferenceGraphReportTool.
-	 * <p>
-	 * Basic tests.
-	 *********************************************************************************/
-	public static void testReferenceGraphReportToolBase() {
-		Path pathModel;
-		InputStream inputStream;
-		ZipInputStream zipInputStream;
-		ZipEntry zipEntry;
+  /*********************************************************************************
+   * Tests ReferenceGraphReportTool.
+   * <p>
+   * Basic tests.
+   *********************************************************************************/
+  public static void testReferenceGraphReportToolBase() {
+    Path pathModel;
+    InputStream inputStream;
+    ZipInputStream zipInputStream;
+    ZipEntry zipEntry;
 
-		try {
-			IntegrationTestSuite.printTestCategoryHeader("ReferenceGraphReportTool | Basic tests");
+    try {
+      IntegrationTestSuite.printTestCategoryHeader("ReferenceGraphReportTool | Basic tests");
 
-			IntegrationTestSuite.resetTestWorkspace();
+      IntegrationTestSuite.resetTestWorkspace();
 
-			try {
-				pathModel = IntegrationTestSuite.pathTestWorkspace.resolve("basic-model.xml");
-				inputStream = IntegrationTestSuite.class.getResourceAsStream("/basic-model.xml");
-				Files.copy(inputStream, pathModel, StandardCopyOption.REPLACE_EXISTING);
-				inputStream.close();
+      try {
+        pathModel = IntegrationTestSuite.pathTestWorkspace.resolve("basic-model.xml");
+        inputStream = IntegrationTestSuite.class.getResourceAsStream("/basic-model.xml");
+        Files.copy(inputStream, pathModel, StandardCopyOption.REPLACE_EXISTING);
+        inputStream.close();
 
-				inputStream = IntegrationTestSuite.class.getResourceAsStream("/test-git-repos.zip");
-				zipInputStream = new ZipInputStream(inputStream);
+        inputStream = IntegrationTestSuite.class.getResourceAsStream("/test-git-repos.zip");
+        zipInputStream = new ZipInputStream(inputStream);
 
-				while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-					Path path;
+        while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+          Path path;
 
-					path = IntegrationTestSuite.pathTestWorkspace.resolve(zipEntry.getName());
+          path = IntegrationTestSuite.pathTestWorkspace.resolve(zipEntry.getName());
 
-					if (zipEntry.isDirectory()) {
-						path.toFile().mkdirs();
-					} else {
-						OutputStream outputStream;
-						final int chunk = 1024;
-						byte[] arrayByteBuffer;
-						long size;
-						int sizeRead;
+          if (zipEntry.isDirectory()) {
+            path.toFile().mkdirs();
+          } else {
+            OutputStream outputStream;
+            final int chunk = 1024;
+            byte[] arrayByteBuffer;
+            long size;
+            int sizeRead;
 
-						outputStream = new FileOutputStream(path.toFile());
-						arrayByteBuffer = new byte[chunk];
-						size = zipEntry.getSize();
+            outputStream = new FileOutputStream(path.toFile());
+            arrayByteBuffer = new byte[chunk];
+            size = zipEntry.getSize();
 
-						while (size > 0) {
-							sizeRead = (int)Math.min(chunk,  size);
-							sizeRead = zipInputStream.read(arrayByteBuffer, 0, sizeRead);
-							outputStream.write(arrayByteBuffer, 0, sizeRead);
-							size -= sizeRead;
-						}
+            while (size > 0) {
+              sizeRead = (int)Math.min(chunk,  size);
+              sizeRead = zipInputStream.read(arrayByteBuffer, 0, sizeRead);
+              outputStream.write(arrayByteBuffer, 0, sizeRead);
+              size -= sizeRead;
+            }
 
-						outputStream.close();
-					}
-				}
+            outputStream.close();
+          }
+        }
 
-				zipInputStream.close();
-			} catch (IOException ioe) {
-				throw new RuntimeException(ioe);
-			}
+        zipInputStream.close();
+      } catch (IOException ioe) {
+        throw new RuntimeException(ioe);
+      }
 
-			System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
-			System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
-			System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
+      System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
+      System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
+      System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool");
-			try {
-				ReferenceGraphReportTool.main(new String[] {});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool");
+      try {
+        ReferenceGraphReportTool.main(new String[] {});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --help");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--help"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --help");
+      try {
+        ReferenceGraphReportTool.main(new String[] {"--help"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 0);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool dummy1 dummy2");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"dummy1", "dummy2"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool dummy1 dummy2");
+      try {
+        ReferenceGraphReportTool.main(new String[] {"dummy1", "dummy2"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --module-versions --avoid-redundancy dummy");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--module-versions", "--avoid-redundancy", "dummy"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --module-versions --avoid-redundancy dummy");
+      try {
+        ReferenceGraphReportTool.main(new String[] {"--module-versions", "--avoid-redundancy", "dummy"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --only-multiple-versions dummy");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--graph", "--only-multiple-versions", "dummy"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --only-multiple-versions dummy");
+      try {
+        ReferenceGraphReportTool.main(new String[] {"--graph", "--only-multiple-versions", "dummy"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --only-matched-modules dummy");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--graph", "--only-matched-modules", "dummy"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --only-matched-modules dummy");
+      try {
+        ReferenceGraphReportTool.main(new String[] {"--graph", "--only-matched-modules", "dummy"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --most-recent-version-in-reference-graph dummy");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--graph", "--most-recent-version-in-reference-graph", "dummy"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --most-recent-version-in-reference-graph dummy");
+      try {
+        ReferenceGraphReportTool.main(new String[] {"--graph", "--most-recent-version-in-reference-graph", "dummy"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --most-recent-static-version-in-scm dummy");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--graph", "--most-recent-static-version-in-scm", "dummy"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --most-recent-static-version-in-scm dummy");
+      try {
+        ReferenceGraphReportTool.main(new String[] {"--graph", "--most-recent-static-version-in-scm", "dummy"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --reference-paths dummy");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--graph", "--reference-paths", "dummy"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --graph --reference-paths dummy");
+      try {
+        ReferenceGraphReportTool.main(new String[] {"--graph", "--reference-paths", "dummy"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --module-versions --only-multiple-versions --only-matched-modules dummy");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--module-versions", "--only-multiple-versions", "--only-matched-modules", "dummy"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 1);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --module-versions --only-multiple-versions --only-matched-modules dummy");
+      try {
+        ReferenceGraphReportTool.main(new String[] {"--module-versions", "--only-multiple-versions", "--only-matched-modules", "dummy"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 1);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/develop-project1");
-			try {
-				RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a:D/develop-project1"});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/develop-project1");
+      try {
+        RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a:D/develop-project1"});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 0);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-			// ###############################################################################
+      // ###############################################################################
 
-			IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph reference-graph-report.txt");
-			try {
-				ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report.txt").toString()});
-			} catch (Exception e) {
-				IntegrationTestSuite.validateExitException(e, 0);
-			}
-			IntegrationTestSuite.printTestFooter();
+      IntegrationTestSuite.printTestHeader("ReferenceGraphReportTool --workspace=workspace --reference-path-matcher=** --graph reference-graph-report.txt");
+      try {
+        ReferenceGraphReportTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=**", "--graph", IntegrationTestSuite.pathTestWorkspace.resolve("reference-graph-report.txt").toString()});
+      } catch (Exception e) {
+        IntegrationTestSuite.validateExitException(e, 0);
+      }
+      IntegrationTestSuite.printTestFooter();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }
