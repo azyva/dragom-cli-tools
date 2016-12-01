@@ -111,7 +111,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
       // ###############################################################################
 
       // Response "N" to "do you want to continue non-static versions in reference path"
-      IntegrationTestSuite.testInputStream.write("N\n");
+      IntegrationTestSuite.inputStreamDouble.write("N\n");
 
       System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "hotfix");
 
@@ -136,16 +136,16 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
       // ###############################################################################
 
       // Response "D/hotfix_hotfix1" to "to which version do you want to switch"
-      IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix1\n");
+      IntegrationTestSuite.inputStreamDouble.write("D/hotfix_hotfix1\n");
 
       // Response "Y" to "do you want to automatically reuse dynamic version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue create version"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to continue update parent"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Framework/framework");
       try {
@@ -178,16 +178,16 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
       // ###############################################################################
 
       // Response "D/hotfix_hotfix2" to "to which version do you want to switch"
-      IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix2\n");
+      IntegrationTestSuite.inputStreamDouble.write("D/hotfix_hotfix2\n");
 
       // Response "Y" to "do you want to automatically reuse dynamic version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue create version"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to continue update parent"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Framework/framework (user workspace directories)");
       try {
@@ -200,7 +200,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
       // ###############################################################################
 
       // Response "A" to "do you want to delete".
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-all");
       try {
@@ -223,13 +223,13 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
       // ###############################################################################
 
       // Response "D/hotfix_hotfix3" to "to which version do you want to switch"
-      IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix3\n");
+      IntegrationTestSuite.inputStreamDouble.write("D/hotfix_hotfix3\n");
 
       // Response "Y" to "do you want to automatically reuse dynamic version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue create version"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b");
       try {
@@ -242,22 +242,22 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
       // ###############################################################################
 
       // Response "A" to "do you want to continue non-static versions in reference path"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "D/hotfix_hotfix3" to "to which version do you want to switch"
-      IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix3\n");
+      IntegrationTestSuite.inputStreamDouble.write("D/hotfix_hotfix3\n");
 
       // Response "Y" to "do you want to automatically reuse dynamic version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue create version"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to continue use current hotfix version"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to continue update parent"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Framework/framework (user workspace directories)");
       try {
@@ -280,13 +280,13 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
       // ###############################################################################
 
       // Response "D/hotfix_hotfix3" to "to which version do you want to switch"
-      IntegrationTestSuite.testInputStream.write("D/hotfix_hotfix1\n");
+      IntegrationTestSuite.inputStreamDouble.write("D/hotfix_hotfix1\n");
 
       // Response "Y" to "do you want to automatically reuse dynamic version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue switch version"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b (existing hotfix version)");
       try {

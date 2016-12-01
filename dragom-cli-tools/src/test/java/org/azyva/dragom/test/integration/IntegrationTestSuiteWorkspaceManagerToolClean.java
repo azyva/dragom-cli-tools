@@ -121,7 +121,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
       // ###############################################################################
 
       // Response "B" (abort) to "do you want to delete".
-      IntegrationTestSuite.testInputStream.write("B\n");
+      IntegrationTestSuite.inputStreamDouble.write("B\n");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-all");
       try {
@@ -134,13 +134,13 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
       // ###############################################################################
 
       // Response "Y" to "do you want to delete".
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "N" to "do you want to delete".
-      IntegrationTestSuite.testInputStream.write("N\n");
+      IntegrationTestSuite.inputStreamDouble.write("N\n");
 
       // Response "A" to "do you want to delete".
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-all");
       try {
@@ -173,10 +173,10 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
       // ###############################################################################
 
       // Response "A" to "do you want to delete".
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to delete with unsync changes".
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-all");
       try {
@@ -229,7 +229,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
       // ###############################################################################
 
       // Response "A" to "do you want to delete".
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-non-root-reachable");
       try {
@@ -272,10 +272,10 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
       // ###############################################################################
 
       // Response "A" to "do you want to delete".
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to delete with unsync changes".
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace clean-non-root-reachable");
       try {
@@ -298,7 +298,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
       // ###############################################################################
 
       // Response "A" to "do you want to delete".
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-module-version Domain1/app-a:D/develop-project1");
       try {
@@ -321,7 +321,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
       // ###############################################################################
 
       // Response "A" to "do you want to delete with unsync changes".
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-module-version Domain1/app-a-model-intf");
       try {
@@ -344,7 +344,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
       // ###############################################################################
 
       // Response "A" to "do you want to delete".
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-dir app-a");
       try {
@@ -367,7 +367,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolClean {
       // ###############################################################################
 
       // Response "A" to "do you want to delete with unsync changes".
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace remove-dir app-a-model-intf");
       try {

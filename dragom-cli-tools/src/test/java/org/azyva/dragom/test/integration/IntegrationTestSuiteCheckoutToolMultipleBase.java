@@ -208,7 +208,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
       // ###############################################################################
 
       // Response "N" to "do you want to update".
-      IntegrationTestSuite.testInputStream.write("N\n");
+      IntegrationTestSuite.inputStreamDouble.write("N\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
       try {
@@ -221,7 +221,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleBase {
       // ###############################################################################
 
       // Default response to "do you want to update" (YA).
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
       try {

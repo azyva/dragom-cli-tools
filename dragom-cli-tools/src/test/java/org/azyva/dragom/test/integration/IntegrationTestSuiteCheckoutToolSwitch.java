@@ -122,7 +122,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
       // ###############################################################################
 
       // Default response to "do you want to switch" (YA).
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a:D/new-branch --reference-path-matcher=/Domain1/app-a");
       try {
@@ -144,7 +144,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
       IntegrationTestSuite.printTestFooter();
 
       // Default response to "do you want to continue" (Y).
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       // ###############################################################################
 
@@ -169,7 +169,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
       // ###############################################################################
 
       // Response NA to "do you want to switch".
-      IntegrationTestSuite.testInputStream.write("NA\n");
+      IntegrationTestSuite.inputStreamDouble.write("NA\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a:D/master --reference-path-matcher=/Domain1/app-a");
       try {
@@ -200,7 +200,7 @@ public class IntegrationTestSuiteCheckoutToolSwitch {
       // ###############################################################################
 
       // Default response to "do you want to switch" (YA).
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain1/app-a:D/master --reference-path-matcher=/Domain1/app-a");
       try {

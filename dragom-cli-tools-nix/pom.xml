@@ -21,7 +21,7 @@ along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
   <parent>
     <groupId>org.azyva.dragom</groupId>
     <artifactId>dragom-cli-tools-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>master-SNAPSHOT</version>
   </parent>
   <artifactId>dragom-cli-tools-nix</artifactId>
   <packaging>pom</packaging>
@@ -44,13 +44,28 @@ along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
     <dependency>
       <groupId>org.azyva.dragom</groupId>
       <artifactId>dragom-cli-tools</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
+  <name>Dragom CLI Tools - Windows</name>
+  <description>Dragom framework CLI tools - *nix commands and distribution - See aggregator parent dragom-cli-tools-parent for inherited settings</description>
 </project>

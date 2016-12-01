@@ -133,16 +133,16 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
       System.setProperty("org.azyva.dragom.runtime-property.IND_ALLOW_USER_SPECIFIED_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "true");
 
       // Response "uniform" to "specify plugin ID".
-      IntegrationTestSuite.testInputStream.write("uniform\n");
+      IntegrationTestSuite.inputStreamDouble.write("uniform\n");
 
       // Response "Y" to "do you want to reuse plugin ID"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "N" to "process already dynamic versions"
-      IntegrationTestSuite.testInputStream.write("N\n");
+      IntegrationTestSuite.inputStreamDouble.write("N\n");
 
       // Default response to "do you want to continue" (Y)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a (allow user to specify uniform plugin ID; but do not process already dynamic version)");
       try {
@@ -157,10 +157,10 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
       System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
 
       // Response "N" to "process already dynamic versions"
-      IntegrationTestSuite.testInputStream.write("N\n");
+      IntegrationTestSuite.inputStreamDouble.write("N\n");
 
       // Default response to "do you want to continue" (Y)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a (uniform plugin ID specified explicitly; do not process already dynamic version)");
       try {
@@ -173,16 +173,16 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
       // ###############################################################################
 
       // Default response to "process already dynamic versions" (Y)
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "D/master" to "to which version do you want to switch"
-      IntegrationTestSuite.testInputStream.write("D/master\n");
+      IntegrationTestSuite.inputStreamDouble.write("D/master\n");
 
       // Default response to "do you want to automatically reuse dynamic version" (A)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       // Default response to "do you want to continue" (Y)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a (process already dynamic version, but select same");
       try {
@@ -195,16 +195,16 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
       // ###############################################################################
 
       // Default response to "process already dynamic versions" (Y)
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "D/develop-project1" to "to which version do you want to switch"
-      IntegrationTestSuite.testInputStream.write("D/develop-project1\n");
+      IntegrationTestSuite.inputStreamDouble.write("D/develop-project1\n");
 
       // Default response to "do you want to automatically reuse dynamic version" (A)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       // Default response to "do you want to continue" (Y)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a (process already dynamic version, specify existing D/develop-project1");
       try {
@@ -227,22 +227,22 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
       // ###############################################################################
 
       // Default response to "process already dynamic versions" (Y)
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "D/develop-project2" to "to which version do you want to switch"
-      IntegrationTestSuite.testInputStream.write("D/develop-project2\n");
+      IntegrationTestSuite.inputStreamDouble.write("D/develop-project2\n");
 
       // Default response to "do you want to automatically reuse dynamic version" (A)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       // Default response to "which base version" (D/master)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       // Default response to "do you want to automatically reuse base version" (A)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       // Default response to "do you want to continue" (Y)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a (process already dynamic version, specify non-existing D/develop-project2 based on D/master");
       try {

@@ -111,7 +111,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
       // ###############################################################################
 
       // Response "Y" to "do you want to switch".
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain2/app-b:D/develop-project1 --reference-path-matcher=**");
       try {
@@ -133,7 +133,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
       IntegrationTestSuite.printTestFooter();
 
       // Default response to "do you want to continue" (Y).
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       // ###############################################################################
 
@@ -158,7 +158,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
       // ###############################################################################
 
       // Response NA to "do you want to switch".
-      IntegrationTestSuite.testInputStream.write("NA\n");
+      IntegrationTestSuite.inputStreamDouble.write("NA\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain2/app-b:D/master --reference-path-matcher=**");
       try {
@@ -189,7 +189,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
       // ###############################################################################
 
       // Default response to "do you want to switch" (YA).
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --root-module-version=Domain2/app-b:D/master --reference-path-matcher=**");
       try {

@@ -42,7 +42,7 @@ import org.azyva.dragom.util.Util;
  * <p>
  * Each tool becomes a command passed as the first argument to this meta-tool.
  * This command is used to lookup the details for invoking the corresponding tool
- * from system properties after calling {@link Util#setDragomSystemProperties}.
+ * from system properties after calling {@link Util#applyDragomSystemProperties}.
  * <p>
  * This meta-tool also takes care of displaying help information about a tool
  * using the special "help" command, as well as general help information when no
@@ -196,7 +196,7 @@ public class DragomToolInvoker {
    * Invokes a tool.
    *
    * @param toolInvocationInfo ToolInvocationInfo.
-   * @param args Arguments.
+   * @param arrayArgs Array of arguments.
    */
   private static void invokeTool(ToolInvocationInfo toolInvocationInfo, String[] arrayArgs) {
     Method method;

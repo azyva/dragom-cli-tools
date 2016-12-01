@@ -40,7 +40,7 @@ import org.azyva.dragom.tool.ExecContextManagerTool;
 
 public class IntegrationTestSuite {
   public static Path pathTestWorkspace;
-  public static TestInputStream testInputStream;
+  public static InputStreamDouble inputStreamDouble;
   public static Git git;
 
   public static void main(String[] args) {
@@ -51,8 +51,8 @@ public class IntegrationTestSuite {
 
     EclipseSynchronizeErrOut.fix();
 
-    IntegrationTestSuite.testInputStream = new TestInputStream();
-    System.setIn(IntegrationTestSuite.testInputStream);
+    IntegrationTestSuite.inputStreamDouble = new InputStreamDouble();
+    System.setIn(IntegrationTestSuite.inputStreamDouble);
 
     if (args.length == 0) {
       IntegrationTestSuite.pathTestWorkspace = Paths.get(System.getProperty("user.dir")).resolve("test-workspace");

@@ -135,7 +135,7 @@ public class IntegrationTestSuiteCheckoutToolConflict {
       // ###############################################################################
 
       // Default response to "do you want to update" (YA).
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
       try {
@@ -165,7 +165,7 @@ public class IntegrationTestSuiteCheckoutToolConflict {
       // ###############################################################################
 
       // Default response to "do you want to update" (YA).
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a");
       try {

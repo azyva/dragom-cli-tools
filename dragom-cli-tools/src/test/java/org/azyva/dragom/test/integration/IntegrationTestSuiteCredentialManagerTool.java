@@ -177,7 +177,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
       // ###############################################################################
 
       // Response "password" to "input password"
-      IntegrationTestSuite.testInputStream.write("password\n");
+      IntegrationTestSuite.inputStreamDouble.write("password\n");
 
       IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-password http://jsmith@acme.com/git");
       try {
@@ -210,7 +210,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
       // ###############################################################################
 
       // Response "password" to "input password"
-      IntegrationTestSuite.testInputStream.write("password\n");
+      IntegrationTestSuite.inputStreamDouble.write("password\n");
 
       IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-password http://jsmith@acme.com/git jsmith");
       try {
@@ -263,7 +263,7 @@ public class IntegrationTestSuiteCredentialManagerTool {
       // ###############################################################################
 
       // Response "password" to "input password"
-      IntegrationTestSuite.testInputStream.write("password\n");
+      IntegrationTestSuite.inputStreamDouble.write("password\n");
 
       IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-password http://acme.com/git jsmith");
       try {
@@ -276,10 +276,10 @@ public class IntegrationTestSuiteCredentialManagerTool {
       // ###############################################################################
 
       // Response "jsmith" to "which user"
-      IntegrationTestSuite.testInputStream.write("jsmith\n");
+      IntegrationTestSuite.inputStreamDouble.write("jsmith\n");
 
       // Response "password" to "input password"
-      IntegrationTestSuite.testInputStream.write("password\n");
+      IntegrationTestSuite.inputStreamDouble.write("password\n");
 
       IntegrationTestSuite.printTestHeader("CredentialManagerTool --workspace=workspace set-password http://acme.com/git");
       try {

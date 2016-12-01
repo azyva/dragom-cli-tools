@@ -144,10 +144,10 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
       JenkinsClientTestDouble.createInitialFolder("build/ci/projects");
 
       // Response "incorrect-password" to "enter password"
-      IntegrationTestSuite.testInputStream.write("incorrect-password\n");
+      IntegrationTestSuite.inputStreamDouble.write("incorrect-password\n");
 
       // Response "correct-password" to "enter password"
-      IntegrationTestSuite.testInputStream.write("correct-password\n");
+      IntegrationTestSuite.inputStreamDouble.write("correct-password\n");
 
       IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --reference-path-matcher=/Domain2/app-b:D/develop-project1");
 

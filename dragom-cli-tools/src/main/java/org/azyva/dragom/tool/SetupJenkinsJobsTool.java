@@ -34,11 +34,12 @@ import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.job.SetupJenkinsJobs;
+import org.azyva.dragom.model.ModuleVersion;
 import org.azyva.dragom.reference.ReferenceGraph;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 
 /**
- * Tool for setting up jobs in Jenkins based on the {@link ModuleVersion's} in a
+ * Tool for setting up jobs in Jenkins based on the {@link ModuleVersion}'s in a
  * {@link ReferenceGraph}.
  * <p>
  * See the help information displayed by the SetupJenkinsJobsTool.help method.

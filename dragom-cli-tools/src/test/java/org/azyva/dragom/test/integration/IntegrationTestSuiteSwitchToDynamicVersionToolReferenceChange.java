@@ -134,22 +134,22 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolReferenceChange {
       System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project2");
 
       // Default response to "which base version" (D/master)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       // Response "Y" to "do you want to automatically reuse base version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (creating version)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to continue (update parent with reference change)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to continue (update parent)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "Y" to "process dynamic versions"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=**->/Domain2/app-b-model->/Framework/framework (switch to D/develop-project2, system workspace directories)");
       try {
@@ -184,22 +184,22 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolReferenceChange {
       System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project3");
 
       // Default response to "which base version" (D/master)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       // Response "Y" to "do you want to automatically reuse base version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (creating version)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to continue (update parent with reference change)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to continue (update parent)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "Y" to "process dynamic versions"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=**->/Domain2/app-b-model->/Framework/framework (switch to D/develop-project3, user workspace directories)");
       try {

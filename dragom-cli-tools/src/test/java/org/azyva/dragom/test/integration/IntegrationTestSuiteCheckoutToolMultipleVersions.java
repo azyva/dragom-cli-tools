@@ -121,7 +121,7 @@ public class IntegrationTestSuiteCheckoutToolMultipleVersions {
       // ###############################################################################
 
       // Response "1" to "specify version to keep".
-      IntegrationTestSuite.testInputStream.write("1\n");
+      IntegrationTestSuite.inputStreamDouble.write("1\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
       try {
@@ -134,10 +134,10 @@ public class IntegrationTestSuiteCheckoutToolMultipleVersions {
       // ###############################################################################
 
       // Response "2" to "specify version to keep".
-      IntegrationTestSuite.testInputStream.write("2\n");
+      IntegrationTestSuite.inputStreamDouble.write("2\n");
 
       // Default response to "do you want to switch" (YA).
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
       try {
@@ -150,10 +150,10 @@ public class IntegrationTestSuiteCheckoutToolMultipleVersions {
       // ###############################################################################
 
       // Response "S/v-1.0" to "specify version to keep".
-      IntegrationTestSuite.testInputStream.write("S/v-1.0\n");
+      IntegrationTestSuite.inputStreamDouble.write("S/v-1.0\n");
 
       // Default response to "do you want to switch" (YA).
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Checkout CheckoutToolHelp.txt --workspace=workspace --reference-path-matcher=**");
       try {

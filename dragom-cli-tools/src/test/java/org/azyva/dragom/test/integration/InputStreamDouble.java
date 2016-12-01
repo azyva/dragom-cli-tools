@@ -24,10 +24,10 @@ import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-class TestInputStream extends InputStream {
+class InputStreamDouble extends InputStream {
   Deque<Integer> deque;
 
-  public TestInputStream() {
+  public InputStreamDouble() {
     this.deque = new ArrayDeque<Integer>();
   }
 

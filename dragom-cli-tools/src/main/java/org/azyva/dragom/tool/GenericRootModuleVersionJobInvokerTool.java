@@ -50,10 +50,10 @@ import org.azyva.dragom.util.RuntimeExceptionUserError;
  * This tool first expects the following arguments which allows it to identify the
  * RootModuleVersionJobAbstractImpl subclass to use and provide an appropriate
  * help file:
- * <p>
- * <li>Fully qualified name of the RootModuleVersionJobAbstractImpl subclass</li>
- * <li>Text resource for the help file</li>
- * <p>
+ * <ul>
+ * <li>Fully qualified name of the RootModuleVersionJobAbstractImpl subclass
+ * <li>Text resource for the help file
+ * </ul>
  * These arguments are not validated as if they were specified by the user. They
  * are expected to be specified by a script that invokes the tool.
  * <p>
@@ -159,6 +159,8 @@ public class GenericRootModuleVersionJobInvokerTool {
 
   /**
    * Displays help information.
+   *
+   * @param resource Base name of the resource containing the help file.
    */
   private static void help(String resource) {
     try {

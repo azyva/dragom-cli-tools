@@ -290,12 +290,12 @@ public final class CliUtil {
    * whether user properties and tool properties are supported.
    * <p>
    * The following Option's are also added:
-   * <p>
-   * <li>Workspace</li>
-   * <li>Specifying whether confirmation is required</li>
-   * <li>Specifying whether confirmation is required for a particular context.</li>
-   * <li>Help</li>
-   * <p>
+   * <ul>
+   * <li>Workspace
+   * <li>Specifying whether confirmation is required
+   * <li>Specifying whether confirmation is required for a particular context
+   * <li>Help
+   * </ul>
    * Used by tools when initializing Options.
    *
    * @param options Options.
@@ -349,10 +349,10 @@ public final class CliUtil {
    * Utility method to add Option's related to the root {@link ModuleVersion}.
    * <p>
    * The following Option's are added:
-   * <p>
-   * <li>Root {@link ModuleVersion}</li>
-   * <li>{@link ReferencePathMatcherByElement}</li>
-   * <p>
+   * <ul>
+   * <li>Root {@link ModuleVersion}
+   * <li>{@link ReferencePathMatcherByElement}
+   * </ul>
    * Used by tools that use root {@link ModuleVersion}'s when initializing Options.
    *
    * @param options Options.
@@ -391,37 +391,37 @@ public final class CliUtil {
    * <p>
    * A user service implementation is supported by differentiating between workspace
    * initialization Properties passed to {@link ExecContextFactory#getExecContext}
-   * and tool initialization Properties passed to {@link
-   * and {@link ToolLifeCycleExecContext#startTool}.
+   * and tool initialization Properties passed to
+   * {@link ToolLifeCycleExecContext#startTool}.
    * <p>
    * Workspace initialization Properties are constructed in the following way:
-   * <p>
+   * <ul>
    * <li>Dragom properties are merged into System properties using
-   *     {@link Util#setDragomSystemProperties}. System properties take precedence
-   *     over Dragom properties;</li>
+   *     {@link Util#applyDragomSystemProperties}. System properties take precedence
+   *     over Dragom properties;
    * <li>Initialize an empty Properties with system Properties as defaults. This
    *     Properties when fully initialized will become the workspace initialization
-   *     Properties;</li>
+   *     Properties;
    * <li>If the org.azyva.IndUserProperties system property is defined, load the
    *     Properties defined in the properties file specified by the
    *     user-properties command line option. If not defined, use the properties
    *     file specified by the org.azyva.DefaultUserProperties system property. If
    *     not defined or if the properties file does not exist, do not load the
-   *     Properties;</li>
-   * <li>The workspace directory is added to the Properties created above.</li>
-   * <p>
+   *     Properties;
+   * <li>The workspace directory is added to the Properties created above.
+   * </ul>
    * The name of the user-properties command line option can be overridden with the
    * org.azyva.dragom.UserPropertiesCommandLineOption system property.
    * <p>
    * Tool initialization Properties are constructed in the following way (if indSet):
-   * <p>
+   * <ul>
    * <li>Initialize an empty Properties. This Properties when fully initialized will
-   *     become the tool initialization Properties;</li>
+   *     become the tool initialization Properties;
    * <li>If the org.azyva.IndToolProperties system property is defined, load the
    *     Properties defined in the Properties file specified by the
    *     tool-properties command line option. If not defined or if the properties
-   *     file does not exist, do not load the Properties.</li>
-   * <p>
+   *     file does not exist, do not load the Properties.
+   * </ul>
    * The name of the tool-properties command line option can be overridden with the
    * org.azyva.dragom.ToolPropertiesCommandLineOption system property.
    * <p>
@@ -607,7 +607,7 @@ public final class CliUtil {
   }
 
   /**
-   * Helper method to return the List of root {@list ModuleVersion}'s used by many
+   * Helper method to return the List of root {@link ModuleVersion}'s used by many
    * tools.
    * <p>
    * If the command line specifies the --root-module-version option, no root

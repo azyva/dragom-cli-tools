@@ -133,16 +133,16 @@ public class IntegrationTestSuiteReleaseToolBase {
       System.setProperty("org.azyva.dragom.runtime-property.IND_ALLOW_USER_SPECIFIED_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectStaticVersionPlugin", "true");
 
       // Response "uniform" to "specify plugin ID".
-      IntegrationTestSuite.testInputStream.write("uniform\n");
+      IntegrationTestSuite.inputStreamDouble.write("uniform\n");
 
       // Response "Y" to "do you want to reuse plugin ID"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "Y" to "do you want to reuse existing static version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "Y" to "do you want to automatically apply that response always reuse existing static version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a (allow user to specify uniform plugin ID; reuse existing equivalent static version)");
       try {
@@ -167,22 +167,22 @@ public class IntegrationTestSuiteReleaseToolBase {
       System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectStaticVersionPlugin", "uniform");
 
       // Response "N" to "do you want to reuse existing static version"
-      IntegrationTestSuite.testInputStream.write("N\n");
+      IntegrationTestSuite.inputStreamDouble.write("N\n");
 
       // Response "Y" to "do you want to automatically apply that response always reuse existing static version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "S/v-4.0" to "specify prefix"
-      IntegrationTestSuite.testInputStream.write("S/v-4.0\n");
+      IntegrationTestSuite.inputStreamDouble.write("S/v-4.0\n");
 
       // Response "Y" to "do you want to reuse prefix"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "Y" to "do you want to continue creating static version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a (uniform plugin ID specified explicitly; use non-existing prefix)");
       try {
@@ -205,22 +205,22 @@ public class IntegrationTestSuiteReleaseToolBase {
       // ###############################################################################
 
       // Response "N" to "do you want to reuse existing static version"
-      IntegrationTestSuite.testInputStream.write("N\n");
+      IntegrationTestSuite.inputStreamDouble.write("N\n");
 
       // Response "Y" to "do you want to automatically apply that response always reuse existing static version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "S/v-3.2" to "specify prefix"
-      IntegrationTestSuite.testInputStream.write("S/v-3.2\n");
+      IntegrationTestSuite.inputStreamDouble.write("S/v-3.2\n");
 
       // Response "Y" to "do you want to reuse prefix"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "Y" to "do you want to continue creating static version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a (use existing prefix)");
       try {
@@ -245,4 +245,4 @@ specific prefix and other specific stuff.
 build unsuccessful
 user workspace directory
 */
-Tests with project code
+//*************************Tests with project code

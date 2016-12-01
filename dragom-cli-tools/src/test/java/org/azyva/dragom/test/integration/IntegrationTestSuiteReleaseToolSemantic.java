@@ -115,13 +115,13 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       // repository.
 
       // Response "Y" to "do you want to continue creating static version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "Y" to "do you want to continue update parent"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model");
       try {
@@ -137,10 +137,10 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       // repository.
 
       // Response "Y" to "do you want to continue creating static version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b");
       try {
@@ -159,16 +159,16 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
 
       // Response "D/develop-project1" to "to which version do you want to switch"
-      IntegrationTestSuite.testInputStream.write("D/develop-project1\n");
+      IntegrationTestSuite.inputStreamDouble.write("D/develop-project1\n");
 
       // Response "Y" to "do you want to automatically reuse dynamic version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (switching)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to continue (updating parent)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model");
       try {
@@ -184,19 +184,19 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       // using it.
 
       // Response "N" to "do you want to reuse existing static version"
-      IntegrationTestSuite.testInputStream.write("N\n");
+      IntegrationTestSuite.inputStreamDouble.write("N\n");
 
       // Response "Y" to "do you want to automatically apply that response always reuse existing static version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue creating static version"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (updating parent)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b (expect to use next revision)");
       try {
@@ -213,27 +213,27 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       // above.
 
       // Response "D/develop-project2" to "to which version do you want to switch"
-      IntegrationTestSuite.testInputStream.write("D/develop-project2\n");
+      IntegrationTestSuite.inputStreamDouble.write("D/develop-project2\n");
 
       // Response "Y" to "do you want to automatically reuse dynamic version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Default response to "from which base version" (D/master)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       // Response "Y" to "do you want to automatically reuse base version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (switching)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Since base version is D/master and develop-project1 was not merged into master,
       // the reference to app-b-model is not consistent. But it does not matter.
       // Response "A" to "do you want to continue (even if version different)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to continue (updating parent)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model");
       try {
@@ -246,25 +246,25 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       // ###############################################################################
 
       // Response "MAJOR" to "which version type"
-      IntegrationTestSuite.testInputStream.write("MAJOR\n");
+      IntegrationTestSuite.inputStreamDouble.write("MAJOR\n");
 
       // Response "N" to "reuse version type"
-      IntegrationTestSuite.testInputStream.write("N\n");
+      IntegrationTestSuite.inputStreamDouble.write("N\n");
 
       // Response "A" to "do you want to continue creating static version"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (updating parent)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "I" to "which version type"
-      IntegrationTestSuite.testInputStream.write("I\n");
+      IntegrationTestSuite.inputStreamDouble.write("I\n");
 
       // Response "Y" to "reuse version type"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b (manual MAJOR for app-b-model, manual MINOR for app-b)");
       try {
@@ -281,27 +281,27 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       // above.
 
       // Response "D/develop-project3" to "to which version do you want to switch"
-      IntegrationTestSuite.testInputStream.write("D/develop-project3\n");
+      IntegrationTestSuite.inputStreamDouble.write("D/develop-project3\n");
 
       // Response "Y" to "do you want to automatically reuse dynamic version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Default response to "from which base version" (D/master)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       // Response "Y" to "do you want to automatically reuse base version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (switching)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Since base version is D/master and develop-project1 was not merged into master,
       // the reference to app-b-model is not consistent. But it does not matter.
       // Response "A" to "do you want to continue (even if version different)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to continue (updating parent)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model");
       try {
@@ -317,13 +317,13 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       System.setProperty("org.azyva.dragom.runtime-property.Domain2.app-b-model.NEW_SEMANTIC_VERSION_TYPE", "MINOR");
 
       // Response "A" to "do you want to continue creating static version"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (updating parent)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b (automatic MINOR for app-b-model, automatic MAJOR for app-b)");
       try {
@@ -354,27 +354,27 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       // above.
 
       // Response "D/develop-project4" to "to which version do you want to switch"
-      IntegrationTestSuite.testInputStream.write("D/develop-project4\n");
+      IntegrationTestSuite.inputStreamDouble.write("D/develop-project4\n");
 
       // Response "Y" to "do you want to automatically reuse dynamic version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Default response to "from which base version" (D/master)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       // Response "Y" to "do you want to automatically reuse base version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (switching)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Since base version is D/master and develop-project1 was not merged into master,
       // the reference to app-b-model is not consistent. But it does not matter.
       // Response "A" to "do you want to continue (even if version different)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to continue (updating parent)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model");
       try {
@@ -390,25 +390,25 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       System.clearProperty("org.azyva.dragom.runtime-property.Domain2.app-b-model.NEW_SEMANTIC_VERSION_TYPE");
 
       // Response "MAJOR" to "which version type"
-      IntegrationTestSuite.testInputStream.write("MAJOR\n");
+      IntegrationTestSuite.inputStreamDouble.write("MAJOR\n");
 
       // Response "N" to "reuse version type"
-      IntegrationTestSuite.testInputStream.write("N\n");
+      IntegrationTestSuite.inputStreamDouble.write("N\n");
 
       // Response "A" to "do you want to continue creating static version"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (updating parent)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "I" to "which version type"
-      IntegrationTestSuite.testInputStream.write("I\n");
+      IntegrationTestSuite.inputStreamDouble.write("I\n");
 
       // Response "Y" to "reuse version type"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b (manual MAJOR for app-b-model, manual MINOR for app-b)");
       try {
@@ -425,27 +425,27 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       // above.
 
       // Response "D/develop-project5" to "to which version do you want to switch"
-      IntegrationTestSuite.testInputStream.write("D/develop-project5\n");
+      IntegrationTestSuite.inputStreamDouble.write("D/develop-project5\n");
 
       // Response "Y" to "do you want to automatically reuse dynamic version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Default response to "from which base version" (D/master)
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       // Response "Y" to "do you want to automatically reuse base version"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (switching)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Since base version is D/master and develop-project1 was not merged into master,
       // the reference to app-b-model is not consistent. But it does not matter.
       // Response "A" to "do you want to continue (even if version different)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "A" to "do you want to continue (updating parent)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Domain2/app-b-model");
       try {
@@ -463,13 +463,13 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       System.setProperty("org.azyva.dragom.runtime-property.Domain2.app-b-model.NEW_SEMANTIC_VERSION_TYPE", "MINOR");
 
       // Response "A" to "do you want to continue creating static version"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (updating parent)"
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b (automatic MINOR for app-b-model, automatic MAJOR for app-b)");
       try {

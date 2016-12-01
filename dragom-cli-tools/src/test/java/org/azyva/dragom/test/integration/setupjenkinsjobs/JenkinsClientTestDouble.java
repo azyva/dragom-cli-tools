@@ -282,7 +282,7 @@ public class JenkinsClientTestDouble implements JenkinsClient {
   /**
    * Creates an initial folder.
    *
-   * @param folder
+   * @param folder Folder.
    */
   public static void createInitialFolder(String folder) {
     JenkinsClientTestDouble.setFolder.add(folder);
@@ -290,7 +290,8 @@ public class JenkinsClientTestDouble implements JenkinsClient {
 
   /**
    * Creates an initial job.
-   * @param folder
+   *
+   * @param job Job.
    */
   public static void createInitialJob(String job) {
     JenkinsClientTestDouble.setJob.add(job);

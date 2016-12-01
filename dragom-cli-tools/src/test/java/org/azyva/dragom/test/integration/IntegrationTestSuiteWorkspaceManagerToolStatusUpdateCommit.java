@@ -289,13 +289,13 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
       // ###############################################################################
 
       // Response "Commit message." to "specify commit message".
-      IntegrationTestSuite.testInputStream.write("Commit message.\n");
+      IntegrationTestSuite.inputStreamDouble.write("Commit message.\n");
 
       // Response "Y" to "do you want to reuse".
-      IntegrationTestSuite.testInputStream.write("Y\n");
+      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "N" to "do you want to commit".
-      IntegrationTestSuite.testInputStream.write("N\n");
+      IntegrationTestSuite.inputStreamDouble.write("N\n");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace commit");
       try {
@@ -308,7 +308,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
       // ###############################################################################
 
       // Default response to "do you want to commit" (Y).
-      IntegrationTestSuite.testInputStream.write("\n");
+      IntegrationTestSuite.inputStreamDouble.write("\n");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace --commit-message=\"Commit message.\" commit");
       try {
@@ -394,7 +394,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
       // ###############################################################################
 
       // Response "A" to "do you want to continue".
-      IntegrationTestSuite.testInputStream.write("A\n");
+      IntegrationTestSuite.inputStreamDouble.write("A\n");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace commit");
       try {
