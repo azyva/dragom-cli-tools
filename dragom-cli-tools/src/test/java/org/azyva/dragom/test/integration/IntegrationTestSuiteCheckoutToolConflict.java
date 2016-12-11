@@ -171,8 +171,9 @@ public class IntegrationTestSuiteCheckoutToolConflict {
       try {
         GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
     } catch (Exception e) {
       e.printStackTrace();

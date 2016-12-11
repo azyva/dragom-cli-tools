@@ -32,7 +32,13 @@ import java.util.zip.ZipInputStream;
 import org.azyva.dragom.tool.GenericRootModuleVersionJobInvokerTool;
 import org.azyva.dragom.tool.RootManagerTool;
 
-
+/**
+ * Integration tests for the SwitchToDynamicVersion tool.
+ *
+ * <p>Basic tests.
+ *
+ * @author David Raymond
+ */
 public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
   /*********************************************************************************
    * Tests SwitchToDynamicVersionTool.
@@ -123,14 +129,16 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
       try {
         GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
       } catch (Exception e) {
-        // RuntimeException indicating a cycle detected expected.
-        IntegrationTestSuite.validateExitException(e, 1);
+        // RuntimeException indicating a cycle detected expected since no
+        // SelectDynamicVersionPlugin ID specified.
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.IND_ALLOW_USER_SPECIFIED_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "true");
+      System.setProperty("org.azyva.dragom.runtime-property.IND_ALLOW_USER_SPECIFIED_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "true");
 
       // Response "uniform" to "specify plugin ID".
       IntegrationTestSuite.inputStreamDouble.write("uniform\n");
@@ -154,7 +162,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
+      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "uniform");
 
       // Response "N" to "process already dynamic versions"
       IntegrationTestSuite.inputStreamDouble.write("N\n");
@@ -264,4 +272,6 @@ cases where equivalent static, and version change commit attributes are not spec
 unsync changes, remote and local
 
 test all ways to specify runtime properties to automate behavior (specific, etc.)
+
+also test specifying base version explicitly.
 */

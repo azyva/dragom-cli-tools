@@ -109,7 +109,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
+      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "uniform");
 
       // Response "D/develop-project2" to "to which version do you want to switch"
       IntegrationTestSuite.inputStreamDouble.write("D/develop-project2\n");

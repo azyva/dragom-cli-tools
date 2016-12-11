@@ -250,7 +250,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 
       IntegrationTestSuite.printTestHeader("git reset --hard HEAD [workspace/app-a]");
       try {
-        IntegrationTestSuite.getGit().executeGitCommand(new String[] {"reset", "--hard", "HEAD"}, false, Git.AllowExitCode.NONE, IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"), null);
+        IntegrationTestSuite.getGit().executeGitCommand(new String[] {"reset", "--hard", "HEAD"}, false, Git.AllowExitCode.NONE, IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"), null, false);
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }

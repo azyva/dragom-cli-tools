@@ -113,14 +113,15 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolHotfix {
       // Response "N" to "do you want to continue non-static versions in reference path"
       IntegrationTestSuite.inputStreamDouble.write("N\n");
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "hotfix");
+      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "hotfix");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b->/Framework/framework");
       try {
         GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.SwitchToDynamicVersion", "SwitchToDynamicVersionToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b->/Framework/framework"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################

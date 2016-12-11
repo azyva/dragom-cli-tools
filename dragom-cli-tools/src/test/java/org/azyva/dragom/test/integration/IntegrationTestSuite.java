@@ -38,11 +38,40 @@ import org.azyva.dragom.git.Git;
 import org.azyva.dragom.git.impl.DefaultGitImpl;
 import org.azyva.dragom.tool.ExecContextManagerTool;
 
+/**
+ * Suite of integration tests.
+ *
+ * <p>These are not unit tests and are not developped with JUnit or another
+ * testing framework.
+ *
+ * @author David Raymond
+ */
 public class IntegrationTestSuite {
+  /**
+   * Path to the test workspace.
+   */
   public static Path pathTestWorkspace;
+
+  /**
+   * InputStream double which allows simulating user input.
+   */
   public static InputStreamDouble inputStreamDouble;
+
+  /**
+   * Git interface.
+   */
   public static Git git;
 
+  /**
+   * Holds the last Exception raised.
+   */
+  public static Exception exception;
+
+  /**
+   * Main method.
+   *
+   * @param args Arguments.
+   */
   public static void main(String[] args) {
     Set<String> setTestCategory;
     boolean indAllTests;
@@ -181,7 +210,7 @@ public class IntegrationTestSuite {
 
     if (indAllTests || setTestCategory.contains("ReleaseVersionToolSemantic")) {
       IntegrationTestSuiteReleaseToolSemantic.testReleaseToolSemantic();
-      //??? incomplete.
+      //??? incomplete. ANd there seems to be a bug with main workspace directory concept.
     }
 /*
 TODO:
@@ -194,6 +223,16 @@ TODO:
 //TODO:
       IntegrationTestSuiteReleaseToolMainModuleVersion.testReleaseToolMainModuleVersion();
     }
+
+    if (indAllTests || setTestCategory.contains("ReleaseToolMainModuleVersion")) {
+//TODO:
+      IntegrationTestSuiteReleaseToolMainModuleVersion.testReleaseToolMainModuleVersion();
+    }
+
+    if (indAllTests || setTestCategory.contains("MergeMainToolBase")) {
+      IntegrationTestSuiteMergeMainToolBase.testMergeMainToolBase();
+    }
+
     if (indAllTests || setTestCategory.contains("SetupJenkinsJobsToolBase")) {
       IntegrationTestSuiteSetupJenkinsJobsToolBase.testSetupJenkinsJobsToolBase();
     }
@@ -208,6 +247,11 @@ TODO:
 //    merge-reference-graph
   }
 
+  /**
+   * Prints a header for a test category.
+   *
+   * @param header Header.
+   */
   public static void printTestCategoryHeader(String header) {
     System.out.println("########################################");
     System.out.println("Starting test category:");
@@ -215,6 +259,9 @@ TODO:
     System.out.println("########################################");
   }
 
+  /**
+   * Resets the test workspace.
+   */
   public static void resetTestWorkspace() {
     InputStream inputStreamLoggingProperties;
     Path pathLoggingProperties;
@@ -260,34 +307,65 @@ TODO:
     }
   }
 
+  /**
+   * Prints a header for a single test.
+   *
+   * <p>Since this is called before running a test, it is also considered a test
+   * initialization method. It therefore sets
+   * {@link IntegrationTestSuite#exception} to null.
+   *
+   * @param header Header.
+   */
   public static void printTestHeader(String header) {
     System.out.println("###############################################################################");
     System.out.println("Starting test of:");
     System.out.println(header);
     System.out.println("Output of tool follows.");
     System.out.println("###############################################################################");
+
+    IntegrationTestSuite.exception = null;
   }
 
+  /**
+   * Print a footer for a single test.
+   */
   public static void printTestFooter() {
     System.out.println("###############################################################################");
     System.out.println("Test completed.");
     System.out.println("###############################################################################\n");
   }
 
-  public static void validateExitException(Exception e, int status) {
+  /**
+   * Validates that an exception is an ExitException (normal termination of a
+   * tool) and that the status (return) code is as specified.
+   *
+   * @param exception Exception.
+   * @param status Expected status code.
+   */
+  public static void validateExitException(Exception exception, int status) {
     ExitException exitException;
 
-    if (!(e instanceof ExitException)) {
-      throw new RuntimeException(">>>>> TEST FAILURE: ExitException expected. Exception thrown:", e);
+    if (exception == null) {
+      throw new RuntimeException(">>>>> TEST FAILURE: ExitException with status " + status +  " expected .");
     }
 
-    exitException = (ExitException)e;
+    if (!(exception instanceof ExitException)) {
+      throw new RuntimeException(">>>>> TEST FAILURE: ExitException expected. Exception thrown:", exception);
+    }
+
+    exitException = (ExitException)exception;
 
     if (exitException.status != status) {
       throw new RuntimeException(">>>>> TEST FAILURE: Tool exited with status " + exitException.status + " but " + status + " was expected.");
     }
   }
 
+  /**
+   * Appends content to a text file.
+   *
+   * @param pathFile Path to the file.
+   * @param content Content.
+   */
   public static void appendToFile(Path pathFile, String content) {
     Writer writerFile;
 
@@ -300,6 +378,9 @@ TODO:
     }
   }
 
+  /**
+   * @return Git interface.
+   */
   public static Git getGit() {
     if (IntegrationTestSuite.git == null) {
       IntegrationTestSuite.git = new DefaultGitImpl();

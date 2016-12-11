@@ -103,8 +103,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -123,8 +124,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -133,8 +135,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "status", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -153,8 +156,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "update", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -173,8 +177,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "commit", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -203,8 +208,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "clean-all", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -223,8 +229,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "clean-system", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -243,8 +250,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "clean-non-root-reachable", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -253,8 +261,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "clean-non-root-reachable"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -283,8 +292,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-module-version"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -293,8 +303,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-module-version", "dummy", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -313,8 +324,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-dir"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -323,8 +335,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove-dir", "dummy", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -343,8 +356,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "build-clean-all", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -363,8 +377,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "build-clean-module-version"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -373,8 +388,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "build-clean-module-version", "Domain1/app-a", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -393,8 +409,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "build-clean-dir"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -403,8 +420,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "build-clean-dir", "dummy", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -423,8 +441,9 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
       try {
         WorkspaceManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "fix"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
     } catch (Exception e) {
       e.printStackTrace();

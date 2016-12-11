@@ -141,8 +141,9 @@ public class IntegrationTestSuiteCheckoutToolMultipleSwitch {
       try {
         GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Checkout", "CheckoutToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--root-module-version=Domain2/app-b:D/master", "--reference-path-matcher=**"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################

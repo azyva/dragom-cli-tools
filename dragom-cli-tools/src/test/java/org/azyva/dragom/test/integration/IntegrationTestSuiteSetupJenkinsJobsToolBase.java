@@ -118,8 +118,9 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
       try {
         SetupJenkinsJobsTool.main(new String[] {"dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################

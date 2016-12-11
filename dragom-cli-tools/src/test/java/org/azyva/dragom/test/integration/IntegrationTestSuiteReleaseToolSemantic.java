@@ -110,14 +110,12 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       // ###############################################################################
 
       System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectStaticVersionPlugin", "semantic");
+      System.setProperty("org.azyva.dragom.runtime-property.RELEASE_ISOLATION_MODE", "REVERT_ARTIFACT_VERSION");
 
       // There is no equivalent version since commit attributes not recorded in test
       // repository.
 
       // Response "Y" to "do you want to continue creating static version"
-      IntegrationTestSuite.inputStreamDouble.write("Y\n");
-
-      // Response "Y" to "do you want to revert"
       IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "Y" to "do you want to continue update parent"
@@ -139,9 +137,6 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       // Response "Y" to "do you want to continue creating static version"
       IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
-      // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.inputStreamDouble.write("Y\n");
-
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain2/app-b");
       try {
         GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Release", "ReleaseToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain2/app-b"});
@@ -156,7 +151,7 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       // back Domain2/app-b-model in development within the graph since it was released
       // above.
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
+      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "uniform");
 
       // Response "D/develop-project1" to "to which version do you want to switch"
       IntegrationTestSuite.inputStreamDouble.write("D/develop-project1\n");
@@ -191,9 +186,6 @@ public class IntegrationTestSuiteReleaseToolSemantic {
 
       // Response "A" to "do you want to continue creating static version"
       IntegrationTestSuite.inputStreamDouble.write("A\n");
-
-      // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (updating parent)"
       IntegrationTestSuite.inputStreamDouble.write("A\n");
@@ -253,9 +245,6 @@ public class IntegrationTestSuiteReleaseToolSemantic {
 
       // Response "A" to "do you want to continue creating static version"
       IntegrationTestSuite.inputStreamDouble.write("A\n");
-
-      // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (updating parent)"
       IntegrationTestSuite.inputStreamDouble.write("A\n");
@@ -318,9 +307,6 @@ public class IntegrationTestSuiteReleaseToolSemantic {
 
       // Response "A" to "do you want to continue creating static version"
       IntegrationTestSuite.inputStreamDouble.write("A\n");
-
-      // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (updating parent)"
       IntegrationTestSuite.inputStreamDouble.write("A\n");
@@ -398,9 +384,6 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       // Response "A" to "do you want to continue creating static version"
       IntegrationTestSuite.inputStreamDouble.write("A\n");
 
-      // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.inputStreamDouble.write("Y\n");
-
       // Response "A" to "do you want to continue (updating parent)"
       IntegrationTestSuite.inputStreamDouble.write("A\n");
 
@@ -464,9 +447,6 @@ public class IntegrationTestSuiteReleaseToolSemantic {
 
       // Response "A" to "do you want to continue creating static version"
       IntegrationTestSuite.inputStreamDouble.write("A\n");
-
-      // Response "Y" to "do you want to revert"
-      IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "A" to "do you want to continue (updating parent)"
       IntegrationTestSuite.inputStreamDouble.write("A\n");

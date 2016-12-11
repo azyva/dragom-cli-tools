@@ -124,8 +124,9 @@ public class IntegrationTestSuiteReleaseToolBase {
         GenericRootModuleVersionJobInvokerTool.main(new String[] {"org.azyva.dragom.job.Release", "ReleaseToolHelp.txt", "--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--reference-path-matcher=/Domain1/app-a"});
       } catch (Exception e) {
         // RuntimeException indicating a cycle detected expected.
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -165,6 +166,7 @@ public class IntegrationTestSuiteReleaseToolBase {
       // ###############################################################################
 
       System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectStaticVersionPlugin", "uniform");
+      System.setProperty("org.azyva.dragom.runtime-property.RELEASE_ISOLATION_MODE", "REVERT_ARTIFACT_VERSION");
 
       // Response "N" to "do you want to reuse existing static version"
       IntegrationTestSuite.inputStreamDouble.write("N\n");
@@ -179,9 +181,6 @@ public class IntegrationTestSuiteReleaseToolBase {
       IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "Y" to "do you want to continue creating static version"
-      IntegrationTestSuite.inputStreamDouble.write("Y\n");
-
-      // Response "Y" to "do you want to revert"
       IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a (uniform plugin ID specified explicitly; use non-existing prefix)");
@@ -217,9 +216,6 @@ public class IntegrationTestSuiteReleaseToolBase {
       IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       // Response "Y" to "do you want to continue creating static version"
-      IntegrationTestSuite.inputStreamDouble.write("Y\n");
-
-      // Response "Y" to "do you want to revert"
       IntegrationTestSuite.inputStreamDouble.write("Y\n");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --workspace=workspace --reference-path-matcher=/Domain1/app-a (use existing prefix)");

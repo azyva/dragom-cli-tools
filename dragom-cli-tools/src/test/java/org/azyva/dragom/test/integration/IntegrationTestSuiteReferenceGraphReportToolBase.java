@@ -103,8 +103,9 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
       try {
         ReferenceGraphReportTool.main(new String[] {});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -123,8 +124,9 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
       try {
         ReferenceGraphReportTool.main(new String[] {"dummy1", "dummy2"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -133,8 +135,9 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
       try {
         ReferenceGraphReportTool.main(new String[] {"--module-versions", "--avoid-redundancy", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -143,8 +146,9 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
       try {
         ReferenceGraphReportTool.main(new String[] {"--graph", "--only-multiple-versions", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -153,8 +157,9 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
       try {
         ReferenceGraphReportTool.main(new String[] {"--graph", "--only-matched-modules", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -163,8 +168,9 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
       try {
         ReferenceGraphReportTool.main(new String[] {"--graph", "--most-recent-version-in-reference-graph", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -173,8 +179,9 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
       try {
         ReferenceGraphReportTool.main(new String[] {"--graph", "--most-recent-static-version-in-scm", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -183,8 +190,9 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
       try {
         ReferenceGraphReportTool.main(new String[] {"--graph", "--reference-paths", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################
@@ -193,8 +201,9 @@ public class IntegrationTestSuiteReferenceGraphReportToolBase {
       try {
         ReferenceGraphReportTool.main(new String[] {"--module-versions", "--only-multiple-versions", "--only-matched-modules", "dummy"});
       } catch (Exception e) {
-        IntegrationTestSuite.validateExitException(e, 1);
+        IntegrationTestSuite.exception = e;
       }
+      IntegrationTestSuite.validateExitException(IntegrationTestSuite.exception, 1);
       IntegrationTestSuite.printTestFooter();
 
       // ###############################################################################

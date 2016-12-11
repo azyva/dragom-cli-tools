@@ -119,7 +119,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolPhase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
+      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "uniform");
 
       // Response "D/develop-project1-sprint" to "to which version do you want to switch"
       IntegrationTestSuite.inputStreamDouble.write("D/develop-project1-sprint\n");
@@ -158,7 +158,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolPhase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.NewDynamicVersionPlugin", "uniform");
+      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "uniform");
 
       // Response "Y" to "process already dynamic version"
       IntegrationTestSuite.inputStreamDouble.write("Y\n");
