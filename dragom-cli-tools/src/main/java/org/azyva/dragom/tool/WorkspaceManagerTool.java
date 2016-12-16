@@ -303,6 +303,8 @@ public class WorkspaceManagerTool {
           workspaceManagerTool.cleanAllCommand();
         } else if (command.equals("clean-system")) {
           workspaceManagerTool.cleanSystemCommand();
+        } else if (command.equals("clean-user")) {
+            workspaceManagerTool.cleanUserCommand();
         } else if (command.equals("clean-non-root-reachable")) {
           workspaceManagerTool.cleanNonRootReachableCommand();
         } else if (command.equals("remove-module-version")) {
@@ -532,14 +534,28 @@ public class WorkspaceManagerTool {
    * Implements the "clean-all" command.
    */
   private void cleanAllCommand() {
-    Set<WorkspaceDir> setWorkspaceDir;
-    Set<WorkspaceDirPath> setWorkspaceDirPath;
-
     if (this.commandLine.getArgs().length != 1) {
       throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
     }
 
     // First take care of the system workspace directories.
+
+    this.cleanSystemCommand();
+
+    // Then the user workspace directories.
+
+    this.cleanUserCommand();
+  }
+
+  /**
+   * Implements the "clean-system" command.
+   */
+  private void cleanSystemCommand() {
+    Set<WorkspaceDir> setWorkspaceDir;
+
+    if (this.commandLine.getArgs().length != 1) {
+      throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+    }
 
     setWorkspaceDir = this.workspacePlugin.getSetWorkspaceDir(WorkspaceDirSystemModule.class);
 
@@ -551,8 +567,17 @@ public class WorkspaceManagerTool {
 
       this.workspacePlugin.deleteWorkspaceDir(workspaceDir);
     }
+  }
 
-    // Then the user workspace directories.
+  /**
+   * Implements the "clean-user" command.
+   */
+  private void cleanUserCommand() {
+    Set<WorkspaceDirPath> setWorkspaceDirPath;
+
+    if (this.commandLine.getArgs().length != 1) {
+      throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+    }
 
     setWorkspaceDirPath = WorkspaceManagerTool.getSortedSetWorkspaceDirPath();
 
@@ -591,28 +616,6 @@ public class WorkspaceManagerTool {
       this.workspacePlugin.getWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
 
       this.workspacePlugin.deleteWorkspaceDir(workspaceDirPath.workspaceDirUserModuleVersion);
-    }
-  }
-
-  /**
-   * Implements the "clean-system" command.
-   */
-  private void cleanSystemCommand() {
-    Set<WorkspaceDir> setWorkspaceDir;
-
-    if (this.commandLine.getArgs().length != 1) {
-      throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-    }
-
-    setWorkspaceDir = this.workspacePlugin.getSetWorkspaceDir(WorkspaceDirSystemModule.class);
-
-    for (WorkspaceDir workspaceDir: setWorkspaceDir) {
-      // We do not need to store the Path to the workspace directory, but we still need
-      // need to call WorkspacePlugin.getWorkspaceDir in order to reserve access before
-      // deleting it.
-      this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.READ_WRITE);
-
-      this.workspacePlugin.deleteWorkspaceDir(workspaceDir);
     }
   }
 

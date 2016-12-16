@@ -31,9 +31,15 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
+import org.azyva.dragom.execcontext.ExecContext;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.job.RootManager;
+import org.azyva.dragom.model.ArtifactGroupIdVersion;
+import org.azyva.dragom.model.Model;
+import org.azyva.dragom.model.Module;
 import org.azyva.dragom.model.ModuleVersion;
+import org.azyva.dragom.model.Version;
+import org.azyva.dragom.model.plugin.ArtifactVersionMapperPlugin;
 import org.azyva.dragom.reference.ReferencePathMatcher;
 import org.azyva.dragom.reference.ReferencePathMatcherByElement;
 import org.azyva.dragom.reference.ReferencePathMatcherOr;
@@ -51,6 +57,16 @@ public class RootManagerTool {
    * See description in ResourceBundle.
    */
   private static final String MSG_PATTERN_KEY_LIST_OF_ROOT_MODULE_VERSIONS_EMPTY = "LIST_OF_ROOT_MODULE_VERSIONS_EMPTY";
+
+  /**
+   * See description in ResourceBundle.
+   */
+  private static final String MSG_PATTERN_KEY_ARTIFACT_GROUP_ID_DOES_NOT_CORRESPOND_TO_MODULE = "ARTIFACT_GROUP_ID_DOES_NOT_CORRESPOND_TO_MODULE";
+
+  /**
+   * See description in ResourceBundle.
+   */
+  private static final String MSG_PATTERN_KEY_ARTIFACT_VERSION_CANNOT_MAP_TO_VERSION = "ARTIFACT_VERSION_CANNOT_MAP_TO_VERSION";
 
   /**
    * See description in ResourceBundle.
@@ -165,6 +181,8 @@ public class RootManagerTool {
           RootManagerTool.listCommand(commandLine);
         } else if (command.equals("add")) {
           RootManagerTool.addCommand(commandLine);
+        } else if (command.equals("add-artifact")) {
+          RootManagerTool.addArtifactCommand(commandLine);
         } else if (command.equals("remove")) {
           RootManagerTool.removeCommand(commandLine);
         } else if (command.equals("remove-all")) {
@@ -290,6 +308,83 @@ public class RootManagerTool {
         } else {
           RootManager.addModuleVersion(moduleVersion, false);
           System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+        }
+      }
+    }
+  }
+
+  /**
+   * Implements the "add" command.
+   *
+   * @param commandLine CommandLine.
+   */
+  private static void addArtifactCommand(CommandLine commandLine) {
+    String[] args;
+    ArtifactGroupIdVersion artifactGroupIdVersion;
+    ExecContext execContext;
+    Model model;
+    Module module;
+    ArtifactVersionMapperPlugin artifactVersionMapperPlugin;
+    Version version;
+    ModuleVersion moduleVersion;
+
+    args = commandLine.getArgs();
+
+    if (args.length < 2) {
+      throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+    }
+
+    // First, convert the ArtifactGroupIdVersion to a ModuleVersion.
+
+    for (int i = 1; i < args.length; i++) {
+      try {
+        artifactGroupIdVersion = ArtifactGroupIdVersion.parse(args[i]);
+      } catch (ParseException pe) {
+        throw new RuntimeExceptionUserError(pe.getMessage());
+      }
+
+      execContext = ExecContextHolder.get();
+      model = execContext.getModel();
+      module = model.findModuleByArtifactGroupId(artifactGroupIdVersion.getArtifactGroupId());
+
+      if (module == null) {
+        throw new RuntimeExceptionUserError(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_ARTIFACT_GROUP_ID_DOES_NOT_CORRESPOND_TO_MODULE), artifactGroupIdVersion.getArtifactGroupId()));
+      }
+
+      if (!module.isNodePluginExists(ArtifactVersionMapperPlugin.class, null)) {
+        throw new RuntimeExceptionUserError(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_ARTIFACT_VERSION_CANNOT_MAP_TO_VERSION), artifactGroupIdVersion.getArtifactVersion(), module.getNodePath()));
+      }
+
+      artifactVersionMapperPlugin = module.getNodePlugin(ArtifactVersionMapperPlugin.class, null);
+
+      version = artifactVersionMapperPlugin.mapArtifactVersionToVersion(artifactGroupIdVersion.getArtifactVersion());
+
+      moduleVersion = new ModuleVersion(module.getNodePath(), version);
+
+      // Second, do the same as for the add command.
+
+      if (RootManager.containsModuleVersion(moduleVersion)) {
+        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS), moduleVersion));
+      } else {
+        boolean indAllowDuplicateModule;
+
+        indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-modules");
+
+        if (indAllowDuplicateModule) {
+          RootManager.addModuleVersion(moduleVersion, true);
+          System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+        } else {
+          ModuleVersion moduleVersionOrg;
+
+          moduleVersionOrg = RootManager.getModuleVersion(moduleVersion.getNodePath());
+
+          if (moduleVersionOrg != null) {
+            RootManager.replaceModuleVersion(moduleVersionOrg, moduleVersion);
+            System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS), moduleVersionOrg, moduleVersion));
+          } else {
+            RootManager.addModuleVersion(moduleVersion, false);
+            System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+          }
         }
       }
     }

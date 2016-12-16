@@ -450,3 +450,5 @@ public class IntegrationTestSuiteWorkspaceManagerToolBase {
     }
   }
 }
+
+// Test the new clean-user

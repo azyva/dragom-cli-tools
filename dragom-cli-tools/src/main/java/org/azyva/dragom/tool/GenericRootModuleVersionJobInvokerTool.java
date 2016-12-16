@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
@@ -123,6 +124,11 @@ public class GenericRootModuleVersionJobInvokerTool {
         }
 
         rootModuleVersionJobAbstractImpl.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
+
+        if (commandLine.hasOption("no-avoid-reentr")) {
+          rootModuleVersionJobAbstractImpl.setIndAvoidReentry(false);
+        }
+
         rootModuleVersionJobAbstractImpl.performJob();
       }
     } catch (RuntimeExceptionUserError reue) {
@@ -148,7 +154,12 @@ public class GenericRootModuleVersionJobInvokerTool {
    */
   private synchronized static void init() {
     if (!GenericRootModuleVersionJobInvokerTool.indInit) {
+      Option option;
       GenericRootModuleVersionJobInvokerTool.options = new Options();
+
+      option = new Option(null, null);
+      option.setLongOpt("no-avoid-reentry");
+      options.addOption(option);
 
       CliUtil.addStandardOptions(GenericRootModuleVersionJobInvokerTool.options);
       CliUtil.addRootModuleVersionOptions(GenericRootModuleVersionJobInvokerTool.options);

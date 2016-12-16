@@ -562,3 +562,5 @@ public class IntegrationTestSuiteRootManagerTool {
     }
   }
 }
+
+// Test the new add-artifact and others based on artifacts.
