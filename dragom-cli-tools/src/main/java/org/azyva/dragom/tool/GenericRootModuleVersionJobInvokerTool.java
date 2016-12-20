@@ -35,6 +35,8 @@ import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.job.Checkout;
+import org.azyva.dragom.job.ConfigHandleStaticVersion;
+import org.azyva.dragom.job.ConfigReentryAvoider;
 import org.azyva.dragom.job.RootManager;
 import org.azyva.dragom.job.RootModuleVersionJobAbstractImpl;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
@@ -125,8 +127,16 @@ public class GenericRootModuleVersionJobInvokerTool {
 
         rootModuleVersionJobAbstractImpl.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
 
-        if (commandLine.hasOption("no-avoid-reentr")) {
-          rootModuleVersionJobAbstractImpl.setIndAvoidReentry(false);
+        if (rootModuleVersionJobAbstractImpl instanceof ConfigHandleStaticVersion) {
+          if (commandLine.hasOption("no-handle-static-version")) {
+            ((ConfigHandleStaticVersion)rootModuleVersionJobAbstractImpl).setIndHandleStaticVersion(false);
+          }
+        }
+
+        if (rootModuleVersionJobAbstractImpl instanceof ConfigReentryAvoider) {
+          if (commandLine.hasOption("no-avoid-reentry")) {
+            ((ConfigReentryAvoider)rootModuleVersionJobAbstractImpl).setIndAvoidReentry(false);
+          }
         }
 
         rootModuleVersionJobAbstractImpl.performJob();
@@ -157,9 +167,14 @@ public class GenericRootModuleVersionJobInvokerTool {
       Option option;
       GenericRootModuleVersionJobInvokerTool.options = new Options();
 
+      // TODO: Should probably put these in some properties file (i18n).
       option = new Option(null, null);
       option.setLongOpt("no-avoid-reentry");
-      options.addOption(option);
+      GenericRootModuleVersionJobInvokerTool.options.addOption(option);
+
+      option = new Option(null, null);
+      option.setLongOpt("no-handle-static-version");
+      GenericRootModuleVersionJobInvokerTool.options.addOption(option);
 
       CliUtil.addStandardOptions(GenericRootModuleVersionJobInvokerTool.options);
       CliUtil.addRootModuleVersionOptions(GenericRootModuleVersionJobInvokerTool.options);
