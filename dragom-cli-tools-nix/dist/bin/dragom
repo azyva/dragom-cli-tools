@@ -1,0 +1,61 @@
+#!/bin/bash
+# Copyright 2015 - 2017 AZYVA INC. INC.
+#
+#This file is part of Dragom.
+#
+# Dragom is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Dragom is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Afferp General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
+
+SCRIPT=`readlink -f $0`
+SCRIPT_DIR=`dirname $SCRIPT`
+DRAGOM_HOME_DIR=`dirname $SCRIPT_DIR`
+
+. $DRAGOM_HOME_DIR/bin/set-env.sh
+
+if [[ -z "$JAVA_HOME" ]] ; then
+  echo "JAVA_HOME not set. "
+  exit 1
+fi
+
+SYSTEM_PROPERTIES_JVM_OPTIONS=
+
+for PROPERTY in "${!SYSTEM_PROPERTIES[@]}" ; do
+  SYSTEM_PROPERTIES_JVM_OPTIONS="$SYSTEM_PROPERTIES_JVM_OPTIONS -D$PROPERTY=${SYSTEM_PROPERTIES[$PROPERTY]}" 
+done
+
+DRAGOM_SYSTEM_PROPERTIES_JVM_OPTIONS=
+
+for PROPERTY in "${!DRAGOM_SYSTEM_PROPERTIES[@]}" ; do
+  DRAGOM_SYSTEM_PROPERTIES_JVM_OPTIONS="$DRAGOM_SYSTEM_PROPERTIES_JVM_OPTIONS -Dorg.azyva.dragom.$PROPERTY=${DRAGOM_SYSTEM_PROPERTIES[$PROPERTY]}" 
+done
+
+MODEL_PROPERTIES_JVM_OPTIONS=
+
+for PROPERTY in "${!MODEL_PROPERTIES[@]}" ; do
+  MODEL_PROPERTIES_JVM_OPTIONS="$MODEL_PROPERTIES_JVM_OPTIONS -Dorg.azyva.dragom.model-property.$PROPERTY=${MODEL_PROPERTIES[$PROPERTY]}" 
+done
+
+RUNTIME_PROPERTIES_JVM_OPTIONS=
+
+for PROPERTY in "${!RUNTIME_PROPERTIES[@]}" ; do
+  RUNTIME_PROPERTIES_JVM_OPTIONS="$RUNTIME_PROPERTIES_JVM_OPTIONS -Dorg.azyva.dragom.runtime-property.$PROPERTY=${RUNTIME_PROPERTIES[$PROPERTY]}" 
+done
+
+$JAVA_HOME/bin/java \
+  $JVM_OPTIONS \
+  $SYSTEM_PROPERTIES_JVM_OPTIONS \
+  $DRAGOM_SYSTEM_PROPERTIES_JVM_OPTIONS \
+  $MODEL_PROPERTIES_JVM_OPTIONS \
+  $RUNTIME_PROPERTIES_JVM_OPTIONS \
+  -classpath "$DRAGOM_HOME_DIR/lib/*" \
+  org.azyva.dragom.tool.DragomToolInvoker "$@"

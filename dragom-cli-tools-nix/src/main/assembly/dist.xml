@@ -25,6 +25,17 @@ along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
     <fileSet>
       <directory>dist</directory>
       <outputDirectory>/</outputDirectory>
+      <excludes>
+        <exclude>bin/*</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>dist</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>bin/*</include>
+      </includes>
+      <fileMode>775</fileMode>
     </fileSet>
   </fileSets>
   <dependencySets>

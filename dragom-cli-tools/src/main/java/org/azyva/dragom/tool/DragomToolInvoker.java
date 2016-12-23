@@ -120,7 +120,7 @@ public class DragomToolInvoker {
 
     DragomToolInvoker.init();
 
-    if ((args.length == 0) || (args[0] == "--" + CliUtil.getHelpCommandLineOption())) {
+    if ((args.length == 0) || (args[0].equals("--" + CliUtil.getHelpCommandLineOption()))) {
       // We conveniently display help information if no argument is provided or if the
       // user specifies the "--help" option. But no argument being provided, or "--help"
       // being specified but with additional arguments is still considered a user error
