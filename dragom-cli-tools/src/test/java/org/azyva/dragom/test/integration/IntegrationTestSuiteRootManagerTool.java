@@ -91,6 +91,7 @@ public class IntegrationTestSuiteRootManagerTool {
 
       System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
       System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
+      System.setProperty("org.azyva.dragom.ModuleExistenceCacheFile" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
       System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
 
       // ###############################################################################
@@ -148,9 +149,9 @@ public class IntegrationTestSuiteRootManagerTool {
 
       // ###############################################################################
 
-      IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a dummy");
+      IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/master dummy");
       try {
-        RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a", "dummy"});
+        RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a:D/master", "dummy"});
       } catch (Exception e) {
         IntegrationTestSuite.exception = e;
       }
@@ -200,9 +201,9 @@ public class IntegrationTestSuiteRootManagerTool {
 
       // ###############################################################################
 
-      IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace --ind-allow-duplicate-modules add Domain1/app-a");
+      IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace --ind-allow-duplicate-modules add Domain1/app-a:D/master");
       try {
-        RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--ind-allow-duplicate-modules", "add", "Domain1/app-a"});
+        RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--ind-allow-duplicate-modules", "add", "Domain1/app-a:D/master"});
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }
@@ -231,9 +232,9 @@ public class IntegrationTestSuiteRootManagerTool {
 
       // ###############################################################################
 
-      IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove Domain1/app dummy");
+      IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove Domain1/app:D/master dummy");
       try {
-        RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove", "Domain1/app-a", "dummy"});
+        RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove", "Domain1/app-a:D/master", "dummy"});
       } catch (Exception e) {
         IntegrationTestSuite.exception = e;
       }
@@ -242,9 +243,9 @@ public class IntegrationTestSuiteRootManagerTool {
 
       // ###############################################################################
 
-      IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove Domain1/app");
+      IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace remove Domain1/app:D/master");
       try {
-        RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove", "Domain1/app-a"});
+        RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "remove", "Domain1/app-a:D/master"});
       } catch (Exception e) {
         IntegrationTestSuite.exception = e;
       }
@@ -283,9 +284,9 @@ public class IntegrationTestSuiteRootManagerTool {
 
       // ###############################################################################
 
-      IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a");
+      IntegrationTestSuite.printTestHeader("RootManagerTool --workspace=workspace add Domain1/app-a:D/master");
       try {
-        RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a"});
+        RootManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "add", "Domain1/app-a:D/master"});
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }
