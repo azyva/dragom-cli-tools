@@ -1,6 +1,6 @@
 # Copyright 2015 - 2017 AZYVA INC. INC.
 #
-#This file is part of Dragom.
+# This file is part of Dragom.
 #
 # Dragom is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -16,7 +16,10 @@
 # along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
 
 # Sets the Dragom execution environment. Edit this file to suit your
-# Dragom installation. 
+# Dragom installation.
+
+# When called, the DRAGOM_HOME_DIR variable is set to the home directory of
+# the Dragom CLI tools.
 
 # Must be set to home of the JVM to use (JRE or JDK).
 # JAVA_HOME=
