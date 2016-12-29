@@ -28,11 +28,12 @@
 # JVM_OPTIONS=
 
 # Passed as system properties as is.
-declare -A SYSTEM_PROPERTIES
-SYSTEM_PROPERTIES[java.util.logging.file]=$DRAGOM_HOME_DIR/conf/logging.properties
+# declare -A SYSTEM_PROPERTIES
 
 # Passed as system properties prefixed with "org.azyva.dragom".
-# declare -A DRAGOM_SYSTEM_PROPERTIES
+declare -A DRAGOM_SYSTEM_PROPERTIES
+SYSTEM_PROPERTIES[JavaUtilLoggingConfigFile]=$DRAGOM_HOME_DIR/conf/logging.properties
+SYSTEM_PROPERTIES[JavaUtilLoggingFile]=$DRAGOM_HOME_DIR/log/dragom.log
 # DRAGOM_SYSTEM_PROPERTIES[UrlModel]=/path/to/dragom/model.xml
 
 # Passed as model properties (prefixed with "org.azyva.dragom.model-property").

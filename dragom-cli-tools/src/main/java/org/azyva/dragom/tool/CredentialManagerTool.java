@@ -141,6 +141,8 @@ public class CredentialManagerTool {
    */
   private synchronized static void init() {
     if (!CredentialManagerTool.indInit) {
+      CliUtil.initJavaUtilLogging();
+
       CredentialManagerTool.options = new Options();
 
       CliUtil.addStandardOptions(CredentialManagerTool.options);

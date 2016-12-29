@@ -209,6 +209,8 @@ public class ReferenceGraphReportTool {
     if (!ReferenceGraphReportTool.indInit) {
       Option option;
 
+      CliUtil.initJavaUtilLogging();
+
       ReferenceGraphReportTool.options = new Options();
 
       option = new Option(null, null);

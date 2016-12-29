@@ -160,6 +160,8 @@ public class SetupJenkinsJobsTool {
     if (!SetupJenkinsJobsTool.indInit) {
       Option option;
 
+      CliUtil.initJavaUtilLogging();
+
       SetupJenkinsJobsTool.options = new Options();
 
       option = new Option(null, null);

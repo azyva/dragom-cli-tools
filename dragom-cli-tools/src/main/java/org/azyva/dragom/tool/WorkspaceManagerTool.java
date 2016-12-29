@@ -341,6 +341,8 @@ public class WorkspaceManagerTool {
     if (!WorkspaceManagerTool.indInit) {
       Option option;
 
+      CliUtil.initJavaUtilLogging();
+
       WorkspaceManagerTool.options = new Options();
 
       option = new Option(null, null);

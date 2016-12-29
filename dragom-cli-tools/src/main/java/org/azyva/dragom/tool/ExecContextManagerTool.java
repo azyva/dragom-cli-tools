@@ -131,6 +131,8 @@ public class ExecContextManagerTool {
    */
   private synchronized static void init() {
     if (!ExecContextManagerTool.indInit) {
+      CliUtil.initJavaUtilLogging();
+
       ExecContextManagerTool.options = new Options();
 
       CliUtil.addStandardOptions(ExecContextManagerTool.options);

@@ -167,6 +167,8 @@ public class GenericRootModuleVersionJobInvokerTool {
       Option option;
       GenericRootModuleVersionJobInvokerTool.options = new Options();
 
+      CliUtil.initJavaUtilLogging();
+
       // TODO: Should probably put these in some properties file (i18n).
       option = new Option(null, null);
       option.setLongOpt("no-avoid-reentry");

@@ -19,10 +19,13 @@
 
 package org.azyva.dragom.cliutil;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -31,6 +34,7 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
@@ -219,12 +223,24 @@ public final class CliUtil {
   public static final String DEFAULT_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION = "reference-path-matcher";
 
   /**
+   * System property defining the Java Util Logging configuration file to use for
+   * initializing the Java Util Logging framework. See
+   * {@link CliUtil#initJavaUtilLogging}.
+   */
+  public static final String SYS_PROPERTY_JAVA_UTIL_LOGGING_CONFIG_FILE = "org.azyva.dragom.JavaUtilLoggingConfigFile";
+
+  /**
    * ResourceBundle specific to this class.
    * <p>
    * Being a utility class, this ResourceBundle also contains global locale-specific
    * resources which can be used by other classes.
    */
   private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(CliUtil.class.getName() + "ResourceBundle");
+
+  /**
+   * Pattern to find property references.
+   */
+  private static Pattern patternPropertyReference = Pattern.compile("\\$\\{([^\\}]+)\\}");
 
   /**
    * @return User properties file command line option.
@@ -775,5 +791,62 @@ public final class CliUtil {
     }
 
     return null;
+  }
+
+  /**
+   * Initializes the Java Util Logging framework by implementing replaceable
+   * properties in the configuration file.
+   *
+   * <p>If the java.util.logging.config.file system property is defined, this method
+   * does nothing, leaving the default initialization process be used.
+   *
+   * <p>If the java.util.logging.config.file system property is not defined and the
+   * org.azyva.dragom.JavaUtilLoggingConfigFile system property is defined, this
+   * method calls LogManager.readConfiguration with an InputStream which represents
+   * the file but with property references replaced by the corresponding system
+   * property.
+   *
+   * <p>If none of these two system properties are defined, this method does
+   * nothing.
+   */
+  public static void initJavaUtilLogging() {
+    String javaUtilLoggingConfigFile;
+    String javaUtilLoggingConfig;
+    Matcher matcher;
+    StringBuffer stringBufferNewJavaUtilLoggingConfig;
+
+    Util.applyDragomSystemProperties();
+
+    if (   (System.getProperty("java.util.logging.config.file") == null)
+        && ((javaUtilLoggingConfigFile = System.getProperty(CliUtil.SYS_PROPERTY_JAVA_UTIL_LOGGING_CONFIG_FILE)) != null)) {
+
+      try {
+        javaUtilLoggingConfig = new String(Files.readAllBytes(Paths.get(javaUtilLoggingConfigFile)));
+
+        matcher = CliUtil.patternPropertyReference.matcher(javaUtilLoggingConfig);
+
+        stringBufferNewJavaUtilLoggingConfig = new StringBuffer();
+
+        while (matcher.find()) {
+          String property;
+          String value;
+
+          property = matcher.group(1);
+          value = System.getProperty(property);
+
+          if (value == null) {
+            throw new RuntimeException("System property " + property + " referenced in " + javaUtilLoggingConfigFile + " is not defined.");
+          }
+
+          matcher.appendReplacement(stringBufferNewJavaUtilLoggingConfig, value);
+        }
+
+        matcher.appendTail(stringBufferNewJavaUtilLoggingConfig);
+
+        java.util.logging.LogManager.getLogManager().readConfiguration(new ByteArrayInputStream(stringBufferNewJavaUtilLoggingConfig.toString().getBytes()));
+      } catch (IOException ioe) {
+        throw new RuntimeException(ioe);
+      }
+    }
   }
 }

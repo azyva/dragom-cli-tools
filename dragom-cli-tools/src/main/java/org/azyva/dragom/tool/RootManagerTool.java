@@ -217,10 +217,16 @@ public class RootManagerTool {
     if (!RootManagerTool.indInit) {
       Option option;
 
+      CliUtil.initJavaUtilLogging();
+
       RootManagerTool.options = new Options();
 
       option = new Option(null, null);
       option.setLongOpt("ind-allow-duplicate-modules");
+      RootManagerTool.options.addOption(option);
+
+      option = new Option(null, null);
+      option.setLongOpt("ind-no-validation");
       RootManagerTool.options.addOption(option);
 
       CliUtil.addStandardOptions(RootManagerTool.options);
@@ -277,37 +283,39 @@ public class RootManagerTool {
 
     args = commandLine.getArgs();
 
-    if (args.length != 2) {
+    if (args.length < 2) {
       throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
     }
 
-    try {
-      moduleVersion = ModuleVersion.parse(args[1]);
-    } catch (ParseException pe) {
-      throw new RuntimeExceptionUserError(pe.getMessage());
-    }
+    for (int i = 1; i < args.length; i++) {
+      try {
+        moduleVersion = ModuleVersion.parse(args[i]);
+      } catch (ParseException pe) {
+        throw new RuntimeExceptionUserError(pe.getMessage());
+      }
 
-    if (RootManager.containsModuleVersion(moduleVersion)) {
-      System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS), moduleVersion));
-    } else {
-      boolean indAllowDuplicateModule;
-
-      indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-modules");
-
-      if (indAllowDuplicateModule) {
-        RootManager.addModuleVersion(moduleVersion, true);
-        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+      if (RootManager.containsModuleVersion(moduleVersion)) {
+        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS), moduleVersion));
       } else {
-        ModuleVersion moduleVersionOrg;
+        boolean indAllowDuplicateModule;
 
-        moduleVersionOrg = RootManager.getModuleVersion(moduleVersion.getNodePath());
+        indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-modules");
 
-        if (moduleVersionOrg != null) {
-          RootManager.replaceModuleVersion(moduleVersionOrg, moduleVersion);
-          System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS), moduleVersionOrg, moduleVersion));
-        } else {
-          RootManager.addModuleVersion(moduleVersion, false);
+        if (indAllowDuplicateModule) {
+          RootManager.addModuleVersion(moduleVersion, true);
           System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+        } else {
+          ModuleVersion moduleVersionOrg;
+
+          moduleVersionOrg = RootManager.getModuleVersion(moduleVersion.getNodePath());
+
+          if (moduleVersionOrg != null) {
+            RootManager.replaceModuleVersion(moduleVersionOrg, moduleVersion);
+            System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS), moduleVersionOrg, moduleVersion));
+          } else {
+            RootManager.addModuleVersion(moduleVersion, false);
+            System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+          }
         }
       }
     }
@@ -334,9 +342,9 @@ public class RootManagerTool {
       throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
     }
 
-    // First, convert the ArtifactGroupIdVersion to a ModuleVersion.
-
     for (int i = 1; i < args.length; i++) {
+        // First, convert the ArtifactGroupIdVersion to a ModuleVersion.
+
       try {
         artifactGroupIdVersion = ArtifactGroupIdVersion.parse(args[i]);
       } catch (ParseException pe) {
@@ -401,21 +409,23 @@ public class RootManagerTool {
 
     args = commandLine.getArgs();
 
-    if (args.length != 2) {
+    if (args.length < 2) {
       throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
     }
 
-    try {
-      moduleVersion = ModuleVersion.parse(args[1]);
-    } catch (ParseException pe) {
-      throw new RuntimeExceptionUserError(pe.getMessage());
-    }
+    for (int i = 1; i < args.length; i++) {
+      try {
+        moduleVersion = ModuleVersion.parse(args[i]);
+      } catch (ParseException pe) {
+        throw new RuntimeExceptionUserError(pe.getMessage());
+      }
 
-    if (!RootManager.containsModuleVersion(moduleVersion)) {
-      System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_NOT_IN_LIST_OF_ROOTS), moduleVersion));
-    } else {
-      RootManager.removeModuleVersion(moduleVersion);
-      System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REMOVED_FROM_LIST_OF_ROOTS), moduleVersion));
+      if (!RootManager.containsModuleVersion(moduleVersion)) {
+        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_NOT_IN_LIST_OF_ROOTS), moduleVersion));
+      } else {
+        RootManager.removeModuleVersion(moduleVersion);
+        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REMOVED_FROM_LIST_OF_ROOTS), moduleVersion));
+      }
     }
   }
 
@@ -477,23 +487,25 @@ public class RootManagerTool {
 
     args = commandLine.getArgs();
 
-    if (args.length != 2) {
+    if (args.length < 2) {
       throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
     }
 
-    referencePathMatcherOr = RootManager.getReferencePathMatcherOr();
-    try {
-      referencePathMatcherByElement = ReferencePathMatcherByElement.parse(args[1], ExecContextHolder.get().getModel());
-    } catch (ParseException pe) {
-      throw new RuntimeExceptionUserError(pe.getMessage());
-    }
+    for (int i = 1; i < args.length; i++) {
+      referencePathMatcherOr = RootManager.getReferencePathMatcherOr();
+      try {
+        referencePathMatcherByElement = ReferencePathMatcherByElement.parse(args[i], ExecContextHolder.get().getModel());
+      } catch (ParseException pe) {
+        throw new RuntimeExceptionUserError(pe.getMessage());
+      }
 
-    if (referencePathMatcherOr.getListReferencePathMatcher().contains(referencePathMatcherByElement)) {
-      System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ALREADY_IN_LIST), referencePathMatcherByElement));
-    } else {
-      referencePathMatcherOr.addReferencePathMatcher(referencePathMatcherByElement);
-      RootManager.saveReferencePathMatcherOr();
-      System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ADDED_TO_LIST), referencePathMatcherByElement));
+      if (referencePathMatcherOr.getListReferencePathMatcher().contains(referencePathMatcherByElement)) {
+        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ALREADY_IN_LIST), referencePathMatcherByElement));
+       } else {
+        referencePathMatcherOr.addReferencePathMatcher(referencePathMatcherByElement);
+        RootManager.saveReferencePathMatcherOr();
+        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ADDED_TO_LIST), referencePathMatcherByElement));
+      }
     }
   }
 
@@ -509,24 +521,26 @@ public class RootManagerTool {
 
     args = commandLine.getArgs();
 
-    if (args.length != 2) {
+    if (args.length < 2) {
       throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
     }
 
-    referencePathMatcherOr = RootManager.getReferencePathMatcherOr();
+    for (int i = 1; i < args.length; i++) {
+      referencePathMatcherOr = RootManager.getReferencePathMatcherOr();
 
-    try {
-      referencePathMatcherByElement = ReferencePathMatcherByElement.parse(args[1], ExecContextHolder.get().getModel());
-    } catch (ParseException pe) {
-      throw new RuntimeExceptionUserError(pe.getMessage());
-    }
+      try {
+        referencePathMatcherByElement = ReferencePathMatcherByElement.parse(args[i], ExecContextHolder.get().getModel());
+      } catch (ParseException pe) {
+        throw new RuntimeExceptionUserError(pe.getMessage());
+      }
 
-    if (!referencePathMatcherOr.getListReferencePathMatcher().contains(referencePathMatcherByElement)) {
-      System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_NOT_IN_LIST), referencePathMatcherByElement));
-    } else {
-      referencePathMatcherOr.getListReferencePathMatcher().remove(referencePathMatcherByElement);
-      System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST), referencePathMatcherByElement));
-      RootManager.saveReferencePathMatcherOr();
+      if (!referencePathMatcherOr.getListReferencePathMatcher().contains(referencePathMatcherByElement)) {
+        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_NOT_IN_LIST), referencePathMatcherByElement));
+      } else {
+        referencePathMatcherOr.getListReferencePathMatcher().remove(referencePathMatcherByElement);
+        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST), referencePathMatcherByElement));
+        RootManager.saveReferencePathMatcherOr();
+      }
     }
   }
 

@@ -160,6 +160,8 @@ public class DragomToolInvoker {
       String[] arrayTool;
       ToolInvocationInfo toolInvocationInfo;
 
+      CliUtil.initJavaUtilLogging();
+
       Util.applyDragomSystemProperties();
 
       // A LinkedHashMap is used to preserve order for the list of tools shown in the
