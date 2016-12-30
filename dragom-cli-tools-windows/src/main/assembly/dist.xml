@@ -25,6 +25,9 @@ along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
     <fileSet>
       <directory>dist</directory>
       <outputDirectory>/</outputDirectory>
+      <excludes>
+        <exclude>**/.*</exclude>
+      </excludes>
     </fileSet>
   </fileSets>
   <dependencySets>

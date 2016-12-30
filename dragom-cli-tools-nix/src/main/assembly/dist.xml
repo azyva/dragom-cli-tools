@@ -27,6 +27,7 @@ along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
       <outputDirectory>/</outputDirectory>
       <excludes>
         <exclude>bin/*</exclude>
+        <exclude>**/.*</exclude>
       </excludes>
     </fileSet>
     <fileSet>

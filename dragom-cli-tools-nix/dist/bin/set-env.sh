@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
 
-# Sets the Dragom execution environment. Edit this file to suit your
+# Sets the Dragom execution environment. Provide such a file to suit your
 # Dragom installation.
 
 # When called, the DRAGOM_HOME_DIR variable is set to the home directory of
@@ -34,7 +34,7 @@
 declare -A DRAGOM_SYSTEM_PROPERTIES
 DRAGOM_SYSTEM_PROPERTIES[JavaUtilLoggingConfigFile]=$DRAGOM_HOME_DIR/conf/logging.properties
 DRAGOM_SYSTEM_PROPERTIES[JavaUtilLoggingFile]=$DRAGOM_HOME_DIR/log/dragom.log
-# DRAGOM_SYSTEM_PROPERTIES[UrlModel]=/path/to/dragom/model.xml
+# DRAGOM_SYSTEM_PROPERTIES[UrlModel]=$DRAGOM_HOME_DIR/conf/model.xml
 
 # Passed as model properties (prefixed with "org.azyva.dragom.model-property").
 # declare -A MODEL_PROPERTIES

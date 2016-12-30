@@ -1,0 +1,8 @@
+This is a base distribution package for Dragom tools.
+
+It is not expected to be used as is since the Dragom execution environment
+generally needs to be configured to suit a given Dragom installation.
+
+The artifact produced by this module is expected to be reused by a
+client-specific module which should extract this artifact and produce its own
+distribution artifact by overlaying client-specific files, such as set-env.sh.

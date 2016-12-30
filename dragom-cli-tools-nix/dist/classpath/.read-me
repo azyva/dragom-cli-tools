@@ -1,0 +1,6 @@
+To ensure the containing directory is in the Git repository.
+This file is not included in the generated archive.
+
+Files included in this directory are visible in the classpath before the JARs
+of the application. This is a good place to include dragom.properties to
+override the one in dragom-cli-tools.jar.

@@ -16,6 +16,21 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
 
+# Main start script for Dragom tools. It launches the JVM starting
+# org.azyva.dragom.tool.DragomToolInvoker.
+#
+# This script calls set-env.sh which can set various variables to configure the
+# Dragom execution environment. See the comment in set-env.sh for more
+# information.
+#
+# Additional parameters can be passed to the JVM with one or more --jvm-option
+# cli option specified as the first arguments to the script, before the Dragom
+# tool name.
+#
+# Synopsis:
+#
+# dragom [ [ --jvm-option <jvm-option> ] ... ] <dragom-tool> [argument] ...
+
 SCRIPT=`readlink -f $0`
 SCRIPT_DIR=`dirname $SCRIPT`
 DRAGOM_HOME_DIR=`dirname $SCRIPT_DIR`
@@ -23,7 +38,7 @@ DRAGOM_HOME_DIR=`dirname $SCRIPT_DIR`
 . $DRAGOM_HOME_DIR/bin/set-env.sh
 
 if [[ -z "$JAVA_HOME" ]] ; then
-  echo "JAVA_HOME not set. "
+  echo "JAVA_HOME not set."
   exit 1
 fi
 
@@ -51,11 +66,19 @@ for PROPERTY in "${!RUNTIME_PROPERTIES[@]}" ; do
   RUNTIME_PROPERTIES_JVM_OPTIONS="$RUNTIME_PROPERTIES_JVM_OPTIONS -Dorg.azyva.dragom.runtime-property.$PROPERTY=${RUNTIME_PROPERTIES[$PROPERTY]}" 
 done
 
+CLI_JVM_OPTIONS=
+
+while [[ "$1" == "--jvm-option" ]] ; do
+  CLI_JVM_OPTIONS="$CLI_JVM_OPTIONS $2"
+  shift 2
+done
+
 $JAVA_HOME/bin/java \
   $JVM_OPTIONS \
   $SYSTEM_PROPERTIES_JVM_OPTIONS \
   $DRAGOM_SYSTEM_PROPERTIES_JVM_OPTIONS \
   $MODEL_PROPERTIES_JVM_OPTIONS \
   $RUNTIME_PROPERTIES_JVM_OPTIONS \
-  -classpath "$DRAGOM_HOME_DIR/lib/*" \
+  $CLI_JVM_OPTIONS \
+  -classpath "$DRAGOM_HOME_DIR/classpath:$DRAGOM_HOME_DIR/lib/*" \
   org.azyva.dragom.tool.DragomToolInvoker "$@"
