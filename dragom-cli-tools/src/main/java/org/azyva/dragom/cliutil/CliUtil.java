@@ -594,7 +594,7 @@ public final class CliUtil {
 
     CliUtil.logger.debug("Loading properties from " + stringPropertiesFile);
 
-    stringPropertiesFile = stringPropertiesFile.replaceAll("~", Matcher.quoteReplacement(System.getProperty("user.home")));
+    stringPropertiesFile = stringPropertiesFile.replace("~", Matcher.quoteReplacement(System.getProperty("user.home")));
 
     try (InputStream inputStreamProperties = new FileInputStream(stringPropertiesFile )) {
       if (propertiesDefault == null) {
@@ -838,7 +838,10 @@ public final class CliUtil {
             throw new RuntimeException("System property " + property + " referenced in " + javaUtilLoggingConfigFile + " is not defined.");
           }
 
-          matcher.appendReplacement(stringBufferNewJavaUtilLoggingConfig, value);
+          // In a Properties file, \ must be escaped.
+          value = value.replace("\\", "\\\\");
+
+          matcher.appendReplacement(stringBufferNewJavaUtilLoggingConfig, Matcher.quoteReplacement(value));
         }
 
         matcher.appendTail(stringBufferNewJavaUtilLoggingConfig);

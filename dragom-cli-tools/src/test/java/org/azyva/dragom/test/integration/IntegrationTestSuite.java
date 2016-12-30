@@ -297,7 +297,7 @@ TODO:
       Files.copy(inputStreamLoggingProperties, pathLoggingProperties, StandardCopyOption.REPLACE_EXISTING);
       inputStreamLoggingProperties.close();
       loggingProperties = FileUtils.readFileToString(pathLoggingProperties.toFile());
-      loggingProperties = loggingProperties.replaceAll("%test-workspace%", IntegrationTestSuite.pathTestWorkspace.toString());
+      loggingProperties = loggingProperties.replace("%test-workspace%", IntegrationTestSuite.pathTestWorkspace.toString());
       FileUtils.write(pathLoggingProperties.toFile(), loggingProperties);
       inputStreamLoggingProperties = new FileInputStream(pathLoggingProperties.toFile());
       LogManager.getLogManager().readConfiguration(inputStreamLoggingProperties);

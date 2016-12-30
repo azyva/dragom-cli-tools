@@ -225,10 +225,6 @@ public class RootManagerTool {
       option.setLongOpt("ind-allow-duplicate-modules");
       RootManagerTool.options.addOption(option);
 
-      option = new Option(null, null);
-      option.setLongOpt("ind-no-validation");
-      RootManagerTool.options.addOption(option);
-
       CliUtil.addStandardOptions(RootManagerTool.options);
 
       RootManagerTool.indInit = true;
