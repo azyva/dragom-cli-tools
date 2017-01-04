@@ -1,7 +1,7 @@
 #!/bin/bash
 # Copyright 2015 - 2017 AZYVA INC. INC.
 #
-#This file is part of Dragom.
+# This file is part of Dragom.
 #
 # Dragom is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -20,7 +20,7 @@
 # org.azyva.dragom.tool.DragomToolInvoker.
 #
 # This script calls set-env.sh which can set various variables to configure the
-# Dragom execution environment. See the comment in set-env.sh for more
+# Dragom execution environment. See the comments in set-env.sh for more
 # information.
 #
 # Additional parameters can be passed to the JVM with one or more --jvm-option

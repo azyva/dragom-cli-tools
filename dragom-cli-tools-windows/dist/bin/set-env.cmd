@@ -23,13 +23,11 @@ rem Dragom installation.
 rem When called, the DRAGOM_HOME_DIR variable is set to the home directory of
 rem the Dragom CLI tools.
 
-rem Must be set to home of the JVM to use (JRE or JDK).
+rem Must be set to the home of the JVM to use (JRE or JDK).
 rem set JAVA_HOME=
-set JAVA_HOME=java-home
 
 rem Passed as options to the JVM (before the main class).
 rem set JVM_OPTIONS=
-set JVM_OPTIONS=jvm-option
 
 rem Passed as system properties as is.
 rem set SYSTEM_PROPERTY_<system property>=

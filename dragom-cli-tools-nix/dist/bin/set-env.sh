@@ -21,7 +21,7 @@
 # When called, the DRAGOM_HOME_DIR variable is set to the home directory of
 # the Dragom CLI tools.
 
-# Must be set to home of the JVM to use (JRE or JDK).
+# Must be set to the home of the JVM to use (JRE or JDK).
 # JAVA_HOME=
 
 # Passed as options to the JVM (before the main class).
