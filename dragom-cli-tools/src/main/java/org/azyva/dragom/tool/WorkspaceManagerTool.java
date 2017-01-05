@@ -460,6 +460,7 @@ public class WorkspaceManagerTool {
     SortedSet<WorkspaceDirPath> sortedSetWorkspaceDirPath;
     String message;
     boolean indReuseCommitMessage;
+    boolean indAskReuseCommitMessage;
 
     if (this.commandLine.getArgs().length != 1) {
       throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
@@ -469,6 +470,9 @@ public class WorkspaceManagerTool {
 
     // If commit message specified on command line, reuse it for all Modules.
     indReuseCommitMessage = (message != null);
+
+    // Will be used only if !indReuseCommitMessage.
+    indAskReuseCommitMessage = true;
 
     sortedSetWorkspaceDirPath = WorkspaceManagerTool.getSortedSetWorkspaceDirPath();
 
@@ -506,7 +510,13 @@ public class WorkspaceManagerTool {
             if (!indReuseCommitMessage) {
               message = this.userInteractionCallbackPlugin.getInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_SPECIFY_MESSAGE), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
-              Util.getInfoYesNoUserResponse(this.userInteractionCallbackPlugin, WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_REUSE_COMMIT_MESSAGE), YesAlwaysNoUserResponse.YES);
+              if (indAskReuseCommitMessage) {
+                if (Util.getInfoYesNoUserResponse(this.userInteractionCallbackPlugin, WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_REUSE_COMMIT_MESSAGE), YesAlwaysNoUserResponse.YES) == YesAlwaysNoUserResponse.YES) {
+                  indReuseCommitMessage = true;
+                } else {
+                  indAskReuseCommitMessage = false;
+                }
+              }
             }
 
             this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_COMMITTING), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));

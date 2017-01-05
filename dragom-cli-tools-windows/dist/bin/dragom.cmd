@@ -112,7 +112,7 @@ set STATE=
 set CLI_JVM_OPTIONS=
 set ARGS=
 
-set ORG_ARGS=%*
+set "ORG_ARGS=%*"
 
 rem The 2 empty lines after this set are important. This solution was found here:
 rem http://stackovervlow.com/questions/2524928/dos-batch-iterate-through-a-delimited-string
@@ -128,18 +128,24 @@ for /f %%A in ("%ORG_ARGS: =!NEWLINE!%") do (
     if "%%A" == "--jvm-option" (
       set STATE=jvm-option
     ) else (
-      set ARGS=!ARGS! %%A
+      set "ARGS=!ARGS! %%A"
       set STATE=arg
     )
   ) else if "!STATE!" == "jvm-option" (
     set CLI_JVM_OPTIONS=!CLI_JVM_OPTIONS! %%A
     set STATE=
   ) else if "!STATE!" == "arg" (
-    set ARGS=!ARGS! %%A
+    set "ARGS=!ARGS! %%A"
   )
 )
 
 :continue1
+
+rem The computed arguments and options could very well include reserved characters
+rem which would need to be escaped. We neglect handling them, except for ARGS
+rem which could include a --reference-path-matcher option that includes ">".
+
+set "ARGS=%ARGS:>=^>%"
 
 %JAVA_HOME%/bin/java ^
   %JVM_OPTIONS% ^
