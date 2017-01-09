@@ -30,16 +30,14 @@
 # Passed as system properties as is.
 # declare -A SYSTEM_PROPERTIES
 
-# Passed as system properties prefixed with "org.azyva.dragom".
+# Passed as system properties prefixed with "org.azyva.dragom.".
 declare -A DRAGOM_SYSTEM_PROPERTIES
 DRAGOM_SYSTEM_PROPERTIES[JavaUtilLoggingConfigFile]=$DRAGOM_HOME_DIR/conf/logging.properties
 DRAGOM_SYSTEM_PROPERTIES[JavaUtilLoggingFile]=$DRAGOM_HOME_DIR/log/dragom.log
-# DRAGOM_SYSTEM_PROPERTIES[UrlModel]=$DRAGOM_HOME_DIR/conf/model.xml
 
-# Passed as model properties (prefixed with "org.azyva.dragom.model-property").
-# declare -A MODEL_PROPERTIES
-# MODEL_PROPERTIES[GIT_REPOS_BASE_URL]=https://acme.com/bitbucket/scm
-
-# Passed as runtime properties (prefixed with "org.azyva.dragom.runtime-property").
-# declare -A RUNTIME_PROPERTIES
-# RUNTIME_PROPERTIES[GIT_PATH_EXECUTABLE]=git
+# Passed as initialization properties (prefixes with
+# "org.azyva.dragom.init-property.").
+# declare -A INIT_PROPERTIES
+# INIT_PROPERTIES[URL_MODEL]=$DRAGOM_HOME_DIR/conf/model.xml
+# INIT_PROPERTIES[GIT_REPOS_BASE_URL]=https://acme.com/bitbucket/scm
+# INIT_PROPERTIES[GIT_PATH_EXECUTABLE]=/path/to/git/executable/git

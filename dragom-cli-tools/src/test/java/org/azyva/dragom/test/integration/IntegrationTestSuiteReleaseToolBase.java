@@ -93,10 +93,10 @@ public class IntegrationTestSuiteReleaseToolBase {
         throw new RuntimeException(ioe);
       }
 
-      System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
-      System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
-      System.setProperty("org.azyva.dragom.ModuleExistenceCacheFile" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
-      System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
+      System.setProperty("org.azyva.dragom.init-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
+      System.setProperty("org.azyva.dragom.init-property.URL_MODEL" , pathModel.toUri().toString());
+      System.setProperty("org.azyva.dragom.init-property.MODULE_EXISTENCE_CACHE_FILE" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
+      System.setProperty("org.azyva.dragom.init-property.IND_ECHO_INFO", "true");
 
       // ###############################################################################
 
@@ -132,7 +132,7 @@ public class IntegrationTestSuiteReleaseToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.IND_ALLOW_USER_SPECIFIED_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectStaticVersionPlugin", "true");
+      System.setProperty("org.azyva.dragom.init-property.IND_ALLOW_USER_SPECIFIED_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectStaticVersionPlugin", "true");
 
       // Response "uniform" to "specify plugin ID".
       IntegrationTestSuite.inputStreamDouble.write("uniform\n");
@@ -166,8 +166,8 @@ public class IntegrationTestSuiteReleaseToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectStaticVersionPlugin", "uniform");
-      System.setProperty("org.azyva.dragom.runtime-property.RELEASE_ISOLATION_MODE", "REVERT_ARTIFACT_VERSION");
+      System.setProperty("org.azyva.dragom.init-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectStaticVersionPlugin", "uniform");
+      System.setProperty("org.azyva.dragom.init-property.RELEASE_ISOLATION_MODE", "REVERT_ARTIFACT_VERSION");
 
       // Response "N" to "do you want to reuse existing static version"
       IntegrationTestSuite.inputStreamDouble.write("N\n");

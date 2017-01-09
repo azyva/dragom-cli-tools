@@ -94,12 +94,12 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
         throw new RuntimeException(ioe);
       }
 
-      System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
-      System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
-      System.setProperty("org.azyva.dragom.ModuleExistenceCacheFile" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
-      System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
-      System.setProperty("org.azyva.dragom.runtime-property.IND_PASSWORD_INPUT_NORMAL", "true");
-      System.setProperty("org.azyva.dragom.MasterKeyFile", IntegrationTestSuite.pathTestWorkspace.resolve("master-password").toString());
+      System.setProperty("org.azyva.dragom.init-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
+      System.setProperty("org.azyva.dragom.init-property.URL_MODEL" , pathModel.toUri().toString());
+      System.setProperty("org.azyva.dragom.init-property.MODULE_EXISTENCE_CACHE_FILE" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
+      System.setProperty("org.azyva.dragom.init-property.IND_ECHO_INFO", "true");
+      System.setProperty("org.azyva.dragom.init-property.IND_PASSWORD_INPUT_NORMAL", "true");
+      System.setProperty("org.azyva.dragom.init-property.MASTER_KEY_FILE", IntegrationTestSuite.pathTestWorkspace.resolve("master-key").toString());
       System.setProperty("org.azyva.dragom.DefaultServiceImpl.org.azyva.dragom.jenkins.JenkinsClient", "org.azyva.dragom.test.integration.setupjenkinsjobs.JenkinsClientTestDouble");
 
 
@@ -139,9 +139,9 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_USER", "correct-user");
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test");
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_USER", "correct-user");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_PROJECT", "dragom-test");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_IND_INCLUDE_VERSION", "true");
 
       JenkinsClientTestDouble.createInitialFolder("build/ci/projects");
 
@@ -169,8 +169,8 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test");
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_PROJECT", "dragom-test");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_IND_INCLUDE_VERSION", "true");
 
       IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --reference-path-matcher=**->/:(D/.*)");
 
@@ -190,8 +190,8 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test");
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_PROJECT", "dragom-test");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_IND_INCLUDE_VERSION", "true");
 
       IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --reference-path-matcher=**->/:(S/.*)");
 
@@ -211,8 +211,8 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test");
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_PROJECT", "dragom-test");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_IND_INCLUDE_VERSION", "true");
 
       IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --existing-items-created-file-mode=REPLACE --reference-path-matcher=/dummy");
 
@@ -235,8 +235,8 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test/");
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_PROJECT", "dragom-test/");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_IND_INCLUDE_VERSION", "true");
 
       IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --reference-path-matcher=**->/:(D/.*)");
 
@@ -256,8 +256,8 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test/");
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_PROJECT", "dragom-test/");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_IND_INCLUDE_VERSION", "true");
 
       JenkinsClientTestDouble.createInitialJob("build/ci/projects/dragom-test/sticky-job");
 
@@ -279,8 +279,8 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test/");
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_PROJECT", "dragom-test/");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_IND_INCLUDE_VERSION", "true");
 
       IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --existing-items-created-file-mode=REPLACE_NO_DELETE_FOLDER --reference-path-matcher=/dummy");
 
@@ -300,8 +300,8 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_PROJECT", "dragom-test/");
-      System.setProperty("org.azyva.dragom.runtime-property.JENKINS_IND_INCLUDE_VERSION", "true");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_PROJECT", "dragom-test/");
+      System.setProperty("org.azyva.dragom.init-property.JENKINS_IND_INCLUDE_VERSION", "true");
 
       IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --existing-items-created-file-mode=REPLACE --reference-path-matcher=/dummy");
 

@@ -100,10 +100,10 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
         throw new RuntimeException(ioe);
       }
 
-      System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
-      System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
-      System.setProperty("org.azyva.dragom.ModuleExistenceCacheFile" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
-      System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
+      System.setProperty("org.azyva.dragom.init-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
+      System.setProperty("org.azyva.dragom.init-property.URL_MODEL" , pathModel.toUri().toString());
+      System.setProperty("org.azyva.dragom.init-property.MODULE_EXISTENCE_CACHE_FILE" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
+      System.setProperty("org.azyva.dragom.init-property.IND_ECHO_INFO", "true");
 
       // ###############################################################################
 
@@ -137,24 +137,24 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_HOME", System.getenv("MAVEN_HOME"));
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_LOCAL_REPO", IntegrationTestSuite.pathTestWorkspace.toAbsolutePath().resolve("repository").toString());
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_SETTINGS", IntegrationTestSuite.pathTestWorkspace.toAbsolutePath().resolve("settings.xml").toString());
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_TARGETS", "package install");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_IND_CLEAN_BEFORE_BUILD", "true");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_PROPERTIES", "prop1,prop2,-prop1");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_PROPERTY.prop1", "value1");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_PROPERTY.prop2", "value1");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_PROFILES", "profile1,profile2");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_IND_UPDATE_SNAPSHOTS", "true");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_IND_FAIL_FAST", "true");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_POM_FILE", "pom.xml");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_IND_OFFLINE", "false");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_IND_SHOW_VERSION", "true");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_EXTRA_OPTIONS", "-X");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_IND_WRITE_LOG_TO_FILE", "true");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_LOG_FILE", "build-log");
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_RELATIVE_LOG_FILE_BASE", "MODULE");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_HOME", System.getenv("MAVEN_HOME"));
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_LOCAL_REPO", IntegrationTestSuite.pathTestWorkspace.toAbsolutePath().resolve("repository").toString());
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_SETTINGS", IntegrationTestSuite.pathTestWorkspace.toAbsolutePath().resolve("settings.xml").toString());
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_TARGETS", "package install");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_IND_CLEAN_BEFORE_BUILD", "true");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_PROPERTIES", "prop1,prop2,-prop1");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_PROPERTY.prop1", "value1");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_PROPERTY.prop2", "value1");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_PROFILES", "profile1,profile2");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_IND_UPDATE_SNAPSHOTS", "true");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_IND_FAIL_FAST", "true");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_POM_FILE", "pom.xml");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_IND_OFFLINE", "false");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_IND_SHOW_VERSION", "true");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_EXTRA_OPTIONS", "-X");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_IND_WRITE_LOG_TO_FILE", "true");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_LOG_FILE", "build-log");
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_RELATIVE_LOG_FILE_BASE", "MODULE");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Build BuildToolHelp.txt --workspace=workspace --reference-path-matcher=** (with many runtime properties for the MavenBuilderPluginImpl)");
       try {
@@ -166,28 +166,28 @@ public class IntegrationTestSuiteBuildToolMavenBuilderPluginImplConfig {
 
       // ###############################################################################
 
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_HOME");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_LOCAL_REPO");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_SETTINGS");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_TARGETS");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_IND_CLEAN_BEFORE_BUILD");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_PROPERTIES");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_PROPERTY.prop1");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_PROPERTY.prop2");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_PROFILES");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_IND_UPDATE_SNAPSHOTS");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_IND_FAIL_FAST");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_POM_FILE");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_IND_OFFLINE");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_IND_SHOW_VERSION");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_EXTRA_OPTIONS");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_IND_WRITE_LOG_TO_FILE");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_LOG_FILE");
-      System.clearProperty("org.azyva.dragom.runtime-property.MAVEN_RELATIVE_LOG_FILE_BASE");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_HOME");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_LOCAL_REPO");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_SETTINGS");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_TARGETS");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_IND_CLEAN_BEFORE_BUILD");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_PROPERTIES");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_PROPERTY.prop1");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_PROPERTY.prop2");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_PROFILES");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_IND_UPDATE_SNAPSHOTS");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_IND_FAIL_FAST");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_POM_FILE");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_IND_OFFLINE");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_IND_SHOW_VERSION");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_EXTRA_OPTIONS");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_IND_WRITE_LOG_TO_FILE");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_LOG_FILE");
+      System.clearProperty("org.azyva.dragom.init-property.MAVEN_RELATIVE_LOG_FILE_BASE");
 
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_JDK_HOME.MAVEN_3.3.9", System.getenv("JAVA_HOME"));
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_LOCAL_REPO.MAVEN_3.3.9", IntegrationTestSuite.pathTestWorkspace.toAbsolutePath().resolve("repository").toString());
-      System.setProperty("org.azyva.dragom.runtime-property.MAVEN_GLOBAL_SETTINGS.MAVEN_3.3.9", IntegrationTestSuite.pathTestWorkspace.toAbsolutePath().resolve("settings.xml").toString());
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_JDK_HOME.MAVEN_3.3.9", System.getenv("JAVA_HOME"));
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_LOCAL_REPO.MAVEN_3.3.9", IntegrationTestSuite.pathTestWorkspace.toAbsolutePath().resolve("repository").toString());
+      System.setProperty("org.azyva.dragom.init-property.MAVEN_GLOBAL_SETTINGS.MAVEN_3.3.9", IntegrationTestSuite.pathTestWorkspace.toAbsolutePath().resolve("settings.xml").toString());
 
       pathDragomProperties = IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a/dragom.properties");
       inputStream = IntegrationTestSuite.class.getResourceAsStream("/dragom.properties");

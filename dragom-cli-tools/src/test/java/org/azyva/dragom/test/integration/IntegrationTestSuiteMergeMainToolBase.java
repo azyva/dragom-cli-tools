@@ -100,10 +100,10 @@ public class IntegrationTestSuiteMergeMainToolBase {
         throw new RuntimeException(ioe);
       }
 
-      System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
-      System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
-      System.setProperty("org.azyva.dragom.ModuleExistenceCacheFile" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
-      System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
+      System.setProperty("org.azyva.dragom.init-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
+      System.setProperty("org.azyva.dragom.init-property.URL_MODEL" , pathModel.toUri().toString());
+      System.setProperty("org.azyva.dragom.init-property.MODULE_EXISTENCE_CACHE_FILE" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
+      System.setProperty("org.azyva.dragom.init-property.IND_ECHO_INFO", "true");
 
       // ###############################################################################
 
@@ -137,10 +137,10 @@ public class IntegrationTestSuiteMergeMainToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "uniform");
-      System.setProperty("org.azyva.dragom.runtime-property.ALSO_PROCESS_DYNAMIC_VERSION", "ALWAYS");
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/merge-main-test");
-      System.setProperty("org.azyva.dragom.runtime-property.IND_USE_DEFAULT_VERSION_AS_BASE", "true");
+      System.setProperty("org.azyva.dragom.init-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "uniform");
+      System.setProperty("org.azyva.dragom.init-property.ALSO_PROCESS_DYNAMIC_VERSION", "ALWAYS");
+      System.setProperty("org.azyva.dragom.init-property.SPECIFIC_DYNAMIC_VERSION", "D/merge-main-test");
+      System.setProperty("org.azyva.dragom.init-property.IND_USE_DEFAULT_VERSION_AS_BASE", "true");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.SwitchToDynamicVersion SwitchToDynamicVersionToolHelp.txt --no-confirm --workspace=workspace --reference-path-matcher=**->/Domain2/app-b-model");
       try {
@@ -165,11 +165,11 @@ public class IntegrationTestSuiteMergeMainToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectStaticVersionPlugin", "uniform");
-      System.setProperty("org.azyva.dragom.runtime-property.CAN_REUSE_EXISTING_EQUIVALENT_STATIC_VERSION", "ALWAYS");
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_STATIC_VERSION_PREFIX", "S/v-2001-01-01");
-      System.setProperty("org.azyva.dragom.runtime-property.RELEASE_ISOLATION_MODE", "REVERT_ARTIFACT_VERSION");
-      System.setProperty("org.azyva.dragom.runtime-property.IND_NO_PRE_RELEASE_VERSION_VALIDATION_BUILD", "true");
+      System.setProperty("org.azyva.dragom.init-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectStaticVersionPlugin", "uniform");
+      System.setProperty("org.azyva.dragom.init-property.CAN_REUSE_EXISTING_EQUIVALENT_STATIC_VERSION", "ALWAYS");
+      System.setProperty("org.azyva.dragom.init-property.SPECIFIC_STATIC_VERSION_PREFIX", "S/v-2001-01-01");
+      System.setProperty("org.azyva.dragom.init-property.RELEASE_ISOLATION_MODE", "REVERT_ARTIFACT_VERSION");
+      System.setProperty("org.azyva.dragom.init-property.IND_NO_PRE_RELEASE_VERSION_VALIDATION_BUILD", "true");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Release ReleaseToolHelp.txt --no-confirm --workspace=workspace --reference-path-matcher=**");
       try {
@@ -201,8 +201,8 @@ public class IntegrationTestSuiteMergeMainToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.CAN_REUSE_DEST_VERSION", "ALWAYS");
-      System.setProperty("org.azyva.dragom.runtime-property.REUSE_DEST_VERSION", "D/master");
+      System.setProperty("org.azyva.dragom.init-property.CAN_REUSE_DEST_VERSION", "ALWAYS");
+      System.setProperty("org.azyva.dragom.init-property.REUSE_DEST_VERSION", "D/master");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.MergeMain MergeMainToolHelp.txt --no-confirm --workspace=workspace --reference-path-matcher=**");
       try {

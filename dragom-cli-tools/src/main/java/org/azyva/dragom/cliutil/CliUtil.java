@@ -68,50 +68,6 @@ import org.slf4j.LoggerFactory;
 public final class CliUtil {
   private static final Logger logger = LoggerFactory.getLogger(CliUtil.class);
 
-  /**
-   * See description in ResourceBundle.
-   */
-  public static final String MSG_PATTERN_KEY_USER_ERROR_PREFIX = "USER_ERROR_PREFIX";
-
-  /**
-   * See description in ResourceBundle.
-   */
-  public static final String MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE = "ERROR_PARSING_COMMAND_LINE";
-
-  /**
-   * See description in ResourceBundle.
-   */
-  public static final String MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION = "ERROR_PARSING_COMMAND_LINE_OPTION";
-
-  /**
-   * See description in ResourceBundle.
-   */
-  public static final String MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT = "INVALID_ARGUMENT_COUNT";
-
-  /**
-   * See description in ResourceBundle.
-   */
-  public static final String MSG_PATTERN_KEY_INVALID_COMMAND = "INVALID_COMMAND";
-
-  /**
-   * See description in ResourceBundle.
-   */
-  public static final String MSG_PATTERN_KEY_ROOT_MODULE_VERSION_NOT_ALLOWED_WHEN_SPECIFIED_WORKSPACE = "ROOT_MODULE_VERSION_NOT_ALLOWED_WHEN_SPECIFIED_WORKSPACE";
-
-  /**
-   * See description in ResourceBundle.
-   */
-  public static final String MSG_PATTERN_KEY_ROOT_MODULE_VERSION_REQUIRED_WHEN_NOT_SPECIFIED_WORKSPACE = "ROOT_MODULE_VERSION_REQUIRED_WHEN_NOT_SPECIFIED_WORKSPACE";
-
-  /**
-   * See description in ResourceBundle.
-   */
-  public static final String MSG_PATTERN_KEY_ROOT_MODULE_VERSION_REQUIRED_WORKSPACE = "ROOT_MODULE_VERSION_REQUIRED_WORKSPACE";
-
-  /**
-   * See description in ResourceBundle.
-   */
-  public static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIRED = "REFERENCE_PATH_MATCHER_REQUIRED";
 
   /**
    * System property that specifies if a user properties file is supported.
@@ -228,6 +184,58 @@ public final class CliUtil {
    * {@link CliUtil#initJavaUtilLogging}.
    */
   public static final String SYS_PROPERTY_JAVA_UTIL_LOGGING_CONFIG_FILE = "org.azyva.dragom.JavaUtilLoggingConfigFile";
+
+  /**
+   * System property prefix for initialization properties.
+   *
+   * <p>System properties having this prefix are interpreted as initialization
+   * properties.
+   */
+  private static final String SYS_PROPERTY_PREFIX_INIT_PROPERTY = "org.azyva.dragom.init-property.";
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_USER_ERROR_PREFIX = "USER_ERROR_PREFIX";
+
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE = "ERROR_PARSING_COMMAND_LINE";
+
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION = "ERROR_PARSING_COMMAND_LINE_OPTION";
+
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT = "INVALID_ARGUMENT_COUNT";
+
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_INVALID_COMMAND = "INVALID_COMMAND";
+
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_ROOT_MODULE_VERSION_NOT_ALLOWED_WHEN_SPECIFIED_WORKSPACE = "ROOT_MODULE_VERSION_NOT_ALLOWED_WHEN_SPECIFIED_WORKSPACE";
+
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_ROOT_MODULE_VERSION_REQUIRED_WHEN_NOT_SPECIFIED_WORKSPACE = "ROOT_MODULE_VERSION_REQUIRED_WHEN_NOT_SPECIFIED_WORKSPACE";
+
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_ROOT_MODULE_VERSION_REQUIRED_WORKSPACE = "ROOT_MODULE_VERSION_REQUIRED_WORKSPACE";
+
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIRED = "REFERENCE_PATH_MATCHER_REQUIRED";
 
   /**
    * ResourceBundle specific to this class.
@@ -415,7 +423,8 @@ public final class CliUtil {
    * <li>Dragom properties are merged into System properties using
    *     {@link Util#applyDragomSystemProperties}. System properties take precedence
    *     over Dragom properties;
-   * <li>Initialize an empty Properties with system Properties as defaults. This
+   * <li>Initialize an empty Properties with system properties (System.getProperties)
+   *     that are prefixed with "org.azyva.dragom.init-property" as defaults. This
    *     Properties when fully initialized will become the workspace initialization
    *     Properties;
    * <li>If the org.azyva.IndUserProperties system property is defined, load the
@@ -470,8 +479,7 @@ public final class CliUtil {
   public static ExecContext setupExecContext(CommandLine commandLine, boolean indSet) {
     ExecContextFactory execContextFactory;
     WorkspaceExecContextFactory workspaceExecContextFactory;
-    Properties propertiesSystem;
-    Properties propertiesWorkspace;
+    Properties propertiesInit;
     String workspaceDir;
     String stringPropertiesFile;
     ExecContext execContext;
@@ -484,10 +492,7 @@ public final class CliUtil {
 
     workspaceExecContextFactory = (WorkspaceExecContextFactory)execContextFactory;
 
-    Util.applyDragomSystemProperties();
-
-    propertiesSystem = System.getProperties();
-    propertiesWorkspace = propertiesSystem;
+    propertiesInit = Util.getPropertiesDefaultInit();
 
     if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROPERTY_IND_USER_PROPERTIES))) {
       stringPropertiesFile = commandLine.getOptionValue(CliUtil.getUserPropertiesFileCommandLineOption());
@@ -497,22 +502,34 @@ public final class CliUtil {
       }
 
       if (stringPropertiesFile != null) {
-        propertiesWorkspace = CliUtil.loadProperties(stringPropertiesFile, propertiesWorkspace);
+        propertiesInit = CliUtil.loadProperties(stringPropertiesFile, propertiesInit);
       }
     }
 
-    // We do not want to add to the system properties.
-    if (propertiesWorkspace == propertiesSystem) {
-      propertiesWorkspace = new Properties(propertiesSystem);
+    Util.applyDragomSystemProperties();
+
+    // In general initialization properties defined as system properties with the
+    // "org.azyva.dragom.init-property." prefix are expected to have been provided
+    // as -D JVM arguments and as such are expected by the user to have precedence
+    // over initialization properties provided in the user.properties file loaded just
+    // above. Initialization properties defined in the dragom.properties file
+    // (see Util#applyDragomSystemProperties) will also have precedence, which is
+    // generally not desirable. That is why a separate dragom-init.properties file
+    // (loaded with Util.getPropertiesDefaultInit above) is used for default
+    // initialization properties.
+    for (String initProperty: System.getProperties().stringPropertyNames()) {
+      if (initProperty.startsWith(CliUtil.SYS_PROPERTY_PREFIX_INIT_PROPERTY)) {
+        propertiesInit.setProperty(initProperty.substring(CliUtil.SYS_PROPERTY_PREFIX_INIT_PROPERTY.length()), System.getProperty(initProperty));
+      }
     }
 
     workspaceDir = commandLine.getOptionValue(CliUtil.getWorkspacePathCommandLineOption());
 
     if (workspaceDir != null) {
-      propertiesWorkspace.setProperty(workspaceExecContextFactory.getWorkspaceDirInitProperty(), workspaceDir);
+      propertiesInit.setProperty(workspaceExecContextFactory.getWorkspaceDirInitProperty(), workspaceDir);
     }
 
-    execContext = execContextFactory.getExecContext(propertiesWorkspace);
+    execContext = execContextFactory.getExecContext(propertiesInit);
 
     if (indSet) {
       Properties propertiesTool;
@@ -549,7 +566,7 @@ public final class CliUtil {
       // properties. But they are supported as explicit command line arguments since
       // they are general and often used.
       if (commandLine.hasOption(CliUtil.getNoConfirmCommandLineOption())) {
-        propertiesTool.setProperty("runtime-property." + Util.RUNTIME_PROPERTY_IND_NO_CONFIRM, "true");
+        propertiesTool.setProperty(Util.RUNTIME_PROPERTY_IND_NO_CONFIRM, "true");
       } else {
         String[] tabNoConfirmContext;
 
@@ -557,7 +574,7 @@ public final class CliUtil {
 
         if (tabNoConfirmContext != null) {
           for (String context: tabNoConfirmContext) {
-            propertiesTool.setProperty("runtime-property."+ Util.RUNTIME_PROPERTY_IND_NO_CONFIRM + '.' + context, "true");
+            propertiesTool.setProperty(Util.RUNTIME_PROPERTY_IND_NO_CONFIRM + '.' + context, "true");
           }
         }
       }

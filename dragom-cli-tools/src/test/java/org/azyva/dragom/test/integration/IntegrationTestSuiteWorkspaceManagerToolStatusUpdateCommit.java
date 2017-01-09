@@ -96,10 +96,10 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
         throw new RuntimeException(ioe);
       }
 
-      System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
-      System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
-      System.setProperty("org.azyva.dragom.ModuleExistenceCacheFile" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
-      System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
+      System.setProperty("org.azyva.dragom.init-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
+      System.setProperty("org.azyva.dragom.init-property.URL_MODEL" , pathModel.toUri().toString());
+      System.setProperty("org.azyva.dragom.init-property.MODULE_EXISTENCE_CACHE_FILE" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
+      System.setProperty("org.azyva.dragom.init-property.IND_ECHO_INFO", "true");
 
       // ###############################################################################
 
@@ -344,7 +344,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.GIT_IND_PUSH_ALL" , "true");
+      System.setProperty("org.azyva.dragom.init-property.GIT_IND_PUSH_ALL" , "true");
 
       IntegrationTestSuite.printTestHeader("WorkspaceManagerTool --workspace=workspace status (with GIT_IND_PUSH_ALL=true)");
       try {
@@ -354,7 +354,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
       }
       IntegrationTestSuite.printTestFooter();
 
-      System.clearProperty("org.azyva.dragom.runtime-property.GIT_IND_PUSH_ALL");
+      System.clearProperty("org.azyva.dragom.init-property.GIT_IND_PUSH_ALL");
 
       // ###############################################################################
 

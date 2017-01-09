@@ -281,13 +281,13 @@ TODO:
         Files.copy(inputStream, pathModel, StandardCopyOption.REPLACE_EXISTING);
         inputStream.close();
 
-        System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
+        System.setProperty("org.azyva.dragom.init-property.URL_MODEL" , pathModel.toUri().toString());
 
         ExecContextManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "release"});
 
         FileUtils.deleteDirectory(IntegrationTestSuite.pathTestWorkspace.toFile());
 
-        System.getProperties().remove("org.azyva.dragom.UrlModel");
+        System.getProperties().remove("org.azyva.dragom.init-property.URL_MODEL");
       }
 
       IntegrationTestSuite.pathTestWorkspace.toFile().mkdirs();

@@ -65,7 +65,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 
       // ###############################################################################
 
-      IntegrationTestSuite.printTestHeader("ExecContextManagerTool release (with UrlModel not set)");
+      IntegrationTestSuite.printTestHeader("ExecContextManagerTool release (with URL_MODEL not set)");
       try {
         ExecContextManagerTool.main(new String[] {"release"});
       } catch (Exception e) {
@@ -76,7 +76,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
 
       // ###############################################################################
 
-      IntegrationTestSuite.printTestHeader("ExecContextManagerTool --user-properties=dummy-user.properties release (with dummy UrlModel)");
+      IntegrationTestSuite.printTestHeader("ExecContextManagerTool --user-properties=dummy-user.properties release (with dummy URL_MODEL)");
       try {
         inputStream = IntegrationTestSuite.class.getResourceAsStream("/dummy-user.properties");
         pathUserProperties = IntegrationTestSuite.pathTestWorkspace.resolve("dummy-user.properties");
@@ -112,7 +112,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
         throw new RuntimeException(ioe);
       }
 
-      System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
+      System.setProperty("org.azyva.dragom.init-property.URL_MODEL" , pathModel.toUri().toString());
 
       // ###############################################################################
 
@@ -178,13 +178,13 @@ public class IntegrationTestSuiteExecContextManagerTool {
 
       // ###############################################################################
 
-      IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace get-properties (with IndIgnoreCachedExecContext and IndIgnoreCachedModel)");
+      IntegrationTestSuite.printTestHeader("ExecContextManagerTool --workspace=workspace get-properties (with IND_IGNORE_CACHED_EXEC_CONTEXT and IND_IGNORE_CACHED_MODEL)");
       try {
-        System.setProperty("org.azyva.dragom.IndIgnoreCachedExecContext" , "true");
-        System.setProperty("org.azyva.dragom.IndIgnoreCachedModel" , "true");
+        System.setProperty("org.azyva.dragom.init-property.IND_IGNORE_CACHED_EXEC_CONTEXT" , "true");
+        System.setProperty("org.azyva.dragom.init-property.IND_IGNORE_CACHED_MODEL" , "true");
         ExecContextManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "get-properties"});
-        System.getProperties().remove("org.azyva.dragom.IndIgnoreCachedExecContext");
-        System.getProperties().remove("org.azyva.dragom.IndIgnoreCachedModel");
+        System.getProperties().remove("org.azyva.dragom.init-property.IND_IGNORE_CACHED_EXEC_CONTEXT");
+        System.getProperties().remove("org.azyva.dragom.init-property.IND_IGNORE_CACHED_MODEL");
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }
@@ -451,7 +451,7 @@ public class IntegrationTestSuiteExecContextManagerTool {
       }
       IntegrationTestSuite.printTestFooter();
 
-      System.getProperties().remove("org.azyva.dragom.UrlModel");
+      System.getProperties().remove("org.azyva.dragom.init-property.URL_MODEL");
     } catch (Exception e) {
       e.printStackTrace();
     }

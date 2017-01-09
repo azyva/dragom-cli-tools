@@ -35,10 +35,9 @@ rem set SYSTEM_PROPERTY_<system property>=
 rem Passed as system properties prefixed with "org.azyva.dragom".
 set DRAGOM_SYSTEM_PROPERTY_JavaUtilLoggingConfigFile=%DRAGOM_HOME_DIR%\conf\logging.properties
 set DRAGOM_SYSTEM_PROPERTY_JavaUtilLoggingFile=%DRAGOM_HOME_DIR%\log\dragom.log
-rem set DRAGOM_SYSTEM_PROPERTY_UrlModel=%DRAGOM_HOME_DIR%\conf\model.xml
 
-rem Passed as model properties (prefixed with "org.azyva.dragom.model-property").
-rem set MODEL_PROPERTY_GIT_REPOS_BASE_URL=https://acme.com/bitbucket/scm
-
-rem Passed as runtime properties (prefixed with "org.azyva.dragom.runtime-property").
-set RUNTIME_PROPERTY_GIT_PATH_EXECUTABLE=git.exe
+rem Passed as initialization properties (prefixed with
+rem "org.azyva.dragom.init-property").
+rem set INIT_PROPERTY_URL_MODEL=%DRAGOM_HOME_DIR%\conf\model.xml
+rem set INIT_PROPERTY_GIT_REPOS_BASE_URL=https://acme.com/bitbucket/scm
+rem set INIT_PROPERTY_GIT_PATH_EXECUTABLE=\path\to\git\executable\git.exe

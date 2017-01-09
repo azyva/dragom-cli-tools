@@ -93,10 +93,10 @@ public class IntegrationTestSuiteReleaseToolSemantic {
         throw new RuntimeException(ioe);
       }
 
-      System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
-      System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
-      System.setProperty("org.azyva.dragom.ModuleExistenceCacheFile" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
-      System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
+      System.setProperty("org.azyva.dragom.init-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
+      System.setProperty("org.azyva.dragom.init-property.URL_MODEL" , pathModel.toUri().toString());
+      System.setProperty("org.azyva.dragom.init-property.MODULE_EXISTENCE_CACHE_FILE" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
+      System.setProperty("org.azyva.dragom.init-property.IND_ECHO_INFO", "true");
 
       // ###############################################################################
 
@@ -110,8 +110,8 @@ public class IntegrationTestSuiteReleaseToolSemantic {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectStaticVersionPlugin", "semantic");
-      System.setProperty("org.azyva.dragom.runtime-property.RELEASE_ISOLATION_MODE", "REVERT_ARTIFACT_VERSION");
+      System.setProperty("org.azyva.dragom.init-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectStaticVersionPlugin", "semantic");
+      System.setProperty("org.azyva.dragom.init-property.RELEASE_ISOLATION_MODE", "REVERT_ARTIFACT_VERSION");
 
       // There is no equivalent version since commit attributes not recorded in test
       // repository.
@@ -152,7 +152,7 @@ public class IntegrationTestSuiteReleaseToolSemantic {
       // back Domain2/app-b-model in development within the graph since it was released
       // above.
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "uniform");
+      System.setProperty("org.azyva.dragom.init-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "uniform");
 
       // Response "D/develop-project1" to "to which version do you want to switch"
       IntegrationTestSuite.inputStreamDouble.write("D/develop-project1\n");
@@ -303,8 +303,8 @@ public class IntegrationTestSuiteReleaseToolSemantic {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.Domain2.app-b.NEW_SEMANTIC_VERSION_TYPE", "MAJOR");
-      System.setProperty("org.azyva.dragom.runtime-property.Domain2.app-b-model.NEW_SEMANTIC_VERSION_TYPE", "MINOR");
+      System.setProperty("org.azyva.dragom.init-property.Domain2.app-b.NEW_SEMANTIC_VERSION_TYPE", "MAJOR");
+      System.setProperty("org.azyva.dragom.init-property.Domain2.app-b-model.NEW_SEMANTIC_VERSION_TYPE", "MINOR");
 
       // Response "A" to "do you want to continue creating static version"
       IntegrationTestSuite.inputStreamDouble.write("A\n");
@@ -373,8 +373,8 @@ public class IntegrationTestSuiteReleaseToolSemantic {
 
       // ###############################################################################
 
-      System.clearProperty("org.azyva.dragom.runtime-property.Domain2.app-b.NEW_SEMANTIC_VERSION_TYPE");
-      System.clearProperty("org.azyva.dragom.runtime-property.Domain2.app-b-model.NEW_SEMANTIC_VERSION_TYPE");
+      System.clearProperty("org.azyva.dragom.init-property.Domain2.app-b.NEW_SEMANTIC_VERSION_TYPE");
+      System.clearProperty("org.azyva.dragom.init-property.Domain2.app-b-model.NEW_SEMANTIC_VERSION_TYPE");
 
       // Response "MAJOR" to "which version type"
       IntegrationTestSuite.inputStreamDouble.write("MAJOR\n");
@@ -443,8 +443,8 @@ public class IntegrationTestSuiteReleaseToolSemantic {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.Domain2.app-b.NEW_SEMANTIC_VERSION_TYPE", "MAJOR");
-      System.setProperty("org.azyva.dragom.runtime-property.Domain2.app-b-model.NEW_SEMANTIC_VERSION_TYPE", "MINOR");
+      System.setProperty("org.azyva.dragom.init-property.Domain2.app-b.NEW_SEMANTIC_VERSION_TYPE", "MAJOR");
+      System.setProperty("org.azyva.dragom.init-property.Domain2.app-b-model.NEW_SEMANTIC_VERSION_TYPE", "MINOR");
 
       // Response "A" to "do you want to continue creating static version"
       IntegrationTestSuite.inputStreamDouble.write("A\n");

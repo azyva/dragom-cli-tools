@@ -93,10 +93,10 @@ public class IntegrationTestSuiteBuildToolUserSystemMode {
         throw new RuntimeException(ioe);
       }
 
-      System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
-      System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
-      System.setProperty("org.azyva.dragom.ModuleExistenceCacheFile" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
-      System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
+      System.setProperty("org.azyva.dragom.init-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
+      System.setProperty("org.azyva.dragom.init-property.URL_MODEL" , pathModel.toUri().toString());
+      System.setProperty("org.azyva.dragom.init-property.MODULE_EXISTENCE_CACHE_FILE" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
+      System.setProperty("org.azyva.dragom.init-property.IND_ECHO_INFO", "true");
 
       // ###############################################################################
 
@@ -140,7 +140,7 @@ public class IntegrationTestSuiteBuildToolUserSystemMode {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.BUILD_SCOPE", "ONLY_USER_ABORT_IF_SYSTEM");
+      System.setProperty("org.azyva.dragom.init-property.BUILD_SCOPE", "ONLY_USER_ABORT_IF_SYSTEM");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Build BuildToolHelp.txt --workspace=workspace --reference-path-matcher=** (with BUILD_SCOPE runtime property set to ONLY_USER_ABORT_IF_SYSTEM)");
       try {
@@ -152,7 +152,7 @@ public class IntegrationTestSuiteBuildToolUserSystemMode {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.BUILD_SCOPE", "ALL");
+      System.setProperty("org.azyva.dragom.init-property.BUILD_SCOPE", "ALL");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Build BuildToolHelp.txt --workspace=workspace --reference-path-matcher=** (with BUILD_SCOPE runtime property set to ALL)");
       try {
@@ -165,7 +165,7 @@ public class IntegrationTestSuiteBuildToolUserSystemMode {
       // ###############################################################################
 
       // This does not fully test this case since all modules have the ArtiafctInfoPlugin.
-      System.setProperty("org.azyva.dragom.runtime-property.BUILD_SCOPE", "ALL_ABORT_IF_SYSTEM_AND_NO_ARTIFACT");
+      System.setProperty("org.azyva.dragom.init-property.BUILD_SCOPE", "ALL_ABORT_IF_SYSTEM_AND_NO_ARTIFACT");
 
       IntegrationTestSuite.printTestHeader("GenericRootModuleVersionJobInvokerTool org.azyva.dragom.job.Build BuildToolHelp.txt --workspace=workspace --reference-path-matcher=** (with BUILD_SCOPE runtime property set to ALL_ABORT_IF_SYSTEM_AND_NO_ARTIFACT)");
       try {

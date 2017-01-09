@@ -93,10 +93,10 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
         throw new RuntimeException(ioe);
       }
 
-      System.setProperty("org.azyva.dragom.model-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
-      System.setProperty("org.azyva.dragom.UrlModel" , pathModel.toUri().toString());
-      System.setProperty("org.azyva.dragom.ModuleExistenceCacheFile" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
-      System.setProperty("org.azyva.dragom.runtime-property.IND_ECHO_INFO", "true");
+      System.setProperty("org.azyva.dragom.init-property.GIT_REPOS_BASE_URL", "file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos");
+      System.setProperty("org.azyva.dragom.init-property.URL_MODEL" , pathModel.toUri().toString());
+      System.setProperty("org.azyva.dragom.init-property.MODULE_EXISTENCE_CACHE_FILE" , IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/module-existence.properties");
+      System.setProperty("org.azyva.dragom.init-property.IND_ECHO_INFO", "true");
 
       // ###############################################################################
 
@@ -110,7 +110,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "uniform");
+      System.setProperty("org.azyva.dragom.init-property.SPECIFIC_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "uniform");
 
       // Response "D/develop-project2" to "to which version do you want to switch"
       IntegrationTestSuite.inputStreamDouble.write("D/develop-project2\n");
@@ -146,7 +146,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project2");
+      System.setProperty("org.azyva.dragom.init-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project2");
 
       // Response "A" to "do you want to continue"
       IntegrationTestSuite.inputStreamDouble.write("A\n");
@@ -190,7 +190,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
 
       // ###############################################################################
 
-      System.clearProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION");
+      System.clearProperty("org.azyva.dragom.init-property.SPECIFIC_DYNAMIC_VERSION");
 
       // Response "D/develop-project2" to "to which version do you want to switch"
       IntegrationTestSuite.inputStreamDouble.write("D/develop-project2\n");
@@ -226,7 +226,7 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolRecurse {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.runtime-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project2");
+      System.setProperty("org.azyva.dragom.init-property.SPECIFIC_DYNAMIC_VERSION", "D/develop-project2");
 
       // Response "A" to "do you want to continue"
       IntegrationTestSuite.inputStreamDouble.write("A\n");

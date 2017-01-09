@@ -43,9 +43,9 @@ if "%JAVA_HOME%" == "" (
   exit /b 1
 )
 
-rem Nous utilisons un fichier temporaire pour obtenir les listes de variables afin
-rem de pouvoir rediriger les erreurs (lorsqu'aucune variable n'existe) dans nul,
-rem ce qui n'est pas possible avec la commande for /f.
+rem We use a temporary file for getting variable lists in order to redirect errors
+rem (when a variable does not exist) in nul, which is not possible with the
+rem "for /f" command.
 
 :retry-temp-file
 set TEMP_FILE=%TEMP%\dragom-temp-%RANDOM%.tmp
@@ -75,26 +75,14 @@ for /f "tokens=1* delims==" %%P in (%TEMP_FILE%) do (
 
 del %TEMP_FILE%
 
-set MODEL_PROPERTIES_JVM_OPTIONS=
+set INIT_PROPERTIES_JVM_OPTIONS=
 
-set MODEL_PROPERTY_ 2>nul 1>%TEMP_FILE%
-
-for /f "tokens=1* delims==" %%P in (%TEMP_FILE%) do (
-  set PROPERTY=%%P
-  set PROPERTY=!PROPERTY:MODEL_PROPERTY_=!
-  set MODEL_PROPERTIES_JVM_OPTIONS=!MODEL_PROPERTIES_JVM_OPTIONS! -Dorg.azyva.dragom.model-property.!PROPERTY!=%%Q
-)
-
-del %TEMP_FILE%
-
-set RUNTIME_PROPERTIES_JVM_OPTIONS=
-
-set RUNTIME_PROPERTY_ 2>nul 1>%TEMP_FILE%
+set INIT_PROPERTY_ 2>nul 1>%TEMP_FILE%
 
 for /f "tokens=1* delims==" %%P in (%TEMP_FILE%) do (
   set PROPERTY=%%P
-  set PROPERTY=!PROPERTY:RUNTIME_PROPERTY_=!
-  set RUNTIME_PROPERTIES_JVM_OPTIONS=!RUNTIME_PROPERTIES_JVM_OPTIONS! -Dorg.azyva.dragom.runtime-property.!PROPERTY!=%%Q
+  set PROPERTY=!PROPERTY:INIT_PROPERTY_=!
+  set INIT_PROPERTIES_JVM_OPTIONS=!INIT_PROPERTIES_JVM_OPTIONS! -Dorg.azyva.dragom.init-property.!PROPERTY!=%%Q
 )
 
 del %TEMP_FILE%
@@ -151,8 +139,7 @@ set "ARGS=%ARGS:>=^>%"
   %JVM_OPTIONS% ^
   %SYSTEM_PROPERTIES_JVM_OPTIONS% ^
   %DRAGOM_SYSTEM_PROPERTIES_JVM_OPTIONS% ^
-  %MODEL_PROPERTIES_JVM_OPTIONS% ^
-  %RUNTIME_PROPERTIES_JVM_OPTIONS% ^
+  %INIT_PROPERTIES_JVM_OPTIONS% ^
   %CLI_JVM_OPTIONS% ^
   -classpath "%DRAGOM_HOME_DIR%\classpath;%DRAGOM_HOME_DIR%\lib\*" ^
   org.azyva.dragom.tool.DragomToolInvoker %ARGS%
