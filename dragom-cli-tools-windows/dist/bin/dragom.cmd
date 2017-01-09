@@ -133,7 +133,11 @@ rem The computed arguments and options could very well include reserved characte
 rem which would need to be escaped. We neglect handling them, except for ARGS
 rem which could include a --reference-path-matcher option that includes ">".
 
+if "%ARGS%" == "" goto continue2
+
 set "ARGS=%ARGS:>=^>%"
+
+:continue2
 
 %JAVA_HOME%/bin/java ^
   %JVM_OPTIONS% ^
