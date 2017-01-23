@@ -18,6 +18,10 @@
 # Sets the Dragom execution environment. Provide such a file to suit your
 # Dragom installation.
 
+# This file can also be named dragom-set-env.sh. dragom-set-env.sh is attempted
+# first and set-env.sh is used if the former does not exist. This can be useful if
+# Dragom is bundled with other tools.
+
 # When called, the DRAGOM_HOME_DIR variable is set to the home directory of
 # the Dragom CLI tools.
 
@@ -35,7 +39,7 @@ declare -A DRAGOM_SYSTEM_PROPERTIES
 DRAGOM_SYSTEM_PROPERTIES[JavaUtilLoggingConfigFile]=$DRAGOM_HOME_DIR/conf/logging.properties
 DRAGOM_SYSTEM_PROPERTIES[JavaUtilLoggingFile]=$DRAGOM_HOME_DIR/log/dragom.log
 
-# Passed as initialization properties (prefixes with
+# Passed as initialization properties (prefixed with
 # "org.azyva.dragom.init-property.").
 # declare -A INIT_PROPERTIES
 # INIT_PROPERTIES[URL_MODEL]=$DRAGOM_HOME_DIR/conf/model.xml

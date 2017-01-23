@@ -20,9 +20,9 @@ rem along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
 rem Main start script for Dragom tools. It launches the JVM starting
 rem org.azyva.dragom.tool.DragomToolInvoker.
 rem
-rem This script calls set-env.cmd which can set various variables to configure the
-rem Dragom execution environment. See the comments in set-env.sh for more
-rem information.
+rem This script calls set-env.cmd, or set-env.cmd if the former does not exist,
+rem which can set various variables to configure the Dragom execution environment.
+rem See the comments in set-env.sh for more information.
 rem
 rem Additional parameters can be passed to the JVM with one or more --jvm-option
 rem cli option specified as the first arguments to the script, before the Dragom
@@ -36,7 +36,11 @@ setlocal EnableDelayedExpansion
 
 set DRAGOM_HOME_DIR=%~dp0%..
 
-call %DRAGOM_HOME_DIR%\bin\set-env.cmd
+if exist %DRAGOM_HOME_DIR%\bin\dragom-set-env.cmd (
+  call %DRAGOM_HOME_DIR%\bin\dragom-set-env.cmd
+) else (
+  call %DRAGOM_HOME_DIR%\bin\set-env.cmd
+)
 
 if "%JAVA_HOME%" == "" (
   echo JAVA_HOME not set.

@@ -20,6 +20,10 @@ rem along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
 rem Sets the Dragom execution environment. Provide such a file to suit your
 rem Dragom installation.
 
+rem This file can also be named dragom-set-env.cmd. dragom-set-env.cmd is attempted
+rem first and set-env.cmd is used if the former does not exist. This can be useful
+rem if Dragom is bundled with other tools.
+
 rem When called, the DRAGOM_HOME_DIR variable is set to the home directory of
 rem the Dragom CLI tools.
 

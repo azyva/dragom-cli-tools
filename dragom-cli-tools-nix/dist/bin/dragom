@@ -19,9 +19,9 @@
 # Main start script for Dragom tools. It launches the JVM starting
 # org.azyva.dragom.tool.DragomToolInvoker.
 #
-# This script calls set-env.sh which can set various variables to configure the
-# Dragom execution environment. See the comments in set-env.sh for more
-# information.
+# This script calls dragom-set-env.sh, or set-env.sh if the former does not exist,
+# which can set various variables to configure the Dragom execution environment.
+# See the comments in set-env.sh for more information.
 #
 # Additional parameters can be passed to the JVM with one or more --jvm-option
 # cli option specified as the first arguments to the script, before the Dragom
@@ -35,7 +35,11 @@ SCRIPT=`readlink -f $0`
 SCRIPT_DIR=`dirname $SCRIPT`
 DRAGOM_HOME_DIR=`dirname $SCRIPT_DIR`
 
-. $DRAGOM_HOME_DIR/bin/set-env.sh
+if [[ -e $DRAGOM_HOME_DIR/bin/dragom-set-env.sh ]] ; then
+  . $DRAGOM_HOME_DIR/bin/dragom-set-env.sh
+else
+  . $DRAGOM_HOME_DIR/bin/set-env.sh
+fi
 
 if [[ -z "$JAVA_HOME" ]] ; then
   echo "JAVA_HOME not set."
@@ -57,7 +61,7 @@ done
 INIT_PROPERTIES_JVM_OPTIONS=
 
 for PROPERTY in "${!INIT_PROPERTIES[@]}" ; do
-  INIT_PROPERTIES_JVM_OPTIONS="$INIT_PROPERTIES_JVM_OPTIONS -Dorg.azyva.dragom.model-property.$PROPERTY=${INIT_PROPERTIES[$PROPERTY]}" 
+  INIT_PROPERTIES_JVM_OPTIONS="$INIT_PROPERTIES_JVM_OPTIONS -Dorg.azyva.dragom.init-property.$PROPERTY=${INIT_PROPERTIES[$PROPERTY]}" 
 done
 
 CLI_JVM_OPTIONS=
