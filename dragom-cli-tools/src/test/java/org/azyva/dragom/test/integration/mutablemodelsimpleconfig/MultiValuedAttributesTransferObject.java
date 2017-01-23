@@ -27,7 +27,7 @@ import java.util.Set;
 
 import org.azyva.dragom.model.config.NodeConfigTransferObject;
 import org.azyva.dragom.model.config.PropertyDefConfig;
-import org.azyva.dragom.model.config.SimplePropertyDefConfig;
+import org.azyva.dragom.model.config.impl.simple.SimplePropertyDefConfig;
 
 public class MultiValuedAttributesTransferObject {
   private Map<String, Set<String>> mapAttributeValues;
