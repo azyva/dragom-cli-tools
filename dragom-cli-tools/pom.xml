@@ -21,7 +21,7 @@ along with Dragom.  If not, see <http://www.gnu.org/licenses />.
   <parent>
     <groupId>org.azyva.dragom</groupId>
     <artifactId>dragom-cli-tools-parent</artifactId>
-    <version>master-SNAPSHOT</version>
+    <version>0.1.2</version>
   </parent>
   <artifactId>dragom-cli-tools</artifactId>
   <properties>
@@ -84,7 +84,7 @@ along with Dragom.  If not, see <http://www.gnu.org/licenses />.
     <dependency>
       <groupId>org.azyva.dragom</groupId>
       <artifactId>dragom-core</artifactId>
-      <version>master-SNAPSHOT</version>
+      <version>0.1.2</version>
     </dependency>
   </dependencies>
   <name>Dragom CLI Tools - Java</name>

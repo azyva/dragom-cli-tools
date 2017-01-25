@@ -20,7 +20,7 @@ along with Dragom.  If not, see <http://www.gnu.org/licenses />.
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.azyva.dragom</groupId>
   <artifactId>dragom-cli-tools-parent</artifactId>
-  <version>master-SNAPSHOT</version>
+  <version>0.1.2</version>
   <packaging>pom</packaging>
   <modules>
     <module>dragom-cli-tools</module>
@@ -79,7 +79,7 @@ along with Dragom.  If not, see <http://www.gnu.org/licenses />.
     <url>https://github.com/azyva/dragom-cli-tools</url>
     <connection>scm:git:https://github.com/azyva/dragom-cli-tools.git</connection>
     <developerConnection>scm:git:https://github.com/azyva/dragom-cli-tools.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>v-0.1.2</tag>
   </scm>
   <distributionManagement>
     <snapshotRepository>
