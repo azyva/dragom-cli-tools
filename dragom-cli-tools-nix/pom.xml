@@ -21,7 +21,7 @@ along with Dragom.  If not, see <http://www.gnu.org/licenses />.
   <parent>
     <groupId>org.azyva.dragom</groupId>
     <artifactId>dragom-cli-tools-parent</artifactId>
-    <version>0.1.2</version>
+    <version>master-SNAPSHOT</version>
   </parent>
   <artifactId>dragom-cli-tools-nix</artifactId>
   <packaging>pom</packaging>
