@@ -55,6 +55,11 @@ public class CredentialManagerTool {
   private static final String MSG_PATTERN_KEY_REALM = "REALM";
 
   /**
+   * See description in ResourceBundle.
+   */
+  private static final String MSG_PATTERN_KEY_INTERACTIVE_MODE_REQUIRED = "INTERACTIVE_MODE_REQUIRED";
+
+  /**
    * ResourceBundle specific to this class.
    */
   private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(CredentialManagerTool.class.getName() + "ResourceBundle");
@@ -300,6 +305,10 @@ public class CredentialManagerTool {
       user = args[2];
     } else {
       user = null;
+    }
+
+    if (ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class).isBatchMode()) {
+      throw new RuntimeExceptionUserError(CredentialManagerTool.resourceBundle.getString(CredentialManagerTool.MSG_PATTERN_KEY_INTERACTIVE_MODE_REQUIRED));
     }
 
     defaultCredentialStorePluginImpl = (DefaultCredentialStorePluginImpl)ExecContextHolder.get().getExecContextPlugin(CredentialStorePlugin.class);

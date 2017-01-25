@@ -254,6 +254,7 @@ public final class CliUtil {
    * @return User properties file command line option.
    */
   public static String getUserPropertiesFileCommandLineOption() {
+    Util.applyDragomSystemProperties();
     return System.getProperty(CliUtil.SYS_PROPERTY_USER_PROPERTIES_FILE_COMMAND_LINE_OPTION, CliUtil.DEFAULT_USER_PROPERTIES_COMMAND_LINE_OPTION);
   }
 
@@ -261,6 +262,7 @@ public final class CliUtil {
    * @return Tool properties file command line option.
    */
   public static String getToolPropertiesFileCommandLineOption() {
+    Util.applyDragomSystemProperties();
     return System.getProperty(CliUtil.SYS_PROPERTY_TOOL_PROPERTIES_FILE_COMMAND_LINE_OPTION, CliUtil.DEFAULT_TOOL_PROPERTIES_COMMAND_LINE_OPTION);
   }
 
@@ -268,6 +270,7 @@ public final class CliUtil {
    * @return Workspace path command line option.
    */
   public static String getWorkspacePathCommandLineOption() {
+    Util.applyDragomSystemProperties();
     return System.getProperty(CliUtil.SYS_PROPERTY_WORKSPACE_PATH_COMMAND_LINE_OPTION, CliUtil.DEFAULT_WORKSPACE_PATH_COMMAND_LINE_OPTION);
   }
 
@@ -275,6 +278,7 @@ public final class CliUtil {
    * @return Command line option specifying whether confirmation is required.
    */
   public static String getNoConfirmCommandLineOption() {
+    Util.applyDragomSystemProperties();
     return System.getProperty(CliUtil.SYS_PROPERTY_NO_CONFIRM_COMMAND_LINE_OPTION, CliUtil.DEFAULT_NO_CONFIRM_COMMAND_LINE_OPTION);
   }
 
@@ -283,6 +287,7 @@ public final class CliUtil {
    *   particular context.
    */
   public static String getNoConfirmContextCommandLineOption() {
+    Util.applyDragomSystemProperties();
     return System.getProperty(CliUtil.SYS_PROPERTY_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION, CliUtil.DEFAULT_NO_CONFIRM_CONTEXT_COMMAND_LINE_OPTION);
   }
 
@@ -290,6 +295,7 @@ public final class CliUtil {
    * @return Help command line option.
    */
   public static String getHelpCommandLineOption() {
+    Util.applyDragomSystemProperties();
     return System.getProperty(CliUtil.SYS_PROPERTY_HELP_COMMAND_LINE_OPTION, CliUtil.DEFAULT_HELP_COMMAND_LINE_OPTION);
   }
 
@@ -297,6 +303,7 @@ public final class CliUtil {
    * @return Root {@link ModuleVersion} command line option.
    */
   public static String getRootModuleVersionCommandLineOption() {
+    Util.applyDragomSystemProperties();
     return System.getProperty(CliUtil.SYS_PROPERTY_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION, CliUtil.DEFAULT_ROOT_MODULE_VERSION_COMMAND_LINE_OPTION);
   }
 
@@ -304,6 +311,7 @@ public final class CliUtil {
    * @return ReferencePathMatcher command line option.
    */
   public static String getReferencePathMatcherCommandLineOption() {
+    Util.applyDragomSystemProperties();
     return System.getProperty(CliUtil.SYS_PROPERTY_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION, CliUtil.DEFAULT_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION);
   }
 
@@ -494,6 +502,8 @@ public final class CliUtil {
 
     propertiesInit = Util.getPropertiesDefaultInit();
 
+    Util.applyDragomSystemProperties();
+
     if (Util.isNotNullAndTrue(System.getProperty(CliUtil.SYS_PROPERTY_IND_USER_PROPERTIES))) {
       stringPropertiesFile = commandLine.getOptionValue(CliUtil.getUserPropertiesFileCommandLineOption());
 
@@ -506,16 +516,14 @@ public final class CliUtil {
       }
     }
 
-    Util.applyDragomSystemProperties();
-
     // In general initialization properties defined as system properties with the
     // "org.azyva.dragom.init-property." prefix are expected to have been provided
     // as -D JVM arguments and as such are expected by the user to have precedence
     // over initialization properties provided in the user.properties file loaded just
     // above. Initialization properties defined in the dragom.properties file
-    // (see Util#applyDragomSystemProperties) will also have precedence, which is
-    // generally not desirable. That is why a separate dragom-init.properties file
-    // (loaded with Util.getPropertiesDefaultInit above) is used for default
+    // (see Util#applyDragomSystemProperties) will therefore also have precedence,
+    // which is generally not desirable. That is why a separate dragom-init.properties
+    // file (loaded with Util.getPropertiesDefaultInit above) is used for default
     // initialization properties.
     for (String initProperty: System.getProperties().stringPropertyNames()) {
       if (initProperty.startsWith(CliUtil.SYS_PROPERTY_PREFIX_INIT_PROPERTY)) {
