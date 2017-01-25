@@ -24,7 +24,7 @@
 # See the comments in set-env.sh for more information.
 #
 # Additional parameters can be passed to the JVM with one or more --jvm-option
-# cli option specified as the first arguments to the script, before the Dragom
+# CLI option specified as the first arguments to the script, before the Dragom
 # tool name.
 #
 # Synopsis:
@@ -34,6 +34,18 @@
 SCRIPT=`readlink -f $0`
 SCRIPT_DIR=`dirname $SCRIPT`
 DRAGOM_HOME_DIR=`dirname $SCRIPT_DIR`
+
+# We handle the --jvm-option cli option before sourcing dragom-set-env.sh
+# or set-env.sh since we want to set the Dragom tool. 
+
+CLI_JVM_OPTIONS=
+
+while [[ "$1" == "--jvm-option" ]] ; do
+  CLI_JVM_OPTIONS="$CLI_JVM_OPTIONS $2"
+  shift 2
+done
+
+DRAGOM_TOOL=$1
 
 if [[ -e $DRAGOM_HOME_DIR/bin/dragom-set-env.sh ]] ; then
   . $DRAGOM_HOME_DIR/bin/dragom-set-env.sh

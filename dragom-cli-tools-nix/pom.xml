@@ -53,6 +53,6 @@ along with Dragom.  If not, see <http://www.gnu.org/licenses />.
       <version>${project.version}</version>
     </dependency>
   </dependencies>
-  <name>Dragom CLI Tools - Windows</name>
+  <name>Dragom CLI Tools - *nix</name>
   <description>Dragom framework CLI tools - *nix commands and distribution - See aggregator parent dragom-cli-tools-parent for inherited settings</description>
 </project>

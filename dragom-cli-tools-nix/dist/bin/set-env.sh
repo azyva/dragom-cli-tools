@@ -22,8 +22,11 @@
 # first and set-env.sh is used if the former does not exist. This can be useful if
 # Dragom is bundled with other tools.
 
-# When called, the DRAGOM_HOME_DIR variable is set to the home directory of
-# the Dragom CLI tools.
+# When called the following variables can be used:
+# - DRAGOM_HOME_DIR: Home directory of the Dragom CLI tools. Useful for setting
+#   paths relative to this directory, such as the path to the model file.
+# - DRAGOM_TOOL: Name of the Dragom tool invoked. Useful for having tool-specific
+#   configurations.
 
 # Must be set to the home of the JVM to use (JRE or JDK).
 # JAVA_HOME=

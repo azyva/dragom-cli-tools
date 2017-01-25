@@ -36,6 +36,57 @@ setlocal EnableDelayedExpansion
 
 set DRAGOM_HOME_DIR=%~dp0%..
 
+rem We handle the --jvm-option cli option before sourcing dragom-set-env.cmd
+rem or set-env.cmd since we want to set the Dragom tool. 
+
+rem Extracting and handling some arguments, while leaving the remaining arguments
+rem as is is difficult for various reasons, including:
+rem - %* does not take into account shifted-out arguments
+rem - Windows interprets = as an argument separator when parsing a command line
+rem   into the positional variables %1, %2, etc.
+rem The solution is to take the whole command line (%*) and parse it explicitly.
+rem Here again, this is difficult since a for loop breaks on lines, not tokens. So
+rem we replace spaces with newlines.
+
+set STATE=
+set CLI_JVM_OPTIONS=
+set ARGS=
+
+set "ORG_ARGS=%*"
+
+rem The 2 empty lines after this set are important. This solution was found here:
+rem http://stackovervlow.com/questions/2524928/dos-batch-iterate-through-a-delimited-string
+set NEWLINE=^
+
+
+rem When a variable is empty, its evaluation with replacement (see below in for)
+rem does not work correctly.
+if "%ORG_ARGS%" == "" goto continue1
+
+for /f %%A in ("%ORG_ARGS: =!NEWLINE!%") do (
+  if "!STATE!" == "" (
+    if "%%A" == "--jvm-option" (
+      set STATE=jvm-option
+    ) else (
+      rem This state is encountered only for the very first non-option argument which
+      rem corresponds to the Dragom tool.
+
+      set "ARGS=%%A"
+      set "DRAGOM_TOOL=%%A"
+      set STATE=arg
+    )
+  ) else if "!STATE!" == "jvm-option" (
+    set CLI_JVM_OPTIONS=!CLI_JVM_OPTIONS! %%A
+    set STATE=
+  ) else if "!STATE!" == "arg" (
+    set "ARGS=!ARGS! %%A"
+  )
+)
+
+:continue1
+
+set DRAGOM_TOOL=
+
 if exist %DRAGOM_HOME_DIR%\bin\dragom-set-env.cmd (
   call %DRAGOM_HOME_DIR%\bin\dragom-set-env.cmd
 ) else (
@@ -90,48 +141,6 @@ for /f "tokens=1* delims==" %%P in (%TEMP_FILE%) do (
 )
 
 del %TEMP_FILE%
-
-rem Extracting and handling some arguments, while leaving the remaining arguments
-rem as is is difficult for various reasons, including:
-rem - %* does not take into account shifted-out arguments
-rem - Windows interprets = as an argument separator when parsing a command line
-rem   into the positional variables %1, %2, etc.
-rem The solution is to take the whole command line (%*) and parse it explicitly.
-rem Here again, this is difficult since a for loop breaks on lines, not tokens. So
-rem we replace spaces with newlines.
-
-set STATE=
-set CLI_JVM_OPTIONS=
-set ARGS=
-
-set "ORG_ARGS=%*"
-
-rem The 2 empty lines after this set are important. This solution was found here:
-rem http://stackovervlow.com/questions/2524928/dos-batch-iterate-through-a-delimited-string
-set NEWLINE=^
-
-
-rem When a variable is empty, its evaluation with replacement (see below in for)
-rem does not work correctly.
-if "%ORG_ARGS%" == "" goto continue1
-
-for /f %%A in ("%ORG_ARGS: =!NEWLINE!%") do (
-  if "!STATE!" == "" (
-    if "%%A" == "--jvm-option" (
-      set STATE=jvm-option
-    ) else (
-      set "ARGS=!ARGS! %%A"
-      set STATE=arg
-    )
-  ) else if "!STATE!" == "jvm-option" (
-    set CLI_JVM_OPTIONS=!CLI_JVM_OPTIONS! %%A
-    set STATE=
-  ) else if "!STATE!" == "arg" (
-    set "ARGS=!ARGS! %%A"
-  )
-)
-
-:continue1
 
 rem The computed arguments and options could very well include reserved characters
 rem which would need to be escaped. We neglect handling them, except for ARGS

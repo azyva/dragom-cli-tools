@@ -24,8 +24,11 @@ rem This file can also be named dragom-set-env.cmd. dragom-set-env.cmd is attemp
 rem first and set-env.cmd is used if the former does not exist. This can be useful
 rem if Dragom is bundled with other tools.
 
-rem When called, the DRAGOM_HOME_DIR variable is set to the home directory of
-rem the Dragom CLI tools.
+rem When called the following variables can be used:
+rem - DRAGOM_HOME_DIR: Home directory of the Dragom CLI tools. Useful for setting
+rem   paths relative to this directory, such as the path to the model file.
+rem - DRAGOM_TOOL: Name of the Dragom tool invoked. Useful for having tool-specific
+rem   configurations.
 
 rem Must be set to the home of the JVM to use (JRE or JDK).
 rem set JAVA_HOME=
