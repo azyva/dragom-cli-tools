@@ -139,8 +139,6 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolBase {
 
       // ###############################################################################
 
-      System.setProperty("org.azyva.dragom.init-property.IND_ALLOW_USER_SPECIFIED_PLUGIN_ID.org.azyva.dragom.model.plugin.SelectDynamicVersionPlugin", "true");
-
       // Response "uniform" to "specify plugin ID".
       IntegrationTestSuite.inputStreamDouble.write("uniform\n");
 
