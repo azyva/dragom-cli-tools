@@ -225,6 +225,10 @@ public class RootManagerTool {
       option.setLongOpt("ind-allow-duplicate-modules");
       RootManagerTool.options.addOption(option);
 
+      option = new Option(null, null);
+      option.setLongOpt("ind-ignore-artifact-group-id-not-found");
+      RootManagerTool.options.addOption(option);
+
       CliUtil.addStandardOptions(RootManagerTool.options);
 
       RootManagerTool.indInit = true;
@@ -275,6 +279,7 @@ public class RootManagerTool {
    */
   private static void addCommand(CommandLine commandLine) {
     String[] args;
+    boolean indAllowDuplicateModule;
     ModuleVersion moduleVersion;
 
     args = commandLine.getArgs();
@@ -282,6 +287,8 @@ public class RootManagerTool {
     if (args.length < 2) {
       throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
     }
+
+    indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-modules");
 
     for (int i = 1; i < args.length; i++) {
       try {
@@ -293,9 +300,6 @@ public class RootManagerTool {
       if (RootManager.containsModuleVersion(moduleVersion)) {
         System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS), moduleVersion));
       } else {
-        boolean indAllowDuplicateModule;
-
-        indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-modules");
 
         if (indAllowDuplicateModule) {
           RootManager.addModuleVersion(moduleVersion, true);
@@ -324,6 +328,7 @@ public class RootManagerTool {
    */
   private static void addArtifactCommand(CommandLine commandLine) {
     String[] args;
+    boolean indIgnoreArtifactGroupIdNotFound;
     ArtifactGroupIdVersion artifactGroupIdVersion;
     ExecContext execContext;
     Model model;
@@ -337,6 +342,8 @@ public class RootManagerTool {
     if (args.length < 2) {
       throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
     }
+
+    indIgnoreArtifactGroupIdNotFound = commandLine.hasOption("ind-ignore-artifact-group-id-not-found");
 
     for (int i = 1; i < args.length; i++) {
         // First, convert the ArtifactGroupIdVersion to a ModuleVersion.
@@ -352,7 +359,12 @@ public class RootManagerTool {
       module = model.findModuleByArtifactGroupId(artifactGroupIdVersion.getArtifactGroupId());
 
       if (module == null) {
-        throw new RuntimeExceptionUserError(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_ARTIFACT_GROUP_ID_DOES_NOT_CORRESPOND_TO_MODULE), artifactGroupIdVersion.getArtifactGroupId()));
+        if (indIgnoreArtifactGroupIdNotFound) {
+          System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_ARTIFACT_GROUP_ID_DOES_NOT_CORRESPOND_TO_MODULE), artifactGroupIdVersion.getArtifactGroupId()));
+          continue;
+        } else {
+          throw new RuntimeExceptionUserError(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_ARTIFACT_GROUP_ID_DOES_NOT_CORRESPOND_TO_MODULE), artifactGroupIdVersion.getArtifactGroupId()));
+        }
       }
 
       if (!module.isNodePluginExists(ArtifactVersionMapperPlugin.class, null)) {
