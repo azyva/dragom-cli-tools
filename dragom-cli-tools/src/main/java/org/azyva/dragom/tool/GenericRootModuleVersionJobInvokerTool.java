@@ -38,23 +38,24 @@ import org.azyva.dragom.job.Checkout;
 import org.azyva.dragom.job.ConfigHandleStaticVersion;
 import org.azyva.dragom.job.ConfigReentryAvoider;
 import org.azyva.dragom.job.RootManager;
-import org.azyva.dragom.job.RootModuleVersionJobAbstractImpl;
+import org.azyva.dragom.job.RootModuleVersionJob;
+import org.azyva.dragom.job.RootModuleVersionJob;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 
 /**
  * Generic tool wrapper for many classes which derive from
- * {@link RootModuleVersionJobAbstractImpl}.
+ * {@link RootModuleVersionJob}.
  * <p>
  * Many jobs, such as {@link Checkout}, which derive from
- * RootModuleVersionJobAbstractImpl, do not require complex invocation arguments
+ * RootModuleVersionJob, do not require complex invocation arguments
  * and can be invoked by this generic tool wrapper and avoid having to introduce
  * specific tool classes.
  * <p>
  * This tool first expects the following arguments which allows it to identify the
- * RootModuleVersionJobAbstractImpl subclass to use and provide an appropriate
+ * RootModuleVersionJob subclass to use and provide an appropriate
  * help file:
  * <ul>
- * <li>Fully qualified name of the RootModuleVersionJobAbstractImpl subclass
+ * <li>Fully qualified name of the RootModuleVersionJob subclass
  * <li>Text resource for the help file
  * </ul>
  * These arguments are not validated as if they were specified by the user. They
@@ -82,21 +83,21 @@ public class GenericRootModuleVersionJobInvokerTool {
    * @param args Arguments.
    */
   public static void main(String[] args) {
-    String rootModuleVersionJobAbstractImplSubclass;
+    String rootModuleVersionJobSubclass;
     String helpResource;
     DefaultParser defaultParser;
     CommandLine commandLine = null;
-    Constructor<? extends RootModuleVersionJobAbstractImpl> constructor;
-    RootModuleVersionJobAbstractImpl rootModuleVersionJobAbstractImpl;
+    Constructor<? extends RootModuleVersionJob> constructor;
+    RootModuleVersionJob rootModuleVersionJob;
 
-    rootModuleVersionJobAbstractImplSubclass = args[0];
+    rootModuleVersionJobSubclass = args[0];
     helpResource = args[1];
 
     args = Arrays.copyOfRange(args, 2, args.length);
 
     GenericRootModuleVersionJobInvokerTool.init();
 
-    rootModuleVersionJobAbstractImpl = null;
+    rootModuleVersionJob = null;
 
     try {
       defaultParser = new DefaultParser();
@@ -119,27 +120,27 @@ public class GenericRootModuleVersionJobInvokerTool {
         CliUtil.setupExecContext(commandLine, true);
 
         try {
-          constructor = Class.forName(rootModuleVersionJobAbstractImplSubclass).asSubclass(RootModuleVersionJobAbstractImpl.class).getConstructor(List.class);
-          rootModuleVersionJobAbstractImpl = constructor.newInstance(CliUtil.getListModuleVersionRoot(commandLine));
+          constructor = Class.forName(rootModuleVersionJobSubclass).asSubclass(RootModuleVersionJob.class).getConstructor(List.class);
+          rootModuleVersionJob = constructor.newInstance(CliUtil.getListModuleVersionRoot(commandLine));
         } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
           throw new RuntimeException(e);
         }
 
-        rootModuleVersionJobAbstractImpl.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
+        rootModuleVersionJob.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
 
-        if (rootModuleVersionJobAbstractImpl instanceof ConfigHandleStaticVersion) {
+        if (rootModuleVersionJob instanceof ConfigHandleStaticVersion) {
           if (commandLine.hasOption("no-handle-static-version")) {
-            ((ConfigHandleStaticVersion)rootModuleVersionJobAbstractImpl).setIndHandleStaticVersion(false);
+            ((ConfigHandleStaticVersion)rootModuleVersionJob).setIndHandleStaticVersion(false);
           }
         }
 
-        if (rootModuleVersionJobAbstractImpl instanceof ConfigReentryAvoider) {
+        if (rootModuleVersionJob instanceof ConfigReentryAvoider) {
           if (commandLine.hasOption("no-avoid-reentry")) {
-            ((ConfigReentryAvoider)rootModuleVersionJobAbstractImpl).setIndAvoidReentry(false);
+            ((ConfigReentryAvoider)rootModuleVersionJob).setIndAvoidReentry(false);
           }
         }
 
-        rootModuleVersionJobAbstractImpl.performJob();
+        rootModuleVersionJob.performJob();
       }
     } catch (RuntimeExceptionUserError reue) {
       System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + reue.getMessage());
@@ -148,7 +149,7 @@ public class GenericRootModuleVersionJobInvokerTool {
       re.printStackTrace();
       System.exit(1);
     } finally {
-      if ((rootModuleVersionJobAbstractImpl != null) && rootModuleVersionJobAbstractImpl.isListModuleVersionRootChanged()) {
+      if ((rootModuleVersionJob != null) && rootModuleVersionJob.isListModuleVersionRootChanged()) {
         // It can be the case that RootManager does not specify any root ModuleVersion. In
         // that case calling RootManager.saveListModuleVersion simply saves an empty list,
         // even if the user has specified a root ModuleVersion on the command line.
