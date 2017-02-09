@@ -37,6 +37,7 @@ import org.azyva.dragom.job.SetupJenkinsJobs;
 import org.azyva.dragom.model.ModuleVersion;
 import org.azyva.dragom.reference.ReferenceGraph;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
+import org.azyva.dragom.util.Util;
 
 /**
  * Tool for setting up jobs in Jenkins based on the {@link ModuleVersion}'s in a
@@ -151,6 +152,8 @@ public class SetupJenkinsJobsTool {
     } finally {
       ExecContextHolder.endToolAndUnset();
     }
+      
+    System.exit(Util.getToolResult().getResultCode());
   }
 
   /**

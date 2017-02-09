@@ -283,7 +283,13 @@ TODO:
 
         System.setProperty("org.azyva.dragom.init-property.URL_MODEL" , pathModel.toUri().toString());
 
-        ExecContextManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "release"});
+        try {
+          ExecContextManagerTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "release"});
+        } catch (ExitException ee) {
+          if (ee.status != 0) {
+            throw ee;
+          }
+        }
 
         FileUtils.deleteDirectory(IntegrationTestSuite.pathTestWorkspace.toFile());
 

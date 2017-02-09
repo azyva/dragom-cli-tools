@@ -35,6 +35,7 @@ import org.azyva.dragom.execcontext.ExecContext;
 import org.azyva.dragom.execcontext.ToolLifeCycleExecContext;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
+import org.azyva.dragom.util.Util;
 
 /**
  * Class for managing {@link ExecContext}, mainly the  properties.
@@ -124,6 +125,8 @@ public class ExecContextManagerTool {
     } finally {
       ExecContextHolder.endToolAndUnset();
     }
+
+    System.exit(Util.getToolResult().getResultCode());
   }
 
   /**

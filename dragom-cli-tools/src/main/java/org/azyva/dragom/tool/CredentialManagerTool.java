@@ -35,6 +35,7 @@ import org.azyva.dragom.execcontext.plugin.impl.DefaultCredentialStorePluginImpl
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.security.CredentialStore;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
+import org.azyva.dragom.util.Util;
 
 /**
  * Tool wrapper for {@link DefaultCredentialStorePluginImpl}.
@@ -139,6 +140,8 @@ public class CredentialManagerTool {
     } finally {
       ExecContextHolder.endToolAndUnset();
     }
+
+    System.exit(Util.getToolResult().getResultCode());
   }
 
   /**

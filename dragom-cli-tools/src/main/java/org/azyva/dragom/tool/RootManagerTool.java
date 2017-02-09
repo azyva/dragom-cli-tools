@@ -44,6 +44,7 @@ import org.azyva.dragom.reference.ReferencePathMatcher;
 import org.azyva.dragom.reference.ReferencePathMatcherByElement;
 import org.azyva.dragom.reference.ReferencePathMatcherOr;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
+import org.azyva.dragom.util.Util;
 
 /**
  * Tool wrapper for the RootManager class.
@@ -53,6 +54,12 @@ import org.azyva.dragom.util.RuntimeExceptionUserError;
  * @author David Raymond
  */
 public class RootManagerTool {
+  /**
+   * Exceptional condition representing a Module that could not be found
+   * corresponding to an artifact specified by the user.
+   */
+  private static final String EXCEPTIONAL_COND_MODULE_NOT_FOUND_FOR_ARTIFACT = "MODULE_NOT_FOUND_FOR_ARTIFACT";
+
   /**
    * See description in ResourceBundle.
    */
@@ -208,6 +215,8 @@ public class RootManagerTool {
     } finally {
       ExecContextHolder.endToolAndUnset();
     }
+
+    System.exit(Util.getToolResult().getResultCode());
   }
 
   /**
@@ -223,10 +232,6 @@ public class RootManagerTool {
 
       option = new Option(null, null);
       option.setLongOpt("ind-allow-duplicate-modules");
-      RootManagerTool.options.addOption(option);
-
-      option = new Option(null, null);
-      option.setLongOpt("ind-ignore-artifact-group-id-not-found");
       RootManagerTool.options.addOption(option);
 
       CliUtil.addStandardOptions(RootManagerTool.options);
@@ -328,7 +333,6 @@ public class RootManagerTool {
    */
   private static void addArtifactCommand(CommandLine commandLine) {
     String[] args;
-    boolean indIgnoreArtifactGroupIdNotFound;
     ArtifactGroupIdVersion artifactGroupIdVersion;
     ExecContext execContext;
     Model model;
@@ -342,8 +346,6 @@ public class RootManagerTool {
     if (args.length < 2) {
       throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
     }
-
-    indIgnoreArtifactGroupIdNotFound = commandLine.hasOption("ind-ignore-artifact-group-id-not-found");
 
     for (int i = 1; i < args.length; i++) {
         // First, convert the ArtifactGroupIdVersion to a ModuleVersion.
@@ -359,7 +361,7 @@ public class RootManagerTool {
       module = model.findModuleByArtifactGroupId(artifactGroupIdVersion.getArtifactGroupId());
 
       if (module == null) {
-        if (indIgnoreArtifactGroupIdNotFound) {
+        if (Util.handleToolResultAndContinueForExceptionalCond(null, RootManagerTool.EXCEPTIONAL_COND_MODULE_NOT_FOUND_FOR_ARTIFACT)) {
           System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_ARTIFACT_GROUP_ID_DOES_NOT_CORRESPOND_TO_MODULE), artifactGroupIdVersion.getArtifactGroupId()));
           continue;
         } else {

@@ -332,6 +332,8 @@ public class WorkspaceManagerTool {
     } finally {
       ExecContextHolder.endToolAndUnset();
     }
+      
+    System.exit(Util.getToolResult().getResultCode());
   }
 
   /**

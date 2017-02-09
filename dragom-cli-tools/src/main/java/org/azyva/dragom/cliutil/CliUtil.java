@@ -476,6 +476,9 @@ public final class CliUtil {
    * can be useful to set indSet to false is for subsequently calling
    * {@link ExecContextHolder#forceUnset}.
    * <p>
+   * {@link CliUtil#endToolAndExit} can conveniently be used to terminate a tool
+   * properly and call System.exit with the appropriate result code.
+   * <p>
    * If indSet, the IND_NO_CONFIRM and {@code IND_NO_CONFIRM.<context>} runtime
    * properties are read from the CommandLine.
    *
@@ -591,6 +594,15 @@ public final class CliUtil {
     }
 
     return execContext;
+  }
+
+  /**
+   * Terminates the tool and calls System.exit with the result code corresponding to
+   * the current ToolResult
+   */
+  public static void endToolAndExit() {
+    ExecContextHolder.endToolAndUnset();
+    System.exit(Util.getToolResult().getResultCode());
   }
 
   /**

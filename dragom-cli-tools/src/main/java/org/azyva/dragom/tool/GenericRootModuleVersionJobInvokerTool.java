@@ -39,8 +39,8 @@ import org.azyva.dragom.job.ConfigHandleStaticVersion;
 import org.azyva.dragom.job.ConfigReentryAvoider;
 import org.azyva.dragom.job.RootManager;
 import org.azyva.dragom.job.RootModuleVersionJob;
-import org.azyva.dragom.job.RootModuleVersionJob;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
+import org.azyva.dragom.util.Util;
 
 /**
  * Generic tool wrapper for many classes which derive from
@@ -158,6 +158,8 @@ public class GenericRootModuleVersionJobInvokerTool {
 
       ExecContextHolder.endToolAndUnset();
     }
+
+    System.exit(Util.getToolResult().getResultCode());
   }
 
   /**

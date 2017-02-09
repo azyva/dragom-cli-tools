@@ -34,6 +34,7 @@ import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.job.ReferenceGraphReport;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
+import org.azyva.dragom.util.Util;
 
 /**
  * Tool for producing a reference graph report.
@@ -200,6 +201,8 @@ public class ReferenceGraphReportTool {
     } finally {
       ExecContextHolder.endToolAndUnset();
     }
+
+    System.exit(Util.getToolResult().getResultCode());
   }
 
   /**

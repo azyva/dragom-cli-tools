@@ -226,7 +226,6 @@ public class DragomToolInvoker {
     } catch (NoSuchMethodException | IllegalAccessException e) {
       throw new RuntimeException(e);
     }
-
   }
 
   /**
