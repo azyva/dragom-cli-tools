@@ -65,6 +65,7 @@ public class ExecContextManagerTool {
     DefaultParser defaultParser;
     CommandLine commandLine;
     String command;
+    int exitStatus;
 
     ExecContextManagerTool.init();
 
@@ -116,17 +117,20 @@ public class ExecContextManagerTool {
           }
         }
       }
+
+      // Need to call before ExecContextHolder.endToolAndUnset.
+      exitStatus = Util.getExitStatusAndShowReason();
     } catch (RuntimeExceptionUserError reue) {
       System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + reue.getMessage());
-      System.exit(1);
+      exitStatus = 1;
     } catch (RuntimeException re) {
       re.printStackTrace();
-      System.exit(1);
+      exitStatus = 1;
     } finally {
       ExecContextHolder.endToolAndUnset();
     }
 
-    System.exit(Util.getToolResult().getResultCode());
+    System.exit(exitStatus);
   }
 
   /**

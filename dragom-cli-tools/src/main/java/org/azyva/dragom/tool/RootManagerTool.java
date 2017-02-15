@@ -32,6 +32,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.ExecContext;
+import org.azyva.dragom.execcontext.plugin.UserInteractionCallbackPlugin;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.job.RootManager;
 import org.azyva.dragom.model.ArtifactGroupIdVersion;
@@ -68,7 +69,7 @@ public class RootManagerTool {
   /**
    * See description in ResourceBundle.
    */
-  private static final String MSG_PATTERN_KEY_ARTIFACT_GROUP_ID_DOES_NOT_CORRESPOND_TO_MODULE = "ARTIFACT_GROUP_ID_DOES_NOT_CORRESPOND_TO_MODULE";
+  private static final String MSG_PATTERN_KEY_MODULE_NOT_FOUND_FOR_ARTIFACT = "MODULE_NOT_FOUND_FOR_ARTIFACT";
 
   /**
    * See description in ResourceBundle.
@@ -159,6 +160,7 @@ public class RootManagerTool {
     DefaultParser defaultParser;
     CommandLine commandLine;
     String command;
+    int exitStatus;
 
     RootManagerTool.init();
 
@@ -206,17 +208,20 @@ public class RootManagerTool {
           throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_COMMAND), command, CliUtil.getHelpCommandLineOption()));
         }
       }
+
+      // Need to call before ExecContextHolder.endToolAndUnset.
+      exitStatus = Util.getExitStatusAndShowReason();
     } catch (RuntimeExceptionUserError reue) {
       System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + reue.getMessage());
-      System.exit(1);
+      exitStatus = 1;
     } catch (RuntimeException re) {
       re.printStackTrace();
-      System.exit(1);
+      exitStatus = 1;
     } finally {
       ExecContextHolder.endToolAndUnset();
     }
 
-    System.exit(Util.getToolResult().getResultCode());
+    System.exit(exitStatus);
   }
 
   /**
@@ -245,7 +250,7 @@ public class RootManagerTool {
    */
   private static void help() {
     try {
-      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(RootManagerTool.class, "RootManagerToolHelp.txt"),  System.out);
+      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(RootManagerTool.class, "RootManagerToolHelp.txt"), System.out);
     } catch (IOException ioe) {
       throw new RuntimeException(ioe);
     }
@@ -257,8 +262,11 @@ public class RootManagerTool {
    * @param commandLine CommandLine.
    */
   private static void listCommand(CommandLine commandLine) {
+    UserInteractionCallbackPlugin userInteractionCallbackPlugin;
     String[] args;
     List<ModuleVersion> listModuleVersion;
+
+    userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 
     args = commandLine.getArgs();
 
@@ -269,10 +277,10 @@ public class RootManagerTool {
     listModuleVersion = RootManager.getListModuleVersion();
 
     if (listModuleVersion.isEmpty()) {
-      System.out.println(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_LIST_OF_ROOT_MODULE_VERSIONS_EMPTY));
+      userInteractionCallbackPlugin.provideInfo(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_LIST_OF_ROOT_MODULE_VERSIONS_EMPTY));
     } else {
       for (ModuleVersion moduleVersion: listModuleVersion) {
-        System.out.println(moduleVersion.toString());
+        userInteractionCallbackPlugin.provideInfo(moduleVersion.toString());
       }
     }
   }
@@ -283,9 +291,12 @@ public class RootManagerTool {
    * @param commandLine CommandLine.
    */
   private static void addCommand(CommandLine commandLine) {
+    UserInteractionCallbackPlugin userInteractionCallbackPlugin;
     String[] args;
     boolean indAllowDuplicateModule;
     ModuleVersion moduleVersion;
+
+    userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 
     args = commandLine.getArgs();
 
@@ -303,12 +314,12 @@ public class RootManagerTool {
       }
 
       if (RootManager.containsModuleVersion(moduleVersion)) {
-        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS), moduleVersion));
+        userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS), moduleVersion));
       } else {
 
         if (indAllowDuplicateModule) {
           RootManager.addModuleVersion(moduleVersion, true);
-          System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+          userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
         } else {
           ModuleVersion moduleVersionOrg;
 
@@ -316,10 +327,10 @@ public class RootManagerTool {
 
           if (moduleVersionOrg != null) {
             RootManager.replaceModuleVersion(moduleVersionOrg, moduleVersion);
-            System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS), moduleVersionOrg, moduleVersion));
+            userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS), moduleVersionOrg, moduleVersion));
           } else {
             RootManager.addModuleVersion(moduleVersion, false);
-            System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+            userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
           }
         }
       }
@@ -332,6 +343,7 @@ public class RootManagerTool {
    * @param commandLine CommandLine.
    */
   private static void addArtifactCommand(CommandLine commandLine) {
+    UserInteractionCallbackPlugin userInteractionCallbackPlugin;
     String[] args;
     ArtifactGroupIdVersion artifactGroupIdVersion;
     ExecContext execContext;
@@ -340,6 +352,8 @@ public class RootManagerTool {
     ArtifactVersionMapperPlugin artifactVersionMapperPlugin;
     Version version;
     ModuleVersion moduleVersion;
+
+    userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 
     args = commandLine.getArgs();
 
@@ -361,11 +375,11 @@ public class RootManagerTool {
       module = model.findModuleByArtifactGroupId(artifactGroupIdVersion.getArtifactGroupId());
 
       if (module == null) {
-        if (Util.handleToolResultAndContinueForExceptionalCond(null, RootManagerTool.EXCEPTIONAL_COND_MODULE_NOT_FOUND_FOR_ARTIFACT)) {
-          System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_ARTIFACT_GROUP_ID_DOES_NOT_CORRESPOND_TO_MODULE), artifactGroupIdVersion.getArtifactGroupId()));
+        if (Util.handleToolExitStatusAndContinueForExceptionalCond(null, RootManagerTool.EXCEPTIONAL_COND_MODULE_NOT_FOUND_FOR_ARTIFACT)) {
+          userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_NOT_FOUND_FOR_ARTIFACT), artifactGroupIdVersion.getArtifactGroupId()));
           continue;
         } else {
-          throw new RuntimeExceptionUserError(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_ARTIFACT_GROUP_ID_DOES_NOT_CORRESPOND_TO_MODULE), artifactGroupIdVersion.getArtifactGroupId()));
+          throw new RuntimeExceptionUserError(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_NOT_FOUND_FOR_ARTIFACT), artifactGroupIdVersion.getArtifactGroupId()));
         }
       }
 
@@ -382,7 +396,7 @@ public class RootManagerTool {
       // Second, do the same as for the add command.
 
       if (RootManager.containsModuleVersion(moduleVersion)) {
-        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS), moduleVersion));
+        userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS), moduleVersion));
       } else {
         boolean indAllowDuplicateModule;
 
@@ -390,7 +404,7 @@ public class RootManagerTool {
 
         if (indAllowDuplicateModule) {
           RootManager.addModuleVersion(moduleVersion, true);
-          System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+          userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
         } else {
           ModuleVersion moduleVersionOrg;
 
@@ -398,10 +412,10 @@ public class RootManagerTool {
 
           if (moduleVersionOrg != null) {
             RootManager.replaceModuleVersion(moduleVersionOrg, moduleVersion);
-            System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS), moduleVersionOrg, moduleVersion));
+            userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS), moduleVersionOrg, moduleVersion));
           } else {
             RootManager.addModuleVersion(moduleVersion, false);
-            System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+            userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
           }
         }
       }
@@ -414,8 +428,11 @@ public class RootManagerTool {
    * @param commandLine CommandLine.
    */
   private static void removeCommand(CommandLine commandLine) {
+    UserInteractionCallbackPlugin userInteractionCallbackPlugin;
     String[] args;
     ModuleVersion moduleVersion;
+
+    userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 
     args = commandLine.getArgs();
 
@@ -431,10 +448,10 @@ public class RootManagerTool {
       }
 
       if (!RootManager.containsModuleVersion(moduleVersion)) {
-        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_NOT_IN_LIST_OF_ROOTS), moduleVersion));
+        userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_NOT_IN_LIST_OF_ROOTS), moduleVersion));
       } else {
         RootManager.removeModuleVersion(moduleVersion);
-        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REMOVED_FROM_LIST_OF_ROOTS), moduleVersion));
+        userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REMOVED_FROM_LIST_OF_ROOTS), moduleVersion));
       }
     }
   }
@@ -445,7 +462,10 @@ public class RootManagerTool {
    * @param commandLine CommandLine.
    */
   private static void removeAllCommand(CommandLine commandLine) {
+    UserInteractionCallbackPlugin userInteractionCallbackPlugin;
     String[] args;
+
+    userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 
     args = commandLine.getArgs();
 
@@ -454,7 +474,7 @@ public class RootManagerTool {
     }
 
     RootManager.removeAllModuleVersion();
-    System.out.println(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_ALL_MODULE_VERSIONS_REMOVED_FROM_LIST_OF_ROOTS));
+    userInteractionCallbackPlugin.provideInfo(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_ALL_MODULE_VERSIONS_REMOVED_FROM_LIST_OF_ROOTS));
   }
 
   /**
@@ -463,9 +483,12 @@ public class RootManagerTool {
    * @param commandLine CommandLine.
    */
   private static void listReferencePathMatchersCommand(CommandLine commandLine) {
+    UserInteractionCallbackPlugin userInteractionCallbackPlugin;
     String[] args;
     ReferencePathMatcherOr referencePathMatcherOr;
     List<ReferencePathMatcher> listReferencePathMatcher;
+
+    userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 
     args = commandLine.getArgs();
 
@@ -477,10 +500,10 @@ public class RootManagerTool {
     listReferencePathMatcher = referencePathMatcherOr.getListReferencePathMatcher();
 
     if (listReferencePathMatcher.isEmpty()) {
-      System.out.println(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_LIST_REFERENCE_PATH_MATCHERS_EMPTY));
+      userInteractionCallbackPlugin.provideInfo(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_LIST_REFERENCE_PATH_MATCHERS_EMPTY));
     } else {
       for (ReferencePathMatcher referencePathMatcher: listReferencePathMatcher) {
-        System.out.println(referencePathMatcher.toString());
+        userInteractionCallbackPlugin.provideInfo(referencePathMatcher.toString());
       }
     }
   }
@@ -491,9 +514,12 @@ public class RootManagerTool {
    * @param commandLine CommandLine.
    */
   private static void addReferencePathMatcherCommand(CommandLine commandLine) {
+    UserInteractionCallbackPlugin userInteractionCallbackPlugin;
     String[] args;
     ReferencePathMatcherOr referencePathMatcherOr;
     ReferencePathMatcherByElement referencePathMatcherByElement;
+
+    userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 
     args = commandLine.getArgs();
 
@@ -510,11 +536,11 @@ public class RootManagerTool {
       }
 
       if (referencePathMatcherOr.getListReferencePathMatcher().contains(referencePathMatcherByElement)) {
-        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ALREADY_IN_LIST), referencePathMatcherByElement));
+        userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ALREADY_IN_LIST), referencePathMatcherByElement));
        } else {
         referencePathMatcherOr.addReferencePathMatcher(referencePathMatcherByElement);
         RootManager.saveReferencePathMatcherOr();
-        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ADDED_TO_LIST), referencePathMatcherByElement));
+        userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_ADDED_TO_LIST), referencePathMatcherByElement));
       }
     }
   }
@@ -525,9 +551,12 @@ public class RootManagerTool {
    * @param commandLine CommandLine.
    */
   private static void removeReferencePathMatcherCommand(CommandLine commandLine) {
+    UserInteractionCallbackPlugin userInteractionCallbackPlugin;
     String[] args;
     ReferencePathMatcherOr referencePathMatcherOr;
     ReferencePathMatcherByElement referencePathMatcherByElement;
+
+    userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 
     args = commandLine.getArgs();
 
@@ -545,10 +574,10 @@ public class RootManagerTool {
       }
 
       if (!referencePathMatcherOr.getListReferencePathMatcher().contains(referencePathMatcherByElement)) {
-        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_NOT_IN_LIST), referencePathMatcherByElement));
+        userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_NOT_IN_LIST), referencePathMatcherByElement));
       } else {
         referencePathMatcherOr.getListReferencePathMatcher().remove(referencePathMatcherByElement);
-        System.out.println(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST), referencePathMatcherByElement));
+        userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST), referencePathMatcherByElement));
         RootManager.saveReferencePathMatcherOr();
       }
     }
@@ -560,8 +589,11 @@ public class RootManagerTool {
    * @param commandLine CommandLine.
    */
   private static void removeAllReferencePathMatchersCommand(CommandLine commandLine) {
+    UserInteractionCallbackPlugin userInteractionCallbackPlugin;
     String[] args;
     ReferencePathMatcherOr referencePathMatcherOr;
+
+    userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
 
     args = commandLine.getArgs();
 
@@ -573,6 +605,6 @@ public class RootManagerTool {
     referencePathMatcherOr.getListReferencePathMatcher().clear();
 
     RootManager.saveReferencePathMatcherOr();
-    System.out.println(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_ALL_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST));
+    userInteractionCallbackPlugin.provideInfo(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_ALL_REFERENCE_PATH_MATCHER_REMOVED_FROM_LIST));
   }
 }

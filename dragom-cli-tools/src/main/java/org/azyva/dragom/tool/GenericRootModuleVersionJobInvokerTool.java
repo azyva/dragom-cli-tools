@@ -89,6 +89,7 @@ public class GenericRootModuleVersionJobInvokerTool {
     CommandLine commandLine = null;
     Constructor<? extends RootModuleVersionJob> constructor;
     RootModuleVersionJob rootModuleVersionJob;
+    int exitStatus;
 
     rootModuleVersionJobSubclass = args[0];
     helpResource = args[1];
@@ -142,12 +143,15 @@ public class GenericRootModuleVersionJobInvokerTool {
 
         rootModuleVersionJob.performJob();
       }
+
+      // Need to call before ExecContextHolder.endToolAndUnset.
+      exitStatus = Util.getExitStatusAndShowReason();
     } catch (RuntimeExceptionUserError reue) {
       System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + reue.getMessage());
-      System.exit(1);
+      exitStatus = 1;
     } catch (RuntimeException re) {
       re.printStackTrace();
-      System.exit(1);
+      exitStatus = 1;
     } finally {
       if ((rootModuleVersionJob != null) && rootModuleVersionJob.isListModuleVersionRootChanged()) {
         // It can be the case that RootManager does not specify any root ModuleVersion. In
@@ -159,7 +163,7 @@ public class GenericRootModuleVersionJobInvokerTool {
       ExecContextHolder.endToolAndUnset();
     }
 
-    System.exit(Util.getToolResult().getResultCode());
+    System.exit(exitStatus);
   }
 
   /**

@@ -80,6 +80,7 @@ public class SetupJenkinsJobsTool {
     boolean indEmptyPathItemsCreatedFile;
     SetupJenkinsJobs.ExistingItemsCreatedFileMode existingItemsCreatredFileMode;
     SetupJenkinsJobs setupJenkinsJobs;
+    int exitStatus;
 
     SetupJenkinsJobsTool.init();
 
@@ -143,17 +144,20 @@ public class SetupJenkinsJobsTool {
 
         setupJenkinsJobs.performJob();
       }
+
+      // Need to call before ExecContextHolder.endToolAndUnset.
+      exitStatus = Util.getExitStatusAndShowReason();
     } catch (RuntimeExceptionUserError reue) {
       System.err.println(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_USER_ERROR_PREFIX) + reue.getMessage());
-      System.exit(1);
+      exitStatus = 1;
     } catch (RuntimeException re) {
       re.printStackTrace();
-      System.exit(1);
+      exitStatus = 1;
     } finally {
       ExecContextHolder.endToolAndUnset();
     }
-      
-    System.exit(Util.getToolResult().getResultCode());
+
+    System.exit(exitStatus);
   }
 
   /**
