@@ -56,20 +56,9 @@ import org.azyva.dragom.util.Util;
  */
 public class RootManagerTool {
   /**
-   * Exceptional condition representing a Module that could not be found
-   * corresponding to an artifact specified by the user.
-   */
-  private static final String EXCEPTIONAL_COND_MODULE_NOT_FOUND_FOR_ARTIFACT = "MODULE_NOT_FOUND_FOR_ARTIFACT";
-
-  /**
    * See description in ResourceBundle.
    */
   private static final String MSG_PATTERN_KEY_LIST_OF_ROOT_MODULE_VERSIONS_EMPTY = "LIST_OF_ROOT_MODULE_VERSIONS_EMPTY";
-
-  /**
-   * See description in ResourceBundle.
-   */
-  private static final String MSG_PATTERN_KEY_MODULE_NOT_FOUND_FOR_ARTIFACT = "MODULE_NOT_FOUND_FOR_ARTIFACT";
 
   /**
    * See description in ResourceBundle.
@@ -375,12 +364,10 @@ public class RootManagerTool {
       module = model.findModuleByArtifactGroupId(artifactGroupIdVersion.getArtifactGroupId());
 
       if (module == null) {
-        if (Util.handleToolExitStatusAndContinueForExceptionalCond(null, RootManagerTool.EXCEPTIONAL_COND_MODULE_NOT_FOUND_FOR_ARTIFACT)) {
-          userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_NOT_FOUND_FOR_ARTIFACT), artifactGroupIdVersion.getArtifactGroupId()));
-          continue;
-        } else {
-          throw new RuntimeExceptionUserError(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_NOT_FOUND_FOR_ARTIFACT), artifactGroupIdVersion.getArtifactGroupId()));
-        }
+        // We expect the handling of the tool exit status to be done by
+        // model.findModuleByArtifactGroupId called above. If we get here with a null
+        // module, it means we are expected to silently continue and ignore artifact.
+        continue;
       }
 
       if (!module.isNodePluginExists(ArtifactVersionMapperPlugin.class, null)) {
