@@ -49,14 +49,14 @@ import org.azyva.dragom.util.Util;
  */
 public class SetupJenkinsJobsTool {
   /**
-   * ResourceBundle specific to this class.
-   */
-  private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(SetupJenkinsJobsTool.class.getName() + "ResourceBundle");
-
-  /**
    * See description in resource bundle.
    */
   private static final String MSG_PATTERN_KEY_EXISTING_ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES = "EXISTING_ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES";
+
+  /**
+   * ResourceBundle specific to this class.
+   */
+  private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(SetupJenkinsJobsTool.class.getName() + "ResourceBundle");
 
   /**
    * Indicates that the class has been initialized.
