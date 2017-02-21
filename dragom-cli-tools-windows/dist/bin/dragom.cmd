@@ -61,7 +61,10 @@ set NEWLINE=^
 
 rem When a variable is empty, its evaluation with replacement (see below in for)
 rem does not work correctly.
-if "%ORG_ARGS%" == "" goto continue1
+rem We use delayed expansion as normal expansion does not work when the variable
+rem contains some combinations of spaces and double-quotes, such as
+rem -DPARAM="MY VALUE".
+if "!ORG_ARGS!" == "" goto continue1
 
 for /f %%A in ("%ORG_ARGS: =!NEWLINE!%") do (
   if "!STATE!" == "" (
@@ -146,7 +149,13 @@ rem The computed arguments and options could very well include reserved characte
 rem which would need to be escaped. We neglect handling them, except for ARGS
 rem which could include a --reference-path-matcher option that includes ">".
 
-if "%ARGS%" == "" goto continue2
+rem The computed arguments and options could very well include reserved characters
+rem which would need to be escaped. We neglect handling them, except for ARGS
+rem which could include a --reference-path-matcher option that includes ">".
+rem We use delayed expansion as normal expansion does not work when the variable
+rem contains some combinations of spaces and double-quotes, such as
+rem -DPARAM="MY VALUE".
+if "!ARGS!" == "" goto continue2
 
 set "ARGS=%ARGS:>=^>%"
 
