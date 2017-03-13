@@ -86,7 +86,7 @@
     </child-nodes>
     <plugins>
       <plugin>
-        <plugin-class>org.azyva.dragom.model.plugin.impl.UndefinedDescendantNodeManagerSimpleDynamicModulePluginImpl</plugin-class>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.SimpleDynamicUndefinedDescendantNodeManagerModulePluginImpl</plugin-class>
       </plugin>
       <plugin>
         <plugin-class>org.azyva.dragom.model.plugin.impl.GitScmPluginImpl</plugin-class>
