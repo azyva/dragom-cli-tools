@@ -380,6 +380,10 @@ public class WorkspaceManagerTool {
       option.setArgs(1);
       WorkspaceManagerTool.options.addOption(option);
 
+      option = new Option(null, null);
+      option.setLongOpt("ind-skip-check-unsync-local-changes");
+      WorkspaceManagerTool.options.addOption(option);
+
       CliUtil.addStandardOptions(WorkspaceManagerTool.options);
 
       WorkspaceManagerTool.indInit = true;
@@ -630,7 +634,7 @@ public class WorkspaceManagerTool {
       module = this.model.getModule(workspaceDirPath.moduleVersion.getNodePath());
       scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
 
-      if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
+      if (!this.commandLine.hasOption("ind-skip-check-unsync-local-changes") && !scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
         this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
         if (!Util.handleDoYouWantToContinueWithIndividualNo(WorkspaceManagerTool.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
@@ -702,7 +706,7 @@ public class WorkspaceManagerTool {
         module = this.model.getModule(workspaceDirPath.moduleVersion.getNodePath());
         scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
 
-        if (!scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
+        if (!this.commandLine.hasOption("ind-skip-check-unsync-local-changes") && !scmPlugin.isSync(workspaceDirPath.pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
           this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
 
           if (!Util.handleDoYouWantToContinueWithIndividualNo(WorkspaceManagerTool.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
@@ -774,7 +778,7 @@ public class WorkspaceManagerTool {
       scmPlugin = module.getNodePlugin(ScmPlugin.class, null);
       pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
 
-      if (!scmPlugin.isSync(pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
+      if (!this.commandLine.hasOption("ind-skip-check-unsync-local-changes") && !scmPlugin.isSync(pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
         this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()));
 
         if (!Util.handleDoYouWantToContinueWithIndividualNo(WorkspaceManagerTool.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
@@ -837,7 +841,7 @@ public class WorkspaceManagerTool {
     pathWorkspaceDir = this.workspacePlugin.getWorkspaceDir(workspaceDir, WorkspacePlugin.GetWorkspaceDirMode.ENUM_SET_GET_EXISTING, WorkspacePlugin.WorkspaceDirAccessMode.PEEK);
 
 
-    if (!scmPlugin.isSync(pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
+    if (!this.commandLine.hasOption("ind-skip-check-unsync-local-changes") && !scmPlugin.isSync(pathWorkspaceDir, ScmPlugin.IsSyncFlag.LOCAL_CHANGES_ONLY)) {
       this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_DELETE_WORKSPACE_DIRECTORY_UNSYNC_LOCAL_CHANGES), pathWorkspaceDir, ((WorkspaceDirUserModuleVersion)workspaceDir).getModuleVersion()));
 
       if (!Util.handleDoYouWantToContinue(WorkspaceManagerTool.DO_YOU_WANT_TO_CONTINUE_CONTEXT_DELETE_WORKSPACE_DIRECTORY_WITH_UNSYNC_LOCAL_CHANGES)) {
