@@ -37,7 +37,7 @@ import org.azyva.dragom.model.config.NodeConfigTransferObject;
 import org.azyva.dragom.model.config.impl.simple.SimpleConfig;
 import org.azyva.dragom.model.config.impl.simple.SimplePluginDefConfig;
 import org.azyva.dragom.model.config.impl.simple.SimplePropertyDefConfig;
-import org.azyva.dragom.model.impl.simple.SimpleModel;
+import org.azyva.dragom.model.impl.DefaultModel;
 import org.azyva.dragom.test.integration.mutablemodelsimpleconfig.MultiValuedAttributesTransferObject;
 import org.azyva.dragom.test.integration.mutablemodelsimpleconfig.TestPlugin;
 import org.azyva.dragom.test.integration.mutablemodelsimpleconfig.TestPluginImpl;
@@ -50,7 +50,7 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
   public static void testMutableModelSimpleConfig() {
     SimpleConfig simpleConfig;
     MutableConfig mutableConfig;
-    SimpleModel simpleModel;
+    DefaultModel defaultModel;
     MutableModel mutableModel;
     MutableClassificationNodeConfig mutableClassificationNodeConfig;
     MutableModuleConfig mutableModuleConfig;
@@ -69,7 +69,7 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 
       // ###############################################################################
 
-      IntegrationTestSuite.printTestHeader("Create new SimpleModel based on SimpleConfig with initial root ClassificationNodeConfig.");
+      IntegrationTestSuite.printTestHeader("Create new DefaultModel based on SimpleConfig with initial root ClassificationNodeConfig.");
 
       simpleConfig = new SimpleConfig();
       mutableConfig = simpleConfig;
@@ -78,8 +78,8 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
       nodeConfigTransferObject.setName(null);
       nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("PROPERTY", "value", false));
       mutableClassificationNodeConfig.setNodeConfigTransferObject(nodeConfigTransferObject, null);
-      simpleModel = new SimpleModel(simpleConfig, new Properties());
-      mutableModel = simpleModel;
+      defaultModel = new DefaultModel(simpleConfig, new Properties());
+      mutableModel = defaultModel;
       classificationNode = mutableModel.getClassificationNodeRoot();
       propertyValue = classificationNode.getProperty("PROPERTY");
 
@@ -87,12 +87,12 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 
       // ###############################################################################
 
-      IntegrationTestSuite.printTestHeader("Create new SimpleModel based on SimpleConfig without initial root ClassificationNodeConfig.");
+      IntegrationTestSuite.printTestHeader("Create new DefaultModel based on SimpleConfig without initial root ClassificationNodeConfig.");
 
       simpleConfig = new SimpleConfig();
       mutableConfig = simpleConfig;
-      simpleModel = new SimpleModel(simpleConfig, new Properties());
-      mutableModel = simpleModel;
+      defaultModel = new DefaultModel(simpleConfig, new Properties());
+      mutableModel = defaultModel;
       mutableClassificationNode = mutableModel.createMutableClassificationNodeRoot();
       nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject(null);
       nodeConfigTransferObject.setName(null);
@@ -105,7 +105,7 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 
       // ###############################################################################
 
-      IntegrationTestSuite.printTestHeader("Property inheritance with SimpleModel based on complete SimpleConfig.");
+      IntegrationTestSuite.printTestHeader("Property inheritance with DefaultModel based on complete SimpleConfig.");
 
       simpleConfig = new SimpleConfig();
       mutableConfig = simpleConfig;
@@ -149,8 +149,8 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
       nodeConfigTransferObject.setPropertyDefConfig(new SimplePropertyDefConfig("PROPERTY", "value-module-2", false));
       mutableModuleConfig.setNodeConfigTransferObject(nodeConfigTransferObject, null);
 
-      simpleModel = new SimpleModel(simpleConfig, new Properties());
-      mutableModel = simpleModel;
+      defaultModel = new DefaultModel(simpleConfig, new Properties());
+      mutableModel = defaultModel;
 
       classificationNode = mutableModel.getClassificationNodeRoot();
       propertyValue = classificationNode.getProperty("PROPERTY");
@@ -212,12 +212,12 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 
       // ###############################################################################
 
-      IntegrationTestSuite.printTestHeader("Property inheritance with constructed SimpleModel initially based on empty SimpleConfig.");
+      IntegrationTestSuite.printTestHeader("Property inheritance with constructed DefaultModel initially based on empty SimpleConfig.");
 
       simpleConfig = new SimpleConfig();
       mutableConfig = simpleConfig;
-      simpleModel = new SimpleModel(simpleConfig, new Properties());
-      mutableModel = simpleModel;
+      defaultModel = new DefaultModel(simpleConfig, new Properties());
+      mutableModel = defaultModel;
 
       mutableClassificationNode = mutableModel.createMutableClassificationNodeRoot();
       nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject(null);
@@ -322,8 +322,8 @@ public class IntegrationTestSuiteMutableModelSimpleConfig {
 
       simpleConfig = new SimpleConfig();
       mutableConfig = simpleConfig;
-      simpleModel = new SimpleModel(simpleConfig, new Properties());
-      mutableModel = simpleModel;
+      defaultModel = new DefaultModel(simpleConfig, new Properties());
+      mutableModel = defaultModel;
 
       mutableClassificationNode = mutableModel.createMutableClassificationNodeRoot();
       nodeConfigTransferObject = mutableClassificationNode.getNodeConfigTransferObject(null);
