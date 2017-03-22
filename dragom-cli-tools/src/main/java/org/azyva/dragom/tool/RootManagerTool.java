@@ -19,6 +19,8 @@
 
 package org.azyva.dragom.tool;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -181,6 +183,8 @@ public class RootManagerTool {
           RootManagerTool.addCommand(commandLine);
         } else if (command.equals("add-artifact")) {
           RootManagerTool.addArtifactCommand(commandLine);
+        } else if (command.equals("add-artifact-from-file")) {
+            RootManagerTool.addArtifactFromFileCommand(commandLine);
         } else if (command.equals("remove")) {
           RootManagerTool.removeCommand(commandLine);
         } else if (command.equals("remove-all")) {
@@ -327,7 +331,7 @@ public class RootManagerTool {
   }
 
   /**
-   * Implements the "add" command.
+   * Implements the "add-artifact" command.
    *
    * @param commandLine CommandLine.
    */
@@ -351,7 +355,7 @@ public class RootManagerTool {
     }
 
     for (int i = 1; i < args.length; i++) {
-        // First, convert the ArtifactGroupIdVersion to a ModuleVersion.
+      // First, convert the ArtifactGroupIdVersion to a ModuleVersion.
 
       try {
         artifactGroupIdVersion = ArtifactGroupIdVersion.parse(args[i]);
@@ -405,6 +409,105 @@ public class RootManagerTool {
             userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
           }
         }
+      }
+    }
+  }
+
+  /**
+   * Implements the "add-artifact-from-file" command.
+   *
+   * @param commandLine CommandLine.
+   */
+  private static void addArtifactFromFileCommand(CommandLine commandLine) {
+    UserInteractionCallbackPlugin userInteractionCallbackPlugin;
+    String[] args;
+    BufferedReader bufferedReaderArtifacts;
+    String artifact;
+    ArtifactGroupIdVersion artifactGroupIdVersion;
+    ExecContext execContext;
+    Model model;
+    Module module;
+    ArtifactVersionMapperPlugin artifactVersionMapperPlugin;
+    Version version;
+    ModuleVersion moduleVersion;
+
+    userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
+
+    args = commandLine.getArgs();
+
+    if (args.length != 2) {
+      throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+    }
+
+    bufferedReaderArtifacts = null;
+
+    try {
+      bufferedReaderArtifacts = new BufferedReader(new FileReader(args[1]));
+
+      while ((artifact = bufferedReaderArtifacts.readLine()) != null) {
+        // First, convert the ArtifactGroupIdVersion to a ModuleVersion.
+
+        try {
+          artifactGroupIdVersion = ArtifactGroupIdVersion.parse(artifact);
+        } catch (ParseException pe) {
+          throw new RuntimeExceptionUserError(pe.getMessage());
+        }
+
+        execContext = ExecContextHolder.get();
+        model = execContext.getModel();
+        module = model.findModuleByArtifactGroupId(artifactGroupIdVersion.getArtifactGroupId());
+
+        if (module == null) {
+          // We expect the handling of the tool exit status to be done by
+          // model.findModuleByArtifactGroupId called above. If we get here with a null
+          // module, it means we are expected to silently continue and ignore artifact.
+          continue;
+        }
+
+        if (!module.isNodePluginExists(ArtifactVersionMapperPlugin.class, null)) {
+          throw new RuntimeExceptionUserError(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_ARTIFACT_VERSION_CANNOT_MAP_TO_VERSION), artifactGroupIdVersion.getArtifactVersion(), module.getNodePath()));
+        }
+
+        artifactVersionMapperPlugin = module.getNodePlugin(ArtifactVersionMapperPlugin.class, null);
+
+        version = artifactVersionMapperPlugin.mapArtifactVersionToVersion(artifactGroupIdVersion.getArtifactVersion());
+
+        moduleVersion = new ModuleVersion(module.getNodePath(), version);
+
+        // Second, do the same as for the add command.
+
+        if (RootManager.containsModuleVersion(moduleVersion)) {
+          userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS), moduleVersion));
+        } else {
+          boolean indAllowDuplicateModule;
+
+          indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-modules");
+
+          if (indAllowDuplicateModule) {
+            RootManager.addModuleVersion(moduleVersion, true);
+            userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+          } else {
+            ModuleVersion moduleVersionOrg;
+
+            moduleVersionOrg = RootManager.getModuleVersion(moduleVersion.getNodePath());
+
+            if (moduleVersionOrg != null) {
+              RootManager.replaceModuleVersion(moduleVersionOrg, moduleVersion);
+              userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS), moduleVersionOrg, moduleVersion));
+            } else {
+              RootManager.addModuleVersion(moduleVersion, false);
+              userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+            }
+          }
+        }
+      }
+    } catch (IOException ioe) {
+      throw new RuntimeException(ioe);
+    } finally {
+      if (bufferedReaderArtifacts != null) {
+        try {
+          bufferedReaderArtifacts.close();
+        } catch (IOException ioe) {}
       }
     }
   }
