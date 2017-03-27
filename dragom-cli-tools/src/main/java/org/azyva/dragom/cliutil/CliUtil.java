@@ -51,6 +51,7 @@ import org.azyva.dragom.model.ModuleVersion;
 import org.azyva.dragom.reference.ReferencePathMatcher;
 import org.azyva.dragom.reference.ReferencePathMatcherAnd;
 import org.azyva.dragom.reference.ReferencePathMatcherByElement;
+import org.azyva.dragom.reference.ReferencePathMatcherNot;
 import org.azyva.dragom.reference.ReferencePathMatcherOr;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 import org.azyva.dragom.util.Util;
@@ -66,8 +67,10 @@ import org.slf4j.LoggerFactory;
  * @author David Raymond
  */
 public final class CliUtil {
+  /**
+   * Logger for the class.
+   */
   private static final Logger logger = LoggerFactory.getLogger(CliUtil.class);
-
 
   /**
    * System property that specifies if a user properties file is supported.
@@ -177,6 +180,17 @@ public final class CliUtil {
    * Default {@link ReferencePathMatcherByElement} command line option.
    */
   public static final String DEFAULT_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION = "reference-path-matcher";
+
+  /**
+   * System property that specifies the exclude
+   * {@link ReferencePathMatcherByElement} command line option.
+   */
+  public static final String SYS_PROPERTY_EXCLUDE_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION = "org.azyva.dragom.ExcludeReferencePathMatcherCommandLineOption";
+
+  /**
+   * Default exclude {@link ReferencePathMatcherByElement} command line option.
+   */
+  public static final String DEFAULT_EXCLUDE_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION = "exclude-reference-path-matcher";
 
   /**
    * System property defining the Java Util Logging configuration file to use for
@@ -316,6 +330,14 @@ public final class CliUtil {
   }
 
   /**
+   * @return Exclude ReferencePathMatcher command line option.
+   */
+  public static String getExcludeReferencePathMatcherCommandLineOption() {
+    Util.applyDragomSystemProperties();
+    return System.getProperty(CliUtil.SYS_PROPERTY_EXCLUDE_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION, CliUtil.DEFAULT_EXCLUDE_REFERENCE_PATH_MATCHER_COMMAND_LINE_OPTION);
+  }
+
+  /**
    * Utility method to add standard Option's.
    * <p>
    * The user properties and tools properties Option's are added depending on
@@ -384,6 +406,7 @@ public final class CliUtil {
    * <ul>
    * <li>Root {@link ModuleVersion}
    * <li>{@link ReferencePathMatcherByElement}
+   * <li>Exclude ReferencePathMatcherByElement
    * </ul>
    * Used by tools that use root {@link ModuleVersion}'s when initializing Options.
    *
@@ -401,6 +424,11 @@ public final class CliUtil {
 
     option = new Option(null, null);
     option.setLongOpt(CliUtil.getReferencePathMatcherCommandLineOption());
+    option.setArgs(1);
+    options.addOption(option);
+
+    option = new Option(null, null);
+    option.setLongOpt(CliUtil.getExcludeReferencePathMatcherCommandLineOption());
     option.setArgs(1);
     options.addOption(option);
   }
@@ -718,6 +746,7 @@ public final class CliUtil {
     Model model;
     String[] arrayStringReferencePathMatcher;
     ReferencePathMatcherOr referencePathMatcherOrCommandLine;
+    ReferencePathMatcherOr referencePathMatcherOrExcludeCommandLine;
     ReferencePathMatcherAnd referencePathMatcherAnd;
 
     model = ExecContextHolder.get().getModel();
@@ -739,10 +768,30 @@ public final class CliUtil {
         }
       }
 
+      arrayStringReferencePathMatcher = commandLine.getOptionValues(CliUtil.getExcludeReferencePathMatcherCommandLineOption());
+
+      if (arrayStringReferencePathMatcher != null) {
+        referencePathMatcherOrExcludeCommandLine = new ReferencePathMatcherOr();
+
+        for (int i = 0; i < arrayStringReferencePathMatcher.length; i++) {
+          try {
+            referencePathMatcherOrExcludeCommandLine.addReferencePathMatcher(ReferencePathMatcherByElement.parse(arrayStringReferencePathMatcher[i], model));
+          } catch (ParseException pe) {
+            throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), CliUtil.getExcludeReferencePathMatcherCommandLineOption(), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
+          }
+        }
+      } else {
+        referencePathMatcherOrExcludeCommandLine = null;
+      }
+
       referencePathMatcherAnd = new ReferencePathMatcherAnd();
 
       referencePathMatcherAnd.addReferencePathMatcher(RootManager.getReferencePathMatcherOr());
       referencePathMatcherAnd.addReferencePathMatcher(referencePathMatcherOrCommandLine);
+
+      if (referencePathMatcherOrExcludeCommandLine != null) {
+        referencePathMatcherAnd.addReferencePathMatcher(new ReferencePathMatcherNot(referencePathMatcherOrExcludeCommandLine));
+      }
 
       return referencePathMatcherAnd;
     } else {
