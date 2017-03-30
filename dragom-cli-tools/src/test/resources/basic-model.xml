@@ -151,6 +151,11 @@
       <plugin>
         <plugin-class>org.azyva.dragom.test.integration.setupjenkinsjobs.TestJenkinsJobInfoPluginImpl</plugin-class>
       </plugin>
+
+      <plugin>
+        <plugin-class>org.azyva.dragom.model.plugin.impl.MatchAllModuleVersionMatcherPluginImpl</plugin-class>
+      </plugin>
+
 <!--
       <plugin>
         <plugin-class>org.azyva.dragom.model.plugin.impl.NodeInitDemoNodeEventListenerPluginFactory</plugin-class>

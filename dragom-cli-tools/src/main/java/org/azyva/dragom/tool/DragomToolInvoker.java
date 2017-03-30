@@ -62,6 +62,14 @@ public class DragomToolInvoker {
   private static final String SYS_PROPERTY_TOOLS = "org.azyva.dragom.Tools";
 
   /**
+   * System property specifying the list of additional supported tools.
+   *
+   * <p>A second system property is provided so that it can be specified for an
+   * installation which provides extra tools not provided with Dragom.
+   */
+  private static final String SYS_PROPERTY_EXTRA_TOOLS = "org.azyva.dragom.ExtraTools";
+
+  /**
    * Prefix for a system property specifying some tool invocation information.
    */
   private static final String SYS_PROPERTY_PREFIX_TOOL = "org.azyva.dragom.Tool.";
@@ -157,6 +165,8 @@ public class DragomToolInvoker {
    */
   private synchronized static void init() {
     if (!DragomToolInvoker.indInit) {
+      String tools;
+      String extraTools;
       String[] arrayTool;
       ToolInvocationInfo toolInvocationInfo;
 
@@ -168,7 +178,14 @@ public class DragomToolInvoker {
       // help information.
       DragomToolInvoker.mapToolInvocationInfo = new LinkedHashMap<String, ToolInvocationInfo>();
 
-      arrayTool = System.getProperty(DragomToolInvoker.SYS_PROPERTY_TOOLS).split(",");
+      tools = System.getProperty(DragomToolInvoker.SYS_PROPERTY_TOOLS);
+      extraTools = System.getProperty(DragomToolInvoker.SYS_PROPERTY_EXTRA_TOOLS);
+
+      if (extraTools != null) {
+        tools += "," + extraTools;
+      }
+
+      arrayTool = tools.split(",");
 
       for (String tool: arrayTool) {
         String fixedArgs;

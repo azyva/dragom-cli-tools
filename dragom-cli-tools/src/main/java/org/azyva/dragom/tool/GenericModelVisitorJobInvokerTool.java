@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,24 +35,21 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
-import org.azyva.dragom.job.Checkout;
-import org.azyva.dragom.job.ConfigHandleStaticVersion;
-import org.azyva.dragom.job.ConfigReentryAvoider;
-import org.azyva.dragom.job.RootManager;
-import org.azyva.dragom.job.RootModuleVersionJob;
+import org.azyva.dragom.job.ModelVisitorJob;
+import org.azyva.dragom.model.NodePath;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 import org.azyva.dragom.util.Util;
 
 /**
- * Generic tool wrapper for classes which implement {@link RootModuleVersionJob}.
- * <p>
- * Many jobs, such as {@link Checkout}, which implement RootModuleVersionJob, do
- * not require complex invocation arguments and can be invoked by this generic
- * tool wrapper and avoid having to introduce specific tool classes.
+ * Generic tool wrapper for classes which implement {@link ModelVisitorJob}.
+ *
+ * <p>Many jobs which implement ModelVisitorJob, do not require complex invocation
+ * arguments and can be invoked by this generic tool wrapper and avoid having to
+ * introduce specific tool classes.
  * <p>
  * This tool first expects the following arguments:
  * <ul>
- * <li>Fully qualified name of the RootModuleVersionJob implementation class
+ * <li>Fully qualified name of the ModelVisitorJob implementation class
  * <li>Text resource for the help file
  * </ul>
  * These arguments are not validated as if they were specified by the user. They
@@ -62,7 +60,7 @@ import org.azyva.dragom.util.Util;
  *
  * @author David Raymond
  */
-public class GenericRootModuleVersionJobInvokerTool {
+public class GenericModelVisitorJobInvokerTool {
   /**
    * Indicates that the class has been initialized.
    */
@@ -79,65 +77,63 @@ public class GenericRootModuleVersionJobInvokerTool {
    * @param args Arguments.
    */
   public static void main(String[] args) {
-    String rootModuleVersionJobClass;
+    String modelVisitorJobClass;
     String helpResource;
     DefaultParser defaultParser;
     CommandLine commandLine = null;
-    Constructor<? extends RootModuleVersionJob> constructor;
-    RootModuleVersionJob rootModuleVersionJob;
+    Constructor<? extends ModelVisitorJob> constructor;
+    ModelVisitorJob modelVisitorJob;
     int exitStatus;
 
-    rootModuleVersionJobClass = args[0];
+    modelVisitorJobClass = args[0];
     helpResource = args[1];
 
     args = Arrays.copyOfRange(args, 2, args.length);
 
-    GenericRootModuleVersionJobInvokerTool.init();
+    GenericModelVisitorJobInvokerTool.init();
 
-    rootModuleVersionJob = null;
+    modelVisitorJob = null;
 
     try {
       defaultParser = new DefaultParser();
 
       try {
-        commandLine = defaultParser.parse(GenericRootModuleVersionJobInvokerTool.options, args);
+        commandLine = defaultParser.parse(GenericModelVisitorJobInvokerTool.options, args);
       } catch (ParseException pe) {
         throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
       }
 
       if (CliUtil.hasHelpOption(commandLine)) {
-        GenericRootModuleVersionJobInvokerTool.help(helpResource);
+        GenericModelVisitorJobInvokerTool.help(helpResource);
       } else {
-        args = commandLine.getArgs();
+        List<NodePath> listNodePathBase;
 
-        if (args.length != 0) {
-          throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
-        }
+        args = commandLine.getArgs();
 
         CliUtil.setupExecContext(commandLine, true);
 
+        if (args.length != 0) {
+          listNodePathBase = new ArrayList<>();
+
+          for (String arg: args) {
+            try {
+              listNodePathBase.add(NodePath.parse(arg));
+            } catch (java.text.ParseException pe) {
+              throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
+            }
+          }
+        } else {
+          listNodePathBase = null;
+        }
+
         try {
-          constructor = Class.forName(rootModuleVersionJobClass).asSubclass(RootModuleVersionJob.class).getConstructor(List.class);
-          rootModuleVersionJob = constructor.newInstance(CliUtil.getListModuleVersionRoot(commandLine));
+          constructor = Class.forName(modelVisitorJobClass).asSubclass(ModelVisitorJob.class).getConstructor(List.class);
+          modelVisitorJob = constructor.newInstance(listNodePathBase);
         } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
           throw new RuntimeException(e);
         }
 
-        rootModuleVersionJob.setReferencePathMatcherProvided(CliUtil.getReferencePathMatcher(commandLine));
-
-        if (rootModuleVersionJob instanceof ConfigHandleStaticVersion) {
-          if (commandLine.hasOption("no-handle-static-version")) {
-            ((ConfigHandleStaticVersion)rootModuleVersionJob).setIndHandleStaticVersion(false);
-          }
-        }
-
-        if (rootModuleVersionJob instanceof ConfigReentryAvoider) {
-          if (commandLine.hasOption("no-avoid-reentry")) {
-            ((ConfigReentryAvoider)rootModuleVersionJob).setIndAvoidReentry(false);
-          }
-        }
-
-        rootModuleVersionJob.performJob();
+        modelVisitorJob.performJob();
       }
 
       // Need to call before ExecContextHolder.endToolAndUnset.
@@ -149,13 +145,6 @@ public class GenericRootModuleVersionJobInvokerTool {
       re.printStackTrace();
       exitStatus = 1;
     } finally {
-      if ((rootModuleVersionJob != null) && rootModuleVersionJob.isListModuleVersionRootChanged()) {
-        // It can be the case that RootManager does not specify any root ModuleVersion. In
-        // that case calling RootManager.saveListModuleVersion simply saves an empty list,
-        // even if the user has specified a root ModuleVersion on the command line.
-        RootManager.saveListModuleVersion();
-      }
-
       ExecContextHolder.endToolAndUnset();
     }
 
@@ -166,25 +155,16 @@ public class GenericRootModuleVersionJobInvokerTool {
    * Initializes the class.
    */
   private synchronized static void init() {
-    if (!GenericRootModuleVersionJobInvokerTool.indInit) {
+    if (!GenericModelVisitorJobInvokerTool.indInit) {
       Option option;
-      GenericRootModuleVersionJobInvokerTool.options = new Options();
+      GenericModelVisitorJobInvokerTool.options = new Options();
 
       CliUtil.initJavaUtilLogging();
 
-      // TODO: Should probably put these in some properties file (i18n).
-      option = new Option(null, null);
-      option.setLongOpt("no-avoid-reentry");
-      GenericRootModuleVersionJobInvokerTool.options.addOption(option);
+      CliUtil.addStandardOptions(GenericModelVisitorJobInvokerTool.options);
+      CliUtil.addRootModuleVersionOptions(GenericModelVisitorJobInvokerTool.options);
 
-      option = new Option(null, null);
-      option.setLongOpt("no-handle-static-version");
-      GenericRootModuleVersionJobInvokerTool.options.addOption(option);
-
-      CliUtil.addStandardOptions(GenericRootModuleVersionJobInvokerTool.options);
-      CliUtil.addRootModuleVersionOptions(GenericRootModuleVersionJobInvokerTool.options);
-
-      GenericRootModuleVersionJobInvokerTool.indInit = true;
+      GenericModelVisitorJobInvokerTool.indInit = true;
     }
   }
 
@@ -195,7 +175,7 @@ public class GenericRootModuleVersionJobInvokerTool {
    */
   private static void help(String resource) {
     try {
-      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(GenericRootModuleVersionJobInvokerTool.class, resource),  System.out);
+      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(GenericModelVisitorJobInvokerTool.class, resource),  System.out);
     } catch (IOException ioe) {
       throw new RuntimeException(ioe);
     }
