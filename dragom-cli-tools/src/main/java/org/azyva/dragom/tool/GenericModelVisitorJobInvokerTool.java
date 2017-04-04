@@ -162,7 +162,6 @@ public class GenericModelVisitorJobInvokerTool {
       CliUtil.initJavaUtilLogging();
 
       CliUtil.addStandardOptions(GenericModelVisitorJobInvokerTool.options);
-      CliUtil.addRootModuleVersionOptions(GenericModelVisitorJobInvokerTool.options);
 
       GenericModelVisitorJobInvokerTool.indInit = true;
     }
