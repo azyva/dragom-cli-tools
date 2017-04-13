@@ -125,8 +125,9 @@ public class DragomToolInvoker {
     String tool;
     ToolInvocationInfo toolInvocationInfo;
 
-
     DragomToolInvoker.init();
+
+    CliUtil.logDragomLogo();
 
     if ((args.length == 0) || (args[0].equals("--" + CliUtil.getHelpCommandLineOption()))) {
       // We conveniently display help information if no argument is provided or if the

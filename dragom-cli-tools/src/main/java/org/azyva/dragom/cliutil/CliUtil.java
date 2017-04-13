@@ -20,6 +20,7 @@
 package org.azyva.dragom.cliutil;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -39,6 +40,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.execcontext.ExecContext;
 import org.azyva.dragom.execcontext.ExecContextFactory;
 import org.azyva.dragom.execcontext.ToolLifeCycleExecContext;
@@ -925,5 +927,23 @@ public final class CliUtil {
         throw new RuntimeException(ioe);
       }
     }
+  }
+
+  /**
+   * Logs the Dragom logo.
+   */
+  public static void logDragomLogo() {
+    ByteArrayOutputStream byteArrayOutputStream;
+
+    byteArrayOutputStream = new ByteArrayOutputStream();
+
+    try {
+      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(CliUtil.class, "DragomLogo.txt"), byteArrayOutputStream);
+      byteArrayOutputStream.close();
+    } catch (IOException ioe) {
+      throw new RuntimeException(ioe);
+    }
+
+    CliUtil.logger.info(byteArrayOutputStream.toString());
   }
 }
