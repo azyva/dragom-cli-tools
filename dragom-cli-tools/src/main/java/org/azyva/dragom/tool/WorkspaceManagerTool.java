@@ -563,7 +563,11 @@ public class WorkspaceManagerTool {
               continue;
             }
 
-            scmPlugin.commit(workspaceDirPath.pathWorkspaceDir, message, null);
+            try {
+              scmPlugin.commit(workspaceDirPath.pathWorkspaceDir, message, null);
+            } catch (ScmPlugin.UpdateNeededException une) {
+              throw new RuntimeException(une);
+            }
           } else {
             this.userInteractionCallbackPlugin.provideInfo(MessageFormat.format(WorkspaceManagerTool.resourceBundle.getString(WorkspaceManagerTool.MSG_PATTERN_KEY_COMMIT_NO_UNSYNC_LOCAL_CHANGES), workspaceDirPath.pathWorkspaceDir, workspaceDirPath.moduleVersion));
           }
