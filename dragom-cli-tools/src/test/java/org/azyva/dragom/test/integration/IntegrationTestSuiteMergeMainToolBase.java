@@ -157,7 +157,8 @@ public class IntegrationTestSuiteMergeMainToolBase {
           "git add, git commit, git push");
       try {
         IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-b-model/new-file"), "Dummy content\n");
-        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-b-model"), "Dummy message.", null, true);
+        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-b-model"), "Dummy message.", null);
+        IntegrationTestSuite.getGit().push(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-b-model"));
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }

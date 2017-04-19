@@ -156,7 +156,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
       IntegrationTestSuite.printTestHeader("[workspace/app-a] git add, git commit (no push)");
       try {
         IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a/pom.xml"), "<!-- Dummy comment. -->\n");
-        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"), "Dummy message.", null, false);
+        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"), "Dummy message.", null);
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }
@@ -201,7 +201,8 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
       try {
         IntegrationTestSuite.getGit().clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain1/app-a.git", new Version("D/develop-project1"), IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"));
         IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext/pom.xml"), "<!-- Dummy comment. -->\n");
-        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null, true);
+        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null);
+        IntegrationTestSuite.getGit().push(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"));
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }
@@ -326,7 +327,7 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
           "git add, git commit (no push)");
       try {
         IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a/pom.xml"), "<!-- Dummy comment 2. -->\n");
-        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"), "Dummy message.", null, false);
+        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-a"), "Dummy message.", null);
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }
@@ -366,7 +367,8 @@ public class IntegrationTestSuiteWorkspaceManagerToolStatusUpdateCommit {
       try {
         IntegrationTestSuite.getGit().pull(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"));
         IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext/pom.xml"), "<!-- Dummy comment 3. -->\n");
-        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null, true);
+        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"), "Dummy message.", null);
+        IntegrationTestSuite.getGit().push(IntegrationTestSuite.pathTestWorkspace.resolve("app-a.ext"));
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }

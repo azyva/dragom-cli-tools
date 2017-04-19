@@ -129,7 +129,8 @@ public class IntegrationTestSuiteCheckoutToolMultipleConflict {
       try {
         IntegrationTestSuite.getGit().clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b-model.git", new Version("D/develop-project1"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"));
         IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext/pom.xml"), "<!-- Dummy comment. -->\n");
-        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null, true);
+        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null);
+        IntegrationTestSuite.getGit().push(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"));
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }
@@ -157,9 +158,10 @@ public class IntegrationTestSuiteCheckoutToolMultipleConflict {
           "git add, git commit (no push)");
       try {
         IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext/pom.xml"), "<!-- Dummy comment 2. -->\n");
-        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null, true);
+        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null);
+        IntegrationTestSuite.getGit().push(IntegrationTestSuite.pathTestWorkspace.resolve("app-b.model.ext"));
         IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-b-model/pom.xml"), "<!-- Dummy comment 3. -->\n");
-        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-b-model"), "Dummy message.", null, false);
+        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("workspace/app-b-model"), "Dummy message.", null);
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }

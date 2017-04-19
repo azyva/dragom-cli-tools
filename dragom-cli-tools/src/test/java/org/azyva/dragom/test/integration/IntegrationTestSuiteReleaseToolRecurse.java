@@ -281,7 +281,8 @@ public class IntegrationTestSuiteReleaseToolRecurse {
       try {
         IntegrationTestSuite.getGit().clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b.git", new Version("D/develop-project1"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b.ext"));
         IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-b.ext/pom.xml"), "<!-- Dummy comment. -->\n");
-        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b.ext"), "Dummy message.", null, true);
+        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b.ext"), "Dummy message.", null);
+        IntegrationTestSuite.getGit().push(IntegrationTestSuite.pathTestWorkspace.resolve("app-b.ext"));
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }
@@ -296,7 +297,8 @@ public class IntegrationTestSuiteReleaseToolRecurse {
       try {
         IntegrationTestSuite.getGit().clone("file:///" + IntegrationTestSuite.pathTestWorkspace.toAbsolutePath() + "/test-git-repos/Domain2/app-b-model.git", new Version("D/develop-project1"), IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"));
         IntegrationTestSuite.appendToFile(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext/pom.xml"), "<!-- Dummy comment. -->\n");
-        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null, true);
+        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null);
+        IntegrationTestSuite.getGit().push(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"));
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }

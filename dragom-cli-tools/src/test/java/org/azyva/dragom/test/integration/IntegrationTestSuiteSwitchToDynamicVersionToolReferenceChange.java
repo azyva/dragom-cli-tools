@@ -113,7 +113,8 @@ public class IntegrationTestSuiteSwitchToDynamicVersionToolReferenceChange {
         inputStream = IntegrationTestSuite.class.getResourceAsStream("/pom.xml-SwitchToDynamicVersionToolReferenceChange1");
         Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
         inputStream.close();
-        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null, true);
+        IntegrationTestSuite.getGit().addCommit(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"), "Dummy message.", null);
+        IntegrationTestSuite.getGit().push(IntegrationTestSuite.pathTestWorkspace.resolve("app-b-model.ext"));
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }
