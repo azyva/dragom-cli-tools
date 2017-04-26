@@ -208,6 +208,14 @@ public final class CliUtil {
    * properties.
    */
   private static final String SYS_PROPERTY_PREFIX_INIT_PROPERTY = "org.azyva.dragom.init-property.";
+
+  /**
+   * Context for {@link Util#handleDoYouWantToContinue} that represents using the
+   * "**" ReferencePathMatcher because no --reference-path-matcher option was
+   * specified on the command line.
+   */
+  private static final String DO_YOU_WANT_TO_CONTINUE_CONTEXT_NO_REFERENCE_PATH_MATCHER = "NO_REFERENCE_PATH_MATCHER";
+
   /**
    * See description in ResourceBundle.
    */
@@ -747,6 +755,7 @@ public final class CliUtil {
   public static ReferencePathMatcher getReferencePathMatcher(CommandLine commandLine) {
     Model model;
     String[] arrayStringReferencePathMatcher;
+    String[] arrayStringExcludeReferencePathMatcher;
     ReferencePathMatcherOr referencePathMatcherOrCommandLine;
     ReferencePathMatcherOr referencePathMatcherOrExcludeCommandLine;
     ReferencePathMatcherAnd referencePathMatcherAnd;
@@ -755,29 +764,37 @@ public final class CliUtil {
 
     if (commandLine != null) {
       arrayStringReferencePathMatcher = commandLine.getOptionValues(CliUtil.getReferencePathMatcherCommandLineOption());
+      arrayStringExcludeReferencePathMatcher = commandLine.getOptionValues(CliUtil.getExcludeReferencePathMatcherCommandLineOption());
 
-      if (arrayStringReferencePathMatcher == null) {
-        throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIRED), CliUtil.getReferencePathMatcherCommandLineOption(), CliUtil.getHelpCommandLineOption()));
-      }
-
-      referencePathMatcherOrCommandLine = new ReferencePathMatcherOr();
-
-      for (int i = 0; i < arrayStringReferencePathMatcher.length; i++) {
-        try {
-          referencePathMatcherOrCommandLine.addReferencePathMatcher(ReferencePathMatcherByElement.parse(arrayStringReferencePathMatcher[i], model));
-        } catch (ParseException pe) {
-          throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), CliUtil.getReferencePathMatcherCommandLineOption(), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
+      if ((arrayStringReferencePathMatcher == null) && (arrayStringExcludeReferencePathMatcher == null)) {
+        if (!Util.handleDoYouWantToContinue(CliUtil.DO_YOU_WANT_TO_CONTINUE_CONTEXT_NO_REFERENCE_PATH_MATCHER)) {
+          // Generally when handling "do you want to continue", we require the caller to use
+          // Util.isAbort to know if the user requested to abort. But it is more convenient
+          // for callers of this method to rely on an exception being thrown.
+          throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIRED), CliUtil.getReferencePathMatcherCommandLineOption(), CliUtil.getHelpCommandLineOption()));
         }
       }
 
-      arrayStringReferencePathMatcher = commandLine.getOptionValues(CliUtil.getExcludeReferencePathMatcherCommandLineOption());
-
       if (arrayStringReferencePathMatcher != null) {
-        referencePathMatcherOrExcludeCommandLine = new ReferencePathMatcherOr();
+        referencePathMatcherOrCommandLine = new ReferencePathMatcherOr();
 
         for (int i = 0; i < arrayStringReferencePathMatcher.length; i++) {
           try {
-            referencePathMatcherOrExcludeCommandLine.addReferencePathMatcher(ReferencePathMatcherByElement.parse(arrayStringReferencePathMatcher[i], model));
+            referencePathMatcherOrCommandLine.addReferencePathMatcher(ReferencePathMatcherByElement.parse(arrayStringReferencePathMatcher[i], model));
+          } catch (ParseException pe) {
+            throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), CliUtil.getReferencePathMatcherCommandLineOption(), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
+          }
+        }
+      } else {
+        referencePathMatcherOrCommandLine = null;
+      }
+
+      if (arrayStringExcludeReferencePathMatcher != null) {
+        referencePathMatcherOrExcludeCommandLine = new ReferencePathMatcherOr();
+
+        for (int i = 0; i < arrayStringExcludeReferencePathMatcher.length; i++) {
+          try {
+            referencePathMatcherOrExcludeCommandLine.addReferencePathMatcher(ReferencePathMatcherByElement.parse(arrayStringExcludeReferencePathMatcher[i], model));
           } catch (ParseException pe) {
             throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), CliUtil.getExcludeReferencePathMatcherCommandLineOption(), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
           }
@@ -786,16 +803,23 @@ public final class CliUtil {
         referencePathMatcherOrExcludeCommandLine = null;
       }
 
-      referencePathMatcherAnd = new ReferencePathMatcherAnd();
+      if ((referencePathMatcherOrCommandLine == null) && (referencePathMatcherOrExcludeCommandLine == null)) {
+        return RootManager.getReferencePathMatcherOr();
+      } else {
+        referencePathMatcherAnd = new ReferencePathMatcherAnd();
 
-      referencePathMatcherAnd.addReferencePathMatcher(RootManager.getReferencePathMatcherOr());
-      referencePathMatcherAnd.addReferencePathMatcher(referencePathMatcherOrCommandLine);
+        referencePathMatcherAnd.addReferencePathMatcher(RootManager.getReferencePathMatcherOr());
 
-      if (referencePathMatcherOrExcludeCommandLine != null) {
-        referencePathMatcherAnd.addReferencePathMatcher(new ReferencePathMatcherNot(referencePathMatcherOrExcludeCommandLine));
+        if (referencePathMatcherOrCommandLine != null) {
+          referencePathMatcherAnd.addReferencePathMatcher(referencePathMatcherOrCommandLine);
+        }
+
+        if (referencePathMatcherOrExcludeCommandLine != null) {
+          referencePathMatcherAnd.addReferencePathMatcher(new ReferencePathMatcherNot(referencePathMatcherOrExcludeCommandLine));
+        }
+
+        return referencePathMatcherAnd;
       }
-
-      return referencePathMatcherAnd;
     } else {
       return RootManager.getReferencePathMatcherOr();
     }
