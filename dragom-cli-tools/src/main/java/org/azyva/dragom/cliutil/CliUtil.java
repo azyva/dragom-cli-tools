@@ -45,6 +45,7 @@ import org.azyva.dragom.execcontext.ExecContext;
 import org.azyva.dragom.execcontext.ExecContextFactory;
 import org.azyva.dragom.execcontext.ToolLifeCycleExecContext;
 import org.azyva.dragom.execcontext.WorkspaceExecContextFactory;
+import org.azyva.dragom.execcontext.plugin.UserInteractionCallbackPlugin;
 import org.azyva.dragom.execcontext.support.ExecContextFactoryHolder;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.job.RootManager;
@@ -259,7 +260,12 @@ public final class CliUtil {
   /**
    * See description in ResourceBundle.
    */
-  public static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIRED = "REFERENCE_PATH_MATCHER_REQUIRED";
+  public static final String MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_NOT_SPECIFIED = "REFERENCE_PATH_MATCHER_NOT_SPECIFIED";
+
+  /**
+   * See description in ResourceBundle.
+   */
+  public static final String MSG_PATTERN_KEY_ABORT_REFERENCE_PATH_MATCHER_NOT_SPECIFIED = "ABORT_REFERENCE_PATH_MATCHER_NOT_SPECIFIED";
 
   /**
    * ResourceBundle specific to this class.
@@ -767,11 +773,17 @@ public final class CliUtil {
       arrayStringExcludeReferencePathMatcher = commandLine.getOptionValues(CliUtil.getExcludeReferencePathMatcherCommandLineOption());
 
       if ((arrayStringReferencePathMatcher == null) && (arrayStringExcludeReferencePathMatcher == null)) {
+        UserInteractionCallbackPlugin userInteractionCallbackPlugin;
+
+        userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
+
+        userInteractionCallbackPlugin.provideInfo(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_NOT_SPECIFIED), CliUtil.getReferencePathMatcherCommandLineOption(), CliUtil.getExcludeReferencePathMatcherCommandLineOption()));
+
         if (!Util.handleDoYouWantToContinue(CliUtil.DO_YOU_WANT_TO_CONTINUE_CONTEXT_NO_REFERENCE_PATH_MATCHER)) {
           // Generally when handling "do you want to continue", we require the caller to use
           // Util.isAbort to know if the user requested to abort. But it is more convenient
           // for callers of this method to rely on an exception being thrown.
-          throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_REQUIRED), CliUtil.getReferencePathMatcherCommandLineOption(), CliUtil.getHelpCommandLineOption()));
+          throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_ABORT_REFERENCE_PATH_MATCHER_NOT_SPECIFIED), CliUtil.getReferencePathMatcherCommandLineOption(), CliUtil.getExcludeReferencePathMatcherCommandLineOption()));
         }
       }
 
