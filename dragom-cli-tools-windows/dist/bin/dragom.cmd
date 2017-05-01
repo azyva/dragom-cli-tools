@@ -12,7 +12,7 @@ rem
 rem Dragom is distributed in the hope that it will be useful,
 rem but WITHOUT ANY WARRANTY; without even the implied warranty of
 rem MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-rem GNU Afferp General Public License for more details.
+rem GNU Affero General Public License for more details.
 rem
 rem You should have received a copy of the GNU Affero General Public License
 rem along with Dragom.  If not, see <http://www.gnu.org/licenses/>.
