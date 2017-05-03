@@ -779,7 +779,7 @@ public final class CliUtil {
 
         userInteractionCallbackPlugin.provideInfo(MessageFormat.format(CliUtil.resourceBundle.getString(CliUtil.MSG_PATTERN_KEY_REFERENCE_PATH_MATCHER_NOT_SPECIFIED), CliUtil.getReferencePathMatcherCommandLineOption(), CliUtil.getExcludeReferencePathMatcherCommandLineOption()));
 
-        if (!Util.handleDoYouWantToContinue(CliUtil.DO_YOU_WANT_TO_CONTINUE_CONTEXT_NO_REFERENCE_PATH_MATCHER)) {
+        if (!Util.handleDoYouWantToContinueSimple(CliUtil.DO_YOU_WANT_TO_CONTINUE_CONTEXT_NO_REFERENCE_PATH_MATCHER)) {
           // Generally when handling "do you want to continue", we require the caller to use
           // Util.isAbort to know if the user requested to abort. But it is more convenient
           // for callers of this method to rely on an exception being thrown.
