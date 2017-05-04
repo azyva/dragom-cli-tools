@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,15 +16,17 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.model.ClassificationNode;
+import org.azyva.dragom.model.MutableClassificationNode;
 import org.azyva.dragom.model.MutableModel;
 import org.azyva.dragom.model.MutableNode;
+import org.azyva.dragom.model.Node;
 import org.azyva.dragom.model.NodePath;
 import org.azyva.dragom.model.config.MutableConfig;
+import org.azyva.dragom.model.config.NodeConfigTransferObject;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
 import org.azyva.dragom.util.Util;
 import org.slf4j.Logger;
@@ -65,6 +68,16 @@ public class ModelConfigTool {
    * Map of short to long command names.
    */
   private static Map<String, String> mapShortToLongCommand;
+
+  /**
+   * MutableModel.
+   */
+  private MutableModel mutableModel;
+
+  /**
+   * Indicates the tool must quit.
+   */
+  private boolean indQuit;
 
   /**
    * BufferedReader for reading command lines.
@@ -115,7 +128,7 @@ public class ModelConfigTool {
 
       try {
         commandLine = defaultParser.parse(ModelConfigTool.options, args);
-      } catch (ParseException pe) {
+      } catch (org.apache.commons.cli.ParseException pe) {
         throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE), pe.getMessage(), CliUtil.getHelpCommandLineOption()));
       }
 
@@ -130,6 +143,9 @@ public class ModelConfigTool {
         CliUtil.setupExecContext(commandLine, true);
 
         modelConfigTool = new ModelConfigTool();
+
+        modelConfigTool.mutableModel = (MutableModel)ExecContextHolder.get().getModel();
+        modelConfigTool.mutableNodeCurrent = (MutableNode)modelConfigTool.mutableModel.getClassificationNodeRoot();
 
         modelConfigTool.run();
 
@@ -158,8 +174,6 @@ public class ModelConfigTool {
       CliUtil.addStandardOptions(ModelConfigTool.options);
 
       ModelConfigTool.mapShortToLongCommand = new HashMap<String, String>();
-
-      ModelConfigTool.mapShortToLongCommand.put("short", "long");
 
       ModelConfigTool.mapShortToLongCommand.put("f", "flush");
       ModelConfigTool.mapShortToLongCommand.put("crcn", "create-root-classification-node");
@@ -224,13 +238,24 @@ public class ModelConfigTool {
 
     this.bufferedReaderCommandInput = new BufferedReader(new InputStreamReader(System.in));
 
-    indQuit = false;
-
     do {
       String[] arrayCommand;
       String commandName;
       String methodName;
       Method method;
+
+      if (this.mutableNodeCurrent == null) {
+        System.out.println("No node currently has the focus.");
+      } else {
+        switch (this.mutableNodeCurrent.getNodeType()) {
+        case CLASSIFICATION:
+          System.out.println("Current focus ClassificationNode: " + this.mutableNodeCurrent);
+          break;
+        case MODULE:
+          System.out.println("Current focus module: " + this.mutableNodeCurrent);
+          break;
+        }
+      }
 
       arrayCommand = this.getCommand();
       commandName = arrayCommand[0];
@@ -260,11 +285,18 @@ public class ModelConfigTool {
       }
 
       try {
-        indQuit = (Boolean)method.invoke(this,  arrayCommand[1]);
-      } catch (InvocationTargetException | IllegalAccessException e) {
-        throw new RuntimeException(e);
+        method.invoke(this,  arrayCommand[1]);
+      } catch (InvocationTargetException ite) {
+        System.out.println("Exception thown during execution of command.");
+        ite.getCause().printStackTrace();
+        System.out.println("Attempting to recover.");
+        continue;
+      } catch (IllegalAccessException iae) {
+        throw new RuntimeException(iae);
       }
-    } while (!indQuit);
+
+      System.out.println("Command " + arrayCommand[0] + " completed successfully.");
+    } while (!this.indQuit);
 
     return;
   }
@@ -296,194 +328,559 @@ public class ModelConfigTool {
     }
   }
 
-  private boolean execFlushCommand(String arguments) {
-    System.out.println("Flush");
-    return false;
+  /**
+   * Executes the "flush" command.
+   */
+  private void execFlushCommand(String arguments) {
+    if (!this.validateNoArgument(arguments)) {
+      return;
+    }
+
+    this.mutableModel.flush();
   }
 
-  private boolean execCreateRootClassificationNodeCommand(String arguments) {
-    System.out.println("CreateRootClassificationNode");
-    return false;
+  /**
+   * Executes the "create-root-classification-node" command.
+   */
+  private void execCreateRootClassificationNodeCommand(String arguments) {
+    if (!this.validateNoArgument(arguments)) {
+      return;
+    }
+
+    if (this.mutableNodeCurrent != null) {
+      System.out.println("This command can only be submited when there is no focus node, which is generally when the model does not have a root ClassificationNode. Please delete the root ClassificationNode.");
+      return;
+    }
+
+    if (this.mutableModel.getClassificationNodeRoot() != null) {
+      System.out.println("This command can only be submited when there is no root ClassificationNode. Please explicitly delete the root ClassificationNode.");
+      return;
+    }
+
+    this.mutableNodeCurrent = this.mutableModel.createMutableClassificationNodeRoot();
   }
 
-  private boolean execListChildrenCommand(String arguments) {
-    System.out.println("ListChildren");
-    return false;
+  /**
+   * Executes the "list-children" command.
+   */
+  private void execListChildrenCommand(String arguments) {
+    ClassificationNode classificationNode;
+    List<Node> listNode;
+
+    if (!this.validateNoArgument(arguments)) {
+      return;
+    }
+
+    if (!this.validateCurrentNode()) {
+      return;
+    }
+
+    if (!(this.mutableNodeCurrent instanceof ClassificationNode)) {
+      System.out.println("Focus node not a ClassificaitonNode.");
+      return;
+    }
+
+    classificationNode = (ClassificationNode)this.mutableNodeCurrent;
+
+    listNode = classificationNode.getListChildNode();
+
+    for (int i = 0; i < listNode.size(); i++) {
+      Node node;
+
+      node = listNode.get(i);
+
+      System.out.println(String.valueOf(i) + " - " + node.getName());
+    }
   }
 
-  private boolean execChildCommand(String arguments) {
-    System.out.println("Child");
-    return false;
+  /**
+   * Executes the "child" command.
+   */
+  private void execChildCommand(String arguments) {
+    ClassificationNode classificationNode;
+    String childName;
+    int childIndex = -1;
+
+    if (!this.validateArgument(arguments)) {
+        return;
+      }
+
+    if (!this.validateCurrentNode()) {
+      return;
+    }
+
+    if (!(this.mutableNodeCurrent instanceof ClassificationNode)) {
+      System.out.println("Focus node not a ClassificaitonNode.");
+      return;
+    }
+
+    classificationNode = (ClassificationNode)this.mutableNodeCurrent;
+
+    // May be an index.
+    childName = arguments;
+
+    try {
+      childIndex = Integer.parseInt(childName);
+
+      // To distinguish the two cases: Index or name.
+      childName = null;
+    } catch (NumberFormatException nfe) {
+    }
+
+    if (childName == null) {
+      List<Node> listNode;
+
+      listNode = classificationNode.getListChildNode();
+
+      if (childIndex < 0 || childIndex >= listNode.size()) {
+        System.out.println("Child index must be between 0 and " + (listNode.size() - 1) + '.');
+        return;
+      }
+
+      this.mutableNodeCurrent = (MutableNode)listNode.get(childIndex);
+    } else {
+      Node nodeChild;
+
+      nodeChild = classificationNode.getNodeChild(childName);
+
+      if (nodeChild == null) {
+        System.out.println("Child " + childName + " does not exist.");
+      } else {
+        this.mutableNodeCurrent = (MutableNode)nodeChild;
+      }
+    }
   }
 
-  private boolean execParentCommand(String arguments) {
-    System.out.println("Parent");
-    return false;
+  /**
+   * Executes the "parent" command.
+   */
+  private void execParentCommand(String arguments) {
+    if (!this.validateNoArgument(arguments)) {
+      return;
+    }
+
+    if (!this.validateCurrentNode()) {
+      return;
+    }
+
+    if (this.mutableNodeCurrent.getClassificationNodeParent() == null) {
+      System.out.println("The current node is the root ClassificationNode and has no parent.");
+    } else {
+      this.mutableNodeCurrent = (MutableNode)this.mutableNodeCurrent.getClassificationNodeParent();
+    }
   }
 
-  private boolean execNodePathCommand(String arguments) {
-    System.out.println("NodePath");
-    return false;
+  /**
+   * Executes the "node-path" command.
+   */
+  private void execNodePathCommand(String arguments) {
+    ClassificationNode classificationNode;
+    NodePath nodePath;
+    Node node;
+
+    if (!this.validateArgument(arguments)) {
+      return;
+    }
+
+    try {
+      nodePath = NodePath.parse(arguments);
+    } catch (ParseException pe) {
+      System.out.println("The NodePath " + arguments + " specified is not valid: " + pe.getMessage());
+      return;
+    }
+
+    if (nodePath.isPartial()) {
+      try {
+        node = (MutableNode)this.mutableModel.getClassificationNode(nodePath);
+      } catch (IllegalArgumentException iae) {
+        System.out.println("NodePath " + nodePath + " is partial and must reference a ClassificationNode, but the node referenced is not. Remove the trailing '/' to make the NodePath complete.");
+        return;
+      }
+    } else {
+      try {
+        node = (MutableNode)this.mutableModel.getModule(nodePath);
+      } catch (IllegalArgumentException iae) {
+        System.out.println("NodePath " + nodePath + " is complete and must reference a Module, but the node referenced is not. Add a trailing '/' to make the NodePath partial.");
+        return;
+      }
+    }
+
+    if (node == null) {
+      System.out.println("No node corresponds to NodePath " + nodePath);
+      return;
+    }
+
+    this.mutableNodeCurrent = (MutableNode)node;
   }
 
-  private boolean execNextSibblingCommand(String arguments) {
-    System.out.println("NextSibbling");
-    return false;
+  /**
+   * Executes the "next-sibbling" command.
+   */
+  private void execNextSibblingCommand(String arguments) {
+    ClassificationNode classificationNodeParent;
+    List<Node> listNode;
+    int currentChildIndex;
+
+    if (!this.validateNoArgument(arguments)) {
+      return;
+    }
+
+    if (!this.validateCurrentNode()) {
+      return;
+    }
+
+    classificationNodeParent = this.mutableNodeCurrent.getClassificationNodeParent();
+    listNode = classificationNodeParent.getListChildNode();
+
+    currentChildIndex = listNode.indexOf(this.mutableNodeCurrent);
+
+    if (currentChildIndex >= (listNode.size() - 1)) {
+      System.out.println("Current node does not have any next sibbling.");
+      return;
+    }
+
+    this.mutableNodeCurrent = (MutableNode)listNode.get(currentChildIndex + 1);
   }
 
-  private boolean execPrevSibblingCommand(String arguments) {
-    System.out.println("PrevSibbling");
-    return false;
+  /**
+   * Executes the "prev-sibbling" command.
+   */
+  private void execPrevSibblingCommand(String arguments) {
+    ClassificationNode classificationNodeParent;
+    List<Node> listNode;
+    int currentChildIndex;
+
+    if (!this.validateNoArgument(arguments)) {
+      return;
+    }
+
+    if (!this.validateCurrentNode()) {
+      return;
+    }
+
+    classificationNodeParent = this.mutableNodeCurrent.getClassificationNodeParent();
+    listNode = classificationNodeParent.getListChildNode();
+
+    currentChildIndex = listNode.indexOf(this.mutableNodeCurrent);
+
+    if (currentChildIndex == 0) {
+      System.out.println("Current node does not have any previous sibbling.");
+      return;
+    }
+
+    this.mutableNodeCurrent = (MutableNode)listNode.get(currentChildIndex - 1);
   }
 
-  private boolean execCreateClassificationNodeCommand(String arguments) {
-   System.out.println("CreateClassificationNode");
-   return false;
+  /**
+   * Executes the "create-classification-node" command.
+   */
+  private void execCreateClassificationNodeCommand(String arguments) {
+    MutableClassificationNode mutableClassificationNode;
+    MutableNode mutableNode;
+    NodeConfigTransferObject nodeConfigTransferObject;
+
+    if (!this.validateArgument(arguments)) {
+      return;
+    }
+
+    if (!this.validateCurrentNode()) {
+      return;
+    }
+
+    if (!(this.mutableNodeCurrent instanceof ClassificationNode)) {
+      System.out.println("Focus node not a ClassificaitonNode.");
+      return;
+    }
+
+    mutableClassificationNode = (MutableClassificationNode)this.mutableNodeCurrent;
+
+    mutableNode = mutableClassificationNode.createChildMutableClassificationNode();
+
+    nodeConfigTransferObject = mutableNode.getNodeConfigTransferObject(null);
+    nodeConfigTransferObject.setName(arguments);
+    mutableNode.setNodeConfigTransferObject(nodeConfigTransferObject, null);
+
+    this.mutableNodeCurrent = mutableNode;
   }
 
-  private boolean execCreateModuleCommand(String arguments) {
-    System.out.println("CreateModule");
-    return false;
+  /**
+   * Executes the "create-module" command.
+   */
+  private void execCreateModuleCommand(String arguments) {
+    MutableClassificationNode mutableClassificationNode;
+    MutableNode mutableNode;
+    NodeConfigTransferObject nodeConfigTransferObject;
+
+    if (!this.validateArgument(arguments)) {
+      return;
+    }
+
+    if (!this.validateCurrentNode()) {
+      return;
+    }
+
+    if (!(this.mutableNodeCurrent instanceof ClassificationNode)) {
+      System.out.println("Focus node not a ClassificaitonNode.");
+      return;
+    }
+
+    mutableClassificationNode = (MutableClassificationNode)this.mutableNodeCurrent;
+
+    mutableNode = mutableClassificationNode.createChildMutableModule();
+
+    nodeConfigTransferObject = mutableNode.getNodeConfigTransferObject(null);
+    nodeConfigTransferObject.setName(arguments);
+    mutableNode.setNodeConfigTransferObject(nodeConfigTransferObject, null);
+
+    this.mutableNodeCurrent = mutableNode;
   }
 
-  private boolean execDeleteCommand(String arguments) {
+  /**
+   * Executes the "delete" command.
+   */
+  private void execDeleteCommand(String arguments) {
     System.out.println("Delete");
-    return false;
+
   }
 
-  private boolean execWhereAmICommand(String arguments) {
+  /**
+   * Executes the "where-am-i" command.
+   */
+  private void execWhereAmICommand(String arguments) {
     System.out.println("WhereAmI");
-    return false;
+
   }
 
-  private boolean execDisplayCommand(String arguments) {
+  /**
+   * Executes the "display" command.
+   */
+  private void execDisplayCommand(String arguments) {
     System.out.println("Display");
-    return false;
+
   }
 
-  private boolean execDisplayParentHierarchyCommand(String arguments) {
+  /**
+   * Executes the "display-parent-hierarchy" command.
+   */
+  private void execDisplayParentHierarchyCommand(String arguments) {
     System.out.println("DisplayParentHierarchy");
-    return false;
+
   }
 
-  private boolean execAddPropertyCommand(String arguments) {
+  /**
+   * Executes the "add-property" command.
+   */
+  private void execAddPropertyCommand(String arguments) {
     System.out.println("AddProperty");
-    return false;
+
   }
 
-  private boolean execUpdatePropertyCommand(String arguments) {
+  /**
+   * Executes the "update-property" command.
+   */
+  private void execUpdatePropertyCommand(String arguments) {
     System.out.println("UpdateProperty");
-    return false;
+
   }
 
-  private boolean execRemovePropertyCommand(String arguments) {
+  /**
+   * Executes the "remove-property" command.
+   */
+  private void execRemovePropertyCommand(String arguments) {
     System.out.println("RemoveProperty");
-    return false;
+
   }
 
-  private boolean execAddPluginCommand(String arguments) {
+  /**
+   * Executes the "add-plugin" command.
+   */
+  private void execAddPluginCommand(String arguments) {
     System.out.println("AddPlugin");
-    return false;
+
   }
 
-  private boolean execUpdatePluginCommand(String arguments) {
+  /**
+   * Executes the "update-plugin" command.
+   */
+  private void execUpdatePluginCommand(String arguments) {
     System.out.println("UpdatePlugin");
-    return false;
+
   }
 
-  private boolean execRemovePluginCommand(String arguments) {
+  /**
+   * Executes the "remove-plugin" command.
+   */
+  private void execRemovePluginCommand(String arguments) {
     System.out.println("RemovePlugin");
-    return false;
+
   }
 
-  private boolean execListConfigCommand(String arguments) {
+  /**
+   * Executes the "list-config" command.
+   */
+  private void execListConfigCommand(String arguments) {
     System.out.println("ListConfig");
-    return false;
+
   }
 
-  private boolean execDisplayConfigCommand(String arguments) {
+  /**
+   * Executes the "display-config" command.
+   */
+  private void execDisplayConfigCommand(String arguments) {
     System.out.println("DisplayConfig");
-    return false;
+
   }
 
-  private boolean execEditConfigCommand(String arguments) {
+  /**
+   * Executes the "edit-config" command.
+   */
+  private void execEditConfigCommand(String arguments) {
     System.out.println("EditConfig");
-    return false;
+
   }
 
-  private boolean execFindPropertyCommand(String arguments) {
+  /**
+   * Executes the "find-property" command.
+   */
+  private void execFindPropertyCommand(String arguments) {
     System.out.println("FindProperty");
-    return false;
+
   }
 
-  private boolean execFindPropertyValueCommand(String arguments) {
+  /**
+   * Executes the "find-property-value" command.
+   */
+  private void execFindPropertyValueCommand(String arguments) {
     System.out.println("FindPropertyValue");
-    return false;
+
   }
 
-  private boolean execFindPropertyValueRegexCommand(String arguments) {
+  /**
+   * Executes the "find-property-value-regex" command.
+   */
+  private void execFindPropertyValueRegexCommand(String arguments) {
     System.out.println("FindPropertyValueRegex");
-    return false;
+
   }
 
-  private boolean execFindPluginCommand(String arguments) {
+  /**
+   * Executes the "find-plugin" command.
+   */
+  private void execFindPluginCommand(String arguments) {
     System.out.println("FindPlugin");
-    return false;
+
   }
 
-  private boolean execFindPluginIdCommand(String arguments) {
+  /**
+   * Executes the "find-plugin-id" command.
+   */
+  private void execFindPluginIdCommand(String arguments) {
     System.out.println("FindPluginId");
-    return false;
+
   }
 
-  private boolean execFindPluginClassCommand(String arguments) {
+  /**
+   * Executes the "find-plugin-class" command.
+   */
+  private void execFindPluginClassCommand(String arguments) {
     System.out.println("FindPluginClass");
-    return false;
+
   }
 
-  private boolean execFindConfigCommand(String arguments) {
+  /**
+   * Executes the "find-config" command.
+   */
+  private void execFindConfigCommand(String arguments) {
     System.out.println("FindConfig");
-    return false;
+
   }
 
-  private boolean execSearchResultCommand(String arguments) {
+  /**
+   * Executes the "search-result" command.
+   */
+  private void execSearchResultCommand(String arguments) {
     System.out.println("SearchResult");
-    return false;
+
   }
 
-  private boolean execNextResultCommand(String arguments) {
+  /**
+   * Executes the "next-result" command.
+   */
+  private void execNextResultCommand(String arguments) {
     System.out.println("NextResult");
-    return false;
+
   }
 
-  private boolean execPrevResultCommand(String arguments) {
+  /**
+   * Executes the "prev-result" command.
+   */
+  private void execPrevResultCommand(String arguments) {
     System.out.println("PrevResult");
-    return false;
+
   }
 
-  private boolean execFirstResultCommand(String arguments) {
+  /**
+   * Executes the "first-result" command.
+   */
+  private void execFirstResultCommand(String arguments) {
     System.out.println("FirstResult");
-    return false;
+
   }
 
-  private boolean execLastResultCommand(String arguments) {
+  /**
+   * Executes the "last-result" command.
+   */
+  private void execLastResultCommand(String arguments) {
     System.out.println("LastResult");
-    return false;
+
   }
 
-  private boolean execHelpCommand(String arguments) {
+  /**
+   * Executes the "help" command.
+   */
+  private void execHelpCommand(String arguments) {
     System.out.println("Help");
-    return false;
+
   }
 
-  private boolean execQuitCommand(String arguments) {
+  /**
+   * Executes the "quit" command.
+   */
+  private void execQuitCommand(String arguments) {
     System.out.println("Quit");
+    this.indQuit = true;
+  }
+
+  private boolean validateCurrentNode() {
+    if (this.mutableNodeCurrent == null) {
+      System.out.println("No focus node.");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  private boolean validateNoArgument(String arguments) {
+    if (!arguments.isEmpty()) {
+      System.out.println("This command does not accept any argument.");
+      return false;
+    }
+
+    return true;
+  }
+
+  private boolean validateArgument(String arguments) {
+    if (arguments.isEmpty()) {
+      System.out.println("This command requires an argument.");
+      return false;
+    }
+
     return true;
   }
 }
 
 /*
-- Only command: Create root ClassificationNode (change focus)
+- Only command (2017-05-03 ??? without focus): Create root ClassificationNode (change focus)
 Various commands related to the focus Node:
 - Save (flush)
 - List children
