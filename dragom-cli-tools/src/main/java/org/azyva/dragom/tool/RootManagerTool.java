@@ -181,6 +181,8 @@ public class RootManagerTool {
           RootManagerTool.listCommand(commandLine);
         } else if (command.equals("add")) {
           RootManagerTool.addCommand(commandLine);
+        } else if (command.equals("add-from-file")) {
+          RootManagerTool.addFromFileCommand(commandLine);
         } else if (command.equals("add-artifact")) {
           RootManagerTool.addArtifactCommand(commandLine);
         } else if (command.equals("add-artifact-from-file")) {
@@ -331,6 +333,73 @@ public class RootManagerTool {
   }
 
   /**
+   * Implements the "add-from-file" command.
+   *
+   * @param commandLine CommandLine.
+   */
+  private static void addFromFileCommand(CommandLine commandLine) {
+    UserInteractionCallbackPlugin userInteractionCallbackPlugin;
+    String[] args;
+    boolean indAllowDuplicateModule;
+    BufferedReader bufferedReaderArtifacts;
+    String stringModuleVersion;
+    ModuleVersion moduleVersion;
+
+    userInteractionCallbackPlugin = ExecContextHolder.get().getExecContextPlugin(UserInteractionCallbackPlugin.class);
+
+    args = commandLine.getArgs();
+
+    if (args.length != 2) {
+      throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
+    }
+
+    indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-modules");
+
+    bufferedReaderArtifacts = null;
+
+    try {
+      bufferedReaderArtifacts = new BufferedReader(new FileReader(args[1]));
+
+      while ((stringModuleVersion = bufferedReaderArtifacts.readLine()) != null) {
+        try {
+          moduleVersion = ModuleVersion.parse(stringModuleVersion);
+        } catch (ParseException pe) {
+          throw new RuntimeExceptionUserError(pe.getMessage());
+        }
+
+        if (RootManager.containsModuleVersion(moduleVersion)) {
+          userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS), moduleVersion));
+        } else {
+          if (indAllowDuplicateModule) {
+            RootManager.addModuleVersion(moduleVersion, true);
+            userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+          } else {
+            ModuleVersion moduleVersionOrg;
+
+            moduleVersionOrg = RootManager.getModuleVersion(moduleVersion.getNodePath());
+
+            if (moduleVersionOrg != null) {
+              RootManager.replaceModuleVersion(moduleVersionOrg, moduleVersion);
+              userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_REPLACED_IN_LIST_OF_ROOTS), moduleVersionOrg, moduleVersion));
+            } else {
+              RootManager.addModuleVersion(moduleVersion, false);
+              userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
+            }
+          }
+        }
+      }
+    } catch (IOException ioe) {
+      throw new RuntimeException(ioe);
+    } finally {
+      if (bufferedReaderArtifacts != null) {
+        try {
+          bufferedReaderArtifacts.close();
+        } catch (IOException ioe) {}
+      }
+    }
+  }
+
+  /**
    * Implements the "add-artifact" command.
    *
    * @param commandLine CommandLine.
@@ -338,6 +407,7 @@ public class RootManagerTool {
   private static void addArtifactCommand(CommandLine commandLine) {
     UserInteractionCallbackPlugin userInteractionCallbackPlugin;
     String[] args;
+    boolean indAllowDuplicateModule;
     ArtifactGroupIdVersion artifactGroupIdVersion;
     ExecContext execContext;
     Model model;
@@ -353,6 +423,8 @@ public class RootManagerTool {
     if (args.length < 2) {
       throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
     }
+
+    indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-modules");
 
     for (int i = 1; i < args.length; i++) {
       // First, convert the ArtifactGroupIdVersion to a ModuleVersion.
@@ -389,10 +461,6 @@ public class RootManagerTool {
       if (RootManager.containsModuleVersion(moduleVersion)) {
         userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS), moduleVersion));
       } else {
-        boolean indAllowDuplicateModule;
-
-        indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-modules");
-
         if (indAllowDuplicateModule) {
           RootManager.addModuleVersion(moduleVersion, true);
           userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
@@ -421,6 +489,7 @@ public class RootManagerTool {
   private static void addArtifactFromFileCommand(CommandLine commandLine) {
     UserInteractionCallbackPlugin userInteractionCallbackPlugin;
     String[] args;
+    boolean indAllowDuplicateModule;
     BufferedReader bufferedReaderArtifacts;
     String artifact;
     ArtifactGroupIdVersion artifactGroupIdVersion;
@@ -438,6 +507,8 @@ public class RootManagerTool {
     if (args.length != 2) {
       throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_INVALID_ARGUMENT_COUNT), CliUtil.getHelpCommandLineOption()));
     }
+
+    indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-modules");
 
     bufferedReaderArtifacts = null;
 
@@ -479,10 +550,6 @@ public class RootManagerTool {
         if (RootManager.containsModuleVersion(moduleVersion)) {
           userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ALREADY_IN_LIST_OF_ROOTS), moduleVersion));
         } else {
-          boolean indAllowDuplicateModule;
-
-          indAllowDuplicateModule = commandLine.hasOption("ind-allow-duplicate-modules");
-
           if (indAllowDuplicateModule) {
             RootManager.addModuleVersion(moduleVersion, true);
             userInteractionCallbackPlugin.provideInfo(MessageFormat.format(RootManagerTool.resourceBundle.getString(RootManagerTool.MSG_PATTERN_KEY_MODULE_VERSION_ADDED_TO_LIST_OF_ROOTS), moduleVersion));
