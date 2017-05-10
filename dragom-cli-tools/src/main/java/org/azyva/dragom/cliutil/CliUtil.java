@@ -25,6 +25,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
@@ -848,12 +851,17 @@ public final class CliUtil {
   }
 
   /**
-   * Returns the version of a resource appropriate for the current default Locale.
-   * <p>
-   * The algorithm used for selecting the appropriate resource is similar to the
+   * Returns the version of a text resource appropriate for the current default
+   * Locale.
+   *
+   * <p>A Reader is returned so that character encoding is taken into consideration.
+   * The text resource is assumed to be encoded with UTF-8, regardless of the
+   * platform default encoding.
+   *
+   * <p>The algorithm used for selecting the appropriate resource is similar to the
    * one implemented by ResourceBundle.getBundle.
-   * <p>
-   * The resource base name is split on the last ".", if any, and the candidate
+
+   * <p>The resource base name is split on the last ".", if any, and the candidate
    * variants are inserted before it.
    *
    * @param clazz Class to which the resource belongs.
@@ -861,7 +869,7 @@ public final class CliUtil {
    * @return Resource as an InputStream, just as Class.getResourceAsStream would
    *   return. null if no resource version exists.
    */
-  public static InputStream getLocalizedResourceAsStream(Class<?> clazz, String resourceBaseName) {
+  public static Reader getLocalizedTextResourceReader(Class<?> clazz, String resourceBaseName) {
     int indexDot;
     String resourceBaseNamePrefix;
     String resourceBaseNameSuffix;
@@ -897,7 +905,11 @@ public final class CliUtil {
         inputStreamResource = clazz.getResourceAsStream(candidate + resourceBaseNameSuffix);
 
         if (inputStreamResource != null) {
-          return inputStreamResource;
+          try {
+            return new InputStreamReader(inputStreamResource, "UTF-8");
+          } catch (UnsupportedEncodingException uee) {
+            throw new RuntimeException(uee);
+          }
         }
       }
     }
@@ -974,12 +986,16 @@ public final class CliUtil {
     byteArrayOutputStream = new ByteArrayOutputStream();
 
     try {
-      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(CliUtil.class, "DragomLogo.txt"), byteArrayOutputStream);
+      IOUtils.copy(CliUtil.getLocalizedTextResourceReader(CliUtil.class, "DragomLogo.txt"), byteArrayOutputStream);
       byteArrayOutputStream.close();
     } catch (IOException ioe) {
       throw new RuntimeException(ioe);
     }
 
-    CliUtil.logger.info(byteArrayOutputStream.toString());
+    try {
+      CliUtil.logger.info(byteArrayOutputStream.toString("UTF-8"));
+    } catch (UnsupportedEncodingException uee) {
+      throw new RuntimeException(uee);
+    }
   }
 }

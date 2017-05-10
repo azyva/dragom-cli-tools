@@ -193,7 +193,7 @@ public class SetupJenkinsJobsTool {
    */
   private static void help() {
     try {
-      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(SetupJenkinsJobsTool.class, "SetupJenkinsJobsToolHelp.txt"),  System.out);
+      IOUtils.copy(CliUtil.getLocalizedTextResourceReader(SetupJenkinsJobsTool.class, "SetupJenkinsJobsToolHelp.txt"),  System.out);
     } catch (IOException ioe) {
       throw new RuntimeException(ioe);
     }

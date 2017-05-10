@@ -273,7 +273,7 @@ public class DragomToolInvoker {
    */
   private static void help() {
     try {
-      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(DragomToolInvoker.class, "DragomToolInvokerHelp.txt"), System.out);
+      IOUtils.copy(CliUtil.getLocalizedTextResourceReader(DragomToolInvoker.class, "DragomToolInvokerHelp.txt"), System.out);
 
       for (String tool: DragomToolInvoker.mapToolInvocationInfo.keySet()) {
         System.out.println(tool);

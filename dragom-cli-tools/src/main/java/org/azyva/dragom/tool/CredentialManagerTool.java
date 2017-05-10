@@ -486,7 +486,7 @@ public class CredentialManagerTool {
    */
   private static void help() {
     try {
-      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(CredentialManagerTool.class, "CredentialManagerToolHelp.txt"), System.out);
+      IOUtils.copy(CliUtil.getLocalizedTextResourceReader(CredentialManagerTool.class, "CredentialManagerToolHelp.txt"), System.out);
     } catch (IOException ioe) {
       throw new RuntimeException(ioe);
     }

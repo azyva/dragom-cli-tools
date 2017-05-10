@@ -221,7 +221,7 @@ public class ModelConfigTool {
    */
   private static void help() {
     try {
-      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(ModelConfigTool.class, "ModelConfigToolHelp.txt"), System.out);
+      IOUtils.copy(CliUtil.getLocalizedTextResourceReader(ModelConfigTool.class, "ModelConfigToolHelp.txt"), System.out);
     } catch (IOException ioe) {
       throw new RuntimeException(ioe);
     }

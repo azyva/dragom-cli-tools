@@ -195,7 +195,7 @@ public class GenericRootModuleVersionJobInvokerTool {
    */
   private static void help(String resource) {
     try {
-      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(GenericRootModuleVersionJobInvokerTool.class, resource),  System.out);
+      IOUtils.copy(CliUtil.getLocalizedTextResourceReader(GenericRootModuleVersionJobInvokerTool.class, resource),  System.out);
     } catch (IOException ioe) {
       throw new RuntimeException(ioe);
     }

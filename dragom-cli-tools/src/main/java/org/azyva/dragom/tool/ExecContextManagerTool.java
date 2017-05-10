@@ -153,7 +153,7 @@ public class ExecContextManagerTool {
    */
   private static void help() {
     try {
-      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(ExecContextManagerTool.class, "ExecContextManagerToolHelp.txt"),  System.out);
+      IOUtils.copy(CliUtil.getLocalizedTextResourceReader(ExecContextManagerTool.class, "ExecContextManagerToolHelp.txt"),  System.out);
     } catch (IOException ioe) {
       throw new RuntimeException(ioe);
     }

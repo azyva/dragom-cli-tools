@@ -174,7 +174,7 @@ public class GenericModelVisitorJobInvokerTool {
    */
   private static void help(String resource) {
     try {
-      IOUtils.copy(CliUtil.getLocalizedResourceAsStream(GenericModelVisitorJobInvokerTool.class, resource),  System.out);
+      IOUtils.copy(CliUtil.getLocalizedTextResourceReader(GenericModelVisitorJobInvokerTool.class, resource),  System.out);
     } catch (IOException ioe) {
       throw new RuntimeException(ioe);
     }
