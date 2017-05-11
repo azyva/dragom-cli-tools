@@ -1,1 +1,28 @@
-SetupJenkinsJobsToolHelp.txt
+dragom setup-jenkins-jobs [ <option> ... ]
+
+See http://dragom.org/doc-user-tools-setup-jenkins-jobs.html.
+
+Options:
+
+--items-created-file=<items-created-file>
+--items-create-file-mode=<items-created-file-mode>
+  Possible values for <items-created-file-mode>
+  - `IGNORE`
+  - `MERGE`
+  - `REPLACE`
+  - `REPLACE_DELETE_FOLDER_ONLY_IF_EMPTY`
+  - `REPLACE_NO_DELETE_FOLDER` 
+--reference-path-matcher=<reference-path-matcher>
+--workspace=<workspace-directory>
+--user-properties=<user-properties-file>
+--tool-properties=<tool-properties-file>
+-D<tool-property>=<value>
+--no-confirm
+--no-confirm-context=<context>
+
+Runtime properties provided by SimpleJenkinsJobInfoPluginBaseImpl:
+
+JENKINS_USE_NODE_PATH
+JENKINS_SUBFOLDER
+JENKINS_PROJECT
+JENKINS_INCLUDE_VERSION

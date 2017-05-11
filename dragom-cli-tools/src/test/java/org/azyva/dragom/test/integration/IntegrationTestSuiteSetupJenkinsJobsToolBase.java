@@ -214,13 +214,13 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
       System.setProperty("org.azyva.dragom.init-property.JENKINS_PROJECT", "dragom-test");
       System.setProperty("org.azyva.dragom.init-property.JENKINS_IND_INCLUDE_VERSION", "true");
 
-      IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --existing-items-created-file-mode=REPLACE --reference-path-matcher=/dummy");
+      IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --items-created-file-mode=REPLACE --reference-path-matcher=/dummy");
 
       System.out.println("Jenkins contents before:");
       JenkinsClientTestDouble.printContents();
 
       try {
-        SetupJenkinsJobsTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--existing-items-created-file-mode", "REPLACE", "--reference-path-matcher=/dummy"});
+        SetupJenkinsJobsTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--items-created-file-mode", "REPLACE", "--reference-path-matcher=/dummy"});
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }
@@ -261,13 +261,13 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
 
       JenkinsClientTestDouble.createInitialJob("build/ci/projects/dragom-test/sticky-job");
 
-      IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --existing-items-created-file-mode=REPLACE_DELETE_FOLDER_ONLY_IF_EMPTY --reference-path-matcher=/dummy");
+      IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --items-created-file-mode=REPLACE_DELETE_FOLDER_ONLY_IF_EMPTY --reference-path-matcher=/dummy");
 
       System.out.println("Jenkins contents before:");
       JenkinsClientTestDouble.printContents();
 
       try {
-        SetupJenkinsJobsTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--existing-items-created-file-mode", "REPLACE_DELETE_FOLDER_ONLY_IF_EMPTY", "--reference-path-matcher=/dummy"});
+        SetupJenkinsJobsTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--items-created-file-mode", "REPLACE_DELETE_FOLDER_ONLY_IF_EMPTY", "--reference-path-matcher=/dummy"});
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }
@@ -282,13 +282,13 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
       System.setProperty("org.azyva.dragom.init-property.JENKINS_PROJECT", "dragom-test/");
       System.setProperty("org.azyva.dragom.init-property.JENKINS_IND_INCLUDE_VERSION", "true");
 
-      IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --existing-items-created-file-mode=REPLACE_NO_DELETE_FOLDER --reference-path-matcher=/dummy");
+      IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --items-created-file-mode=REPLACE_NO_DELETE_FOLDER --reference-path-matcher=/dummy");
 
       System.out.println("Jenkins contents before:");
       JenkinsClientTestDouble.printContents();
 
       try {
-        SetupJenkinsJobsTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--existing-items-created-file-mode", "REPLACE_NO_DELETE_FOLDER", "--reference-path-matcher=/dummy"});
+        SetupJenkinsJobsTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--items-created-file-mode", "REPLACE_NO_DELETE_FOLDER", "--reference-path-matcher=/dummy"});
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }
@@ -303,13 +303,13 @@ public class IntegrationTestSuiteSetupJenkinsJobsToolBase {
       System.setProperty("org.azyva.dragom.init-property.JENKINS_PROJECT", "dragom-test/");
       System.setProperty("org.azyva.dragom.init-property.JENKINS_IND_INCLUDE_VERSION", "true");
 
-      IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --existing-items-created-file-mode=REPLACE --reference-path-matcher=/dummy");
+      IntegrationTestSuite.printTestHeader("SetupJenkinsJobsTool --workspace=workspace --items-created-file-mode=REPLACE --reference-path-matcher=/dummy");
 
       System.out.println("Jenkins contents before:");
       JenkinsClientTestDouble.printContents();
 
       try {
-        SetupJenkinsJobsTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--existing-items-created-file-mode", "REPLACE", "--reference-path-matcher=/dummy"});
+        SetupJenkinsJobsTool.main(new String[] {"--workspace=" + IntegrationTestSuite.pathTestWorkspace.resolve("workspace"), "--items-created-file-mode", "REPLACE", "--reference-path-matcher=/dummy"});
       } catch (Exception e) {
         IntegrationTestSuite.validateExitException(e, 0);
       }

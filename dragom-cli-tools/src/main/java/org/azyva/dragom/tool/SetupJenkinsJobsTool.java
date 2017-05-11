@@ -51,7 +51,7 @@ public class SetupJenkinsJobsTool {
   /**
    * See description in resource bundle.
    */
-  private static final String MSG_PATTERN_KEY_EXISTING_ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES = "EXISTING_ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES";
+  private static final String MSG_PATTERN_KEY_ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES = "ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES";
 
   /**
    * ResourceBundle specific to this class.
@@ -78,7 +78,7 @@ public class SetupJenkinsJobsTool {
     CommandLine commandLine = null;
     Path pathItemsCreatedFile;
     boolean indEmptyPathItemsCreatedFile;
-    SetupJenkinsJobs.ExistingItemsCreatedFileMode existingItemsCreatredFileMode;
+    SetupJenkinsJobs.ItemsCreatedFileMode itemsCreatredFileMode;
     SetupJenkinsJobs setupJenkinsJobs;
     int exitStatus;
 
@@ -119,13 +119,13 @@ public class SetupJenkinsJobsTool {
           pathItemsCreatedFile = null;
         }
 
-        if (!commandLine.hasOption("existing-items-created-file-mode")) {
-          existingItemsCreatredFileMode = SetupJenkinsJobs.ExistingItemsCreatedFileMode.MERGE;
+        if (!commandLine.hasOption("items-created-file-mode")) {
+          itemsCreatredFileMode = SetupJenkinsJobs.ItemsCreatedFileMode.MERGE;
         } else {
           try {
-            existingItemsCreatredFileMode = SetupJenkinsJobs.ExistingItemsCreatedFileMode.valueOf(commandLine.getOptionValue("existing-items-created-file-mode"));
+            itemsCreatredFileMode = SetupJenkinsJobs.ItemsCreatedFileMode.valueOf(commandLine.getOptionValue("items-created-file-mode"));
           } catch (IllegalArgumentException iae) {
-            throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), "existing-items-created-file-mode", SetupJenkinsJobsTool.resourceBundle.getString(SetupJenkinsJobsTool.MSG_PATTERN_KEY_EXISTING_ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES), CliUtil.getHelpCommandLineOption()));
+            throw new RuntimeExceptionUserError(MessageFormat.format(CliUtil.getLocalizedMsgPattern(CliUtil.MSG_PATTERN_KEY_ERROR_PARSING_COMMAND_LINE_OPTION), "items-created-file-mode", SetupJenkinsJobsTool.resourceBundle.getString(SetupJenkinsJobsTool.MSG_PATTERN_KEY_ITEMS_CREATED_FILE_MODE_POSSIBLE_VALUES), CliUtil.getHelpCommandLineOption()));
           }
         }
 
@@ -140,7 +140,7 @@ public class SetupJenkinsJobsTool {
           setupJenkinsJobs.setPathItemsCreatedFile(pathItemsCreatedFile);
         }
 
-        setupJenkinsJobs.setExistingItemsCreatedFileMode(existingItemsCreatredFileMode);
+        setupJenkinsJobs.setItemsCreatedFileMode(itemsCreatredFileMode);
 
         setupJenkinsJobs.performJob();
       }
@@ -177,7 +177,7 @@ public class SetupJenkinsJobsTool {
       SetupJenkinsJobsTool.options.addOption(option);
 
       option = new Option(null, null);
-      option.setLongOpt("existing-items-created-file-mode");
+      option.setLongOpt("items-created-file-mode");
       option.setArgs(1);
       SetupJenkinsJobsTool.options.addOption(option);
 

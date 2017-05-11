@@ -566,7 +566,7 @@ public final class CliUtil {
     // In general initialization properties defined as system properties with the
     // "org.azyva.dragom.init-property." prefix are expected to have been provided
     // as -D JVM arguments and as such are expected by the user to have precedence
-    // over initialization properties provided in the user.properties file loaded just
+    // over initialization properties provided in the user properties file loaded just
     // above. Initialization properties defined in the dragom.properties file
     // (see Util#applyDragomSystemProperties) will therefore also have precedence,
     // which is generally not desirable. That is why a separate dragom-init.properties

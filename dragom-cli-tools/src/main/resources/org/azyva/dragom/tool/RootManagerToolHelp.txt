@@ -1,106 +1,27 @@
-Name
-====
+dragom root-manager [ <option> ... ] <command and arguments>
 
-dragom-root-manager
+See http://dragom.org/doc-user-tools-root-manager.html.
 
-Description
-===========
+Command and arguments:
 
-Manages the list of roots and reference path matchers registered within the
-workspace.
+list
+add <module-version> ...
+add-from-file <file-containing-module-version> ...
+add-artifact <artifact-coordinates> ...
+add-artifact-from-file <file-containing-artifact-coordinates> ...
+remove <module-version>
+remove-all
+list-reference-path-matchers
+add-reference-path-matcher <reference-path-matcher>
+remove-reference-path-matcher <reference-path-matcher>
+remove-all-reference-path-matchers
 
-Tools use the list of roots and reference path matchers to determine the scope
-of their actions.
+Options:
 
-Synopsis
-========
-
-dragom-root-manager list
-  Displays the list of roots.
-
-dragom-root-manager add <module-version>
-  Adds a module version to the list of roots.
-
-dragom-root-manager remove <module-version>
-  Removes a module version from the list of roots.
-
-dragom-root-manager remove-all <module-version>
-  Removes all module versions from the list of roots.
-
-dragom-root-manager list-reference-path-matchers
-  Displays the list of reference path matchers.
-
-dragom-root-manager add-reference-path-matcher
-  <reference-path-matcher>
-  Adds a reference path matcher to the list of reference path matchers.
-
-dragom-root-manager remove-reference-path-matcher
-  <reference-path-matcher>
-  Removes a reference path matcher from the list of reference path matchers.
-
-dragom-root-manager remove-all-reference-path-matchers
-  Removes all reference path matchers from the list of reference path
-  matchers.
-
-dragom-root-manager --help
-  Displays this help information.
-
-Options
-=======
-
---workspace-path=<workspace-path>: Path to the workspace. If not specified,
-  the current directory is assumed to be the root of the workspace.
-
---allow-duplicate-modules: Allows having multiple module versions for the same
-  module (different versions). If not specified with the add command, if a
-  module version exist for the same module as the one specified, it is
-  replaced.
-
-Arguments
-=========
-
-<module-version>: Module version in the form
-  <module-classification-path>[:<version>] where <module-classification-path>
-  is the path to the module within the model and <version> is the version. If
-  the version is not specified, the current version of the module within the
-  workspace is assumed, or the main version as specified by the SCM plugin if
-  the module is not available in the workspace. <module-classification-path>
-  is in the form Path/To/module and version is in the form [D|S]/version.
-  Example: Domain1/app-a:D/master.
-
-<reference-path-matcher>: Reference path matcher. See "Reference Path Matcher"
-below for more information.
-
-Reference Path Matcher
-======================
-
-Complete reference for reference patch matchers is available online
-here: TODO
-
-Here is a short informal grammar summary:
-
-<reference-path-matcher>: <element-matcher>[->...]
-
-<element-matcher>: /<souce-part>[/...] (source-level element matcher)
-
-<element-matcher>: <artifact-part>[:...] (artifact-level element matcher)
-
-<element-matcher>: ** (the ** matcher, similar to Ant's ** path matcher)
-
-<element-matcher>: * (the * matcher, similar to Ant's * path matcher)
-
-<source-part>: <part>
-
-<artifact-part>: <part>
-
-<part>: fixed-string
-
-<part: (regex)
-
-Examples:
-
-/Domain1/app-a
-**->/Domain1/app-a:(D/.*)
-/Domain1/app-a->**
-*->/Domain1/app-a->**
-**->com.acme::(.*-SNAPSHOT)
+--workspace=<workspace-directory>
+--allow-duplicate-modules
+--user-properties=<user-properties-file>
+--tool-properties=<tool-properties-file>
+-D<tool-property>=<value>
+--no-confirm
+--no-confirm-context=<context>
