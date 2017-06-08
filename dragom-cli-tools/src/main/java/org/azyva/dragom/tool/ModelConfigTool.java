@@ -181,8 +181,8 @@ public class ModelConfigTool {
       ModelConfigTool.mapShortToLongCommand.put("c", "child");
       ModelConfigTool.mapShortToLongCommand.put("p", "parent");
       ModelConfigTool.mapShortToLongCommand.put("np", "node-path");
-      ModelConfigTool.mapShortToLongCommand.put("ns", "next-sibbling");
-      ModelConfigTool.mapShortToLongCommand.put("ps", "prev-sibbling");
+      ModelConfigTool.mapShortToLongCommand.put("ns", "next-sibling");
+      ModelConfigTool.mapShortToLongCommand.put("ps", "prev-sibling");
       ModelConfigTool.mapShortToLongCommand.put("ccn", "create-classification-node");
       ModelConfigTool.mapShortToLongCommand.put("cm", "create-module");
       ModelConfigTool.mapShortToLongCommand.put("del", "delete");
@@ -330,6 +330,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "flush" command.
+   *
+   * @param arguments Arguments.
    */
   private void execFlushCommand(String arguments) {
     if (!this.validateNoArgument(arguments)) {
@@ -341,6 +343,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "create-root-classification-node" command.
+   *
+   * @param arguments Arguments.
    */
   private void execCreateRootClassificationNodeCommand(String arguments) {
     if (!this.validateNoArgument(arguments)) {
@@ -362,6 +366,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "list-children" command.
+   *
+   * @param arguments Arguments.
    */
   private void execListChildrenCommand(String arguments) {
     ClassificationNode classificationNode;
@@ -395,6 +401,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "child" command.
+   *
+   * @param arguments Arguments.
    */
   private void execChildCommand(String arguments) {
     ClassificationNode classificationNode;
@@ -453,6 +461,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "parent" command.
+   *
+   * @param arguments Arguments.
    */
   private void execParentCommand(String arguments) {
     if (!this.validateNoArgument(arguments)) {
@@ -472,6 +482,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "node-path" command.
+   *
+   * @param arguments Arguments.
    */
   private void execNodePathCommand(String arguments) {
     ClassificationNode classificationNode;
@@ -491,14 +503,14 @@ public class ModelConfigTool {
 
     if (nodePath.isPartial()) {
       try {
-        node = (MutableNode)this.mutableModel.getClassificationNode(nodePath);
+        node = this.mutableModel.getClassificationNode(nodePath);
       } catch (IllegalArgumentException iae) {
         System.out.println("NodePath " + nodePath + " is partial and must reference a ClassificationNode, but the node referenced is not. Remove the trailing '/' to make the NodePath complete.");
         return;
       }
     } else {
       try {
-        node = (MutableNode)this.mutableModel.getModule(nodePath);
+        node = this.mutableModel.getModule(nodePath);
       } catch (IllegalArgumentException iae) {
         System.out.println("NodePath " + nodePath + " is complete and must reference a Module, but the node referenced is not. Add a trailing '/' to make the NodePath partial.");
         return;
@@ -514,9 +526,11 @@ public class ModelConfigTool {
   }
 
   /**
-   * Executes the "next-sibbling" command.
+   * Executes the "next-sibling" command.
+   *
+   * @param arguments Arguments.
    */
-  private void execNextSibblingCommand(String arguments) {
+  private void execNextSiblingCommand(String arguments) {
     ClassificationNode classificationNodeParent;
     List<Node> listNode;
     int currentChildIndex;
@@ -535,7 +549,7 @@ public class ModelConfigTool {
     currentChildIndex = listNode.indexOf(this.mutableNodeCurrent);
 
     if (currentChildIndex >= (listNode.size() - 1)) {
-      System.out.println("Current node does not have any next sibbling.");
+      System.out.println("Current node does not have any next sibling.");
       return;
     }
 
@@ -543,9 +557,11 @@ public class ModelConfigTool {
   }
 
   /**
-   * Executes the "prev-sibbling" command.
+   * Executes the "prev-sibling" command.
+   *
+   * @param arguments Arguments.
    */
-  private void execPrevSibblingCommand(String arguments) {
+  private void execPrevSiblingCommand(String arguments) {
     ClassificationNode classificationNodeParent;
     List<Node> listNode;
     int currentChildIndex;
@@ -564,7 +580,7 @@ public class ModelConfigTool {
     currentChildIndex = listNode.indexOf(this.mutableNodeCurrent);
 
     if (currentChildIndex == 0) {
-      System.out.println("Current node does not have any previous sibbling.");
+      System.out.println("Current node does not have any previous sibling.");
       return;
     }
 
@@ -573,6 +589,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "create-classification-node" command.
+   *
+   * @param arguments Arguments.
    */
   private void execCreateClassificationNodeCommand(String arguments) {
     MutableClassificationNode mutableClassificationNode;
@@ -605,6 +623,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "create-module" command.
+   *
+   * @param arguments Arguments.
    */
   private void execCreateModuleCommand(String arguments) {
     MutableClassificationNode mutableClassificationNode;
@@ -637,6 +657,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "delete" command.
+   *
+   * @param arguments Arguments.
    */
   private void execDeleteCommand(String arguments) {
     System.out.println("Delete");
@@ -645,6 +667,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "where-am-i" command.
+   *
+   * @param arguments Arguments.
    */
   private void execWhereAmICommand(String arguments) {
     System.out.println("WhereAmI");
@@ -653,6 +677,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "display" command.
+   *
+   * @param arguments Arguments.
    */
   private void execDisplayCommand(String arguments) {
     System.out.println("Display");
@@ -661,6 +687,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "display-parent-hierarchy" command.
+   *
+   * @param arguments Arguments.
    */
   private void execDisplayParentHierarchyCommand(String arguments) {
     System.out.println("DisplayParentHierarchy");
@@ -669,6 +697,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "add-property" command.
+   *
+   * @param arguments Arguments.
    */
   private void execAddPropertyCommand(String arguments) {
     System.out.println("AddProperty");
@@ -677,6 +707,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "update-property" command.
+   *
+   * @param arguments Arguments.
    */
   private void execUpdatePropertyCommand(String arguments) {
     System.out.println("UpdateProperty");
@@ -685,6 +717,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "remove-property" command.
+   *
+   * @param arguments Arguments.
    */
   private void execRemovePropertyCommand(String arguments) {
     System.out.println("RemoveProperty");
@@ -693,6 +727,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "add-plugin" command.
+   *
+   * @param arguments Arguments.
    */
   private void execAddPluginCommand(String arguments) {
     System.out.println("AddPlugin");
@@ -701,6 +737,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "update-plugin" command.
+   *
+   * @param arguments Arguments.
    */
   private void execUpdatePluginCommand(String arguments) {
     System.out.println("UpdatePlugin");
@@ -709,6 +747,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "remove-plugin" command.
+   *
+   * @param arguments Arguments.
    */
   private void execRemovePluginCommand(String arguments) {
     System.out.println("RemovePlugin");
@@ -717,6 +757,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "list-config" command.
+   *
+   * @param arguments Arguments.
    */
   private void execListConfigCommand(String arguments) {
     System.out.println("ListConfig");
@@ -725,6 +767,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "display-config" command.
+   *
+   * @param arguments Arguments.
    */
   private void execDisplayConfigCommand(String arguments) {
     System.out.println("DisplayConfig");
@@ -733,6 +777,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "edit-config" command.
+   *
+   * @param arguments Arguments.
    */
   private void execEditConfigCommand(String arguments) {
     System.out.println("EditConfig");
@@ -741,6 +787,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "find-property" command.
+   *
+   * @param arguments Arguments.
    */
   private void execFindPropertyCommand(String arguments) {
     System.out.println("FindProperty");
@@ -749,6 +797,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "find-property-value" command.
+   *
+   * @param arguments Arguments.
    */
   private void execFindPropertyValueCommand(String arguments) {
     System.out.println("FindPropertyValue");
@@ -757,6 +807,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "find-property-value-regex" command.
+   *
+   * @param arguments Arguments.
    */
   private void execFindPropertyValueRegexCommand(String arguments) {
     System.out.println("FindPropertyValueRegex");
@@ -765,6 +817,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "find-plugin" command.
+   *
+   * @param arguments Arguments.
    */
   private void execFindPluginCommand(String arguments) {
     System.out.println("FindPlugin");
@@ -773,6 +827,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "find-plugin-id" command.
+   *
+   * @param arguments Arguments.
    */
   private void execFindPluginIdCommand(String arguments) {
     System.out.println("FindPluginId");
@@ -781,6 +837,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "find-plugin-class" command.
+   *
+   * @param arguments Arguments.
    */
   private void execFindPluginClassCommand(String arguments) {
     System.out.println("FindPluginClass");
@@ -789,6 +847,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "find-config" command.
+   *
+   * @param arguments Arguments.
    */
   private void execFindConfigCommand(String arguments) {
     System.out.println("FindConfig");
@@ -797,6 +857,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "search-result" command.
+   *
+   * @param arguments Arguments.
    */
   private void execSearchResultCommand(String arguments) {
     System.out.println("SearchResult");
@@ -805,6 +867,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "next-result" command.
+   *
+   * @param arguments Arguments.
    */
   private void execNextResultCommand(String arguments) {
     System.out.println("NextResult");
@@ -813,6 +877,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "prev-result" command.
+   *
+   * @param arguments Arguments.
    */
   private void execPrevResultCommand(String arguments) {
     System.out.println("PrevResult");
@@ -821,6 +887,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "first-result" command.
+   *
+   * @param arguments Arguments.
    */
   private void execFirstResultCommand(String arguments) {
     System.out.println("FirstResult");
@@ -829,6 +897,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "last-result" command.
+   *
+   * @param arguments Arguments.
    */
   private void execLastResultCommand(String arguments) {
     System.out.println("LastResult");
@@ -837,6 +907,8 @@ public class ModelConfigTool {
 
   /**
    * Executes the "help" command.
+   *
+   * @param arguments Arguments.
    */
   private void execHelpCommand(String arguments) {
     System.out.println("Help");
@@ -845,12 +917,17 @@ public class ModelConfigTool {
 
   /**
    * Executes the "quit" command.
+   *
+   * @param arguments Arguments.
    */
   private void execQuitCommand(String arguments) {
     System.out.println("Quit");
     this.indQuit = true;
   }
 
+  /**
+   * @return Validates and indicates if there is a current {@link Node}.
+   */
   private boolean validateCurrentNode() {
     if (this.mutableNodeCurrent == null) {
       System.out.println("No focus node.");
@@ -860,6 +937,12 @@ public class ModelConfigTool {
     }
   }
 
+  /**
+   * Validates and indicates that there are no arguments.
+   *
+   * @param arguments Arguments.
+   * @return See description.
+   */
   private boolean validateNoArgument(String arguments) {
     if (!arguments.isEmpty()) {
       System.out.println("This command does not accept any argument.");
@@ -869,6 +952,12 @@ public class ModelConfigTool {
     return true;
   }
 
+  /**
+   * Validates and indicates that there are arguments.
+   *
+   * @param arguments Arguments.
+   * @return See description.
+   */
   private boolean validateArgument(String arguments) {
     if (arguments.isEmpty()) {
       System.out.println("This command requires an argument.");
