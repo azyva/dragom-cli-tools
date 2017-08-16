@@ -20,6 +20,7 @@ import org.apache.commons.io.IOUtils;
 import org.azyva.dragom.cliutil.CliUtil;
 import org.azyva.dragom.execcontext.support.ExecContextHolder;
 import org.azyva.dragom.model.ClassificationNode;
+import org.azyva.dragom.model.Model;
 import org.azyva.dragom.model.MutableClassificationNode;
 import org.azyva.dragom.model.MutableModel;
 import org.azyva.dragom.model.MutableNode;
@@ -27,7 +28,13 @@ import org.azyva.dragom.model.Node;
 import org.azyva.dragom.model.NodePath;
 import org.azyva.dragom.model.config.MutableConfig;
 import org.azyva.dragom.model.config.NodeConfigTransferObject;
+import org.azyva.dragom.modelcommand.CommandResult;
+import org.azyva.dragom.modelcommand.ListChildrenCommand;
+import org.azyva.dragom.modelcommand.ListChildrenCommandResult;
+import org.azyva.dragom.modelcommand.ModelCommandExecutor;
+import org.azyva.dragom.modelcommand.ValidateNodePathCommand;
 import org.azyva.dragom.util.RuntimeExceptionUserError;
+import org.azyva.dragom.util.ServiceLocator;
 import org.azyva.dragom.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,9 +77,9 @@ public class ModelConfigTool {
   private static Map<String, String> mapShortToLongCommand;
 
   /**
-   * MutableModel.
+   * ModelCommandExecutor.
    */
-  private MutableModel mutableModel;
+  private ModelCommandExecutor modelCommandExecutor;
 
   /**
    * Indicates the tool must quit.
@@ -85,12 +92,12 @@ public class ModelConfigTool {
   private BufferedReader bufferedReaderCommandInput;
 
   /**
-   * Current MutableNode.
+   * Current NodePath.
    *
-   * <p>Can be null if none (if {@link MutableModel} does not have a root
+   * <p>Can be null if none (if the {@link Model} does not have a root
    * {@link ClassificationNode}).
    */
-  private MutableNode mutableNodeCurrent;
+  private NodePath nodePathCurrent;
 
   /**
    * List of NodePath's in the search results.
@@ -137,6 +144,7 @@ public class ModelConfigTool {
         exitStatus = 0;
       } else {
         ModelConfigTool modelConfigTool;
+        CommandResult commandResult;
 
         args = commandLine.getArgs();
 
@@ -144,8 +152,16 @@ public class ModelConfigTool {
 
         modelConfigTool = new ModelConfigTool();
 
-        modelConfigTool.mutableModel = (MutableModel)ExecContextHolder.get().getModel();
-        modelConfigTool.mutableNodeCurrent = (MutableNode)modelConfigTool.mutableModel.getClassificationNodeRoot();
+        modelConfigTool.modelCommandExecutor = ServiceLocator.getService(ModelCommandExecutor.class);
+        commandResult = modelConfigTool.modelCommandExecutor.executeCommand(new ValidateNodePathCommand(NodePath.ROOT));
+
+        if (commandResult.isError()) {
+          if (!commandResult.getErrorId().equals(CommandResult.ErrorId.NODE_NOT_FOUND.toString())) {
+            throw new RuntimeException(commandResult.getErrorMsg());
+          }
+        } else {
+          modelConfigTool.nodePathCurrent = NodePath.ROOT;
+        }
 
         modelConfigTool.run();
 
@@ -244,16 +260,13 @@ public class ModelConfigTool {
       String methodName;
       Method method;
 
-      if (this.mutableNodeCurrent == null) {
+      if (this.nodePathCurrent == null) {
         System.out.println("No node currently has the focus.");
       } else {
-        switch (this.mutableNodeCurrent.getNodeType()) {
-        case CLASSIFICATION:
-          System.out.println("Current focus ClassificationNode: " + this.mutableNodeCurrent);
-          break;
-        case MODULE:
-          System.out.println("Current focus module: " + this.mutableNodeCurrent);
-          break;
+        if (this.nodePathCurrent.isPartial()) {
+          System.out.println("Current focus ClassificationNode: " + this.nodePathCurrent);
+        } else {
+          System.out.println("Current focus module: " + this.nodePathCurrent);
         }
       }
 
@@ -351,7 +364,7 @@ public class ModelConfigTool {
       return;
     }
 
-    if (this.mutableNodeCurrent != null) {
+    if (this.nodePathCurrent != null) {
       System.out.println("This command can only be submited when there is no focus node, which is generally when the model does not have a root ClassificationNode. Please delete the root ClassificationNode.");
       return;
     }
@@ -371,7 +384,8 @@ public class ModelConfigTool {
    */
   private void execListChildrenCommand(String arguments) {
     ClassificationNode classificationNode;
-    List<Node> listNode;
+    ListChildrenCommandResult listChildrenCommandResult;
+    List<String> listChildren;
 
     if (!this.validateNoArgument(arguments)) {
       return;
@@ -381,21 +395,21 @@ public class ModelConfigTool {
       return;
     }
 
-    if (!(this.mutableNodeCurrent instanceof ClassificationNode)) {
+    if (!this.nodePathCurrent.isPartial()) {
       System.out.println("Focus node not a ClassificaitonNode.");
       return;
     }
 
-    classificationNode = (ClassificationNode)this.mutableNodeCurrent;
+    listChildrenCommandResult = (ListChildrenCommandResult)this.modelCommandExecutor.executeCommand(new ListChildrenCommand(this.nodePathCurrent));
 
-    listNode = classificationNode.getListChildNode();
+    if (listChildrenCommandResult.isError()) {
+      System.out.println(listChildrenCommandResult.getErrorMsg());
+    }
 
-    for (int i = 0; i < listNode.size(); i++) {
-      Node node;
+    listChildren = listChildrenCommandResult.getListChildren();
 
-      node = listNode.get(i);
-
-      System.out.println(String.valueOf(i) + " - " + node.getName());
+    for (int i = 0; i < listChildren.size(); i++) {
+      System.out.println(String.valueOf(i) + " - " + listChildren.get(i));
     }
   }
 
